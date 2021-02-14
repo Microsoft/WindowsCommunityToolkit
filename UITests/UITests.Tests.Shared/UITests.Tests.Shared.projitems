@@ -12,33 +12,49 @@
     <!-- When we're in the test harness include all '*Test.cs' files -->
     <When Condition="'$(IsTestHarness)' == 'true'">
       <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
+        <Compile Include="$(MSBuildThisFileDirectory)**\*Test.cs" />
         <!-- Base test helpers -->
         <Compile Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
       </ItemGroup>
     </When>
+
+    <!-- Have a None Include as well to make all items visible under this Shared Project in VS IDE -->
+    <Otherwise>
+      <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)**\*Test.cs" />
+        <!-- Base test helpers -->
+        <None Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
+        <None Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
+        <None Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+      </ItemGroup>
+    </Otherwise>
   </Choose>
 
   <Choose>
     <!-- When we're in the UI app used by the test harness, include all the pages -->
     <When Condition="'$(IsTestHost)' == 'true'">
       <ItemGroup>
-        <Page Include="$(MSBuildThisFileDirectory)**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" Link="%(RecursiveDir)%(FileName)%(Extension)" SubType="Designer" Generator="MSBuild:Compile" />
-        <Compile Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" DependentUpon="%(Filename)" />
+        <Page Include="$(MSBuildThisFileDirectory)**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile">
+          <!--
+            HACK: See Microsoft.Windows.UI.Xaml.Common.targets(540) for how XAML targets calculate 'xbf' output paths.
+            Without this 'Link' attribute, XAML targets use absolute path instead of relative path for 'xbf' compilation.
+            Thus, the build errors out with 'MSB4023' code.
+          -->
+          <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Page>
+        <Compile Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
       </ItemGroup>
     </When>
+
+    <!-- Have a None Include as well to make all items visible under this Shared Project in VS IDE -->
+    <Otherwise>
+      <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+        <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
+      </ItemGroup>
+    </Otherwise>
   </Choose>
 
-  <!-- Have a None Include as well to make all items visible in VS in the Shared Project -->
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
-    <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
-    <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" DependentUpon="%(Filename)" />
-    <!-- Base test helpers -->
-    <None Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
-    <None Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
-    <None Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
-  </ItemGroup>
 </Project>
