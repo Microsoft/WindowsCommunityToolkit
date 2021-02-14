@@ -1,10 +1,14 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Windows Community Toolkit Primitive Controls</Title>
     <Description>
-      This library provides controls for use in XAML which don't provide their own style. It is part of the Windows Community Toolkit.
+      This library provides controls for use in XAML which don't provide their own style. It is a part of the Windows Community Toolkit.
 
       Controls:
       - AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
@@ -27,31 +31,12 @@
       Wrap;Layout       ;WrapLayout      ;
       Wrap;Panel        ;WrapPanel       ;
     </PackageTags>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
-  </ItemGroup>
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
-
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
 </Project>

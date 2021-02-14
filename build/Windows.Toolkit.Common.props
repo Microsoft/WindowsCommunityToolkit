@@ -1,0 +1,55 @@
+<Project>
+
+  <PropertyGroup>
+    <Company>.NET Foundation</Company>
+    <Authors>Microsoft.Toolkit</Authors>
+    <Product>Windows Community Toolkit</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <PackageIcon>nuget.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Features>Strict</Features>
+    <Nullable>Disable</Nullable>
+    <LangVersion>Latest</LangVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
+    <TargetPlatformRevision>19041</TargetPlatformRevision>
+    <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
+    <IsSampleProject>$(MSBuildProjectName.Contains('.Sample'))</IsSampleProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsUwpProject>$(MSBuildProjectName.Contains('.Uwp'))</IsUwpProject>
+    <IsUwpProject Condition="$(IsDesignProject)">False</IsUwpProject>
+    <IsCoreProject Condition="$(IsDesignProject) or $(IsSampleProject) or $(IsTestProject)">False</IsCoreProject>
+    <IsCoreProject Condition="'$(IsCoreProject)' == ''">True</IsCoreProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <ContinuousIntegrationBuild>$(TF_BUILD)</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(IsPackable)">
+    <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\" />
+    <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(RepositoryDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+</Project>

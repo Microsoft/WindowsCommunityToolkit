@@ -1,9 +1,12 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Windows Community Toolkit Developer Tools</Title>
-    <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
+    <Description>This library provides XAML user controls and services to help developers build their app. It is a part of the Windows Community Toolkit.
 
       -AligmentGrid : Displays a Grid that helps align the controls.
       -FocusTrackerControl : The FocusTracker Control is a feature that can be used to display information about the current focused XAML element.
@@ -15,14 +18,5 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
-
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
 
 </Project>

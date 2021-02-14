@@ -1,10 +1,14 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Windows Community Toolkit Media Controls</Title>
     <Description>
-      This library provides controls backed by win2d for use in XAML. It is part of the Windows Community Toolkit.
+      This library provides controls backed by win2d for use in XAML. It is a part of the Windows Community Toolkit.
 
       Controls:
         - Eyedropper: Eyedropper allows user to pick up a color from anywhere in there application.
@@ -17,13 +21,10 @@
       Image;Cropper  ;ImageCropper  ;Crop;
       Infinite;Canvas;InfiniteCanvas;
     </PackageTags>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="Win2D.uwp" Version="1.25.0" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,18 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
 
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
 </Project>

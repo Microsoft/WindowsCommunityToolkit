@@ -1,24 +1,17 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <Title>Windows Community Toolkit Controls DataGrid</Title>
-    <Description>
-      This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
-
-    </Description>
-    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Data;Grid;DataGrid</PackageTags>
+    <TargetFramework>uap10.0.17763</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
-  </ItemGroup>
+  <PropertyGroup>
+    <Title>Windows Community Toolkit Controls DataGrid</Title>
+    <Description>
+      This library provides a XAML DataGrid control. It is a part of the Windows Community Toolkit.
+    </Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Data;Grid;DataGrid</PackageTags>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -35,13 +28,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
 </Project>
