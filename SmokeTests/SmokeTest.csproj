@@ -30,7 +30,7 @@
     <AppxBundle>Always</AppxBundle>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <PlatformTarget>$(Platform)</PlatformTarget>
-    <NoWarn>;2008;SA0001;SA1601</NoWarn>
+    <NoWarn>$(NoWarn);2008;SA1601</NoWarn>
     <Prefer32Bit>true</Prefer32Bit>
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>false</UseVSHostingProcess>

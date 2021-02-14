@@ -20,6 +20,7 @@
       <PropertyGroup>
         <IsPackable>false</IsPackable>
         <IsPublishable>false</IsPublishable>
+        <NoWarn>$(NoWarn);CS8002;SA0001</NoWarn>
       </PropertyGroup>
     </Otherwise>
   </Choose>
