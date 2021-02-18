@@ -50,7 +50,7 @@
         <TextBox Name="CharactValidator"
                  extensions:TextBoxRegex.ValidationMode="Dynamic"
                  extensions:TextBoxRegex.ValidationType="Characters"
-                 Header="Text box with ValidationType=Characters, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
+                 Header="Text box with ValidationType=Characters, validation occurs at input with ValidationMode=Dynamic and cancel the characters input when value is invalid"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}"
                  Text="abcdef" />
@@ -92,7 +92,7 @@
         <TextBox Name="NumberValidatorDynamic"
                  extensions:TextBoxRegex.ValidationMode="Dynamic"
                  extensions:TextBoxRegex.ValidationType="Number"
-                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
+                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic and cancel the characters input when value is invalid"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">

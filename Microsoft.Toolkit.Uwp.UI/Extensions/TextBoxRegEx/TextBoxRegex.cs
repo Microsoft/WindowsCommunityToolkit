@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
     /// If <see cref="ValidationMode"> is set to Forced then IsValid will be set according to whether the regex is valid, when TextBox lose focus and in case the TextBox is invalid clear its value. </see>
-    /// If <see cref="ValidationMode"> is set to Dynamic then IsValid will be set according to whether the regex is valid. If the newest character is invalid, only invalid character of the TextBox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Dynamic then IsValid will be set according to whether the regex is valid. If the newest character is invalid, the input will be canceled.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {
@@ -29,40 +29,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return;
             }
 
-            ValidateTextBox(textBox, false);
-
-            textBox.Loaded -= TextBox_Loaded;
             textBox.LostFocus -= TextBox_LostFocus;
-            textBox.TextChanged -= TextBox_TextChanged;
-            textBox.Loaded += TextBox_Loaded;
+            textBox.BeforeTextChanging -= TextBox_BeforeTextChanging;
             textBox.LostFocus += TextBox_LostFocus;
-            textBox.TextChanged += TextBox_TextChanged;
+            textBox.BeforeTextChanging += TextBox_BeforeTextChanging;
         }
 
-        private static void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private static void TextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            var textBox = (TextBox)sender;
             var validationMode = (ValidationMode)textBox.GetValue(ValidationModeProperty);
-            ValidateTextBox(textBox, validationMode == ValidationMode.Dynamic);
-        }
-
-        private static void TextBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            var textBox = (TextBox)sender;
-            ValidateTextBox(textBox);
+            var validationType = (ValidationType)textBox.GetValue(ValidationTypeProperty);
+            var (valid, successful) = ValidateTextBox(textBox, args.NewText, validationMode != ValidationMode.Normal);
+            if (successful &&
+                !valid &&
+                validationMode == ValidationMode.Dynamic &&
+                validationType != ValidationType.Email &&
+                validationType != ValidationType.PhoneNumber &&
+                args.NewText != string.Empty)
+            {
+                args.Cancel = true;
+            }
         }
 
         private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = (TextBox)sender;
-            ValidateTextBox(textBox);
+            ValidateTextBox(textBox, textBox.Text);
         }
 
-        private static void ValidateTextBox(TextBox textBox, bool force = true)
+        private static (bool valid, bool successful) ValidateTextBox(TextBox textBox, string newText, bool force = true)
         {
             var validationType = (ValidationType)textBox.GetValue(ValidationTypeProperty);
             string regex;
             bool regexMatch;
+
             switch (validationType)
             {
                 default:
@@ -70,50 +70,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     if (string.IsNullOrWhiteSpace(regex))
                     {
                         Debug.WriteLine("Regex property can't be null or empty when custom mode is selected");
-                        return;
+                        return (false, false);
                     }
 
-                    regexMatch = Regex.IsMatch(textBox.Text, regex);
+                    regexMatch = Regex.IsMatch(newText, regex);
                     break;
                 case ValidationType.Decimal:
-                    regexMatch = textBox.Text.IsDecimal();
+                    regexMatch = newText.IsDecimal();
                     break;
                 case ValidationType.Email:
-                    regexMatch = textBox.Text.IsEmail();
+                    regexMatch = newText.IsEmail();
                     break;
                 case ValidationType.Number:
-                    regexMatch = textBox.Text.IsNumeric();
+                    regexMatch = newText.IsNumeric();
                     break;
                 case ValidationType.PhoneNumber:
-                    regexMatch = textBox.Text.IsPhoneNumber();
+                    regexMatch = newText.IsPhoneNumber();
                     break;
                 case ValidationType.Characters:
-                    regexMatch = textBox.Text.IsCharacterString();
+                    regexMatch = newText.IsCharacterString();
                     break;
             }
 
-            if (!regexMatch && force)
+            var isValid = (bool)textBox.GetValue(IsValidProperty);
+            if (regexMatch == false && force && newText != string.Empty)
             {
-                if (!string.IsNullOrEmpty(textBox.Text))
+                var validationModel = (ValidationMode)textBox.GetValue(ValidationModeProperty);
+                if (validationModel == ValidationMode.Forced)
                 {
-                    var validationModel = (ValidationMode)textBox.GetValue(ValidationModeProperty);
-                    if (validationModel == ValidationMode.Forced)
+                    if (textBox.Text == newText)
                     {
+                        // occurs when focus is lost
                         textBox.Text = string.Empty;
                     }
-                    else if (validationType != ValidationType.Email && validationType != ValidationType.PhoneNumber)
+                    else
                     {
-                        if (validationModel == ValidationMode.Dynamic)
+                        // only set IsValidProperty to false, when the property is true
+                        if (isValid)
                         {
-                            int selectionStart = textBox.SelectionStart == 0 ? textBox.SelectionStart : textBox.SelectionStart - 1;
-                            textBox.Text = textBox.Text.Remove(selectionStart, 1);
-                            textBox.SelectionStart = selectionStart;
+                            textBox.SetValue(IsValidProperty, regexMatch);
                         }
                     }
                 }
             }
+            else
+            {
+                // only set IsValidProperty when the property is not equal to regexMatch
+                if (isValid != regexMatch)
+                {
+                    textBox.SetValue(IsValidProperty, regexMatch);
+                }
+            }
 
-            textBox.SetValue(IsValidProperty, regexMatch);
+            return (regexMatch, true);
         }
     }
 }
