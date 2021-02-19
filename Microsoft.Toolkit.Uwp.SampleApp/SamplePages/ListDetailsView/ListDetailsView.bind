@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -72,7 +72,7 @@
                     </StackPanel>
                 </DataTemplate>
             </controls:ListDetailsView.NoSelectionContentTemplate>
-            <controls:ListDetailsView.ListCommandBar>
+            <controls:ListDetailsView.ListPaneCommandBar>
                 <CommandBar>
                     <AppBarButton Icon="Back" Label="Back"/>
                     <AppBarButton Icon="Forward" Label="Forward"/>
@@ -84,14 +84,14 @@
             </TextBlock>
           </CommandBar.Content>
         </CommandBar>
-      </controls:ListDetailsView.ListCommandBar>
-      <controls:ListDetailsView.DetailsCommandBar>
+      </controls:ListDetailsView.ListPaneCommandBar>
+      <controls:ListDetailsView.DetailsPaneCommandBar>
         <CommandBar>
           <AppBarButton Icon="MailReply" Label="Reply" />
           <AppBarButton Icon="MailReplyAll" Label="Reply All" />
           <AppBarButton Icon="MailForward" Label="Forward" />
         </CommandBar>
-      </controls:ListDetailsView.DetailsCommandBar>
+      </controls:ListDetailsView.DetailsPaneCommandBar>
     </controls:ListDetailsView>
   </Grid>
 </Page>

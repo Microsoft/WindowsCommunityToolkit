@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -37,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
                     b.AddCustomAttributes(nameof(ListDetailsView.ViewState), new CategoryAttribute(Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(ListDetailsView.ListCommandBar), new CategoryAttribute(Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(ListDetailsView.DetailsCommandBar), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(ListDetailsView.ListPaneCommandBar), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(ListDetailsView.DetailsPaneCommandBar), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );
