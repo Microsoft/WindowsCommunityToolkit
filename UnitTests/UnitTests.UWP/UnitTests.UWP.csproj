@@ -142,6 +142,7 @@
     <Compile Include="Converters\Test_StringFormatConverter.cs" />
     <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_VisualTreeExtensions.cs" />
     <Compile Include="Extensions\Test_PointExtensions.cs" />
     <Compile Include="Extensions\Test_RectExtensions.cs" />
     <Compile Include="Extensions\Test_SizeExtensions.cs" />

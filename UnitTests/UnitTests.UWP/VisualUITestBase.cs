@@ -64,6 +64,13 @@ namespace UnitTests
 
             await App.DispatcherQueue.EnqueueAsync(() =>
             {
+                // If we didn't set our content we don't have to do anything but complete here.
+                if (App.ContentRoot is null)
+                {
+                    taskCompletionSource.SetResult(true);
+                    return;
+                }
+
                 // Going to wait for our original content to unload
                 App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
 
