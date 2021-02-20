@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.UWP.UI.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -15,11 +16,11 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.Extensions
 {
     [TestClass]
-    public class Test_LogicalTreeExtensions : VisualUITestBase
+    public class Test_VisualTreeExtensions : VisualUITestBase
     {
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChildByName_Exists()
+        public async Task Test_VisualTree_FindDescendantByName_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -44,7 +45,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChildByName("TargetElement");
+                var textBlock = treeRoot.FindDescendantByName("TargetElement");
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
@@ -52,9 +53,9 @@ namespace UnitTests.Extensions
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChildByName_NotFound()
+        public async Task Test_VisualTree_FindDescendantByName_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -79,15 +80,15 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChildByName("TargetElement");
+                var textBlock = treeRoot.FindDescendantByName("TargetElement");
 
                 Assert.IsNull(textBlock, "Didn't expect to find anything.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChild_Exists()
+        public async Task Test_VisualTree_FindDescendant_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -112,47 +113,16 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChild<TextBlock>();
+                var textBlock = treeRoot.FindDescendant<TextBlock>();
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChild_NoVisualTree_Exists()
-        {
-            await App.DispatcherQueue.EnqueueAsync(() =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-<Grid>
-    <Grid>
-        <Border/>
-        <StackPanel>
-            <TextBox/>
-            <TextBlock/> <!-- Target -->
-        </StackPanel>
-    </Grid>
-</Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Main Test
-                var textBlock = treeRoot.FindChild<TextBlock>();
-
-                Assert.IsNotNull(textBlock, "Expected to find something.");
-                Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
-            });
-        }
-
-        [TestCategory("LogicalTree")]
-        [TestMethod]
-        public async Task Test_LogicalTree_FindChild_ItemsControl_Exists()
+        public async Task Test_VisualTree_FindDescendant_ItemsControl_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -181,16 +151,16 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChild<TextBlock>();
+                var textBlock = treeRoot.FindDescendant<TextBlock>();
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChild_NotFound()
+        public async Task Test_VisualTree_FindDescendant_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -215,15 +185,15 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var uniformGrid = treeRoot.FindChild<UniformGrid>();
+                var uniformGrid = treeRoot.FindDescendant<UniformGrid>();
 
                 Assert.IsNull(uniformGrid, "Didn't expect to find anything.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChildren_Exists()
+        public async Task Test_VisualTree_FindDescendants_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -235,7 +205,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
             <Border/>
             <TextBlock x:Name=""One""/> <!-- Target -->
             <StackPanel>
-                <TextBox/>
+                <TextBox/> <!-- Hidden Target -->
                 <TextBlock x:Name=""Two""/> <!-- Target -->
             </StackPanel>
         </Grid>
@@ -250,24 +220,27 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlocks = treeRoot.FindChildren<TextBlock>();
+                var textBlocks = treeRoot.FindDescendants<TextBlock>();
 
                 Assert.IsNotNull(textBlocks, "Expected to find something.");
 
                 var array = textBlocks.ToArray();
 
-                Assert.AreEqual(3, array.Length, "Expected to find 3 TextBlock elements.");
+                Assert.AreEqual(4, array.Length, "Expected to find 4 TextBlock elements.");
 
                 // I don't think we want to guarantee order here, so just care that we can find each one.
                 Assert.IsTrue(array.Any((tb) => tb.Name == "One"), "Couldn't find TextBlock 'One'");
                 Assert.IsTrue(array.Any((tb) => tb.Name == "Two"), "Couldn't find TextBlock 'Two'");
                 Assert.IsTrue(array.Any((tb) => tb.Name == "Three"), "Couldn't find TextBlock 'Three'");
+
+                // TextBox has one in its template!
+                Assert.IsTrue(array.Any((tb) => tb.Name == "PlaceholderTextContentPresenter"), "Couldn't find hidden TextBlock from TextBox.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindChildren_NotFound()
+        public async Task Test_VisualTree_FindDescendants_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -294,19 +267,19 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var thing = treeRoot.FindChildren<UniformGrid>();
+                var thing = treeRoot.FindDescendants<UniformGrid>();
 
-                Assert.IsNotNull(thing, "Expected to still have enumerable.");
+                Assert.IsNotNull(thing, "Expected to find something.");
 
                 var array = thing.ToArray();
 
-                Assert.AreEqual(0, array.Length, "Expected to have 0 elements.");
+                Assert.AreEqual(0, array.Length, "Expected to find no elements.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindParent_Exists()
+        public async Task Test_VisualTree_FindAscendant_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -344,16 +317,16 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParent<Grid>();
+                var grid = startingPoint.FindAscendant<Grid>();
 
                 Assert.IsNotNull(grid, "Expected to find Grid");
                 Assert.AreEqual(targetGrid, grid, "Grid didn't match expected.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindParent_NotFound()
+        public async Task Test_VisualTree_FindAscendant_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -391,15 +364,15 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParent<TextBlock>();
+                var grid = startingPoint.FindAscendant<TextBlock>();
 
                 Assert.IsNull(grid, "Didn't expect to find anything.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindParentByName_Exists()
+        public async Task Test_VisualTree_FindAscendantByName_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -438,16 +411,16 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParentByName("TargetElement");
+                var grid = startingPoint.FindAscendantByName("TargetElement");
 
                 Assert.IsNotNull(grid, "Expected to find Grid");
                 Assert.AreEqual(targetGrid, grid, "Grid didn't match expected.");
             });
         }
 
-        [TestCategory("LogicalTree")]
+        [TestCategory("VisualTree")]
         [TestMethod]
-        public async Task Test_LogicalTree_FindParentByName_NotFound()
+        public async Task Test_VisualTree_FindAscendantByName_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -485,10 +458,69 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParentByName("TargetElement");
+                var grid = startingPoint.FindAscendantByName("TargetElement");
 
                 Assert.IsNull(grid, "Didn't expect to find anything.");
             });
         }
+
+        [TestCategory("VisualTree")]
+        [TestMethod]
+        public async Task Test_VisualTree_FindAscendants_Simple_Exists()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"">
+    <Grid>
+        <StackPanel>
+            <TextBox/>
+            <Border>
+                <TextBlock/> <!-- Starting Point -->
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>") as Page;
+
+                // Test Setup
+                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                var outerGrid = treeRoot.Content as Grid;
+
+                Assert.IsNotNull(outerGrid, "Couldn't find Page content.");
+
+                var innerStackPanel = outerGrid.Children.FirstOrDefault() as StackPanel;
+                Assert.IsNotNull(innerStackPanel, "Couldn't find inner StackPanel");
+                Assert.AreEqual(2, innerStackPanel.Children.Count, "StackPanel doesn't have right number of children.");
+
+                var secondBorder = innerStackPanel.Children[1] as Border;
+                Assert.IsNotNull(secondBorder, "Border not found.");
+
+                var startingPoint = secondBorder.Child as FrameworkElement;
+                Assert.IsNotNull(startingPoint, "Could not find starting element.");
+
+                // Main Test
+                var ascendants = startingPoint.FindAscendants()
+                                              .TakeWhile(el => el.GetType() != typeof(ContentPresenter)); // Otherwise we break beyond our page into the Test App, so this is kind of a hack to the test.
+
+                Assert.IsNotNull(ascendants, "Expected to find something.");
+
+                var array = ascendants.ToArray();
+
+                Assert.AreEqual(4, array.Length, "Expected to find 4 parent elements.");
+
+                // We should expect these to have been enumerated in order
+                Assert.IsInstanceOfType(array[0], typeof(Border), "Didn't find immediate Border Parent");
+                Assert.IsInstanceOfType(array[1], typeof(StackPanel), "Didn't find expected StackPanel");
+                Assert.IsInstanceOfType(array[2], typeof(Grid), "Didn't find expected Grid");
+                Assert.IsInstanceOfType(array[3], typeof(Page), "Didn't find expected Page");
+            });
+        }
+
+        // TODO: Add another Ascendants test where we have something like a ListView which creates a container.
     }
 }
