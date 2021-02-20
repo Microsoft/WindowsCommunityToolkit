@@ -85,7 +85,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(ListDetailsView),
             new PropertyMetadata(null));
 
-
         /// <summary>
         /// Identifies the <see cref="DetailsPaneBackground"/> dependency property.
         /// </summary>
