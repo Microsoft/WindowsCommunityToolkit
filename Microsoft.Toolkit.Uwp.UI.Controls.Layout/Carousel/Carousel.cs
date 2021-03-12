@@ -3,13 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -522,6 +522,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 carouselItem.IsSelected = true;
             }
+
+            carouselItem.ParentCarousel = this;
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="Carousel"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new CarouselAutomationPeer(this);
         }
 
         private void OnCarouselItemSelected(object sender, EventArgs e)
@@ -529,6 +540,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var item = (CarouselItem)sender;
 
             SelectedItem = ItemFromContainer(item);
+        }
+
+        internal void SetSelectedItem(CarouselItem owner)
+        {
+            var item = ItemFromContainer(owner);
+            SelectedItem = item;
         }
     }
 }

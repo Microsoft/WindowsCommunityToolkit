@@ -5,12 +5,11 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.Graphics.Printing;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -40,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var listView = control.FindChildByName("PrintSampleListView") as ListView;
+            var listView = control.FindChild("PrintSampleListView") as ListView;
             if (listView == null)
             {
                 customPrintTemplate = null;

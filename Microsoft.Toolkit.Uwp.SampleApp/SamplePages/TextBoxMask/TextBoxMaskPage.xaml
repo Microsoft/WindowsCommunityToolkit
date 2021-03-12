@@ -1,23 +1,23 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMaskPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     
     <!-- Shallow Copy -->
     <Grid Visibility="Collapsed">
-        <TextBox extensions:TextBoxMask.Mask="9a9a--a9a*"/>
+        <TextBox ui:TextBoxExtensions.Mask="9a9a--a9a*"/>
 
-        <TextBox extensions:TextBoxMask.Mask="+1999-9999"
-                 extensions:TextBoxMask.PlaceHolder=" " />
+        <TextBox ui:TextBoxExtensions.Mask="+1999-9999"
+                 ui:TextBoxExtensions.MaskPlaceholder=" " />
 
-        <TextBox extensions:TextBoxMask.Mask="+\964 799 999 9999"
-                 extensions:TextBoxMask.PlaceHolder=" " />
+        <TextBox ui:TextBoxExtensions.Mask="+\964 799 999 9999"
+                 ui:TextBoxExtensions.MaskPlaceholder=" " />
 
-        <TextBox extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                 extensions:TextBoxMask.Mask="a5c-5c*9" />
+        <TextBox ui:TextBoxExtensions.CustomMask="5:[1-5],c:[a-c]"
+                 ui:TextBoxExtensions.Mask="a5c-5c*9" />
 
     </Grid>
 </Page>

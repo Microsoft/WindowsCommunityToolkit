@@ -12,7 +12,6 @@ using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;

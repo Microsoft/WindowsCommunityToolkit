@@ -4,15 +4,15 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-      extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
-      extensions:TitleBarExtensions.ForegroundColor="{StaticResource Titlebar-Foreground}"
+      ui:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
+      ui:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      ui:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
+      ui:TitleBarExtensions.ForegroundColor="{StaticResource Titlebar-Foreground}"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
@@ -29,13 +29,12 @@
     </Page.Resources>
     <Grid>
         <winui:NavigationView x:Name="NavView"
-                              IsSettingsVisible="True"
+                              IsSettingsVisible="False"
                               ItemInvoked="NavView_ItemInvoked"
                               MenuItemTemplate="{StaticResource CategoryTemplate}"
                               PaneDisplayMode="Top"
-                              SelectionFollowsFocus="Disabled"
-                              Style="{StaticResource ToolkitNavViewStyle}">
-            <winui:NavigationView.PaneFooter>
+                              SelectionFollowsFocus="Disabled">
+            <winui:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox x:Name="SearchBox"
                                 MinWidth="150"
                                 VerticalAlignment="Center"
@@ -43,6 +42,13 @@
                                 QueryIcon="Find"
                                 QuerySubmitted="SearchBox_QuerySubmitted"
                                 TextChanged="SearchBox_TextChanged" />
+            </winui:NavigationView.AutoSuggestBox>
+            <winui:NavigationView.PaneFooter>
+                <!--  Not sure why we can't get to display properly with FooterMenuItems  -->
+                <winui:NavigationViewItem x:Name="SettingsTopNavPaneItem"
+                                          Icon="Home"
+                                          PointerReleased="SettingsTopNavPaneItem_PointerReleased"
+                                          Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}" />
             </winui:NavigationView.PaneFooter>
             <Grid>
                 <winui:ParallaxView x:Name="Parallax"
@@ -145,7 +151,7 @@
             <Grid x:Name="MoreInfoContent"
                   Width="260"
                   Height="320"
-                  extensions:VisualExtensions.NormalizedCenterPoint="0.5">
+                  ui:VisualExtensions.NormalizedCenterPoint="0.5">
                 <Grid VerticalAlignment="Top">
                     <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"

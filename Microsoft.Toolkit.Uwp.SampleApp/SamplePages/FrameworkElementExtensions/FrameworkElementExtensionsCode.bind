@@ -3,7 +3,7 @@
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -21,7 +21,7 @@
 
       <Rectangle Grid.Column="0"
                  Grid.Row="0"
-                 extensions:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                 ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
                  Fill="{StaticResource Brush-Brand-Color}"
                  Stroke="{ThemeResource Brush-Grey-04}"
                  x:Name="TargetObject"
@@ -52,8 +52,7 @@
                        VerticalAlignment="Center"
                        Text="&#xE76F;"
                        Foreground="{ThemeResource Brush-Alt}"
-                       FontFamily="Segoe MDL2 Assets">
-            </TextBlock>
+                       FontFamily="Segoe MDL2 Assets"/>
           </Grid>
         </controls:GridSplitter.Element>
       </controls:GridSplitter>
@@ -81,8 +80,8 @@
 
     <Rectangle Margin="12,12"
                HorizontalAlignment="Left"
-               Height="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}"
-               Width="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualWidth)}"
+               Height="{Binding ElementName=TargetObject, Path=(ui:FrameworkElementExtensions.ActualHeight)}"
+               Width="{Binding ElementName=TargetObject, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
                Fill="{ThemeResource Brush-Blue-01}"
                Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1" />

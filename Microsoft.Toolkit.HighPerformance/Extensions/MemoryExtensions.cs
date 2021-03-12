@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Memory{T}"/> type.

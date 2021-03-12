@@ -12,7 +12,7 @@ namespace UITests.App
         {
             PageName = name;
         }
-        
+
         public string PageName { get; }
     }
 }

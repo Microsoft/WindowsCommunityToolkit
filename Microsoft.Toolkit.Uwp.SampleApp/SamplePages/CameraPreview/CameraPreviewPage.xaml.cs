@@ -6,8 +6,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -54,14 +54,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
             }
 
-            _imageControl = control.FindDescendantByName("CurrentFrameImage") as Image;
+            _imageControl = control.FindDescendant("CurrentFrameImage") as Image;
             if (_imageControl != null)
             {
                 _softwareBitmapSource = new SoftwareBitmapSource();
                 _imageControl.Source = _softwareBitmapSource;
             }
 
-            _errorMessageText = control.FindDescendantByName("ErrorMessage") as TextBlock;
+            _errorMessageText = control.FindDescendant("ErrorMessage") as TextBlock;
 
             semaphoreSlim.Release();
         }

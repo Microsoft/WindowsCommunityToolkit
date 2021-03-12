@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-                    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
-                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
+                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
         <SolidColorBrush.Color>
@@ -160,8 +160,8 @@
                               Tag="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Mode=OneWay}">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <controls:UniformGrid ex:FrameworkElementExtensions.AncestorType="controls:ColorPicker"
-                                                      Columns="{Binding (ex:FrameworkElementExtensions.Ancestor).CustomPaletteColumnCount, RelativeSource={RelativeSource Self}}" />
+                                <controls:UniformGrid ui:FrameworkElementExtensions.AncestorType="controls:ColorPicker"
+                                                      Columns="{Binding (ui:FrameworkElementExtensions.Ancestor).CustomPaletteColumnCount, RelativeSource={RelativeSource Self}}" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemTemplate>

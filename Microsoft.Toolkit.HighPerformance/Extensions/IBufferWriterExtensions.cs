@@ -10,9 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.Toolkit.HighPerformance.Streams;
-using Microsoft.Toolkit.HighPerformance.Streams.Sources;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="IBufferWriter{T}"/> type.

@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        public string FullName => $"Version {Name.Replace("v", string.Empty)} notes";
+        public string FullName => $"Version {Name.Substring(1)} notes"; // Skip the initial 'v' we put at the front. If we replace all 'v's then we hit 'preview'.
 
         [JsonPropertyName("draft")]
         public bool IsDraft { get; set; }

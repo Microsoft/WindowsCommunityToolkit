@@ -37,40 +37,28 @@
 
     <Border Grid.Column="0"
             Grid.Row="0">
-        <TextBlock>
-          This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect RowDefinition MinHeight="100"
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect RowDefinition MinHeight='100'"/>
     </Border>
     <Border Grid.Column="1"
             Grid.Row="0">
-        <TextBlock>
-          This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect"/>
     </Border>
     <Border Grid.Column="2"
             Grid.Row="0">
-        <TextBlock>
-          This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect"/>
     </Border>
 
     <Border Grid.Column="0"
             Grid.Row="1">
-        <TextBlock>
-            This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect"/>
     </Border>
     <Border Grid.Column="1"
             Grid.Row="1">
-        <TextBlock>
-            This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect"/>
     </Border>
     <Border Grid.Column="2"
             Grid.Row="1">
-        <TextBlock>
-            This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect
-        </TextBlock>
+        <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect"/>
     </Border>
 
     <!--Column Grid Splitter-->
@@ -103,8 +91,7 @@
                          VerticalAlignment="Center"
                          Text="&#xE76F;"
                          Foreground="White"
-                         FontFamily="Segoe MDL2 Assets">
-          </TextBlock>
+                         FontFamily="Segoe MDL2 Assets"/>
       </controls:GridSplitter.Element>
     </controls:GridSplitter>
     

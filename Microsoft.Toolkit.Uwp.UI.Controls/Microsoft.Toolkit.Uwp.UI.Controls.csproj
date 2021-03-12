@@ -1,11 +1,17 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
+    <Description>
+      This library provides Controls, Panels, ItemsRepeater Layouts, and various other classes &amp; helpers for XAML UI development with UWP. It is part of the Windows Community Toolkit.
+
+      This package provides no actual code and is only an aggregate of its dependencies. You can find out how to optimize your app after development at https://aka.ms/wct/optimize
+    </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-
+  
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)readme.txt" Pack="true" PackagePath="\"/>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj" />

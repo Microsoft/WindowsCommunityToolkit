@@ -32,8 +32,13 @@
       </Grid>
     </DataTemplate>
     <Style TargetType="ListViewItem">
+      <!-- Change those values to change the WrapPanel's children alignment -->
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="Margin" Value="0" />
       <Setter Property="Padding" Value="0" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
     </Style>
   </Page.Resources>
 
@@ -49,16 +54,6 @@
                               HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@" />
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
-      <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem">
-          <!-- Change those values to change the WrapPanel's children alignment -->
-          <Setter Property="VerticalContentAlignment" Value="Center" />
-          <Setter Property="HorizontalContentAlignment" Value="Center" />
-          <Setter Property="Padding" Value="0" />
-          <Setter Property="MinWidth" Value="0" />
-          <Setter Property="MinHeight" Value="0" />
-        </Style>
-      </ListView.ItemContainerStyle>
     </ListView>
   </Grid>
 </Page>

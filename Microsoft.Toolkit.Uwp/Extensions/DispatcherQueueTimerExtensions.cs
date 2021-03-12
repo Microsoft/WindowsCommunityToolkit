@@ -6,7 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Set of extention methods for using <see cref="DispatcherQueueTimer"/>.

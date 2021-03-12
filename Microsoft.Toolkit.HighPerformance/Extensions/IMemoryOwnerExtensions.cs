@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="IMemoryOwner{T}"/> type.

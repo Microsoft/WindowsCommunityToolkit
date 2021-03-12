@@ -1,0 +1,40 @@
+using Microsoft.Toolkit.Uwp.UI.Animations;
+
+// Move the button down and then back up
+AnimationBuilder
+    .Create()
+    .Translation(Axis.Y).TimedKeyFrames(b => b
+        .KeyFrame(TimeSpan.Zero, 0)
+        .KeyFrame(TimeSpan.FromSeconds(3), 32, EasingType.Linear)
+        .KeyFrame(TimeSpan.FromSeconds(9), 32, EasingType.Linear)
+        .KeyFrame(TimeSpan.FromSeconds(12), 0, EasingType.Linear))
+    .Start(MyButton);
+
+// Fade the image out and then back in
+AnimationBuilder
+    .Create()
+    .Opacity().TimedKeyFrames(
+        delay: TimeSpan.FromSeconds(3),
+        build: b => b
+        .KeyFrame(TimeSpan.Zero, 1)
+        .KeyFrame(TimeSpan.FromSeconds(3), 0, EasingType.Linear)
+        .KeyFrame(TimeSpan.FromSeconds(6), 1, EasingType.Linear))
+    .Start(MyImage);
+    
+// Alternatively, a simpler but less efficient solution involves separate animations
+await AnimationBuilder
+    .Create()
+    .Translation(Axis.Y, to: 32, duration: TimeSpan.FromSeconds(3), easingType: EasingType.Linear)
+    .StartAsync(MyButton);
+await AnimationBuilder
+    .Create()
+    .Opacity(to: 0, duration: TimeSpan.FromSeconds(3), easingType: EasingType.Linear)
+    .StartAsync(MyImage);
+await AnimationBuilder
+    .Create()
+    .Opacity(to: 1, duration: TimeSpan.FromSeconds(3), easingType: EasingType.Linear)
+    .StartAsync(MyImage);
+await AnimationBuilder
+    .Create()
+    .Translation(Axis.Y, to: 0, duration: TimeSpan.FromSeconds(3), easingType: EasingType.Linear)
+    .StartAsync(MyButton);

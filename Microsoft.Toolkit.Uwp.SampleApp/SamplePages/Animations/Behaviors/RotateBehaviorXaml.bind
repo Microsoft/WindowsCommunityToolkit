@@ -8,7 +8,7 @@
     xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
 
   <Button Background="Gray"
@@ -16,7 +16,7 @@
           Height="200"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
-          ex:VisualExtensions.NormalizedCenterPoint="0.5">
+          ui:VisualExtensions.NormalizedCenterPoint="0.5">
     <ani:Explicit.Animations>
       <ani:AnimationSet x:Name="RotateAnimation">
         <ani:RotationInDegreesAnimation From="0"

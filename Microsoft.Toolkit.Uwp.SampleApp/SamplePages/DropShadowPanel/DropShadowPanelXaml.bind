@@ -24,7 +24,7 @@
   <Grid>
     <ScrollViewer Margin="15" VerticalScrollBarVisibility="Auto">
       <StackPanel>
-        <TextBlock Style="{StaticResource TitleText}" >TextBlock</TextBlock>
+        <TextBlock Style="{StaticResource TitleText}" Text="TextBlock"/>
         <Border Style="{StaticResource DividingBorder}" />
 
         <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
@@ -35,17 +35,10 @@
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   IsMasked="@[Is Masked:Bool:true]">
-          <TextBlock TextWrapping="Wrap">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum.
-            Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla,
-            at interdum dolor sapien ut odio. Sed ullamcorper sapien velit, id finibus risus gravida vitae. Morbi ac ultrices lectus. Aenean felis
-            justo, aliquet a risus ut, condimentum malesuada metus. Duis vehicula pharetra dolor vel finibus. Nunc auctor tortor nunc, in varius velit
-            lobortis vel. Duis viverra, ante id mollis mattis, sem mauris ullamcorper dolor, sed rhoncus est erat eget ligula. Aliquam rutrum velit et
-            felis sollicitudin, eget dapibus dui accumsan.
-          </TextBlock>
+          <TextBlock TextWrapping="Wrap" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum. Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla, at interdum dolor sapien ut odio. Sed ullamcorper sapien velit, id finibus risus gravida vitae. Morbi ac ultrices lectus. Aenean felis justo, aliquet a risus ut, condimentum malesuada metus. Duis vehicula pharetra dolor vel finibus. Nunc auctor tortor nunc, in varius velit lobortis vel. Duis viverra, ante id mollis mattis, sem mauris ullamcorper dolor, sed rhoncus est erat eget ligula. Aliquam rutrum velit et felis sollicitudin, eget dapibus dui accumsan."/>
         </controls:DropShadowPanel>
 
-        <TextBlock Style="{StaticResource TitleText}" >Shapes</TextBlock>
+        <TextBlock Style="{StaticResource TitleText}" Text="Shapes"/>
         <Border Style="{StaticResource DividingBorder}" />
 
         <StackPanel Orientation="Horizontal">
@@ -83,7 +76,7 @@
           </controls:DropShadowPanel>
         </StackPanel>
 
-        <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
+        <TextBlock Style="{StaticResource TitleText}" Text="Images"/>
         <Border Style="{StaticResource DividingBorder}" />
 
         <StackPanel Orientation="Horizontal">

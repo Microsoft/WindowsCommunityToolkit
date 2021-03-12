@@ -4,6 +4,7 @@
 
 using System;
 using Windows.Networking.Connectivity;
+using Windows.System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Triggers
@@ -13,11 +14,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </summary>
     public class NetworkConnectionStateTrigger : StateTriggerBase
     {
+        private DispatcherQueue _dispatcherQueue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkConnectionStateTrigger"/> class.
         /// </summary>
         public NetworkConnectionStateTrigger()
         {
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             var weakEvent =
                 new WeakEventListener<NetworkConnectionStateTrigger, object>(this)
                 {
@@ -30,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         private void NetworkInformation_NetworkStatusChanged(object sender)
         {
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, UpdateState);
+            _ = _dispatcherQueue.EnqueueAsync(UpdateState, DispatcherQueuePriority.Normal);
         }
 
         private void UpdateState()

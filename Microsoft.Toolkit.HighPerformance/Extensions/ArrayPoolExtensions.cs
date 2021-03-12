@@ -5,7 +5,7 @@
 using System;
 using System.Buffers;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ArrayPool{T}"/> type.

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -19,12 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if the animation is not being executed on the composition layer).</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         AnimationBuilder NormalizedKeyFrames(
             Action<INormalizedKeyFrameAnimationBuilder<T>> build,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
-            RepeatOption? repeat = null);
+            RepeatOption? repeat = null,
+            AnimationDelayBehavior? delayBehavior = null);
 
         /// <summary>
         /// Adds a custom animation based on normalized keyframes ot the current schedule.
@@ -35,13 +38,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if the animation is not being executed on the composition layer).</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         AnimationBuilder NormalizedKeyFrames<TState>(
             TState state,
             Action<INormalizedKeyFrameAnimationBuilder<T>, TState> build,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
-            RepeatOption? repeat = null);
+            RepeatOption? repeat = null,
+            AnimationDelayBehavior? delayBehavior = null);
 
         /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
@@ -49,11 +54,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="build">The callback to use to construct the custom animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if the animation is not being executed on the composition layer).</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         AnimationBuilder TimedKeyFrames(
             Action<ITimedKeyFrameAnimationBuilder<T>> build,
             TimeSpan? delay = null,
-            RepeatOption? repeat = null);
+            RepeatOption? repeat = null,
+            AnimationDelayBehavior? delayBehavior = null);
 
         /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
@@ -63,11 +70,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="build">The callback to use to construct the custom animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if the animation is not being executed on the composition layer).</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         AnimationBuilder TimedKeyFrames<TState>(
             TState state,
             Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
             TimeSpan? delay = null,
-            RepeatOption? repeat = null);
+            RepeatOption? repeat = null,
+            AnimationDelayBehavior? delayBehavior = null);
     }
 }

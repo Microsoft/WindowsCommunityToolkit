@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       mc:Ignorable="d">
   <Page.Resources>
@@ -35,7 +35,7 @@
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
-          QueryIcon="{ex:SymbolIconSource Symbol=Setting}"
+          QueryIcon="{ui:SymbolIconSource Symbol=Setting}"
           MaxHeight="104"
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
@@ -72,7 +72,7 @@
             PlaceholderText="Select Names"
             MaxHeight="104"
             HorizontalAlignment="Stretch"
-            QueryIcon="{ex:SymbolIconSource Symbol=Find}"
+            QueryIcon="{ui:SymbolIconSource Symbol=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
             IsItemClickEnabled="True"

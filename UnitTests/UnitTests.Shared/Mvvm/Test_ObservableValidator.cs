@@ -392,6 +392,28 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 2);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidationWithFormattedDisplayName()
+        {
+            var model = new ValidationWithDisplayName();
+
+            Assert.IsTrue(model.HasErrors);
+
+            // We need to order because there is no guaranteed order on the members of a type
+            ValidationResult[] allErrors = model.GetErrors().OrderBy(error => error.ErrorMessage).ToArray();
+
+            Assert.AreEqual(allErrors.Length, 2);
+
+            Assert.AreEqual(allErrors[0].MemberNames.Count(), 1);
+            Assert.AreEqual(allErrors[0].MemberNames.Single(), nameof(ValidationWithDisplayName.StringMayNotBeEmpty));
+            Assert.AreEqual(allErrors[0].ErrorMessage, $"FIRST: {nameof(ValidationWithDisplayName.StringMayNotBeEmpty)}.");
+
+            Assert.AreEqual(allErrors[1].MemberNames.Count(), 1);
+            Assert.AreEqual(allErrors[1].MemberNames.Single(), nameof(ValidationWithDisplayName.AnotherRequiredField));
+            Assert.AreEqual(allErrors[1].ErrorMessage, $"SECOND: {nameof(ValidationWithDisplayName.AnotherRequiredField)}.");
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -577,6 +599,36 @@ namespace UnitTests.Mvvm
                 }
 
                 return new ValidationResult("The name contains invalid characters");
+            }
+        }
+
+        /// <summary>
+        /// Test model for validation with a formatted display name string on each property.
+        /// This is issue #1 from https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3763.
+        /// </summary>
+        public class ValidationWithDisplayName : ObservableValidator
+        {
+            public ValidationWithDisplayName()
+            {
+                ValidateAllProperties();
+            }
+
+            private string stringMayNotBeEmpty;
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "FIRST: {0}.")]
+            public string StringMayNotBeEmpty
+            {
+                get => this.stringMayNotBeEmpty;
+                set => SetProperty(ref this.stringMayNotBeEmpty, value, true);
+            }
+
+            private string anotherRequiredField;
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "SECOND: {0}.")]
+            public string AnotherRequiredField
+            {
+                get => this.anotherRequiredField;
+                set => SetProperty(ref this.anotherRequiredField, value, true);
             }
         }
     }

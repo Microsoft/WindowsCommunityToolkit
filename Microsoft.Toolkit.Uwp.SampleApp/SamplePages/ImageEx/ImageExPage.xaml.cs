@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -32,9 +31,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
-            container = control.FindChildByName("Container") as StackPanel;
+            container = control.FindChild("Container") as StackPanel;
             resources = control.Resources;
-            lazyLoadingControlHost = control.FindChildByName("LazyLoadingControlHost") as Border;
+            lazyLoadingControlHost = control.FindChild("LazyLoadingControlHost") as Border;
         }
 
         private async void Load()

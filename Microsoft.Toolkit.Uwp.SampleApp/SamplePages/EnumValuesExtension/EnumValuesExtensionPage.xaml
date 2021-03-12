@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:enums="using:Microsoft.Toolkit.Uwp.SampleApp.Enums"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.SampleApp.Converters"
       mc:Ignorable="d">
@@ -13,8 +13,8 @@
     </Page.Resources>
     <Grid>
         <StackPanel Spacing="8">
-            <ComboBox ItemsSource="{ex:EnumValues Type=enums:Animal}"/>
-            <ComboBox ItemsSource="{ex:EnumValues Type=enums:Animal}"
+            <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"/>
+            <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
                       SelectedIndex="0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

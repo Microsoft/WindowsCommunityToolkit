@@ -23,20 +23,20 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="0">IsValidEmail</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="0" x:Name="IsValidEmailResult" Foreground="Blue" />
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="0" Text="IsValidEmail"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" x:Name="IsValidEmailResult" FontStyle="Italic"/>
 
-                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="1">IsValidNumber</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="IsValidNumberResult" Foreground="Blue" />
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="1" Text="IsValidNumber"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="IsValidNumberResult" FontStyle="Italic"/>
 
-                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="2">IsValidDecimal</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="2" x:Name="IsValidDecimalResult" Foreground="Blue" />
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="2" Text="IsValidDecimal"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" x:Name="IsValidDecimalResult" FontStyle="Italic"/>
 
-                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="3">IsValidString</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="3" x:Name="IsValidStringResult" Foreground="Blue" />
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="3" Text="IsValidString"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" x:Name="IsValidStringResult" FontStyle="Italic"/>
 
-                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="4">IsValidPhoneNumber</TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="4" x:Name="IsValidPhoneNumberResult" Foreground="Blue" />
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="4" Text="IsValidPhoneNumber"/>
+                <TextBlock Grid.Column="1" Grid.Row="4" x:Name="IsValidPhoneNumberResult" FontStyle="Italic"/>
             </Grid>
         </StackPanel>
     </Grid>

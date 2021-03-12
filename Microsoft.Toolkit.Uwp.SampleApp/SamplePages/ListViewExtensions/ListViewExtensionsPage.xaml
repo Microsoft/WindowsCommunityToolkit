@@ -2,7 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -22,10 +22,10 @@
 
         <ListView x:Name="SampleListView"
                   Margin="12"
-                  extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
-                  extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-                  extensions:ListViewExtensions.Command="{Binding SampleCommand}"
-                  extensions:ListViewExtensions.StretchItemContainerDirection="Both"
+                  ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+                  ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+                  ui:ListViewExtensions.Command="{Binding SampleCommand}"
+                  ui:ListViewExtensions.ItemContainerStretchDirection="Both"
                   IsItemClickEnabled="True"
                   ItemTemplate="{StaticResource NormalTemplate}" />
     </Grid>

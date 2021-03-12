@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.System;
 using Windows.System.RemoteSystems;
 

@@ -14,13 +14,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = nameof(Content))]
     public partial class Case : DependencyObject
     {
-        internal SwitchPresenter Parent { get; set; } // TODO: Can we remove Parent need here and just use events?
-
-        /// <summary>
-        /// Event raised when the <see cref="Value"/> property changes.
-        /// </summary>
-        public event EventHandler ValueChanged;
-
         /// <summary>
         /// Gets or sets the Content to display when this case is active.
         /// </summary>
@@ -64,14 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Value"/> property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(Case), new PropertyMetadata(null, OnValuePropertyChanged));
-
-        private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var xcase = (Case)d;
-
-            xcase.ValueChanged?.Invoke(xcase, EventArgs.Empty);
-        }
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(Case), new PropertyMetadata(null));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Case"/> class.

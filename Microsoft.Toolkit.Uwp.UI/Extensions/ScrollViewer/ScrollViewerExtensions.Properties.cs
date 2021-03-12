@@ -4,7 +4,7 @@
 
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/> control.

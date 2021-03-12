@@ -70,7 +70,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 explicitTarget,
                 Delay ?? delayHint ?? DefaultDelay,
                 Duration ?? durationHint ?? DefaultDuration,
-                Repeat);
+                Repeat,
+                DelayBehavior);
 
             AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 

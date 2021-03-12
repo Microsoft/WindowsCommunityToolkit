@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
@@ -154,10 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateLayout();
 
                 // Need to do this because of touch. See more information here: https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/760#issuecomment-276466464
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
-                });
+                var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                await dispatcherQueue.EnqueueAsync(
+                    () =>
+                    {
+                        GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                    }, DispatcherQueuePriority.Low);
 
                 return;
             }

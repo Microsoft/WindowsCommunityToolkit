@@ -9,15 +9,15 @@
 
     <Style x:Key="BaseInAppNotificationsStyle"
            TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="MinHeight" Value="55" />
-        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="RenderTransformOrigin" Value="0.5,1" />
         <Setter Property="Margin" Value="24,12" />
         <Setter Property="Padding" Value="24,12" />

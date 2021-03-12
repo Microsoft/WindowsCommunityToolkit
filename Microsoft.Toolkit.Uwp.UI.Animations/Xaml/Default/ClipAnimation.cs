@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,
+                Repeat,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode);
         }

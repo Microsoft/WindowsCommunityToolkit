@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            bladeView = control.FindChildByName("BladeView") as BladeView;
-            addBlade = control.FindChildByName("AddBlade") as Button;
+            bladeView = control.FindChild("BladeView") as BladeView;
+            addBlade = control.FindChild("AddBlade") as Button;
 
             if (addBlade != null)
             {

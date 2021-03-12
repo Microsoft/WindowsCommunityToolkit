@@ -61,6 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             T? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : ICompositionAnimationFactory, IXamlAnimationFactory
@@ -70,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
                 CompositionEasingFunction? easingFunction = targetHint.Compositor.TryCreateEasingFunction(EasingType, EasingMode);
+                (AnimationIterationBehavior iterationBehavior, int iterationCount) = Repeat.ToBehaviorAndCount();
 
                 target = null;
 
@@ -80,7 +82,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetToAs<bool>(),
                         GetFromAs<bool>(),
                         Delay,
-                        Duration);
+                        Duration,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(float))
@@ -91,7 +95,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<float>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(double))
@@ -102,7 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         (float?)GetFromAs<double>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector2))
@@ -113,7 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector2>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector3))
@@ -124,7 +134,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector3>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector4))
@@ -135,7 +147,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector4>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Color))
@@ -146,7 +160,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Color>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Quaternion))
@@ -157,7 +173,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Quaternion>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 throw new InvalidOperationException("Invalid animation type");
@@ -177,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -189,6 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -201,6 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -212,7 +233,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Color>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        Repeat.ToRepeatBehavior());
                 }
 
                 throw new InvalidOperationException("Invalid animation type");
@@ -287,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : ICompositionAnimationFactory
@@ -297,7 +320,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Visual visual = (Visual)targetHint;
                 InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
                 CompositionEasingFunction? easingFunction = clip.Compositor.TryCreateEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
+                (AnimationIterationBehavior iterationBehavior, int iterationCount) = Repeat.ToBehaviorAndCount();
+                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(
+                    Property,
+                    To,
+                    From,
+                    Delay,
+                    Duration,
+                    easingFunction,
+                    iterationBehavior: iterationBehavior,
+                    iterationCount: iterationCount);
 
                 target = clip;
 
@@ -314,6 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : IXamlAnimationFactory
@@ -328,7 +361,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     element.RenderTransform = transform = new CompositeTransform();
                 }
 
-                return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
+                return transform.CreateDoubleAnimation(
+                    Property,
+                    To,
+                    From,
+                    Duration,
+                    Delay,
+                    EasingType.ToEasingFunction(EasingMode),
+                    Repeat.ToRepeatBehavior());
             }
         }
 

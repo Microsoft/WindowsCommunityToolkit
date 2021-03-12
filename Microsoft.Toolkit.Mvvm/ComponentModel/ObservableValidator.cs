@@ -27,6 +27,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         private static readonly ConditionalWeakTable<Type, Action<object>> EntityValidatorMap = new();
 
         /// <summary>
+        /// The <see cref="ConditionalWeakTable{TKey, TValue}"/> instance used to track display names for properties to validate.
+        /// </summary>
+        /// <remarks>
+        /// This is necessary because we want to reuse the same <see cref="ValidationContext"/> instance for all validations, but
+        /// with the same behavior with repsect to formatted names that new instances would have provided. The issue is that the
+        /// <see cref="ValidationContext.DisplayName"/> property is not refreshed when we set <see cref="ValidationContext.MemberName"/>,
+        /// so we need to replicate the same logic to retrieve the right display name for properties to validate and update that
+        /// property manually right before passing the context to <see cref="Validator"/> and proceed with the normal functionality.
+        /// </remarks>
+        private static readonly ConditionalWeakTable<Type, Dictionary<string, string>> DisplayNamesMap = new();
+
+        /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="HasErrors"/>.
         /// </summary>
         private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new(nameof(HasErrors));
@@ -68,7 +80,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// be used to validate all properties, which will reference the current instance.
         /// </summary>
         /// <param name="items">A set of key/value pairs to make available to consumers.</param>
-        protected ObservableValidator(IDictionary<object, object?> items)
+        protected ObservableValidator(IDictionary<object, object?>? items)
         {
             this.validationContext = new ValidationContext(this, items);
         }
@@ -80,7 +92,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="serviceProvider">An <see cref="IServiceProvider"/> instance to make available during validation.</param>
         /// <param name="items">A set of key/value pairs to make available to consumers.</param>
-        protected ObservableValidator(IServiceProvider serviceProvider, IDictionary<object, object?> items)
+        protected ObservableValidator(IServiceProvider? serviceProvider, IDictionary<object, object?>? items)
         {
             this.validationContext = new ValidationContext(this, serviceProvider, items);
         }
@@ -541,6 +553,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             // Validate the property, by adding new errors to the existing list
             this.validationContext.MemberName = propertyName;
+            this.validationContext.DisplayName = GetDisplayNameForProperty(propertyName!);
 
             bool isValid = Validator.TryValidateProperty(value, this.validationContext, propertyErrors);
 
@@ -611,6 +624,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             // Validate the property, by adding new errors to the local list
             this.validationContext.MemberName = propertyName;
+            this.validationContext.DisplayName = GetDisplayNameForProperty(propertyName!);
 
             bool isValid = Validator.TryValidateProperty(value, this.validationContext, localErrors);
 
@@ -686,6 +700,36 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Gets the display name for a given property. It could be a custom name or just the property name.
+        /// </summary>
+        /// <param name="propertyName">The target property name being validated.</param>
+        /// <returns>The display name for the property.</returns>
+        private string GetDisplayNameForProperty(string propertyName)
+        {
+            static Dictionary<string, string> GetDisplayNames(Type type)
+            {
+                Dictionary<string, string> displayNames = new();
+
+                foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    if (property.GetCustomAttribute<DisplayAttribute>() is DisplayAttribute attribute &&
+                        attribute.GetName() is string displayName)
+                    {
+                        displayNames.Add(property.Name, displayName);
+                    }
+                }
+
+                return displayNames;
+            }
+
+            // This method replicates the logic of DisplayName and GetDisplayName from the
+            // ValidationContext class. See the original source in the BCL for more details.
+            DisplayNamesMap.GetValue(GetType(), static t => GetDisplayNames(t)).TryGetValue(propertyName, out string? displayName);
+
+            return displayName ?? propertyName;
         }
 
 #pragma warning disable SA1204

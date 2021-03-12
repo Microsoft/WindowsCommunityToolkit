@@ -4,7 +4,7 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.IconExtensionsPage"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
   <Grid>
     <StackPanel Spacing="8"
@@ -16,9 +16,9 @@
                  Style="{StaticResource BodyTextBlockStyle}"/>
       
       <CommandBar>
-        <AppBarButton Icon="{ex:FontIcon Glyph=&#xE102;}"/>
-        <AppBarButton Icon="{ex:FontIcon Glyph=&#xE103;}"/>
-        <AppBarButton Icon="{ex:FontIcon Glyph=&#xE10F;}"/>
+        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE102;}"/>
+        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE103;}"/>
+        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE10F;}"/>
       </CommandBar>
 
       <TextBlock Text="Use the SymbolIcon extension to create FontIcon items from known symbols."
@@ -26,9 +26,9 @@
                  Style="{StaticResource BodyTextBlockStyle}"/>
 
       <CommandBar>
-        <AppBarButton Icon="{ex:SymbolIcon Symbol=Play}"/>
-        <AppBarButton Icon="{ex:SymbolIcon Symbol=Pause}"/>
-        <AppBarButton Icon="{ex:SymbolIcon Symbol=Home}"/>
+        <AppBarButton Icon="{ui:SymbolIcon Symbol=Play}"/>
+        <AppBarButton Icon="{ui:SymbolIcon Symbol=Pause}"/>
+        <AppBarButton Icon="{ui:SymbolIcon Symbol=Home}"/>
       </CommandBar>
 
       <TextBlock Text="Use the FontIconSource extension to create FontIconSource items from custom glyphs."
@@ -40,8 +40,8 @@
                     Width="300" Margin="12" Height="68">
         <SwipeControl.LeftItems>
           <SwipeItems Mode="Reveal">
-            <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
-            <SwipeItem Text="Flag" IconSource="{ex:FontIconSource Glyph=&#xE129;}"/>
+            <SwipeItem Text="Accept" IconSource="{ui:FontIconSource Glyph=&#xE10B;}"/>
+            <SwipeItem Text="Flag" IconSource="{ui:FontIconSource Glyph=&#xE129;}"/>
           </SwipeItems>
         </SwipeControl.LeftItems>
         <TextBlock Text="Swipe Right"
@@ -58,8 +58,8 @@
                     Width="300" Margin="12" Height="68">
         <SwipeControl.LeftItems>
           <SwipeItems Mode="Reveal">
-            <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
-            <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/mslogo.png}"/>
+            <SwipeItem IconSource="{ui:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
+            <SwipeItem IconSource="{ui:BitmapIconSource Source=/Assets/mslogo.png}"/>
           </SwipeItems>
         </SwipeControl.LeftItems>
         <TextBlock Text="Swipe Right"
@@ -76,8 +76,8 @@
                     Width="300" Margin="12" Height="68">
         <SwipeControl.LeftItems>
           <SwipeItems Mode="Reveal">
-            <SwipeItem Text="Accept" IconSource="{ex:SymbolIconSource Symbol=Accept}"/>
-            <SwipeItem Text="Flag" IconSource="{ex:SymbolIconSource Symbol=Flag}"/>
+            <SwipeItem Text="Accept" IconSource="{ui:SymbolIconSource Symbol=Accept}"/>
+            <SwipeItem Text="Flag" IconSource="{ui:SymbolIconSource Symbol=Flag}"/>
           </SwipeItems>
         </SwipeControl.LeftItems>
         <TextBlock Text="Swipe Right"
@@ -93,9 +93,9 @@
         <Button.Flyout>
           <MenuFlyout>
             <MenuFlyoutItem Text="Toolkit app"
-                            Icon="{ex:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
+                            Icon="{ui:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
             <MenuFlyoutItem Text="Microsoft"
-                            Icon="{ex:BitmapIcon Source=/Assets/mslogo.png}" />
+                            Icon="{ui:BitmapIcon Source=/Assets/mslogo.png}" />
           </MenuFlyout>
         </Button.Flyout>
       </Button>

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>

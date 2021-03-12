@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 #if !WINDOWS_UWP
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

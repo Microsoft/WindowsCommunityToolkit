@@ -4,7 +4,7 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _element = control.FindChildByName("Element");
+            _element = control.FindChild("Element");
         }
 
         private void Load()

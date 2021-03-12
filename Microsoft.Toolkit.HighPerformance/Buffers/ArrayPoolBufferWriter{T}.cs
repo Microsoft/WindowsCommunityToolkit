@@ -9,7 +9,6 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers

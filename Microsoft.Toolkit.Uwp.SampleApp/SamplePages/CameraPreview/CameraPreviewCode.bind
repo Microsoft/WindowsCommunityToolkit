@@ -9,7 +9,7 @@
     <StackPanel Orientation="Vertical" Margin="20">
 		<controls:CameraPreview x:Name="CameraPreviewControl">
 		</controls:CameraPreview>
-		<TextBlock x:Name="ErrorMessage"></TextBlock>
+		<TextBlock x:Name="ErrorMessage"/>
         <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
     </StackPanel>
 </Page>

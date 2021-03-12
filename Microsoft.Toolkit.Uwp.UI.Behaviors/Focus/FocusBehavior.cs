@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             typeof(FocusBehavior),
             new PropertyMetadata(TimeSpan.FromMilliseconds(100)));
 
-        private DispatcherTimer _timer;
+        private DispatcherQueueTimer _timer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FocusBehavior"/> class.
@@ -120,10 +121,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 // This allows us to handle the case where the controls are not loaded in the order we expect.
                 if (_timer is null)
                 {
-                    _timer = new DispatcherTimer
-                    {
-                        Interval = FocusEngagementTimeout,
-                    };
+                    _timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+                    _timer.Interval = FocusEngagementTimeout;
                     _timer.Tick += OnEngagementTimerTick;
                     _timer.Start();
                 }

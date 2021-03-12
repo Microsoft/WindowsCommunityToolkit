@@ -6,7 +6,6 @@ using System;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance.Streams

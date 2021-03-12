@@ -14,7 +14,7 @@ using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.

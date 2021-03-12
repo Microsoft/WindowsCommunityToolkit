@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;

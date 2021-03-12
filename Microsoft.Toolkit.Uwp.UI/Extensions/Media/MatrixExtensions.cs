@@ -5,7 +5,7 @@
 using System;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides a set of extensions to the <see cref="o:Windows.UI.Xaml.Media.Matrix"/> struct.
@@ -13,16 +13,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class MatrixExtensions
     {
         /// <summary>
-        /// Implements WPF's Matrix.HasInverse.
+        /// Implements WPF's <c>Matrix.HasInverse</c> logic.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>True if matrix has an inverse.</returns>
         public static bool HasInverse(this Matrix matrix)
         {
-            // TODO: Check if we can make this an extension property in C#8.
-
-            // WPF equivalent of following code:
-            // return matrix.HasInverse;
             return ((matrix.M11 * matrix.M22) - (matrix.M12 * matrix.M21)) != 0;
         }
 
@@ -34,7 +30,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Multiplied Matrix</returns>
         public static Matrix Multiply(this Matrix matrix1, Matrix matrix2)
         {
-            return MatrixHelperEx.Multiply(matrix1, matrix2);
+            return new(
+                (matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21),
+                (matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22),
+                (matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21),
+                (matrix1.M21 * matrix2.M12) + (matrix1.M22 * matrix2.M22),
+                (matrix1.OffsetX * matrix2.M11) + (matrix1.OffsetY * matrix2.M21) + matrix2.OffsetX,
+                (matrix1.OffsetX * matrix2.M12) + (matrix1.OffsetY * matrix2.M22) + matrix2.OffsetY);
+        }
+
+        /// <summary>
+        /// Rounds the non-offset elements of a matrix to avoid issues due to floating point imprecision and returns the result.
+        /// </summary>
+        /// <param name="matrix">The matrix to round.</param>
+        /// <param name="decimalsAfterRound">The number of decimals after the round.</param>
+        /// <returns>The rounded matrix.</returns>
+        public static Matrix Round(this Matrix matrix, int decimalsAfterRound)
+        {
+            return new(
+                Math.Round(matrix.M11, decimalsAfterRound),
+                Math.Round(matrix.M12, decimalsAfterRound),
+                Math.Round(matrix.M21, decimalsAfterRound),
+                Math.Round(matrix.M22, decimalsAfterRound),
+                matrix.OffsetX,
+                matrix.OffsetY);
         }
 
         /// <summary>
@@ -108,53 +127,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Translated Matrix.</returns>
         public static Matrix Translate(this Matrix matrix, double offsetX, double offsetY)
         {
-            return new Matrix(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
+            return new(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
         }
 
-        internal static Matrix CreateRotationRadians(double angle)
+        private static Matrix CreateRotationRadians(double angle)
         {
             return CreateRotationRadians(angle, 0, 0);
         }
 
-        internal static Matrix CreateRotationRadians(double angle, double centerX, double centerY)
+        private static Matrix CreateRotationRadians(double angle, double centerX, double centerY)
         {
             var sin = Math.Sin(angle);
             var cos = Math.Cos(angle);
             var dx = (centerX * (1.0 - cos)) + (centerY * sin);
             var dy = (centerY * (1.0 - cos)) - (centerX * sin);
 
-            #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(cos, sin,
-                              -sin, cos,
-                              dx, dy);
-            #pragma warning restore SA1117 // Parameters must be on same line or separate lines
+            return new(cos, sin, -sin, cos, dx, dy);
         }
 
-        internal static Matrix CreateScaling(double scaleX, double scaleY)
+        private static Matrix CreateScaling(double scaleX, double scaleY)
         {
-            #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(scaleX, 0,
-                              0, scaleY,
-                              0, 0);
-            #pragma warning restore SA1117 // Parameters must be on same line or separate lines
+            return new(scaleX, 0, 0, scaleY, 0, 0);
         }
 
-        internal static Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY)
+        private static Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY)
         {
-            #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(scaleX, 0,
-                              0, scaleY,
-                              centerX - (scaleX * centerX), centerY - (scaleY * centerY));
-            #pragma warning restore SA1117 // Parameters must be on same line or separate lines
+            return new(scaleX, 0, 0, scaleY, centerX - (scaleX * centerX), centerY - (scaleY * centerY));
         }
 
-        internal static Matrix CreateSkewRadians(double skewX, double skewY)
+        private static Matrix CreateSkewRadians(double skewX, double skewY)
         {
-            #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(1.0, Math.Tan(skewY),
-                              Math.Tan(skewX), 1.0,
-                              0.0, 0.0);
-            #pragma warning restore SA1117 // Parameters must be on same line or separate lines
+            return new(1.0, Math.Tan(skewY), Math.Tan(skewX), 1.0, 0.0, 0.0);
         }
     }
 }

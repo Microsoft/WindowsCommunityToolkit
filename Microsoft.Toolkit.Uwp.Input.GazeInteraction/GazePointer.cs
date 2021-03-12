@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Input.Preview;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -354,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             _gazeCursor = new GazeCursor();
 
             // timer that gets called back if there gaze samples haven't been received in a while
-            _eyesOffTimer = new DispatcherTimer();
+            _eyesOffTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             _eyesOffTimer.Tick += OnEyesOff;
 
             // provide a default of GAZE_IDLE_TIME microseconds to fire eyes off
@@ -860,7 +861,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 
         private readonly List<int> _roots = new List<int>();
 
-        private readonly DispatcherTimer _eyesOffTimer;
+        private readonly DispatcherQueueTimer _eyesOffTimer;
 
         private readonly GazeCursor _gazeCursor;
 

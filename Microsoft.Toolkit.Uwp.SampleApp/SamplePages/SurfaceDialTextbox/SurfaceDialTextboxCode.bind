@@ -1,28 +1,30 @@
 <Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid>
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+  <StackPanel HorizontalAlignment="Center"
+              VerticalAlignment="Center">
 
-      <TextBox HorizontalAlignment="Left" 
-               VerticalAlignment="Top" 
-			   Margin="0,0,0,10"
-               Text="0" 
-               Width="250"
-               extensions:SurfaceDialTextbox.StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
-               extensions:SurfaceDialTextbox.ForceMenuItem="@[ForceMenuItem:Bool:true]"
-               extensions:SurfaceDialTextbox.EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
-               extensions:SurfaceDialTextbox.EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
-               extensions:SurfaceDialTextbox.MinValue="@[MinValue:DoubleSlider:0:0-100]"
-               extensions:SurfaceDialTextbox.MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
-               extensions:SurfaceDialTextbox.Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
-               extensions:SurfaceDialTextbox.EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
-    </StackPanel>
-  </Grid>
+    <TextBox HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Margin="0,0,0,10"
+              Text="50"
+              Width="250">
+      <ui:TextBoxExtensions.SurfaceDialOptions>
+        <ui:SurfaceDialOptions
+            StepValue="1"
+            RotationResolutionInDegrees="12"
+            EnableHapticFeedback="True"
+            EnableMinMaxValue="True"
+            MinValue="0"
+            MaxValue="100"
+            Icon="Ruler"
+            EnableTapToNextControl="True"/>
+      </ui:TextBoxExtensions.SurfaceDialOptions>
+    </TextBox>
+  </StackPanel>
 </Page>

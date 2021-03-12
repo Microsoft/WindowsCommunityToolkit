@@ -7,7 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif

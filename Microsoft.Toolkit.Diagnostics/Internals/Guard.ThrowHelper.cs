@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using Microsoft.Toolkit.Extensions;
 
 namespace Microsoft.Toolkit.Diagnostics
 {

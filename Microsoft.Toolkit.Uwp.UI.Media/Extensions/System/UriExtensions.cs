@@ -5,12 +5,12 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Uri"/> type
     /// </summary>
-    public static class UriExtensions
+    internal static class UriExtensions
     {
         /// <summary>
         /// Returns an <see cref="Uri"/> that starts with the ms-appx:// prefix
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
         /// <returns>A <see cref="Uri"/> equivalent to the first but relative to ms-appx://</returns>
         /// <remarks>This is needed because the XAML converter doesn't use the ms-appx:// prefix</remarks>
         [Pure]
-        internal static Uri ToAppxUri(this Uri uri)
+        public static Uri ToAppxUri(this Uri uri)
         {
             if (uri.Scheme.Equals("ms-resource"))
             {

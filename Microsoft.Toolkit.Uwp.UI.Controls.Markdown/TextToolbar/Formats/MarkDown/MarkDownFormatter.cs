@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.UI.Text;

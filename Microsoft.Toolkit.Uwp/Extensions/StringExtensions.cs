@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.Extensions
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// UWP specific helpers for working with strings.

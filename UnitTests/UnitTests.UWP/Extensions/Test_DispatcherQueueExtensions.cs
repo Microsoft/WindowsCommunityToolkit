@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.System;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 
 namespace UnitTests.Extensions
 {

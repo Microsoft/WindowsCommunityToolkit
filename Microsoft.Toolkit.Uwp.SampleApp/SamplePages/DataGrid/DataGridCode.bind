@@ -38,7 +38,7 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <StackPanel Orientation="Horizontal" Margin="12">
-      <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}"></TextBlock>
+      <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}"/>
       <AppBarButton Icon="Filter" Label="Filter by">
         <AppBarButton.Flyout>
           <MenuFlyout>

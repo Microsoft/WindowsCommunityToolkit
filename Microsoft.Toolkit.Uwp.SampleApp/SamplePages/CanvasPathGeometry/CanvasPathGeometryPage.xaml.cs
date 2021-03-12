@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.System;
 using Windows.UI;
@@ -95,7 +95,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private Color _strokeColor;
         private Color _fillColor;
         private bool _selectionChanged = false;
-        private bool _isParsing = false;
 
         private CanvasGeometry _errorGeometry;
         private GeometryStreamReader _reader;
@@ -172,9 +171,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void ParseData()
         {
             _data = InputData.Text;
-            _isParsing = true;
             RenderCanvas.Invalidate();
-            _isParsing = false;
         }
 
         private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)

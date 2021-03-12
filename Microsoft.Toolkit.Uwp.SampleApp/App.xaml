@@ -4,25 +4,25 @@
              xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
              RequiresPointerMode="Auto">
 
-  <Application.Resources>
-    <ResourceDictionary>
-      <!-- Color Resources -->
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />
-        <ResourceDictionary Source="ms-appx:///Styles/Generic.xaml" />
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--  Color Resources  -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Generic.xaml" />
 
-        <!-- WinUI -->
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
-      </ResourceDictionary.MergedDictionaries>
+                <!--  WinUI  -->
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
 
-      <!-- Converters -->
-      <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <!--  Converters  -->
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-      <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
-                                               EmptyValue="Collapsed"
-                                               NotEmptyValue="Visible" />
+            <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
+                                                     EmptyValue="Collapsed"
+                                                     NotEmptyValue="Visible" />
 
-      <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </ResourceDictionary>
-  </Application.Resources>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

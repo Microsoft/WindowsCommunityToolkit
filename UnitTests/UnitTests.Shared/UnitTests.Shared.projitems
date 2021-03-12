@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Array.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Comparable.Numeric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_EventHandlerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TaskExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />

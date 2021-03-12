@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
     /// Helpers for working with value types.

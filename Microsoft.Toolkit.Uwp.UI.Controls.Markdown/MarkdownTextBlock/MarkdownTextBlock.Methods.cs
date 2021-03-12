@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
-using Windows.UI.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -347,7 +347,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             multiClickDetectionTriggered = true;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
+            var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            await dispatcherQueue.EnqueueAsync(() => multiClickDetectionTriggered = false, DispatcherQueuePriority.High);
 
             // Get the hyperlink URL.
             if (url == null)

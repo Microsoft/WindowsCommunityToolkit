@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -149,17 +150,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                                     listAnimProperty.ListViewBase.ScrollIntoView(parameter);
 
                                     // give time to the UI thread to scroll the list
-                                    var t = listAnimProperty.ListViewBase.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                                    {
-                                        try
+                                    var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                                    var t = dispatcherQueue.EnqueueAsync(
+                                        async () =>
                                         {
-                                            var success = await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, listAnimProperty.ElementName);
-                                        }
-                                        catch (Exception)
-                                        {
-                                            connectedAnimation.Cancel();
-                                        }
-                                    });
+                                            try
+                                            {
+                                                var success = await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, listAnimProperty.ElementName);
+                                            }
+                                            catch (Exception)
+                                            {
+                                                connectedAnimation.Cancel();
+                                            }
+                                        }, DispatcherQueuePriority.Normal);
 
                                     animationHandled = true;
                                 }

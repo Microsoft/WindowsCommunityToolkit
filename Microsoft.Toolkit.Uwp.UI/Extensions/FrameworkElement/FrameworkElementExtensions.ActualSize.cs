@@ -2,16 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Linq;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.FrameworkElement"/>
+    /// Provides attached dependency properties for the <see cref="FrameworkElement"/> type.
     /// </summary>
     public static partial class FrameworkElementExtensions
     {

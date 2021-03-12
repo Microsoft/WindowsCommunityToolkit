@@ -1,7 +1,7 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MouseCursorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
     <Grid>
         <Border Width="220"
@@ -9,7 +9,7 @@
                 Margin="50,100,20,20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                extensions:Mouse.Cursor="UniversalNo"
+                ui:FrameworkElementExtensions.Cursor="UniversalNo"
                 Background="DeepSkyBlue">
             <TextBlock Margin="4"
                        HorizontalAlignment="Center"
@@ -22,7 +22,7 @@
                 Margin="20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                extensions:Mouse.Cursor="Wait"
+                ui:FrameworkElementExtensions.Cursor="Wait"
                 Background="Orange">
             <TextBlock Margin="4"
                        HorizontalAlignment="Center"
@@ -38,7 +38,7 @@
         <Button Margin="20,290,20,20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                extensions:Mouse.Cursor="Hand"
+                ui:FrameworkElementExtensions.Cursor="Hand"
                 Content="Button with Hand cursor, just like on web" />
     </Grid>
 </Page>

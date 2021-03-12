@@ -11,8 +11,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.System.Profile;
@@ -273,10 +273,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasDocumentation)
                 {
-#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-                    var (contents, path) = await CurrentSample.GetDocumentationAsync();
-#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
-                    documentationPath = path;
+                    var contents = await CurrentSample.GetDocumentationAsync();
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
                         DocumentationTextBlock.Text = contents;
@@ -337,6 +334,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     method.Invoke(SamplePage, new object[] { e });
                 }
+
+                SamplePage = null;
             }
 
             XamlCodeEditor = null;
@@ -429,9 +428,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             TrackingManager.TrackEvent("Link", e.Link);
             var link = e.Link;
-            if (e.Link.EndsWith(".md"))
+            if (link.EndsWith(".md"))
             {
-                link = string.Format("https://docs.microsoft.com/en-us/windows/communitytoolkit/{0}/{1}", CurrentSample.CategoryName.ToLower(), link.Replace(".md", string.Empty));
+                // Link to one of our other documents, so we'll construct the proper link here
+                link = string.Format("https://docs.microsoft.com/windows/communitytoolkit/{0}/{1}", CurrentSample.RemoteDocumentationPath, link.Replace(".md", string.Empty));
+            }
+            else if (link.StartsWith("/"))
+            {
+                // We don't root our links to other docs.microsoft.com pages anymore, so we'll add it here.
+                link = string.Format("https://docs.microsoft.com{0}", link);
             }
 
             if (Uri.TryCreate(link, UriKind.Absolute, out Uri result))
@@ -448,7 +453,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Determine if the link is not absolute, meaning it is relative.
             if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
             {
-                url = new Uri(documentationPath + e.Url);
+                url = new Uri(CurrentSample.LocalDocumentationFilePath + e.Url);
             }
 
             if (url.Scheme == "ms-appx")
@@ -517,7 +522,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasType)
                 {
-                    root = SamplePage?.FindDescendantByName("XamlRoot");
+                    root = SamplePage?.FindDescendant("XamlRoot");
 
                     if (root is Panel)
                     {
@@ -696,7 +701,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private PaneState _paneState;
         private bool _onlyDocumentation;
-        private string documentationPath;
 
         private ThemeListener _themeListener;
 

@@ -11,7 +11,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {

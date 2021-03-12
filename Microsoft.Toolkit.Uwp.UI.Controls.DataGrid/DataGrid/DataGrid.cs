@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private DataGridRow _focusedRow;
         private FrameworkElement _frozenColumnScrollBarSpacer;
         private bool _hasNoIndicatorStateStoryboardCompletedHandler;
-        private DispatcherTimer _hideScrollBarsTimer;
+        private DispatcherQueueTimer _hideScrollBarsTimer;
 
         // the sum of the widths in pixels of the scrolling columns preceding
         // the first displayed scrolling column
@@ -6423,19 +6423,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!_keepScrollBarsShowing)
             {
-                DispatcherTimer hideScrollBarsTimer = null;
+                DispatcherQueueTimer hideScrollBarsTimer = null;
 
                 if (_hideScrollBarsTimer != null)
                 {
                     hideScrollBarsTimer = _hideScrollBarsTimer;
-                    if (hideScrollBarsTimer.IsEnabled)
+                    if (hideScrollBarsTimer.IsRunning)
                     {
                         hideScrollBarsTimer.Stop();
                     }
                 }
                 else
                 {
-                    hideScrollBarsTimer = new DispatcherTimer();
+                    hideScrollBarsTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
                     hideScrollBarsTimer.Interval = TimeSpan.FromMilliseconds(DATAGRID_noScrollBarCountdownMs);
                     hideScrollBarsTimer.Tick += HideScrollBarsTimerTick;
                     _hideScrollBarsTimer = hideScrollBarsTimer;
@@ -7958,6 +7958,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int editingRowSlot = this.EditingRow.Slot;
 
                     InvalidateMeasure();
+                    // TODO: Move to DispatcherQueue when FEATURE_VALIDATION_SUMMARY is enabled
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         // It's possible that the DataContext or ItemsSource has changed by the time we reach this code,
@@ -8207,7 +8208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                if (_hideScrollBarsTimer != null && _hideScrollBarsTimer.IsEnabled)
+                if (_hideScrollBarsTimer != null && _hideScrollBarsTimer.IsRunning)
                 {
                     _hideScrollBarsTimer.Stop();
                     _hideScrollBarsTimer.Start();
@@ -8289,7 +8290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void StopHideScrollBarsTimer()
         {
-            if (_hideScrollBarsTimer != null && _hideScrollBarsTimer.IsEnabled)
+            if (_hideScrollBarsTimer != null && _hideScrollBarsTimer.IsRunning)
             {
                 _hideScrollBarsTimer.Stop();
             }
@@ -8762,6 +8763,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // If the number of errors has changed, then the ValidationSummary will be a different size,
                     // and we need to delay our call to ScrollSlotIntoView
                     this.InvalidateMeasure();
+                    // TODO: Move to DispatcherQueue when FEATURE_VALIDATION_SUMMARY is enabled
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         // It's possible that the DataContext or ItemsSource has changed by the time we reach this code,

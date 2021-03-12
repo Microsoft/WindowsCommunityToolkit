@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            _adaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewControl") as AdaptiveGridView;
+            _adaptiveGridViewControl = control.FindDescendant("AdaptiveGridViewControl") as AdaptiveGridView;
             if (_adaptiveGridViewControl != null)
             {
                 var allPhotos = await new Data.PhotosDataSource().GetItemsAsync();

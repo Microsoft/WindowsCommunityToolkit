@@ -30,12 +30,14 @@
     <Type Name="Windows.UI.Xaml.Controls.BitmapIcon" Dynamic="Required All" Serialize="Required All" />
     <Type Name="UnitTests.Extensions.MockSwipeItem" Dynamic="Required All" Serialize="Required All" />
 
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.BitmapIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.FontIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.FontIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.BitmapIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.FontIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.FontIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.SymbolIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
+
+    <Type Name="System.Collections.Generic.IList{Windows.UI.Xaml.Automation.Peers.AutomationPeer}" MarshalObject="Required All"/>
 
   </Application>
 </Directives>

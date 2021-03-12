@@ -14,7 +14,7 @@
     <StackPanel Orientation="Vertical" Margin="20">
 		<controls:CameraPreview x:Name="CameraPreviewControl">
 		</controls:CameraPreview>
-		<TextBlock x:Name="ErrorMessage" Style="{StaticResource ErrorMessageStyle}"></TextBlock>
+		<TextBlock x:Name="ErrorMessage" Style="{StaticResource ErrorMessageStyle}"/>
         <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
     </StackPanel>
 </Page>

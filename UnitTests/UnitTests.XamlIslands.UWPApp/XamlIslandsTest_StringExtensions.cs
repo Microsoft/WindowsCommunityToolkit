@@ -2,13 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Globalization;
 using Windows.UI.Xaml;
@@ -25,7 +23,7 @@ namespace UnitTests.XamlIslands.UWPApp
             await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
-                var str = StringExtensions.GetViewLocalized("abc", xamlRoot.UIContext);
+                var str = "abc".GetViewLocalized(xamlRoot.UIContext);
                 Assert.AreEqual("ABCDEF", str);
             });
         }
@@ -70,7 +68,7 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-                var toolbar = treeRoot.FindChildByName("TextToolbarControl") as TextToolbar;
+                var toolbar = treeRoot.FindChild("TextToolbarControl") as TextToolbar;
 
                 Assert.IsNotNull(toolbar, "Could not find TextToolbar in tree.");
 

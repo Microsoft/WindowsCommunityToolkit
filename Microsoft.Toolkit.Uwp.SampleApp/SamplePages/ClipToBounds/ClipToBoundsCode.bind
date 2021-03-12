@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
@@ -12,7 +12,7 @@
         BorderThickness="1"
         Width="148"
         Height="148"
-        extensions:UIElementExtensions.ClipToBounds="@[Clip to Bounds:Bool:True]">
+        ui:UIElementExtensions.ClipToBounds="@[Clip to Bounds:Bool:True]">
       <!-- We translate the inner rectangles outside of the bounds of the container. -->
       <Rectangle Fill="Blue" Width="100" Height="100">
         <Rectangle.RenderTransform>

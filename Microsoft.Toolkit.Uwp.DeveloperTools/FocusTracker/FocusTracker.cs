@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             }
         }
 
-        private DispatcherTimer updateTimer;
+        private DispatcherQueueTimer updateTimer;
         private TextBlock controlName;
         private TextBlock controlType;
         private TextBlock controlAutomationName;
@@ -72,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         {
             if (updateTimer == null)
             {
-                updateTimer = new DispatcherTimer();
+                updateTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
                 updateTimer.Tick += UpdateTimer_Tick;
             }
 

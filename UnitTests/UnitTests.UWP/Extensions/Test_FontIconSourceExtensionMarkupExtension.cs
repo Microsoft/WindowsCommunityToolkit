@@ -4,12 +4,12 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Windows.UI.Text;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+using Microsoft.Toolkit.Uwp.UI;
 
 namespace UnitTests.Extensions
 {
@@ -23,12 +23,12 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ex:FontIconSource Glyph=&#xE105;}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeRoot.FindChildByName("Check") as MockSwipeItem;
+            var button = treeRoot.FindChild("Check") as MockSwipeItem;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(MockSwipeItem)} control in tree.");
 
@@ -47,12 +47,12 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ex:FontIconSource Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeRoot.FindChildByName("Check") as MockSwipeItem;
+            var button = treeRoot.FindChild("Check") as MockSwipeItem;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(MockSwipeItem)} control in tree.");
 
@@ -71,12 +71,12 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ex:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeRoot.FindChildByName("Check") as MockSwipeItem;
+            var button = treeRoot.FindChild("Check") as MockSwipeItem;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(MockSwipeItem)} control in tree.");
 

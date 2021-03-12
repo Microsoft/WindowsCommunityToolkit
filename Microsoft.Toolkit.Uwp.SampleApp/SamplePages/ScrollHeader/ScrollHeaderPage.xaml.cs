@@ -4,7 +4,7 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var listView = control.FindChildByName("listView") as ListView;
+            var listView = control.FindChild("listView") as ListView;
             if (listView != null)
             {
                 listView.ItemsSource = _items;

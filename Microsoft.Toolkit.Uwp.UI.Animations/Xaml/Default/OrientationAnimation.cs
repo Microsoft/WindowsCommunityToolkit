@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations

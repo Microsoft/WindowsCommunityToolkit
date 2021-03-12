@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif

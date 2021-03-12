@@ -5,8 +5,8 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static readonly Random Randomizer = new Random();
         private int _currentIndex = -1; // current index in the items displayed
-        private DispatcherTimer _timer;  // timer for triggering when to flip the content
+        private DispatcherQueueTimer _timer;  // timer for triggering when to flip the content
         private FrameworkElement _currentElement; // FrameworkElement holding a reference to the current element being display
         private FrameworkElement _nextElement; // FrameworkElement holding a reference to the next element being display
         private FrameworkElement _scroller;  // Container Element that's being translated to animate from one item to the next
@@ -388,7 +388,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_timer == null)
             {
-                _timer = new DispatcherTimer() { Interval = GetTileDuration() };
+                _timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+                _timer.Interval = GetTileDuration();
                 _timer.Tick += Timer_Tick;
             }
 

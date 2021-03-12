@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit
 {
     /// <summary>
     /// Helpers for working with arrays.

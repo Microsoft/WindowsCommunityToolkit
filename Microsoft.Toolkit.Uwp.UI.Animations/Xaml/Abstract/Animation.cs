@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -102,6 +103,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             typeof(RepeatOption),
             typeof(Animation),
             new PropertyMetadata(RepeatOption.Once));
+
+        /// <summary>
+        /// Gets or sets the delay behavior for the animation. The default value is set to <see cref="AnimationDelayBehavior.SetInitialValueBeforeDelay"/>.
+        /// This value is applicable when the current animation is used as either an implicit composition animation, or an explicit composition animation.
+        /// If the current animation is instead running on the XAML layer (if used through <see cref="CustomAnimation{TValue, TKeyFrame}"/>), it will be ignored.
+        /// </summary>
+        public AnimationDelayBehavior DelayBehavior
+        {
+            get => (AnimationDelayBehavior)GetValue(DelayBehaviorProperty);
+            set => SetValue(DelayBehaviorProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="DelayBehavior"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DelayBehaviorProperty = DependencyProperty.Register(
+            nameof(DelayBehavior),
+            typeof(AnimationDelayBehavior),
+            typeof(Animation),
+            new PropertyMetadata(AnimationDelayBehavior.SetInitialValueBeforeDelay));
 
         /// <inheritdoc/>
         public abstract AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint);

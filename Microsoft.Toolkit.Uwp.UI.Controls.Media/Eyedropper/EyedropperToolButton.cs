@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

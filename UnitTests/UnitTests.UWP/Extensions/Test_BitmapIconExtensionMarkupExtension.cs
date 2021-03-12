@@ -4,7 +4,7 @@
 
 using System;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
@@ -23,17 +23,17 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Icon=""{ex:BitmapIcon Source=/Assets/StoreLogo.png}"" />
+                    <MenuFlyoutItem Icon=""{ui:BitmapIcon Source=/Assets/StoreLogo.png}"" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("RootButton") as Button;
+            var button = treeroot.FindChild("RootButton") as Button;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(Button)} control in tree.");
 
@@ -56,17 +56,17 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Icon=""{ex:BitmapIcon Source=/Assets/StoreLogo.png, ShowAsMonochrome=True}"" />
+                    <MenuFlyoutItem Icon=""{ui:BitmapIcon Source=/Assets/StoreLogo.png, ShowAsMonochrome=True}"" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("RootButton") as Button;
+            var button = treeroot.FindChild("RootButton") as Button;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(Button)} control in tree.");
 

@@ -3,8 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
@@ -22,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string SelectedState = "Selected";
         private const string NormalState = "Normal";
 
+        private WeakReference<Carousel> parentCarousel;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselItem"/> class.
         /// </summary>
@@ -31,6 +34,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(CarouselItem);
 
             RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
+        }
+
+        internal Carousel ParentCarousel
+        {
+            get
+            {
+                this.parentCarousel.TryGetTarget(out var carousel);
+                return carousel;
+            }
+            set => this.parentCarousel = new WeakReference<Carousel>(value);
         }
 
         /// <inheritdoc/>
@@ -55,6 +68,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnPointerPressed(e);
 
             VisualStateManager.GoToState(this, IsSelected ? PressedSelectedState : PressedState, true);
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="CarouselItem"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new CarouselItemAutomationPeer(this);
         }
 
         internal event EventHandler Selected;

@@ -4,9 +4,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -137,28 +136,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void SelectAllTokensAndText()
         {
-            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                this.SelectAllSafe();
-
-                // need to synchronize the select all and the focus behavior on the text box
-                // because there is no way to identify that the focus has been set from this point
-                // to avoid instantly clearing the selection of tokens
-                PauseTokenClearOnFocus = true;
-
-                foreach (var item in Items)
+            var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            _ = dispatcherQueue.EnqueueAsync(
+                () =>
                 {
-                    if (item is ITokenStringContainer)
-                    {
-                        // grab any selected text
-                        var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
-                        pretoken._autoSuggestTextBox.SelectionStart = 0;
-                        pretoken._autoSuggestTextBox.SelectionLength = pretoken._autoSuggestTextBox.Text.Length;
-                    }
-                }
+                    this.SelectAllSafe();
 
-                (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
-            });
+                    // need to synchronize the select all and the focus behavior on the text box
+                    // because there is no way to identify that the focus has been set from this point
+                    // to avoid instantly clearing the selection of tokens
+                    PauseTokenClearOnFocus = true;
+
+                    foreach (var item in Items)
+                    {
+                        if (item is ITokenStringContainer)
+                        {
+                            // grab any selected text
+                            var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
+                            pretoken._autoSuggestTextBox.SelectionStart = 0;
+                            pretoken._autoSuggestTextBox.SelectionLength = pretoken._autoSuggestTextBox.Text.Length;
+                        }
+                    }
+
+                    (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
+                }, DispatcherQueuePriority.Normal);
         }
 
         internal void DeselectAllTokensAndText(TokenizingTextBoxItem ignoreItem = null)

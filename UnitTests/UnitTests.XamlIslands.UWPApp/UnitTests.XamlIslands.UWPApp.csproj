@@ -203,6 +203,10 @@
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="TestsPage.xaml">

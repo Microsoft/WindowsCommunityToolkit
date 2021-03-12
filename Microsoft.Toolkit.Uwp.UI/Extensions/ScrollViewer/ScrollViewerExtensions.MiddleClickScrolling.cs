@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -14,7 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.

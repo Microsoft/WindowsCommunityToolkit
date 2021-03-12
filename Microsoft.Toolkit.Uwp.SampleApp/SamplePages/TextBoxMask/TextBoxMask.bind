@@ -1,6 +1,6 @@
 <Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -33,34 +33,34 @@
                 </Grid.RowDefinitions>
 
                 <TextBox Name="AlphaTextBox"
-					               extensions:TextBoxMask.Mask="9a9a-a9a*"
+                         ui:TextBoxExtensions.Mask="9a9a-a9a*"
                          Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" 
-					               Text="TextBoxMask" />
+                         Text="TextBoxMask" />
 
                 <TextBox Grid.Row="1"
-                         extensions:TextBoxMask.Mask="+1999-9999"
-                         extensions:TextBoxMask.PlaceHolder=" "
+                         ui:TextBoxExtensions.Mask="+1999-9999"
+                         ui:TextBoxExtensions.MaskPlaceholder=" "
                          Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />
 
                 <TextBox Grid.Row="2"
-                         extensions:TextBoxMask.Mask="+\964 799 999 9999"
+                         ui:TextBoxExtensions.Mask="+\964 799 999 9999"
                          Header="Text box with Mask +964 799 999 9999 (Notice how we escape the first 9 with a backslash)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />
 
                 <TextBox Grid.Row="3"
-                         extensions:TextBoxMask.Mask="99\\99\\9999"
+                         ui:TextBoxExtensions.Mask="99\\99\\9999"
                          Header="Text box with Mask 99\99\9999 (You can escape a backslash with another backslash)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />
 
                 <TextBox Grid.Row="4"
-                         extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                         extensions:TextBoxMask.Mask="a5c-5c*9"
+                         ui:TextBoxExtensions.CustomMask="5:[1-5],c:[a-c]"
+                         ui:TextBoxExtensions.Mask="a5c-5c*9"
                          Header="Text box with CustomMask in case you want to define your own variable character like a, 9 and *. Mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />

@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var repeater = control.FindDescendantByName("WrapRepeater") as ItemsRepeater;
+            var repeater = control.FindDescendant("WrapRepeater") as ItemsRepeater;
 
             if (repeater != null)
             {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _wrapLayout = repeater.Layout as WrapLayout;
             }
 
-            _wrapScrollParent = control.FindDescendantByName("WrapScrollParent") as ScrollViewer;
+            _wrapScrollParent = control.FindDescendant("WrapScrollParent") as ScrollViewer;
         }
 
         private class Item

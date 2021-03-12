@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -74,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private HsvColor?       savedHsvColor              = null;
         private Color?          savedHsvColorRgbEquivalent = null;
         private Color?          updatedRgbColor            = null;
-        private DispatcherTimer dispatcherTimer            = null;
+        private DispatcherQueueTimer dispatcherQueueTimer            = null;
 
         private ColorSpectrum     ColorSpectrumControl;
         private ColorPickerSlider ColorSpectrumAlphaSlider;
@@ -134,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.ConnectCallbacks(true);
             this.SetDefaultPalette();
-            this.StartDispatcherTimer();
+            this.StartDispatcherQueueTimer();
         }
 
         /// <summary>
@@ -142,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         ~ColorPicker()
         {
-            this.StopDispatcherTimer();
+            this.StopDispatcherQueueTimer();
             this.CustomPaletteColors.CollectionChanged -= CustomPaletteColors_CollectionChanged;
         }
 
@@ -1068,29 +1069,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          *
          ***************************************************************************************/
 
-        private void StartDispatcherTimer()
+        private void StartDispatcherQueueTimer()
         {
-            this.dispatcherTimer = new DispatcherTimer()
-            {
-                Interval = new TimeSpan(0, 0, 0, 0, ColorUpdateInterval)
-            };
-            this.dispatcherTimer.Tick += DispatcherTimer_Tick;
-            this.dispatcherTimer.Start();
+            this.dispatcherQueueTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            this.dispatcherQueueTimer.Interval = new TimeSpan(0, 0, 0, 0, ColorUpdateInterval);
+            this.dispatcherQueueTimer.Tick += DispatcherQueueTimer_Tick;
+            this.dispatcherQueueTimer.Start();
 
             return;
         }
 
-        private void StopDispatcherTimer()
+        private void StopDispatcherQueueTimer()
         {
-            if (this.dispatcherTimer != null)
+            if (this.dispatcherQueueTimer != null)
             {
-                this.dispatcherTimer.Stop();
+                this.dispatcherQueueTimer.Stop();
             }
 
             return;
         }
 
-        private void DispatcherTimer_Tick(object sender, object e)
+        private void DispatcherQueueTimer_Tick(object sender, object e)
         {
             if (this.updatedRgbColor != null)
             {

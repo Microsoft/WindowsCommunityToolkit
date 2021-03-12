@@ -6,9 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD1_4
-using Microsoft.Toolkit.Extensions;
-#endif
 
 namespace Microsoft.Toolkit.Diagnostics
 {

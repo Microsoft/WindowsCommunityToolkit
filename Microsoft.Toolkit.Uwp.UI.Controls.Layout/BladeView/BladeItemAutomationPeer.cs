@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
@@ -89,28 +88,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Called by GetAutomationId that gets the **AutomationId** of the element that is associated with the automation peer.
-        /// </summary>
-        /// <returns>
-        /// The string that contains the automation ID.
-        /// </returns>
-        protected override string GetAutomationIdCore()
-        {
-            string automationId = base.GetAutomationIdCore();
-            if (!string.IsNullOrEmpty(automationId))
-            {
-                return automationId;
-            }
-
-            if (this.OwnerBladeItem != null)
-            {
-                return this.GetNameCore();
             }
 
             return string.Empty;

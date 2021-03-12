@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached("StretchItemContainerDirection", typeof(StretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
+        public static readonly DependencyProperty ItemContainerStretchDirectionProperty = DependencyProperty.RegisterAttached("ItemContainerStretchDirection", typeof(ItemContainerStretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
 
         /// <summary>
         /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
@@ -74,23 +74,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Gets the stretch <see cref="ItemContainerStretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="StretchDirection"/> from</param>
-        /// <returns>The <see cref="StretchDirection"/> associated with the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></returns>
-        public static StretchDirection GetStretchItemContainerDirection(Windows.UI.Xaml.Controls.ListViewBase obj)
+        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="ItemContainerStretchDirection"/> from</param>
+        /// <returns>The <see cref="ItemContainerStretchDirection"/> associated with the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></returns>
+        public static ItemContainerStretchDirection GetItemContainerStretchDirection(Windows.UI.Xaml.Controls.ListViewBase obj)
         {
-            return (StretchDirection)obj.GetValue(StretchItemContainerDirectionProperty);
+            return (ItemContainerStretchDirection)obj.GetValue(ItemContainerStretchDirectionProperty);
         }
 
         /// <summary>
-        /// Sets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Sets the stretch <see cref="ItemContainerStretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="StretchDirection"/> with</param>
-        /// <param name="value">The <see cref="StretchDirection"/> for binding to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
-        public static void SetStretchItemContainerDirection(Windows.UI.Xaml.Controls.ListViewBase obj, StretchDirection value)
+        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="ItemContainerStretchDirection"/> with</param>
+        /// <param name="value">The <see cref="ItemContainerStretchDirection"/> for binding to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        public static void SetItemContainerStretchDirection(Windows.UI.Xaml.Controls.ListViewBase obj, ItemContainerStretchDirection value)
         {
-            obj.SetValue(StretchItemContainerDirectionProperty, value);
+            obj.SetValue(ItemContainerStretchDirectionProperty, value);
         }
 
         private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
             listViewBase.Unloaded -= OnListViewBaseUnloaded;
 
-            if (StretchItemContainerDirectionProperty != null)
+            if (ItemContainerStretchDirectionProperty != null)
             {
                 listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
                 listViewBase.Unloaded += OnListViewBaseUnloaded;
@@ -176,14 +176,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void StretchItemContainerDirectionChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
-            var stretchDirection = GetStretchItemContainerDirection(sender);
+            var stretchDirection = GetItemContainerStretchDirection(sender);
 
-            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.Both)
+            if (stretchDirection == ItemContainerStretchDirection.Vertical || stretchDirection == ItemContainerStretchDirection.Both)
             {
                 itemContainer.VerticalContentAlignment = VerticalAlignment.Stretch;
             }
 
-            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.Both)
+            if (stretchDirection == ItemContainerStretchDirection.Horizontal || stretchDirection == ItemContainerStretchDirection.Both)
             {
                 itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             }

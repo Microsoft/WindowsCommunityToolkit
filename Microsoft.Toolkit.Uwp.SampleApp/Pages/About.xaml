@@ -4,10 +4,10 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
 
@@ -74,7 +74,7 @@
     </Page.Resources>
 
     <Grid x:Name="Root"
-          extensions:VisualExtensions.NormalizedCenterPoint="0.5"
+          ui:VisualExtensions.NormalizedCenterPoint="0.5"
           Visibility="Collapsed">
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center"
@@ -92,7 +92,7 @@
 
                 <Border x:Name="RightBorder"
                         Grid.Column="1"
-                        extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5"
+                        ui:VisualExtensions.NormalizedCenterPoint="0, 0.5"
                         Background="{ThemeResource Background-AboutPage-SidePane}">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0"
@@ -150,7 +150,7 @@
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="14"
                                        Foreground="{ThemeResource Brush-Link-Normal}"
-                                       Text="The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10."
+                                       Text="The Windows Community Toolkit is a collection of helpers, extensions, and custom controls. It simplifies and demonstrates common developer tasks for building UWP and .NET apps for Windows 10."
                                        TextWrapping="Wrap" />
                         </StackPanel>
 
@@ -158,7 +158,7 @@
                               Grid.Column="1"
                               animations:Implicit.Animations="{StaticResource ImplicitOffset}">
                             <StackPanel>
-                                <TextBlock Style="{StaticResource AboutPageHeader}">Recent Activity</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="Recent Activity"/>
 
                                 <Grid Margin="0,16,0,0">
                                     <TextBlock FontFamily="Segoe UI"
@@ -195,7 +195,7 @@
 
                             <StackPanel x:Name="ReleaseNotesPanel"
                                         animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock Style="{StaticResource AboutPageHeader}">Release Notes</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="Release Notes"/>
                                 <ItemsControl Margin="0,16,0,0"
                                               ItemTemplate="{StaticResource ReleaseNoteTemplate}"
                                               ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" />
@@ -254,7 +254,7 @@
                                          animations:Implicit.Animations="{StaticResource ImplicitOffset}"
                                          NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839"
                                          Style="{StaticResource AboutHyperlinkButtonStyle}">
-                            <TextBlock>Privacy statement</TextBlock>
+                            <TextBlock Text="Privacy statement"/>
                         </HyperlinkButton>
                     </Grid>
                 </ScrollViewer>

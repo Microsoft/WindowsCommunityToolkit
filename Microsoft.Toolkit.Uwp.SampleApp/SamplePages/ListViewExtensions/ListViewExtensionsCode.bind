@@ -3,16 +3,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
 
   <Page.Resources>
     <DataTemplate x:Name="NormalTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Green"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Green"/>
     </DataTemplate>
 
     <DataTemplate x:Name="AlternateTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Red"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Red"/>
     </DataTemplate>
   </Page.Resources>
 
@@ -23,10 +23,10 @@
         Margin="12"
         ItemTemplate="{StaticResource NormalTemplate}"
         IsItemClickEnabled="True"
-        extensions:ListViewExtensions.Command="{Binding SampleCommand}"
-        extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
-        extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-        extensions:ListViewExtensions.StretchItemContainerDirection="Both">
+        ui:ListViewExtensions.Command="{Binding SampleCommand}"
+        ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+        ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        ui:ListViewExtensions.StretchItemContainerDirection="Both">
     </ListView>
   </Grid>
 </Page>

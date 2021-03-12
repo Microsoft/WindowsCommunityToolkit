@@ -4,8 +4,8 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -22,28 +22,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var tile1 = control.FindChildByName("Tile1") as RotatorTile;
+            var tile1 = control.FindChild("Tile1") as RotatorTile;
 
             if (tile1 != null)
             {
                 tile1.ItemsSource = _pictures;
             }
 
-            var tile2 = control.FindChildByName("Tile2") as RotatorTile;
+            var tile2 = control.FindChild("Tile2") as RotatorTile;
 
             if (tile2 != null)
             {
                 tile2.ItemsSource = _pictures;
             }
 
-            var tile3 = control.FindChildByName("Tile3") as RotatorTile;
+            var tile3 = control.FindChild("Tile3") as RotatorTile;
 
             if (tile3 != null)
             {
                 tile3.ItemsSource = _pictures;
             }
 
-            var tile4 = control.FindChildByName("Tile4") as RotatorTile;
+            var tile4 = control.FindChild("Tile4") as RotatorTile;
 
             if (tile4 != null)
             {

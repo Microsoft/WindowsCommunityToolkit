@@ -9,7 +9,7 @@
 
     <Grid Padding="20">
 
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">This is the first page, Click/Tap the box to navigate to the next page</TextBlock>
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="This is the first page, Click/Tap the box to navigate to the next page"/>
 
         <Border Height="100"
                 Width="100"

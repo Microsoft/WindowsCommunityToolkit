@@ -19,8 +19,8 @@
 
                 <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
                             Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
-                    <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                    <Button x:Name="YesButton" Content="Yes" Width="100" Height="32" Click="YesButton_Click" />
+                    <Button x:Name="NoButton" Content="No" Width="100" Height="32" Margin="10 0 0 0" Click="NoButton_Click" />
                 </StackPanel>
             </Grid>
         </Grid>

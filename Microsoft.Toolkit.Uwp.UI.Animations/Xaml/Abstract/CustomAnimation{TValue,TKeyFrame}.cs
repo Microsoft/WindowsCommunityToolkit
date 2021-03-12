@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 state: (this, easingTypeHint, easingModeHint),
                 delay: Delay ?? delayHint ?? DefaultDelay,
                 duration: Duration ?? durationHint ?? DefaultDuration,
+                delayBehavior: DelayBehavior,
                 layer: Layer,
                 build: static (b, s) => s.This.AppendToBuilder(b, s.EasingTypeHint, s.EasingModeHint));
         }

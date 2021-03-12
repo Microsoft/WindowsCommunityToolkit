@@ -32,7 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="repeat">The optional repeat option for the animation.</param>
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -42,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             T? from,
             TimeSpan? delay,
             TimeSpan? duration,
+            RepeatOption? repeat,
             EasingType easingType,
             EasingMode easingMode)
             where T : unmanaged
@@ -52,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
+                repeat ?? RepeatOption.Once,
                 easingType,
                 easingMode);
 
@@ -68,7 +71,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="repeat">The optional repeat mode for the animation.</param>
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -78,6 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             T? from,
             TimeSpan? delay,
             TimeSpan? duration,
+            RepeatOption? repeat,
             EasingType easingType,
             EasingMode easingMode)
             where T : unmanaged
@@ -88,6 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
+                repeat ?? RepeatOption.Once,
                 easingType,
                 easingMode);
 
@@ -103,7 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="repeat">The optional repeat mode for the animation.</param>
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -113,6 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? from,
             TimeSpan? delay,
             TimeSpan? duration,
+            RepeatOption? repeat,
             EasingType easingType,
             EasingMode easingMode)
         {
@@ -122,6 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
+                repeat ?? RepeatOption.Once,
                 easingType,
                 easingMode);
 

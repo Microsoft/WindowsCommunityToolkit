@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:markup="using:Microsoft.Toolkit.Uwp.UI.Extensions.Markup"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
     <Page.Resources>
         <SolidColorBrush x:Key="BrushRed" Color="Red" />
@@ -20,12 +20,12 @@
                    TextWrapping="Wrap"
                    Style="{StaticResource BodyTextBlockStyle}"/>
 
-        <TextBlock Text="{markup:OnDevice Desktop=Desktop, Xbox=Xbox, Default=Default}" />
+        <TextBlock Text="{ui:OnDevice Desktop=Desktop, Xbox=Xbox, Default=Default}" />
 
-        <TextBlock Text="{markup:OnDevice Team=Text 1, IoT=Text 2, Holographic=Text 3, Default=Text 4}"
-                   FontSize="{markup:OnDevice Team=50, IoT=16, Holographic=20, Default=30}"/>
+        <TextBlock Text="{ui:OnDevice Team=Text 1, IoT=Text 2, Holographic=Text 3, Default=Text 4}"
+                   FontSize="{ui:OnDevice Team=50, IoT=16, Holographic=20, Default=30}"/>
 
-        <Rectangle Fill="{markup:OnDevice Desktop={StaticResource BrushRed}, Default={StaticResource BrushBlue}}"
+        <Rectangle Fill="{ui:OnDevice Desktop={StaticResource BrushRed}, Default={StaticResource BrushBlue}}"
                    Width="200"
                    Height="100"
                    HorizontalAlignment="Left" />
@@ -34,8 +34,8 @@
                    Height="100"
                    HorizontalAlignment="Left">
             <Rectangle.Fill>
-                <markup:OnDevice Default="{StaticResource BrushRed}"
-                                 Desktop="{StaticResource BrushBlue}"/>
+                <ui:OnDevice Default="{StaticResource BrushRed}"
+                             Desktop="{StaticResource BrushBlue}"/>
             </Rectangle.Fill>
         </Rectangle>
     </StackPanel>

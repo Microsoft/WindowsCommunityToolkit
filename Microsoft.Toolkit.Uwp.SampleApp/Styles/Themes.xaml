@@ -4,7 +4,8 @@
     <!--  Branding  -->
     <Color x:Key="Brand-Color">#3750D1</Color>
 
-    <SolidColorBrush x:Key="Brush-Brand-Color" Color="{StaticResource Brand-Color}" />
+    <SolidColorBrush x:Key="Brush-Brand-Color"
+                     Color="{StaticResource Brand-Color}" />
 
     <!--  Colors  -->
     <Color x:Key="White">#FFFFFFFF</Color>
@@ -12,15 +13,16 @@
     <Color x:Key="Blue-01">#FF0078D7</Color>
     <Color x:Key="Red">#FFFF0000</Color>
 
-    <!-- Titlebar -->
+    <!--  Titlebar  -->
     <Color x:Key="Titlebar-Foreground">#FFDDDDDD</Color>
 
-    <SolidColorBrush x:Key="Brush-Red" Color="{StaticResource Red}" />
+    <SolidColorBrush x:Key="Brush-Red"
+                     Color="{StaticResource Red}" />
 
     <!--  Brushes  -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <!-- Colors -->
+            <!--  Colors  -->
             <Color x:Key="Color-Main">White</Color>
             <Color x:Key="Color-Alt">Black</Color>
             <Color x:Key="Grey-01">#FF333333</Color>
@@ -30,32 +32,32 @@
             <Color x:Key="Grey-05">#FFF0F0F0</Color>
             <Color x:Key="SampleInfo-Background">#FFEEEEEE</Color>
 
-            <!-- Branding Colors -->
+            <!--  Branding Colors  -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
-                         Color="{StaticResource Brand-Color}" />
+                             Color="{StaticResource Brand-Color}" />
             <SolidColorBrush x:Key="Brush-Link-Normal"
-                         Color="#CC191919" />
-            <!-- UI Elements -->
+                             Color="#CC191919" />
+            <!--  UI Elements  -->
             <SolidColorBrush x:Key="SliderThumbBackground"
                              Color="Black" />
             <SolidColorBrush x:Key="Brush-Grey-01"
-                         Color="{ThemeResource Grey-01}" />
+                             Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
-                         Color="{ThemeResource Grey-02}" />
+                             Color="{ThemeResource Grey-02}" />
             <SolidColorBrush x:Key="Brush-Grey-03"
-                         Color="{ThemeResource Grey-03}" />
+                             Color="{ThemeResource Grey-03}" />
             <SolidColorBrush x:Key="Brush-Grey-04"
-                         Color="{ThemeResource Grey-04}" />
+                             Color="{ThemeResource Grey-04}" />
             <SolidColorBrush x:Key="Brush-Grey-05"
-                         Color="{ThemeResource Grey-05}" />
+                             Color="{ThemeResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Main"
-                         Color="{StaticResource White}" />
+                             Color="{StaticResource White}" />
             <SolidColorBrush x:Key="Brush-Alt"
-                          Color="Black" />
+                             Color="Black" />
             <SolidColorBrush x:Key="Brush-Sample-Background"
                              Color="White" />
             <SolidColorBrush x:Key="Brush-Blue-01"
-                         Color="{StaticResource Blue-01}" />
+                             Color="{StaticResource Blue-01}" />
             <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
                              Color="#33000000" />
             <SolidColorBrush x:Key="Border-AboutPage-Vertical"
@@ -93,11 +95,13 @@
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#AA000000" />
 
-            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FFF6F8FA" />
-            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FFC2C4C6" />
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush"
+                             Color="#FFF6F8FA" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush"
+                             Color="#FFC2C4C6" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <!-- Colors -->
+            <!--  Colors  -->
             <Color x:Key="Color-Main">Black</Color>
             <Color x:Key="Color-Alt">White</Color>
             <Color x:Key="Grey-01">#FFF0F0F0</Color>
@@ -107,32 +111,32 @@
             <Color x:Key="Grey-05">#FF333333</Color>
             <Color x:Key="SampleInfo-Background">#FF222222</Color>
 
-            <!-- Branding Colors -->
+            <!--  Branding Colors  -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
-                         Color="{StaticResource Brand-Color}" />
+                             Color="{StaticResource Brand-Color}" />
             <SolidColorBrush x:Key="Brush-Link-Normal"
-                         Color="#CCFFFFFF" />
-            <!-- UI Elements -->
+                             Color="#CCFFFFFF" />
+            <!--  UI Elements  -->
             <SolidColorBrush x:Key="SliderThumbBackground"
                              Color="White" />
             <SolidColorBrush x:Key="Brush-Grey-01"
-                         Color="{ThemeResource Grey-01}" />
+                             Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
-                         Color="{ThemeResource Grey-02}" />
+                             Color="{ThemeResource Grey-02}" />
             <SolidColorBrush x:Key="Brush-Grey-03"
-                         Color="{ThemeResource Grey-03}" />
+                             Color="{ThemeResource Grey-03}" />
             <SolidColorBrush x:Key="Brush-Grey-04"
-                         Color="{ThemeResource Grey-04}" />
+                             Color="{ThemeResource Grey-04}" />
             <SolidColorBrush x:Key="Brush-Grey-05"
-                         Color="{ThemeResource Grey-05}" />
+                             Color="{ThemeResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Main"
-                         Color="{StaticResource Black}" />
+                             Color="{StaticResource Black}" />
             <SolidColorBrush x:Key="Brush-Alt"
-                          Color="White" />
+                             Color="White" />
             <SolidColorBrush x:Key="Brush-Sample-Background"
                              Color="{ThemeResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Blue-01"
-                         Color="{StaticResource Blue-01}" />
+                             Color="{StaticResource Blue-01}" />
             <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
                              Color="#33FFFFFF" />
             <SolidColorBrush x:Key="Border-AboutPage-Vertical"
@@ -170,8 +174,10 @@
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#66FFFFFF" />
 
-            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FF171717" />
-            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FF404040" />
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush"
+                             Color="#FF171717" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush"
+                             Color="#FF404040" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

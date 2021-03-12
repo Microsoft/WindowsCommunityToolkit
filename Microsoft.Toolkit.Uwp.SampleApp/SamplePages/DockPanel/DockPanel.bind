@@ -8,7 +8,7 @@
       mc:Ignorable="d" >
 
   <Grid>
-    <TextBlock Margin="5" Text="In this demo you can't add a child after a Stretch child"></TextBlock>
+    <TextBlock Margin="5" Text="In this demo you can't add a child after a Stretch child"/>
     <Grid Padding="48">
       <controls:DockPanel x:Name="SampleDockPanel" 
                           Background="LightGray" 

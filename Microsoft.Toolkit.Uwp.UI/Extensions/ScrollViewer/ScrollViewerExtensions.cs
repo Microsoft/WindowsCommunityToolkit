@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var scrollViewer = sender as ScrollViewer ?? sender.FindDescendant<ScrollViewer>();
 
             // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-            var scrollBar = scrollViewer?.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "HorizontalScrollBar");
+            var scrollBar = scrollViewer?.FindDescendants().OfType<ScrollBar>().LastOrDefault(bar => bar.Name == "HorizontalScrollBar");
 
             if (scrollBar == null)
             {
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var scrollViewer = sender as ScrollViewer ?? sender.FindDescendant<ScrollViewer>();
 
             // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-            var scrollBar = scrollViewer?.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "VerticalScrollBar");
+            var scrollBar = scrollViewer?.FindDescendants().OfType<ScrollBar>().LastOrDefault(bar => bar.Name == "VerticalScrollBar");
 
             if (scrollBar == null)
             {

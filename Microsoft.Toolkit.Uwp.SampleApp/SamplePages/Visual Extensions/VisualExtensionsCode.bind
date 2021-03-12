@@ -4,16 +4,16 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
 
   <Grid>
     <Border Height="100"
             Width="100"
             Background="Purple"
-            extensions:VisualExtensions.Opacity="0.5"
-            extensions:VisualExtensions.RotationAngleInDegrees="80"
-            extensions:VisualExtensions.Scale="2, 0.5, 1"
-            extensions:VisualExtensions.NormalizedCenterPoint="0.5" />
+            ui:VisualExtensions.Opacity="0.5"
+            ui:VisualExtensions.RotationAngleInDegrees="80"
+            ui:VisualExtensions.Scale="2, 0.5, 1"
+            ui:VisualExtensions.NormalizedCenterPoint="0.5" />
   </Grid>
 </Page>

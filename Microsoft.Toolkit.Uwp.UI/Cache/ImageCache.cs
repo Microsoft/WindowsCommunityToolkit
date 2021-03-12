@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Media.Imaging;

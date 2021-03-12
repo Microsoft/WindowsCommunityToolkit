@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -14,8 +14,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class InAppNotificationPage : Page, IXamlRenderListener
     {
-        private ControlTemplate _defaultInAppNotificationControlTemplate;
-        private ControlTemplate _customInAppNotificationControlTemplate;
         private InAppNotification _exampleInAppNotification;
         private InAppNotification _exampleCustomInAppNotification;
         private InAppNotification _exampleVSCodeInAppNotification;
@@ -35,14 +33,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             NotificationDuration = 0;
 
-            _exampleInAppNotification = control.FindChildByName("ExampleInAppNotification") as InAppNotification;
-            _defaultInAppNotificationControlTemplate = _exampleInAppNotification?.Template;
-            _exampleCustomInAppNotification = control.FindChildByName("ExampleCustomInAppNotification") as InAppNotification;
-            _customInAppNotificationControlTemplate = _exampleCustomInAppNotification?.Template;
-            _exampleVSCodeInAppNotification = control.FindChildByName("ExampleVSCodeInAppNotification") as InAppNotification;
+            _exampleInAppNotification = control.FindChild("ExampleInAppNotification") as InAppNotification;
+            _exampleCustomInAppNotification = control.FindChild("ExampleCustomInAppNotification") as InAppNotification;
+            _exampleVSCodeInAppNotification = control.FindChild("ExampleVSCodeInAppNotification") as InAppNotification;
             _resources = control.Resources;
 
-            var notificationDurationTextBox = control.FindChildByName("NotificationDurationTextBox") as TextBox;
+            var notificationDurationTextBox = control.FindChild("NotificationDurationTextBox") as TextBox;
             if (notificationDurationTextBox != null)
             {
                 notificationDurationTextBox.TextChanged += NotificationDurationTextBox_TextChanged;
@@ -53,15 +49,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SampleController.Current.RegisterNewCommand("Show notification with random text", (sender, args) =>
             {
-                _exampleVSCodeInAppNotification?.Dismiss();
-                SetDefaultControlTemplate();
+                _exampleVSCodeInAppNotification.Dismiss(true);
+                _exampleCustomInAppNotification.Dismiss(true);
                 _exampleInAppNotification?.Show(GetRandomText(), NotificationDuration);
             });
 
             SampleController.Current.RegisterNewCommand("Show notification with object", (sender, args) =>
             {
-                _exampleVSCodeInAppNotification?.Dismiss();
-                SetDefaultControlTemplate();
+                _exampleVSCodeInAppNotification.Dismiss(true);
+                _exampleCustomInAppNotification.Dismiss(true);
 
                 var random = new Random();
                 _exampleInAppNotification?.Show(new KeyValuePair<int, string>(random.Next(1, 10), GetRandomText()), NotificationDuration);
@@ -69,12 +65,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>
             {
-                _exampleVSCodeInAppNotification?.Dismiss();
-                SetDefaultControlTemplate();
+                _exampleVSCodeInAppNotification.Dismiss(true);
+                _exampleCustomInAppNotification.Dismiss(true);
 
                 var grid = new Grid()
                 {
-                    Margin = new Thickness(0, 0, -38, 0)
+                    Margin = new Thickness(0, 0, -18, 0)
                 };
 
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -86,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Text = "Do you like it?",
                     VerticalAlignment = VerticalAlignment.Center,
                     Margin = new Thickness(0, 0, 24, 0),
-                    FontSize = 16
+                    FontSize = 14
                 };
                 grid.Children.Add(textBlock);
 
@@ -100,9 +96,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var yesButton = new Button
                 {
                     Content = "Yes",
-                    Width = 120,
-                    Height = 40,
-                    FontSize = 16
+                    Width = 100,
+                    Height = 32,
+                    FontSize = 14
                 };
                 yesButton.Click += YesButton_Click;
                 stackPanel.Children.Add(yesButton);
@@ -110,9 +106,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var noButton = new Button
                 {
                     Content = "No",
-                    Width = 120,
-                    Height = 40,
-                    FontSize = 16,
+                    Width = 100,
+                    Height = 32,
+                    FontSize = 14,
                     Margin = new Thickness(4, 0, 0, 0)
                 };
                 noButton.Click += NoButton_Click;
@@ -126,46 +122,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
-                _exampleVSCodeInAppNotification?.Dismiss();
-                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle re-adding it.
+                _exampleVSCodeInAppNotification.Dismiss(true);
+                _exampleInAppNotification.Dismiss(true);
 
-                object inAppNotificationWithButtonsTemplate = null;
-                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
-
-                if (isTemplatePresent == true && inAppNotificationWithButtonsTemplate is DataTemplate template)
+                object inAppNotificationWithButtonsTemplateResource = null;
+                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplateResource);
+                if (isTemplatePresent == true && inAppNotificationWithButtonsTemplateResource is DataTemplate inAppNotificationWithButtonsTemplate)
                 {
-                    _exampleInAppNotification.Show(template, NotificationDuration);
+                    _exampleCustomInAppNotification.Show(inAppNotificationWithButtonsTemplate, NotificationDuration);
                 }
-            });
-
-            SampleController.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", (sender, args) =>
-            {
-                _exampleVSCodeInAppNotification.Dismiss();
-                SetDefaultControlTemplate();
-
-                // Update control template
-                object inAppNotificationDropShadowControlTemplate = null;
-                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationDropShadowControlTemplate", out inAppNotificationDropShadowControlTemplate);
-
-                if (isTemplatePresent == true && inAppNotificationDropShadowControlTemplate is ControlTemplate template)
-                {
-                    _exampleInAppNotification.Template = template;
-                }
-
-                _exampleInAppNotification.Show(GetRandomText(), NotificationDuration);
             });
 
             SampleController.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
             {
-                _exampleInAppNotification.Dismiss();
+                _exampleInAppNotification.Dismiss(true);
+                _exampleCustomInAppNotification.Dismiss(true);
                 _exampleVSCodeInAppNotification.Show(NotificationDuration);
             });
 
             SampleController.Current.RegisterNewCommand("Dismiss", (sender, args) =>
             {
                 // Dismiss all notifications (should not be replicated in production)
-                _exampleInAppNotification.Dismiss();
-                _exampleVSCodeInAppNotification.Dismiss();
+                _exampleInAppNotification.Dismiss(true);
+                _exampleCustomInAppNotification.Dismiss(true);
+                _exampleVSCodeInAppNotification.Dismiss(true);
             });
         }
 
@@ -180,18 +160,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 case 2: return "Pellentesque in risus eget leo rhoncus ultricies nec id ante.";
                 case 3: default: return "Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.";
             }
-        }
-
-        private void SetDefaultControlTemplate()
-        {
-            // Update control template
-            _exampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
-        }
-
-        private void SetCustomControlTemplate()
-        {
-            // Update control template
-            _exampleInAppNotification.Template = _customInAppNotificationControlTemplate;
         }
 
         private void NotificationDurationTextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -6,6 +6,7 @@
     <BuildConfigurations>Release</BuildConfigurations>
     <ToolkitPackages>
       UWPBaseline;
+      UWPBaselineWinUI;
       Microsoft.Toolkit;
       Microsoft.Toolkit.Diagnostics;
       Microsoft.Toolkit.HighPerformance;

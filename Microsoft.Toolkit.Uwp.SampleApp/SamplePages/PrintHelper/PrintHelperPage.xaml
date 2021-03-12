@@ -30,7 +30,7 @@
                         Margin="20 20 20 5"
                         HorizontalAlignment="Left"
                         Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center">Orientation field in print dialog</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="Orientation field in print dialog"/>
                 <ToggleSwitch Margin="10,0,0,0"
                               Name="ShowOrientationSwitch"
                               OnContent="Show"
@@ -40,7 +40,7 @@
                         Margin="20 5 20 20"
                         HorizontalAlignment="Left"
                         Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center">Default orientation setting</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="Default orientation setting"/>
                 <ComboBox Margin="10,0,0,0"
                           Name="DefaultOrientationComboBox">
                 </ComboBox>

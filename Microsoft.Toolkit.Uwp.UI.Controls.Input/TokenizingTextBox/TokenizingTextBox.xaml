@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.AutoSuggestBox.xaml"/>
@@ -51,9 +51,9 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <controls:WrapPanel ex:FrameworkElementExtensions.AncestorType="controls:TokenizingTextBox"
-                                        HorizontalSpacing="{Binding (ex:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
-                                        VerticalSpacing="{Binding (ex:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
+                    <controls:WrapPanel ui:FrameworkElementExtensions.AncestorType="controls:TokenizingTextBox"
+                                        HorizontalSpacing="{Binding (ui:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
+                                        VerticalSpacing="{Binding (ui:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
                                         StretchChild="Last"/>
                 </ItemsPanelTemplate>
             </Setter.Value>

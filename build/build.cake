@@ -2,6 +2,7 @@
 
 #addin nuget:?package=Cake.FileHelpers&version=3.2.1
 #addin nuget:?package=Cake.Powershell&version=0.4.8
+#addin nuget:?package=Cake.GitVersioning&version=3.3.37
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0
 #tool nuget:?package=vswhere&version=2.8.4
@@ -20,7 +21,6 @@ var target = Argument("target", "Default");
 // VERSIONS
 //////////////////////////////////////////////////////////////////////
 
-var gitVersioningVersion = "3.1.91";
 var inheritDocVersion = "2.5.2";
 
 //////////////////////////////////////////////////////////////////////
@@ -40,7 +40,6 @@ var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp3.
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
 
-var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
@@ -99,8 +98,7 @@ void VerifyHeaders(bool Replace)
 void RetrieveVersion()
 {
 	Information("\nRetrieving version...");
-    var results = StartPowershellFile(versionClient);
-    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Version = GitVersioningGetVersion().NuGetPackageVersion;
     Information("\nBuild Version: " + Version);
 }
 
@@ -137,15 +135,6 @@ Task("Version")
     .Description("Updates the version information in all Projects")
     .Does(() =>
 {
-    Information("\nDownloading NerdBank GitVersioning...");
-    var installSettings = new NuGetInstallSettings {
-        ExcludeVersion  = true,
-        Version = gitVersioningVersion,
-        OutputDirectory = toolsDir
-    };
-
-    NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
-
 	RetrieveVersion();
 });
 

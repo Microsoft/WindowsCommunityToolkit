@@ -18,6 +18,93 @@
 
             <local:DismissCommand x:Key="DismissCommand" />
 
+            <Style TargetType="controls:InAppNotification" x:Key="MSEdgeNotificationTemplate_NoDismissButton">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="State">
+                                        <VisualState x:Name="Collapsed">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                    <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </DoubleAnimationUsingKeyFrames>
+
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                                    <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                            Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                </DoubleAnimationUsingKeyFrames>
+
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                    <DiscreteObjectKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Visible">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                                                </DoubleAnimationUsingKeyFrames>
+
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                                    <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="RootGrid"
+                                    RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                                    Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
+                                    MaxWidth="{TemplateBinding MaxWidth}"
+                                    Visibility="{TemplateBinding Visibility}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid.RenderTransform>
+                                        <CompositeTransform />
+                                    </Grid.RenderTransform>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="PART_Presenter"
+                                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        VerticalContentAlignment="Center"
+                                                        TextWrapping="WrapWholeWords" />
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
                 <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -40,19 +127,13 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -78,94 +159,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-          
-            <Style x:Key="MSEdgeNotificationTemplate_NoDismissButton" TargetType="controls:InAppNotification">
-              <Setter Property="Template">
-                <Setter.Value>
-                  <ControlTemplate>
-                    <Grid>
-                      <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="State">
-                          <VisualState x:Name="Collapsed">
-                            <Storyboard>
-                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
-                              </DoubleAnimationUsingKeyFrames>
 
-                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}"/>
-                              </DoubleAnimationUsingKeyFrames>
-
-                              <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                             Storyboard.TargetProperty="(UIElement.Visibility)">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                  <DiscreteObjectKeyFrame.Value>
-                                    <Visibility>Visible</Visibility>
-                                  </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                                <DiscreteObjectKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
-                                  <DiscreteObjectKeyFrame.Value>
-                                    <Visibility>Collapsed</Visibility>
-                                  </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                              </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                          </VisualState>
-
-                          <VisualState x:Name="Visible">
-                            <Storyboard>
-                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
-                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
-                              </DoubleAnimationUsingKeyFrames>
-
-                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
-                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
-                              </DoubleAnimationUsingKeyFrames>
-                            </Storyboard>
-                          </VisualState>
-                        </VisualStateGroup>
-                      </VisualStateManager.VisualStateGroups>
-                      <Grid x:Name="RootGrid"
-                            RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
-                            Margin="{TemplateBinding Margin}"
-                            Padding="{TemplateBinding Padding}"
-                            MaxWidth="{TemplateBinding MaxWidth}"
-                            Visibility="{TemplateBinding Visibility}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid.RenderTransform>
-                          <CompositeTransform />
-                        </Grid.RenderTransform>
-
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition Width="*" />
-                          <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <ContentPresenter x:Name="PART_Presenter"
-                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                          HorizontalContentAlignment="Stretch"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          VerticalContentAlignment="Center"
-                                          TextWrapping="WrapWholeWords" />
-                      </Grid>
-                    </Grid>
-                  </ControlTemplate>
-                </Setter.Value>
-              </Setter>
-            </Style>
-          
             <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
               <UserControl>
                 <Grid DataContext="{Binding ElementName=CurrentPage}">
@@ -174,7 +168,7 @@
                       <VisualState x:Name="NarrowState">
                         <VisualState.Setters>
                           <Setter Target="TextBlock.Margin" Value="0" />
-                          
+
                           <Setter Target="ButtonsStackPanel.(Grid.Row)" Value="1" />
                           <Setter Target="ButtonsStackPanel.(Grid.Column)" Value="0" />
                           <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="3" />
@@ -236,130 +230,51 @@
 
                       <Button x:Name="OkButton"
                               Margin="0"
-                              FontSize="16"
+                              FontSize="14"
                               Content="Ok"
-                              Height="40"
-                              Width="120"
+                              Height="32"
+                              Width="100"
                               Command="{StaticResource DismissCommand}" 
-                              CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                              CommandParameter="{Binding ElementName=ExampleCustomInAppNotification}"
                               AutomationProperties.Name="Ok" />
 
                       <Button x:Name="CancelButton"
                               Margin="4,0,0,0"
-                              FontSize="16"
+                              FontSize="14"
                               Content="Cancel"
-                              Height="40"
-                              Width="120"
+                              Height="32"
+                              Width="100"
                               Command="{StaticResource DismissCommand}"
-                              CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                              CommandParameter="{Binding ElementName=ExampleCustomInAppNotification}"
                               AutomationProperties.Name="Cancel"/>
-                        
                     </StackPanel>
 
                     <Button x:Name="DismissButton"
+                        CornerRadius="2"
                         Grid.Column="2"
-                        Margin="4,0,0,0"
-                        FontSize="16"
+                        Margin="0 0 2 0"
+                        FontSize="12"
+                        Height="43" Width="48"
                         Style="{StaticResource DismissTextBlockButtonStyle}"
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
                         AutomationProperties.Name="Dismiss"
                         Command="{StaticResource DismissCommand}" 
-                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                        CommandParameter="{Binding ElementName=ExampleCustomInAppNotification}"
+                        VerticalAlignment="Center"
                         Visibility="{Binding ShowDismissButton, ElementName=ExampleCustomInAppNotification}">
                       <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
+                        <TranslateTransform x:Name="DismissButtonTransform" X="25" Y="-5"/>
                       </Button.RenderTransform>
                     </Button>
                   </Grid>
                 </Grid>
               </UserControl>
             </DataTemplate>
-
-            <ControlTemplate x:Key="InAppNotificationDropShadowControlTemplate">
-                <Grid>
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="State">
-                            <VisualState x:Name="Collapsed">
-                                <Storyboard>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
-                                        <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                                    </DoubleAnimationUsingKeyFrames>
-
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RootGrid">
-                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <Visibility>Visible</Visibility>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <Visibility>Collapsed</Visibility>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualState>
-
-                            <VisualState x:Name="Visible">
-                                <Storyboard>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
-                                        <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
-                                    </DoubleAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-
-                    <Grid x:Name="RootGrid"
-                              RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
-                              Margin="{TemplateBinding Margin}"
-                              MaxWidth="{TemplateBinding MaxWidth}"
-                              Visibility="{TemplateBinding Visibility}">
-                        <Grid.RenderTransform>
-                            <CompositeTransform />
-                        </Grid.RenderTransform>
-
-                        <controls:DropShadowPanel BlurRadius="8" ShadowOpacity="0.7"
-                                                      OffsetX="0.2" OffsetY="0.2"
-                                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                            <Grid Background="{TemplateBinding Background}" 
-                                      BorderBrush="{TemplateBinding BorderBrush}" 
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      Padding="{TemplateBinding Padding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <ContentPresenter x:Name="PART_Presenter"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  VerticalContentAlignment="Center"
-                                                  TextWrapping="WrapWholeWords" />
-
-                                <Button x:Name="PART_DismissButton"
-                                        Grid.Column="1" 
-                                        Visibility="{Binding ShowDismissButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                        FontSize="16"
-                                        Style="{StaticResource DismissTextBlockButtonStyle}"
-                                        Content="&#xE894;" 
-                                        FontFamily="Segoe MDL2 Assets" 
-                                        AutomationProperties.Name="Dismiss" />
-                            </Grid>
-                        </controls:DropShadowPanel>
-                    </Grid>
-                </Grid>
-            </ControlTemplate>
-
         </ResourceDictionary>
     </Page.Resources>
 
-  <Grid
-    Background="{ThemeResource Brush-Grey-04}">
+  <Grid Background="{ThemeResource Brush-Grey-04}">
         <StackPanel Padding="20">
             <StackPanel Margin="5">
                 <TextBox x:Name="NotificationDurationTextBox"
@@ -388,15 +303,15 @@
                 </DataTemplate>
             </controls:InAppNotification.ContentTemplate>
         </controls:InAppNotification>
-          
 
         <controls:InAppNotification x:Name="ExampleCustomInAppNotification"
-                                    Style="{StaticResource MSEdgeNotificationTemplate_NoDismissButton}"
                                     Content="This is a test message."
-                                    ShowDismissButton="@[ShowDismissButton:Bool:True]"
-                                    AnimationDuration="@[AnimationDuration:TimeSpan:100:0-5000]"
-                                    VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
-                                    HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]" />
+                                    Style="{StaticResource MSEdgeNotificationTemplate_NoDismissButton}"
+                                    ShowDismissButton="@[ShowDismissButton]"
+                                    AnimationDuration="@[AnimationDuration]"
+                                    VerticalOffset="@[VerticalOffset]"
+                                    HorizontalOffset="@[HorizontalOffset]"
+                                    StackMode="@[StackMode]" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     Style="{StaticResource VSCodeNotificationStyle}"

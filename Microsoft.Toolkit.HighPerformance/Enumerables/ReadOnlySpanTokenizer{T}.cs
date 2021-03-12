@@ -76,7 +76,16 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             {
                 this.start = newEnd;
 
-                int index = this.span.Slice(newEnd).IndexOf(this.separator);
+                // We need to call this extension explicitly or the extension method resolution rules for the C# compiler
+                // will end up picking Microsoft.Toolkit.HighPerformance.ReadOnlySpanExtensions.IndexOf instead, even
+                // though the latter takes the parameter via a readonly reference. This is because the "in" modifier is
+                // implicit, which makes the signature compatible, and because extension methods are matched in such a
+                // way that methods "closest" to where they're used are preferred. Since this type shares the same root
+                // namespace, this makes that extension a better match, so that it overrides the MemoryExtensions one.
+                // This is not a problem for consumers of this package, as their code would be outside of the
+                // Microsoft.Toolkit.HighPerformance namespace, so both extensions would be "equally distant", so that
+                // when they're both in scope it will be possible to choose which one to use by adding an explicit "in".
+                int index = System.MemoryExtensions.IndexOf(this.span.Slice(newEnd), this.separator);
 
                 // Extract the current subsequence
                 if (index >= 0)

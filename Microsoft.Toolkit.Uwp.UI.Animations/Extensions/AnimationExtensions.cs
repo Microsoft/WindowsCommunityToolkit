@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public const EasingMode DefaultEasingMode = EasingMode.EaseInOut;
 
         /// <summary>
+        /// The default <see cref="AnimationDelayBehavior"/> value used for animations (only applies to composition animations).
+        /// </summary>
+        public const AnimationDelayBehavior DefaultDelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
+
+        /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
         /// </summary>
         internal static readonly Dictionary<(EasingType Type, EasingMode Mode), (Vector2 A, Vector2 B)> EasingMaps = new()

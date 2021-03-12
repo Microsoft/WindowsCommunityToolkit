@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IBufferWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_NullableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StreamExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.Count.cs" />

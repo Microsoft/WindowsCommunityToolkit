@@ -36,8 +36,8 @@
           MaxWidth="500" 
           animations:Connected.AnchorElement="{x:Bind HeroElement}">
 
-          <TextBlock Text="Header" FontSize="50"></TextBlock>
-          <TextBlock TextWrapping="WrapWholeWords">Lorem ipsum ...</TextBlock>
+          <TextBlock Text="Header" FontSize="50"/>
+          <TextBlock TextWrapping="WrapWholeWords" Text="Lorem ipsum ..."/>
         </StackPanel>
 
       </StackPanel>
@@ -77,9 +77,9 @@
           animations:Connected.AnchorElement="{x:Bind ItemHeroElement}">
 
           <TextBlock Text="{x:Bind item.Title}" 
-            FontSize="50"></TextBlock>
+            FontSize="50"/>
 
-          <TextBlock TextWrapping="WrapWholeWords">Lorem ipsum ...</TextBlock>
+          <TextBlock TextWrapping="WrapWholeWords" Text="Lorem ipsum ..."/>
 
         </StackPanel>
 
@@ -90,7 +90,7 @@
       </StackPanel>
 
       <TextBlock Margin="0,40" 
-        TextWrapping="WrapWholeWords">Lorem Ipsum ...</TextBlock>
+        TextWrapping="WrapWholeWords" Text="Lorem Ipsum ..."/>
     </StackPanel>
   <!-- /Page -->
 

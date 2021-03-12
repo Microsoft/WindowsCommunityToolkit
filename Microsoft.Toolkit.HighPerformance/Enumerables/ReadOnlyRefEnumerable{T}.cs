@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #endif
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 

@@ -104,6 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 delay: Delay ?? delayHint ?? DefaultDelay,
                 duration: Duration ?? durationHint ?? DefaultDuration,
                 repeatOption: Repeat,
+                delayBehavior: DelayBehavior,
                 build: static (b, s) => s.This.AppendToBuilder(b, s.EasingTypeHint, s.EasingModeHint));
         }
 

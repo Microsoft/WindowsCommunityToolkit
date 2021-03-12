@@ -1,5 +1,5 @@
 ﻿// C# - Scale can be applied to any UIElement. In this case it is an image called ToolkitLogo.
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 
 // Binds the Y scroll axis of the ScrollViewer to the Y translation axis of the target
 listScrollViewer.StartExpressionAnimation(shapesPanel, Axis.Y);

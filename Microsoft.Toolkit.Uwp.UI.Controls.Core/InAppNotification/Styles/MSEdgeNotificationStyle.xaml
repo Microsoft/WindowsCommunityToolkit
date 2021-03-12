@@ -31,10 +31,10 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonSize">40</x:Double>
     <Thickness x:Key="SystemControlMSEdgeNotificationDismissButtonMargin">24,0,0,0</Thickness>
+    <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonSize">32</x:Double>
     <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonTranslate">18</x:Double>
-    <VerticalAlignment x:Key="SystemControlMSEdgeNotificationDismissButtonVerticalAlignment">Center</VerticalAlignment>
+    <VerticalAlignment x:Key="SystemControlMSEdgeNotificationDismissButtonVerticalAlignment">Top</VerticalAlignment>
     <Thickness x:Key="SystemControlMSEdgeNotificationButtonBorderThickness">2</Thickness>
     
     <Style x:Key="DismissTextBlockButtonStyle"
@@ -48,9 +48,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
-                    <Grid x:Name="RootGrid"
-                          Margin="{TemplateBinding Padding}"
-                          Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid" CornerRadius="2"
+                          Margin="{TemplateBinding Margin}"
+                          Height="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}"
+                          Width="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}">
                         <Border x:Name="TextBorder"
                                 BorderThickness="{StaticResource SystemControlMSEdgeNotificationButtonBorderThickness}"
                                 BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
@@ -65,25 +66,15 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
+                                                                    Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlMSEdgeNotificationPointerPressedForegroundBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -137,28 +128,31 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
                 <ContentPresenter x:Name="PART_Presenter"
+                                  Grid.Column="0"
                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   HorizontalContentAlignment="Stretch"
                                   VerticalContentAlignment="Center"
+                                  FontWeight="SemiBold"
                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                   TextWrapping="WrapWholeWords" />
 
                 <Button x:Name="PART_DismissButton"
+                        CornerRadius="2"
                         Grid.Column="1"
-                        Margin="{StaticResource SystemControlMSEdgeNotificationDismissButtonMargin}"
+                        Margin="0"
                         AutomationProperties.Name="Dismiss"
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="16"
-                        VerticalAlignment="{StaticResource SystemControlMSEdgeNotificationDismissButtonVerticalAlignment}"
+                        FontSize="12"
+                        VerticalAlignment="Top"
                         Style="{StaticResource DismissTextBlockButtonStyle}">
                     <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
+                        <TranslateTransform x:Name="DismissButtonTransform" X="25" Y="-5"/>
                     </Button.RenderTransform>
                 </Button>
             </Grid>

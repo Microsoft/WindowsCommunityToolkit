@@ -4,9 +4,9 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,7 +44,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChildByName("TargetElement");
+                var textBlock = treeRoot.FindChild("TargetElement");
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
@@ -79,7 +79,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindChildByName("TargetElement");
+                var textBlock = treeRoot.FindChild("TargetElement");
 
                 Assert.IsNull(textBlock, "Didn't expect to find anything.");
             });
@@ -250,7 +250,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlocks = treeRoot.FindChildren<TextBlock>();
+                var textBlocks = treeRoot.FindChildren().OfType<TextBlock>();
 
                 Assert.IsNotNull(textBlocks, "Expected to find something.");
 
@@ -294,7 +294,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var thing = treeRoot.FindChildren<UniformGrid>();
+                var thing = treeRoot.FindChildren().OfType<UniformGrid>();
 
                 Assert.IsNotNull(thing, "Expected to still have enumerable.");
 
@@ -438,7 +438,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParentByName("TargetElement");
+                var grid = startingPoint.FindParent("TargetElement");
 
                 Assert.IsNotNull(grid, "Expected to find Grid");
                 Assert.AreEqual(targetGrid, grid, "Grid didn't match expected.");
@@ -485,7 +485,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindParentByName("TargetElement");
+                var grid = startingPoint.FindParent("TargetElement");
 
                 Assert.IsNull(grid, "Didn't expect to find anything.");
             });

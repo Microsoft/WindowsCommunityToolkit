@@ -4,7 +4,7 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.EnumValuesExtensionPage"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:enums="using:Microsoft.Toolkit.Uwp.SampleApp.Enums"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.SampleApp.Converters"
     mc:Ignorable="d">
@@ -19,13 +19,13 @@
       <!--Simple selector using the default template. Each item will
           simply be displayed as the corresponding enum value name.-->
       <TextBlock Text="Select an animal:"/>
-      <ComboBox ItemsSource="{ex:EnumValues Type=enums:Animal}"
+      <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
                 SelectedIndex="0"/>
 
       <!--We can also use a custom template and some converters.-->
       <TextBlock Margin="0,12,0,0"
                  Text="Pick another animal:"/>
-      <ComboBox ItemsSource="{ex:EnumValues Type=enums:Animal}"
+      <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
                 SelectedIndex="0">
         <ComboBox.ItemTemplate>
           <DataTemplate>

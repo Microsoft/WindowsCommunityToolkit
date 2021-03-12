@@ -4,11 +4,11 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,14 +28,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
+            _toolbar = control.FindChild("Toolbar") as TextToolbar;
 
-            if (control.FindChildByName("EditZone") is RichEditBox editZone)
+            if (control.FindChild("EditZone") is RichEditBox editZone)
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
 
-            if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
+            if (control.FindChild("Previewer") is MarkdownTextBlock previewer)
             {
                 _previewer = previewer;
                 _previewer.LinkClicked += Previewer_LinkClicked;

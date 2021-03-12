@@ -4,11 +4,10 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UnitTests.UWP.UI.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -45,7 +44,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindDescendantByName("TargetElement");
+                var textBlock = treeRoot.FindDescendant("TargetElement");
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
@@ -80,7 +79,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlock = treeRoot.FindDescendantByName("TargetElement");
+                var textBlock = treeRoot.FindDescendant("TargetElement");
 
                 Assert.IsNull(textBlock, "Didn't expect to find anything.");
             });
@@ -220,7 +219,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var textBlocks = treeRoot.FindDescendants<TextBlock>();
+                var textBlocks = treeRoot.FindDescendants().OfType<TextBlock>();
 
                 Assert.IsNotNull(textBlocks, "Expected to find something.");
 
@@ -267,7 +266,7 @@ namespace UnitTests.Extensions
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var thing = treeRoot.FindDescendants<UniformGrid>();
+                var thing = treeRoot.FindDescendants().OfType<UniformGrid>();
 
                 Assert.IsNotNull(thing, "Expected to find something.");
 
@@ -411,7 +410,7 @@ namespace UnitTests.Extensions
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindAscendantByName("TargetElement");
+                var grid = startingPoint.FindAscendant("TargetElement");
 
                 Assert.IsNotNull(grid, "Expected to find Grid");
                 Assert.AreEqual(targetGrid, grid, "Grid didn't match expected.");
@@ -458,7 +457,7 @@ namespace UnitTests.Extensions
                 Assert.IsNotNull(startingPoint, "Could not find starting element.");
 
                 // Main Test
-                var grid = startingPoint.FindAscendantByName("TargetElement");
+                var grid = startingPoint.FindAscendant("TargetElement");
 
                 Assert.IsNull(grid, "Didn't expect to find anything.");
             });

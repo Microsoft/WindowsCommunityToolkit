@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Text;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+using Microsoft.Toolkit.Uwp.UI;
 
 namespace UnitTests.Extensions
 {
@@ -22,11 +22,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE105;}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 
@@ -45,11 +45,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 
@@ -68,11 +68,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 

@@ -6,12 +6,12 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Guid"/> type
     /// </summary>
-    public static class GuidExtensions
+    internal static class GuidExtensions
     {
         /// <summary>
         /// Returns a <see cref="string"/> representation of a <see cref="Guid"/> only made of uppercase letters
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
         /// <param name="guid">The input <see cref="Guid"/> to process</param>
         /// <returns>A <see cref="string"/> representation of <paramref name="guid"/> only made up of letters in the [A-Z] range</returns>
         [Pure]
-        internal static string ToUppercaseAsciiLetters(this Guid guid)
+        public static string ToUppercaseAsciiLetters(this Guid guid)
         {
             return new string((
                 from c in guid.ToString("N")

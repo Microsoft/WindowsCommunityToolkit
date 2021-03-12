@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;

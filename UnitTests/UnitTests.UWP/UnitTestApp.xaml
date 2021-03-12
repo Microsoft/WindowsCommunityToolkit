@@ -2,41 +2,41 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:helpers="using:UnitTests.Extensions.Helpers"
              xmlns:unitTestExtensions="using:UnitTests.Extensions"
              RequestedTheme="Light">
     <Application.Resources>
 
         <!--  Workarounds for .NET Native issue in unit tests  -->
-        <extensions:EnumValuesExtension x:Key="DummyExtension"/>
+        <ui:EnumValuesExtension x:Key="DummyExtension"/>
 
         <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
 
         <CommandBar x:Key="DummyCommandBar">
-            <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}" />
-            <AppBarButton Icon="{extensions:SymbolIcon Symbol=Play}" />
+            <AppBarButton Icon="{ui:FontIcon Glyph=&#xE102;}" />
+            <AppBarButton Icon="{ui:SymbolIcon Symbol=Play}" />
         </CommandBar>
 
         <unitTestExtensions:MockSwipeItem x:Key="DummySwipeControl1"
-                                          IconSource="{extensions:FontIconSource Glyph=&#xE10B;}" />
+                                          IconSource="{ui:FontIconSource Glyph=&#xE10B;}" />
 
         <unitTestExtensions:MockSwipeItem x:Key="DummySwipeControl2"
-                                          IconSource="{extensions:SymbolIconSource Symbol=Play}" />
+                                          IconSource="{ui:SymbolIconSource Symbol=Play}" />
 
         <unitTestExtensions:MockSwipeItem x:Key="DummySwipeControl3"
-                                          IconSource="{extensions:BitmapIconSource Source=/Assets/StoreLogo.png}" />
+                                          IconSource="{ui:BitmapIconSource Source=/Assets/StoreLogo.png}" />
 
         <Button x:Key="DummyButton">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Icon="{extensions:BitmapIcon Source=/Assets/StoreLogo.png}" />
+                    <MenuFlyoutItem Icon="{ui:BitmapIcon Source=/Assets/StoreLogo.png}" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
 
         <Style TargetType="controls:UniformGrid" />
-        <extensions:NullableBool x:Key="nullableBool" />
+        <ui:NullableBoolExtension x:Key="nullableBool" />
 
         <helpers:ObjectWithNullableBoolProperty x:Key="objectWithNullableBoolProperty" />
 

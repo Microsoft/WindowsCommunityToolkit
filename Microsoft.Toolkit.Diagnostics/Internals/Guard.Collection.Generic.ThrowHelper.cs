@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Toolkit.Extensions;
 
 namespace Microsoft.Toolkit.Diagnostics
 {

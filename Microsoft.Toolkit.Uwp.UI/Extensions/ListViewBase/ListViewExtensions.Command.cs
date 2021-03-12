@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides the Command attached dependency property for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>

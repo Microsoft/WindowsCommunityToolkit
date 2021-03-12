@@ -3,22 +3,22 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       mc:Ignorable="d">
     <Grid>
         <StackPanel>
 
             <CommandBar>
-                <AppBarButton Icon="{ex:FontIcon Glyph=&#xE102;}"/>
-                <AppBarButton Icon="{ex:SymbolIcon Symbol=Play}"/>
+                <AppBarButton Icon="{ui:FontIcon Glyph=&#xE102;}"/>
+                <AppBarButton Icon="{ui:SymbolIcon Symbol=Play}"/>
             </CommandBar>
 
             <SwipeControl>
                 <SwipeControl.LeftItems>
                     <SwipeItems Mode="Reveal">
-                        <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
-                        <SwipeItem Text="Play" IconSource="{ex:SymbolIconSource Symbol=Play}"/>
-                        <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
+                        <SwipeItem Text="Accept" IconSource="{ui:FontIconSource Glyph=&#xE10B;}"/>
+                        <SwipeItem Text="Play" IconSource="{ui:SymbolIconSource Symbol=Play}"/>
+                        <SwipeItem IconSource="{ui:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
                     </SwipeItems>
                 </SwipeControl.LeftItems>
             </SwipeControl>
@@ -26,7 +26,7 @@
             <Button>
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Icon="{ex:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
+                        <MenuFlyoutItem Icon="{ui:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

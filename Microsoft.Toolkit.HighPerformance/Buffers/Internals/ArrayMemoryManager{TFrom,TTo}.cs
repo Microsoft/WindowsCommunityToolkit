@@ -7,7 +7,6 @@ using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals

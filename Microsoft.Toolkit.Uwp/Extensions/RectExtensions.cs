@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Rect = Windows.Foundation.Rect;
 
-namespace Microsoft.Toolkit.Uwp.Extensions
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Extensions for the <see cref="Rect"/> type.

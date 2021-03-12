@@ -23,7 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             TaskCompletionSource<object?> taskCompletionSource = new TaskCompletionSource<object?>();
 
-            storyboard.Completed += (_, _) => taskCompletionSource.SetResult(null);
+            void OnCompleted(object sender, object e)
+            {
+                ((Storyboard)sender).Completed -= OnCompleted;
+
+                taskCompletionSource.SetResult(null);
+            }
+
+            storyboard.Completed += OnCompleted;
 
             storyboard.Begin();
 

@@ -46,7 +46,7 @@
                           OffsetY="@[OffsetY:Slider:0:0-150]"
                           ScrollOrientation="@[Scroll Orientation:Enum:ScrollOrientation.Both]">
       <Border Style="{StaticResource BorderStyle}">
-        <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"></TextBlock>
+        <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"/>
       </Border>
     </controls:TileControl>
 
@@ -64,11 +64,11 @@
       <FlipView x:Name="FlipView">
 
         <Border Style="{StaticResource BorderStyle}">
-          <TextBlock Style="{StaticResource TextBlockStyle}" Text="Parallax with FlipView &gt;"></TextBlock>
+          <TextBlock Style="{StaticResource TextBlockStyle}" Text="Parallax with FlipView &gt;"/>
         </Border>
 
         <Border Style="{StaticResource BorderStyle}">
-          <TextBlock Style="{StaticResource TextBlockStyle}" Text="&lt; Parallax with FlipView"></TextBlock>
+          <TextBlock Style="{StaticResource TextBlockStyle}" Text="&lt; Parallax with FlipView"/>
         </Border>
       </FlipView>
     </controls:TileControl>

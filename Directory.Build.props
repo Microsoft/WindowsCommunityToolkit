@@ -5,8 +5,9 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageIcon>images\nuget.png</PackageIcon>
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>    
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -95,13 +96,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.91" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
+    <None Include="$(MSBuildThisFileDirectory)license.md" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)build\nuget.png" Pack="true" PackagePath="images\"/>
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.VisualStudio.Design.props" Condition="'$(IsDesignProject)' == 'true'"/>

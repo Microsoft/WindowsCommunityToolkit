@@ -95,7 +95,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```csharp
-var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
+var markdownText = control.FindChild("MarkdownText") as MarkdownTextBlock;
 if (markdownText != null)
 {
     markdownText.LinkClicked += MarkdownText_LinkClicked;

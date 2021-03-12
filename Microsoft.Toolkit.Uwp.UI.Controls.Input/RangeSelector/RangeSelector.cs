@@ -3,13 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -38,33 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultStepFrequency = 1;
         private static readonly TimeSpan TimeToHideToolTipOnKeyUp = TimeSpan.FromSeconds(1);
 
-        /// <summary>
-        /// Identifies the Minimum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMinimum, MinimumChangedCallback));
-
-        /// <summary>
-        /// Identifies the Maximum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMaximum, MaximumChangedCallback));
-
-        /// <summary>
-        /// Identifies the RangeMin dependency property.
-        /// </summary>
-        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register(nameof(RangeMin), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMinimum, RangeMinChangedCallback));
-
-        /// <summary>
-        /// Identifies the RangeMax dependency property.
-        /// </summary>
-        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMaximum, RangeMaxChangedCallback));
-
-        /// <summary>
-        /// Identifies the StepFrequency dependency property.
-        /// </summary>
-        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
-
-        private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -80,21 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _absolutePosition;
         private Grid _toolTip;
         private TextBlock _toolTipText;
-
-        /// <summary>
-        /// Event raised when lower or upper range values are changed.
-        /// </summary>
-        public event EventHandler<RangeChangedEventArgs> ValueChanged;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs start being dragged.
-        /// </summary>
-        public event DragStartedEventHandler ThumbDragStarted;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs end being dragged.
-        /// </summary>
-        public event DragCompletedEventHandler ThumbDragCompleted;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RangeSelector"/> class.
@@ -189,173 +144,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void MinThumb_KeyDown(object sender, KeyRoutedEventArgs e)
+        private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            switch (e.Key)
+            if (toolTip != null)
             {
-                case VirtualKey.Left:
-                    RangeMin -= StepFrequency;
-                    SyncThumbs(fromMinKeyDown: true);
-                    if (_toolTip != null)
-                    {
-                        _toolTip.Visibility = Visibility.Visible;
-                    }
-
-                    e.Handled = true;
-                    break;
-                case VirtualKey.Right:
-                    RangeMin += StepFrequency;
-                    SyncThumbs(fromMinKeyDown: true);
-                    if (_toolTip != null)
-                    {
-                        _toolTip.Visibility = Visibility.Visible;
-                    }
-
-                    e.Handled = true;
-                    break;
+                toolTip.Text = string.Format("{0:0.##}", newValue);
             }
-        }
-
-        private void MaxThumb_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                    RangeMax -= StepFrequency;
-                    SyncThumbs(fromMaxKeyDown: true);
-                    if (_toolTip != null)
-                    {
-                        _toolTip.Visibility = Visibility.Visible;
-                    }
-
-                    e.Handled = true;
-                    break;
-                case VirtualKey.Right:
-                    RangeMax += StepFrequency;
-                    SyncThumbs(fromMaxKeyDown: true);
-                    if (_toolTip != null)
-                    {
-                        _toolTip.Visibility = Visibility.Visible;
-                    }
-
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void Thumb_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                case VirtualKey.Right:
-                    if (_toolTip != null)
-                    {
-                        keyDebounceTimer.Debounce(
-                            () => _toolTip.Visibility = Visibility.Collapsed,
-                            TimeToHideToolTipOnKeyUp);
-                    }
-
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(this, "PointerOver", false);
-        }
-
-        private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
-
-            if (_pointerManipulatingMin)
-            {
-                _pointerManipulatingMin = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
-            }
-            else if (_pointerManipulatingMax)
-            {
-                _pointerManipulatingMax = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
-            }
-
-            if (_toolTip != null)
-            {
-                _toolTip.Visibility = Visibility.Collapsed;
-            }
-
-            VisualStateManager.GoToState(this, "Normal", false);
-        }
-
-        private void ContainerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
-
-            if (_pointerManipulatingMin)
-            {
-                _pointerManipulatingMin = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
-            }
-            else if (_pointerManipulatingMax)
-            {
-                _pointerManipulatingMax = false;
-                _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
-            }
-
-            SyncThumbs();
-
-            if (_toolTip != null)
-            {
-                _toolTip.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
-
-            if (_pointerManipulatingMin && normalizedPosition < RangeMax)
-            {
-                RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), position);
-                UpdateToolTipText(this, _toolTipText, RangeMin);
-            }
-            else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
-            {
-                RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
-                UpdateToolTipText(this, _toolTipText, RangeMax);
-            }
-        }
-
-        private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = position * Math.Abs(Maximum - Minimum) / DragWidth();
-            double upperValueDiff = Math.Abs(RangeMax - normalizedPosition);
-            double lowerValueDiff = Math.Abs(RangeMin - normalizedPosition);
-
-            if (upperValueDiff < lowerValueDiff)
-            {
-                RangeMax = normalizedPosition;
-                _pointerManipulatingMax = true;
-                Thumb_DragStarted(_maxThumb);
-            }
-            else
-            {
-                RangeMin = normalizedPosition;
-                _pointerManipulatingMin = true;
-                Thumb_DragStarted(_minThumb);
-            }
-
-            SyncThumbs();
         }
 
         private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -378,301 +172,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!_maxSet)
             {
-                RangeMax = Maximum;
+                RangeEnd = Maximum;
             }
 
             if (!_minSet)
             {
-                RangeMin = Minimum;
+                RangeStart = Minimum;
             }
 
-            if (RangeMin < Minimum)
+            if (RangeStart < Minimum)
             {
-                RangeMin = Minimum;
+                RangeStart = Minimum;
             }
 
-            if (RangeMax < Minimum)
+            if (RangeEnd < Minimum)
             {
-                RangeMax = Minimum;
+                RangeEnd = Minimum;
             }
 
-            if (RangeMin > Maximum)
+            if (RangeStart > Maximum)
             {
-                RangeMin = Maximum;
+                RangeStart = Maximum;
             }
 
-            if (RangeMax > Maximum)
+            if (RangeEnd > Maximum)
             {
-                RangeMax = Maximum;
+                RangeEnd = Maximum;
             }
 
-            if (RangeMax < RangeMin)
+            if (RangeEnd < RangeStart)
             {
-                RangeMin = RangeMax;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the minimum value of the range.
-        /// </summary>
-        /// <value>
-        /// The minimum.
-        /// </value>
-        public double Minimum
-        {
-            get
-            {
-                return (double)GetValue(MinimumProperty);
-            }
-
-            set
-            {
-                SetValue(MinimumProperty, value);
-            }
-        }
-
-        private static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
-            var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
-
-            if (rangeSelector.Maximum < newValue)
-            {
-                rangeSelector.Maximum = newValue + Epsilon;
-            }
-
-            if (rangeSelector.RangeMin < newValue)
-            {
-                rangeSelector.RangeMin = newValue;
-            }
-
-            if (rangeSelector.RangeMax < newValue)
-            {
-                rangeSelector.RangeMax = newValue;
-            }
-
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum value of the range.
-        /// </summary>
-        /// <value>
-        /// The maximum.
-        /// </value>
-        public double Maximum
-        {
-            get
-            {
-                return (double)GetValue(MaximumProperty);
-            }
-
-            set
-            {
-                SetValue(MaximumProperty, value);
-            }
-        }
-
-        private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
-            var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
-
-            if (rangeSelector.Minimum > newValue)
-            {
-                rangeSelector.Minimum = newValue - Epsilon;
-            }
-
-            if (rangeSelector.RangeMax > newValue)
-            {
-                rangeSelector.RangeMax = newValue;
-            }
-
-            if (rangeSelector.RangeMin > newValue)
-            {
-                rangeSelector.RangeMin = newValue;
-            }
-
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current lower limit value of the range.
-        /// </summary>
-        /// <value>
-        /// The current lower limit.
-        /// </value>
-        public double RangeMin
-        {
-            get
-            {
-                return (double)GetValue(RangeMinProperty);
-            }
-
-            set
-            {
-                SetValue(RangeMinProperty, value);
-            }
-        }
-
-        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._minSet = true;
-
-            if (!rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
-            var newValue = (double)e.NewValue;
-            rangeSelector.RangeMinToStepFrequency();
-
-            if (rangeSelector._valuesAssigned)
-            {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeMin = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeMin = rangeSelector.Maximum;
-                }
-
-                rangeSelector.SyncActiveRectangle();
-
-                // If the new value is greater than the old max, move the max also
-                if (newValue > rangeSelector.RangeMax)
-                {
-                    rangeSelector.RangeMax = newValue;
-                }
-            }
-
-            rangeSelector.SyncThumbs();
-        }
-
-        /// <summary>
-        /// Gets or sets the current upper limit value of the range.
-        /// </summary>
-        /// <value>
-        /// The current upper limit.
-        /// </value>
-        public double RangeMax
-        {
-            get
-            {
-                return (double)GetValue(RangeMaxProperty);
-            }
-
-            set
-            {
-                SetValue(RangeMaxProperty, value);
-            }
-        }
-
-        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._maxSet = true;
-
-            if (!rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
-            var newValue = (double)e.NewValue;
-            rangeSelector.RangeMaxToStepFrequency();
-
-            if (rangeSelector._valuesAssigned)
-            {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeMax = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeMax = rangeSelector.Maximum;
-                }
-
-                rangeSelector.SyncActiveRectangle();
-
-                // If the new max is less than the old minimum then move the minimum
-                if (newValue < rangeSelector.RangeMin)
-                {
-                    rangeSelector.RangeMin = newValue;
-                }
-            }
-
-            rangeSelector.SyncThumbs();
-        }
-
-        private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
-        {
-            if (toolTip != null)
-            {
-                toolTip.Text = string.Format("{0:0.##}", newValue);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the value part of a value range that steps should be created for.
-        /// </summary>
-        /// <value>
-        /// The value part of a value range that steps should be created for.
-        /// </value>
-        public double StepFrequency
-        {
-            get
-            {
-                return (double)GetValue(StepFrequencyProperty);
-            }
-
-            set
-            {
-                SetValue(StepFrequencyProperty, value);
+                RangeStart = RangeEnd;
             }
         }
 
         private void RangeMinToStepFrequency()
         {
-            RangeMin = MoveToStepFrequency(RangeMin);
+            RangeStart = MoveToStepFrequency(RangeStart);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            RangeMax = MoveToStepFrequency(RangeMax);
+            RangeEnd = MoveToStepFrequency(RangeEnd);
         }
 
         private double MoveToStepFrequency(double rangeValue)
@@ -700,8 +241,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var relativeLeft = ((RangeMin - Minimum) / (Maximum - Minimum)) * DragWidth();
-            var relativeRight = ((RangeMax - Minimum) / (Maximum - Minimum)) * DragWidth();
+            var relativeLeft = ((RangeStart - Minimum) / (Maximum - Minimum)) * DragWidth();
+            var relativeRight = ((RangeEnd - Minimum) / (Maximum - Minimum)) * DragWidth();
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_maxThumb, relativeRight);
@@ -715,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     fromMinKeyDown ? relativeLeft : relativeRight);
                 if (_toolTipText != null)
                 {
-                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeMin : RangeMax);
+                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeStart : RangeEnd);
                 }
             }
 
@@ -743,104 +284,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Canvas.SetLeft(_activeRectangle, relativeLeft);
             Canvas.SetTop(_activeRectangle, (_containerCanvas.ActualHeight - _activeRectangle.ActualHeight) / 2);
             _activeRectangle.Width = Math.Max(0, Canvas.GetLeft(_maxThumb) - Canvas.GetLeft(_minThumb));
-        }
-
-        private double DragWidth()
-        {
-            return _containerCanvas.ActualWidth - _maxThumb.Width;
-        }
-
-        private void MinThumb_DragDelta(object sender, DragDeltaEventArgs e)
-        {
-            _absolutePosition += e.HorizontalChange;
-
-            RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
-
-            if (_toolTipText != null)
-            {
-                UpdateToolTipText(this, _toolTipText, RangeMin);
-            }
-        }
-
-        private void MaxThumb_DragDelta(object sender, DragDeltaEventArgs e)
-        {
-            _absolutePosition += e.HorizontalChange;
-
-            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), _absolutePosition);
-
-            if (_toolTipText != null)
-            {
-                UpdateToolTipText(this, _toolTipText, RangeMax);
-            }
-        }
-
-        private double DragThumb(Thumb thumb, double min, double max, double nextPos)
-        {
-            nextPos = Math.Max(min, nextPos);
-            nextPos = Math.Min(max, nextPos);
-
-            Canvas.SetLeft(thumb, nextPos);
-
-            if (_toolTipText != null && _toolTip != null)
-            {
-                var thumbCenter = nextPos + (thumb.Width / 2);
-                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                var ttWidth = _toolTip.ActualWidth / 2;
-
-                Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
-            }
-
-            return Minimum + ((nextPos / DragWidth()) * (Maximum - Minimum));
-        }
-
-        private void Thumb_DragStarted(Thumb thumb)
-        {
-            var useMin = thumb == _minThumb;
-            var otherThumb = useMin ? _maxThumb : _minThumb;
-
-            _absolutePosition = Canvas.GetLeft(thumb);
-            Canvas.SetZIndex(thumb, 10);
-            Canvas.SetZIndex(otherThumb, 0);
-            _oldValue = RangeMin;
-
-            if (_toolTipText != null && _toolTip != null)
-            {
-                _toolTip.Visibility = Visibility.Visible;
-                var thumbCenter = _absolutePosition + (thumb.Width / 2);
-                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                var ttWidth = _toolTip.ActualWidth / 2;
-                Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
-
-                UpdateToolTipText(this, _toolTipText, useMin ? RangeMin : RangeMax);
-            }
-
-            VisualStateManager.GoToState(this, useMin ? "MinPressed" : "MaxPressed", true);
-        }
-
-        private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            ThumbDragStarted?.Invoke(this, e);
-            Thumb_DragStarted(_minThumb);
-        }
-
-        private void MaxThumb_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            ThumbDragStarted?.Invoke(this, e);
-            Thumb_DragStarted(_maxThumb);
-        }
-
-        private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            ThumbDragCompleted?.Invoke(this, e);
-            ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
-            SyncThumbs();
-
-            if (_toolTip != null)
-            {
-                _toolTip.Visibility = Visibility.Collapsed;
-            }
-
-            VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private void RangeSelector_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

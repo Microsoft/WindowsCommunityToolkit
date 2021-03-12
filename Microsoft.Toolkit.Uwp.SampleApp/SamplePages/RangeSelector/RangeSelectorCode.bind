@@ -21,7 +21,7 @@
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
-                 Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
+                 Text="{Binding RangeStart, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
       <controls:RangeSelector x:Name="RangeSelectorControl"
                               Grid.Column="1"
                               Minimum="@[Minimum:Slider:0:0-100]@"
@@ -30,7 +30,7 @@
       <TextBlock Grid.Column="2"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
-                 Text="{Binding RangeMax, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
+                 Text="{Binding RangeEnd, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
     </Grid>
   </Grid>
 </Page>
