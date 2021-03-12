@@ -26,6 +26,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
+        /// Identifies the SelectedIndex dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+                nameof(SelectedIndex),
+                typeof(int),
+                typeof(ListDetailsView),
+                new PropertyMetadata(-1, OnSelectedIndexChanged));
+
+        /// <summary>
         /// Identifies the <see cref="DetailsTemplate"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="DetailsTemplate"/> dependency property.</returns>
@@ -223,6 +232,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the current selection.
+        /// </summary>
+        /// <returns>The index of the current selection, or -1 if the selection is empty.</returns>
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
         }
 
         /// <summary>
@@ -444,6 +463,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((ListDetailsView)d).OnSelectedItemChanged(e);
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).OnSelectedIndexChanged(e);
         }
 
         private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
