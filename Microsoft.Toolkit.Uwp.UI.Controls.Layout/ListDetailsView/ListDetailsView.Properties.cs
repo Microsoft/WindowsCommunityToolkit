@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ListHeader),
             typeof(object),
             typeof(ListDetailsView),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnListHeaderChanged));
 
         /// <summary>
         /// Identifies the <see cref="ListHeaderTemplate"/> dependency property.
@@ -381,12 +381,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets the current visual state of the control.
+        /// Gets the current visual state of the control.
         /// </summary>
         public ListDetailsViewState ViewState
         {
             get { return (ListDetailsViewState)GetValue(ViewStateProperty); }
-            set { SetValue(ViewStateProperty, value); }
+            private set { SetValue(ViewStateProperty, value); }
         }
 
         /// <summary>
@@ -473,6 +473,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((ListDetailsView)d).SetBackButtonVisibility();
+        }
+
+        private static void OnListHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).SetListHeaderVisibility();
         }
     }
 }

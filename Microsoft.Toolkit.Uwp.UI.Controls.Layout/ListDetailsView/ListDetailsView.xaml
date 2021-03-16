@@ -21,7 +21,7 @@
                                           TallModeConfiguration="SinglePane"
                                           WideModeConfiguration="LeftRight">
                             <muxc:TwoPaneView.Pane1>
-                                <Grid x:Name="MasterPanel"
+                                <Grid x:Name="ListPanel"
                                       Background="{TemplateBinding ListPaneBackground}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -184,7 +184,7 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="MasterPanel"
+                                                             Storyboard.TargetName="ListPanel"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"

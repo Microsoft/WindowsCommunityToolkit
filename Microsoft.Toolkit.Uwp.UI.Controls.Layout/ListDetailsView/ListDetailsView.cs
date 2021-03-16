@@ -60,6 +60,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Clears the <see cref="SelectedItem"/> and prevent flickering of the UI if only the order of the items changed.
+        /// </summary>
+        public void ClearSelectedItem()
+        {
+            SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
+        /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
+        /// in your app. Override this method to influence the default post-template logic of a class.
+        /// </summary>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (_inlineBackButton != null)
+            {
+                _inlineBackButton.Click -= OnInlineBackButtonClicked;
+            }
+
+            _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
+            if (_inlineBackButton != null)
+            {
+                _inlineBackButton.Click += OnInlineBackButtonClicked;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
+
+            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPanel);
+            if (_twoPaneView != null)
+            {
+                _twoPaneView.ModeChanged += OnModeChanged;
+            }
+
+            _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
+
+            SetDetailsContent();
+
+            SetListHeaderVisibility();
+            OnDetailsPaneCommandBarChanged();
+            OnListPaneCommandBarChanged();
+
+            UpdateView(true);
+        }
+
+        /// <summary>
         /// Updates the visual state of the control.
         /// </summary>
         /// <param name="animate">False to skip animations.</param>
@@ -110,14 +161,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }
-        }
-
-        /// <summary>
-        /// Clears the <see cref="SelectedItem"/> and prevent flickering of the UI if only the order of the items changed.
-        /// </summary>
-        public void ClearSelectedItem()
-        {
-            SelectedItem = null;
         }
 
         private void OnCommandBarChanged(string panelName, CommandBar commandbar)
@@ -310,49 +353,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SetValue(SelectedIndexProperty, index);
             }
-        }
-
-        /// <summary>
-        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
-        /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
-        /// in your app. Override this method to influence the default post-template logic of a class.
-        /// </summary>
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (_inlineBackButton != null)
-            {
-                _inlineBackButton.Click -= OnInlineBackButtonClicked;
-            }
-
-            _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
-            if (_inlineBackButton != null)
-            {
-                _inlineBackButton.Click += OnInlineBackButtonClicked;
-            }
-
-            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-            if (_selectionStateGroup != null)
-            {
-                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-            }
-
-            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPanel);
-            if (_twoPaneView != null)
-            {
-                _twoPaneView.ModeChanged += OnModeChanged;
-            }
-
-            _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-
-            SetDetailsContent();
-
-            SetListHeaderVisibility();
-            OnDetailsPaneCommandBarChanged();
-            OnListPaneCommandBarChanged();
-
-            UpdateView(true);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
