@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Developer Tools</Title>
+    <Title>Windows Community Toolkit - Developer Tools</Title>
     <Description>This library provides XAML user controls and services to help developers build their app. It is a part of the Windows Community Toolkit.
 
       -AligmentGrid : Displays a Grid that helps align the controls.

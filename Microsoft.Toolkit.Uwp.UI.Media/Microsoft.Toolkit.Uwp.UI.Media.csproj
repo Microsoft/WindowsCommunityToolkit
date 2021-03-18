@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
-    <Title>Windows Community Toolkit UI Media</Title>
+    <Title>Windows Community Toolkit - UI Media</Title>
     <Description>
       This library provides UI brushes. It is a part of the Windows Community Toolkit.
 

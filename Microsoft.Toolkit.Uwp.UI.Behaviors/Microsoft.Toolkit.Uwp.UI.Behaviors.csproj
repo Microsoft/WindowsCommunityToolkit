@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit UI Behaviors</Title>
+    <Title>Windows Community Toolkit - UI Behaviors</Title>
     <Description>
       This library provides UI behaviors built on the XAML behaviors SDK. It is a part of the Windows Community Toolkit.
 

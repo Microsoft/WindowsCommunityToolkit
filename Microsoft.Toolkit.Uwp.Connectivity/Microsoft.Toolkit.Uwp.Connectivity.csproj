@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Devices</Title>
+    <Title>Windows Community Toolkit - Devices</Title>
     <Description>This library enables easier consumption of connectivity Devices/Peripherals and handle its connection to Windows devices. It contains BluetoothLE and Network connectivity helpers.</Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Devices;Bluetooth;LE;BluetoothLE;BLE;Networking</PackageTags>
   </PropertyGroup>

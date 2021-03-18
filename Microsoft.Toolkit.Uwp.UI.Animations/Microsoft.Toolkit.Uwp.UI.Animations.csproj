@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Animations</Title>
+    <Title>Windows Community Toolkit - UI Animations</Title>
     <Description>
       This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is a part of the Windows Community Toolkit.
 

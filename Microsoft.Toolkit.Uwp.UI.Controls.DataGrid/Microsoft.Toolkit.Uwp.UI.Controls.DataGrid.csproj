@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Controls DataGrid</Title>
+    <Title>Windows Community Toolkit - DataGrid Control</Title>
     <Description>
       This library provides a XAML DataGrid control. It is a part of the Windows Community Toolkit.
     </Description>

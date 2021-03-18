@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit</Title>
+    <Title>Windows Community Toolkit - Basics</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP</PackageTags>
   </PropertyGroup>

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit MVVM Toolkit</Title>
+    <Title>Windows Community Toolkit - MVVM (.NET Standard)</Title>
     <Description>
       This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.

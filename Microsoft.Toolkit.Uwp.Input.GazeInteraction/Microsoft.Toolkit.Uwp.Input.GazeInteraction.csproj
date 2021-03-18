@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Eye Gaze Library</Title>
+    <Title>Windows Community Toolkit - Input - Gaze Interaction (w. Eye Tracker)</Title>
     <Description>A library to integrate gaze interactions using eye trackers into UWP applications</Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Gaze;Eye;Tracker;EyeTracker</PackageTags>
   </PropertyGroup>

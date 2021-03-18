@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Layout</Title>
+    <Title>Windows Community Toolkit - Layout Controls</Title>
     <Description>
       This library provides XAML layout controls. It is a part of the Windows Community Toolkit.
 

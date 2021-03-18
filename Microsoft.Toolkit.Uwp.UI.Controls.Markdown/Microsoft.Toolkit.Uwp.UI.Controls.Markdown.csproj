@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Windows Community Toolkit Controls Markdown</Title>
+    <Title>Windows Community Toolkit - Markdown Control</Title>
     <Description>
       This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is a part of the Windows Community Toolkit.
     </Description>
