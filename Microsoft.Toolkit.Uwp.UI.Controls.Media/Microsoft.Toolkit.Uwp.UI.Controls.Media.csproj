@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +37,5 @@
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
-
-  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
 </Project>
