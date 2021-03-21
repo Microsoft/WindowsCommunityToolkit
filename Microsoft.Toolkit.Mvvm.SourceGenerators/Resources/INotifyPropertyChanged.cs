@@ -8,12 +8,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+#pragma warning disable SA1300, SA1649
+
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
     /// A base class for objects implementing <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public abstract class NotifyPropertyChangedObject : INotifyPropertyChanged
+    public abstract class __NotifyPropertyChanged : INotifyPropertyChanged
     {
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged"/>
         public event PropertyChangedEventHandler? PropertyChanged;

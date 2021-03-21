@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="Microsoft.Toolkit.Mvvm\ObservableObject.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\INotifyPropertyChangedAttribute.cs" />
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableObjectAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="Resources\ObservableObject.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\INotifyPropertyChanged.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
