@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
-    /// An attribute that indicates that a given type should have all the members from <see cref="ObservableObject"/>\
+    /// An attribute that indicates that a given type should have all the members from <see cref="ObservableObject"/>
     /// generated into it, as well as the <see cref="INotifyPropertyChanged"/> and <see cref="INotifyPropertyChanging"/>
     /// interfaces. This can be useful when you want the same functionality from <see cref="ObservableObject"/> into a class
     /// that already inherits from another one (since C# doesn't support multiple inheritance). This attribute will trigger
