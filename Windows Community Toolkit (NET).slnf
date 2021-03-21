@@ -4,6 +4,7 @@
     "projects": [
       "Microsoft.Toolkit.Diagnostics\\Microsoft.Toolkit.Diagnostics.csproj",
       "Microsoft.Toolkit.HighPerformance\\Microsoft.Toolkit.HighPerformance.csproj",
+      "Microsoft.Toolkit.Mvvm.SourceGenerators\\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj",
       "Microsoft.Toolkit.Mvvm\\Microsoft.Toolkit.Mvvm.csproj",
       "Microsoft.Toolkit\\Microsoft.Toolkit.csproj",
       "UnitTests\\UnitTests.HighPerformance.NetCore\\UnitTests.HighPerformance.NetCore.csproj",
