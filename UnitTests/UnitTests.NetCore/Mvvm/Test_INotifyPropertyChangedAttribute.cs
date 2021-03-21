@@ -17,19 +17,7 @@ namespace UnitTests.Mvvm
         {
             var model = new SampleModel();
 
-            (PropertyChangingEventArgs, int) changing = default;
             (PropertyChangedEventArgs, int) changed = default;
-
-            model.PropertyChanging += (s, e) =>
-            {
-                Assert.IsNull(changing.Item1);
-                Assert.IsNull(changed.Item1);
-                Assert.AreSame(model, s);
-                Assert.IsNotNull(s);
-                Assert.IsNotNull(e);
-
-                changing = (e, model.Data);
-            };
 
             model.PropertyChanged += (s, e) =>
             {
@@ -44,8 +32,6 @@ namespace UnitTests.Mvvm
 
             model.Data = 42;
 
-            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModel.Data));
-            Assert.AreEqual(changing.Item2, 0);
             Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Data));
             Assert.AreEqual(changed.Item2, 42);
         }
