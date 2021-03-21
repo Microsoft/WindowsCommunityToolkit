@@ -108,10 +108,23 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             var source =
                 CompilationUnit()
-                .AddUsings(usingDirectives)
                 .AddMembers(NamespaceDeclaration(IdentifierName(namespaceName))
                 .AddMembers(typeDeclarationSyntax))
                 .NormalizeWhitespace()
+                .AddUsings(usingDirectives.First().WithLeadingTrivia(TriviaList(
+                    Comment("// Licensed to the .NET Foundation under one or more agreements."),
+                    CarriageReturnLineFeed,
+                    Comment("// The .NET Foundation licenses this file to you under the MIT license."),
+                    CarriageReturnLineFeed,
+                    Comment("// See the LICENSE file in the project root for more information."),
+                    CarriageReturnLineFeed,
+                    CarriageReturnLineFeed,
+                    Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)
+                    .WithPragmaKeyword(Token(TriviaList(), SyntaxKind.PragmaKeyword, TriviaList(Space)))
+                    .WithWarningKeyword(Token(TriviaList(), SyntaxKind.WarningKeyword, TriviaList(Space)))
+                    .WithEndOfDirectiveToken(Token(TriviaList(), SyntaxKind.EndOfDirectiveToken, TriviaList(CarriageReturnLineFeed)))),
+                    CarriageReturnLineFeed)))
+                .AddUsings(usingDirectives.Skip(1).ToArray())
                 .ToFullString();
 
             // Add the partial type
