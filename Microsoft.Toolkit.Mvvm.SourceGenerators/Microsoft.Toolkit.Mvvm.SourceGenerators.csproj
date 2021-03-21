@@ -7,16 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="Microsoft.Toolkit.Mvvm\ObservableObject.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\INotifyPropertyChangedAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableObjectAttribute.cs" />
+    <Compile Remove="Resources\INotifyPropertyChanged.cs" />
+    <Compile Remove="Resources\ObservableObject.cs" />
+    <Compile Remove="Resources\ObservableRecipient.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\INotifyPropertyChangedAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableObjectAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableRecipientAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\INotifyPropertyChanged.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="Resources\ObservableObject.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\INotifyPropertyChanged.cs">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableRecipient.cs" Link="Resources\ObservableRecipient.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
