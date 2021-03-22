@@ -4,6 +4,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -13,5 +14,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     [Generator]
     public class ObservableObjectGenerator : TransitiveMembersGenerator<ObservableObjectAttribute>
     {
+        /// <inheritdoc/>
+        protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableObjectGeneratorError;
     }
 }

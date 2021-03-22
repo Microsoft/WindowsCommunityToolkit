@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
 
@@ -25,6 +26,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     public abstract class TransitiveMembersGenerator<TAttribute> : ISourceGenerator
         where TAttribute : Attribute
     {
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when the generation failed for a given type.
+        /// </summary>
+        protected abstract DiagnosticDescriptor TargetTypeErrorDescriptor { get; }
+
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
         {
@@ -64,7 +70,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)!;
                 AttributeData attributeData = classDeclarationSymbol.GetAttributes().First(a => a.ApplicationSyntaxReference?.GetSyntax() == attribute);
 
-                OnExecute(context, attributeData, classDeclaration, classDeclarationSymbol, sourceSyntaxTree);
+                try
+                {
+                    OnExecute(context, attributeData, classDeclaration, classDeclarationSymbol, sourceSyntaxTree);
+                }
+                catch
+                {
+                    context.ReportDiagnostic(TargetTypeErrorDescriptor, attribute, classDeclarationSymbol);
+                }
             }
         }
 

@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -18,6 +19,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     [Generator]
     public class ObservableRecipientGenerator : TransitiveMembersGenerator<ObservableRecipientAttribute>
     {
+        /// <inheritdoc/>
+        protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableRecipientGeneratorError;
+
         /// <inheritdoc/>
         protected override IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(
             AttributeData attributeData,
