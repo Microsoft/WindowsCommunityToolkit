@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // Load the source syntax tree if needed
                 if (sourceSyntaxTree is null)
                 {
-                    string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.Resources.{typeof(TAttribute).Name.Replace("Attribute", string.Empty)}.cs";
+                    string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.EmbeddedResources.{typeof(TAttribute).Name.Replace("Attribute", string.Empty)}.cs";
 
                     Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
                     StreamReader reader = new(stream);

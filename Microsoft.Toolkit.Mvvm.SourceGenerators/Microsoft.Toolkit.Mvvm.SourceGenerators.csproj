@@ -7,25 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Resources\INotifyPropertyChanged.cs" />
-    <Compile Remove="Resources\ObservableObject.cs" />
-    <Compile Remove="Resources\ObservableRecipient.cs" />
+    <Compile Remove="EmbeddedResources\INotifyPropertyChanged.cs" />
+    <Compile Remove="EmbeddedResources\ObservableObject.cs" />
+    <Compile Remove="EmbeddedResources\ObservableRecipient.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\INotifyPropertyChangedAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableObjectAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Attributes\ObservableRecipientAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\INotifyPropertyChanged.cs">
+    <EmbeddedResource Include="EmbeddedResources\INotifyPropertyChanged.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="Resources\ObservableObject.cs">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="EmbeddedResources\ObservableObject.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableRecipient.cs" Link="Resources\ObservableRecipient.cs">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableRecipient.cs" Link="EmbeddedResources\ObservableRecipient.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
