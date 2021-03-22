@@ -67,6 +67,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // // The .NET Foundation licenses this file to you under the MIT license.
                 // // See the LICENSE file in the project root for more information.
                 //
+                // #pragma warning disable
+                //
                 // using System;
                 // using System.ComponentModel;
                 //
@@ -87,7 +89,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // }
                 var source =
                     CompilationUnit().AddUsings(
-                    UsingDirective(IdentifierName("System")),
+                    UsingDirective(IdentifierName("System")).WithLeadingTrivia(TriviaList(
+                        Comment("// Licensed to the .NET Foundation under one or more agreements."),
+                        Comment("// The .NET Foundation licenses this file to you under the MIT license."),
+                        Comment("// See the LICENSE file in the project root for more information."),
+                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))),
                     UsingDirective(IdentifierName("System.ComponentModel"))).AddMembers(
                     NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.Messaging.__Internals")).AddMembers(
                     ClassDeclaration("__IMessengerExtensions").AddModifiers(
