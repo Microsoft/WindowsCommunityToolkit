@@ -42,7 +42,7 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(args[3].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
 
             Assert.IsNotNull(typeof(Person).GetProperty("Messenger", BindingFlags.Instance | BindingFlags.NonPublic));
-            Assert.AreEqual(typeof(Person).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, 1);
+            Assert.AreEqual(typeof(Person).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, 0);
         }
 
         [ObservableRecipient]
@@ -90,7 +90,7 @@ namespace UnitTests.Mvvm
         [TestMethod]
         public void Test_ObservableRecipientAttribute_NonAbstractConstructors()
         {
-            var ctors = typeof(NonAbstractPerson).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
+            var ctors = typeof(NonAbstractPerson).GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
             Assert.AreEqual(ctors.Length, 2);
             Assert.IsTrue(ctors.All(static ctor => ctor.IsPublic));
