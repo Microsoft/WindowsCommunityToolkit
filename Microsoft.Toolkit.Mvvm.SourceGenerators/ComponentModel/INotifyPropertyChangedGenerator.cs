@@ -3,11 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
@@ -28,7 +30,17 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
-            throw new System.NotImplementedException();
+            // Check if the type already implements INotifyPropertyChanged
+            if (classDeclarationSymbol.AllInterfaces.Any(static i => i.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(INotifyPropertyChanged).FullName}"))
+            {
+                descriptor = DuplicateINotifyPropertyChangedInterfaceForINotifyPropertyChangedAttributeError;
+
+                return false;
+            }
+
+            descriptor = null;
+
+            return true;
         }
 
         /// <inheritdoc/>
@@ -38,19 +50,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             ClassDeclarationSyntax sourceDeclaration)
         {
-            foreach (KeyValuePair<string, TypedConstant> properties in attributeData.NamedArguments)
+            // If requested, only include the event and the basic methods to raise it, but not the additional helpers
+            if (attributeData.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false))
             {
-                if (properties.Key == nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods) &&
-                    properties.Value.Value is bool includeHelpers && !includeHelpers)
+                return sourceDeclaration.Members.Where(static member =>
                 {
-                    // If requested, only include the event and the basic methods to raise it, but not the additional helpers
-                    return sourceDeclaration.Members.Where(static member =>
-                    {
-                        return member
-                            is EventFieldDeclarationSyntax
-                            or MethodDeclarationSyntax { Identifier: { ValueText: "OnPropertyChanged" } };
-                    });
-                }
+                    return member
+                        is EventFieldDeclarationSyntax
+                        or MethodDeclarationSyntax { Identifier: { ValueText: "OnPropertyChanged" } };
+                });
             }
 
             return sourceDeclaration.Members;

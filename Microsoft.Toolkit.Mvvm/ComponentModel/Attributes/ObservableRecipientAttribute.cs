@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// This is because the <see cref="ObservableRecipient"/> methods rely on some of the inherited members to work.
     /// If this condition is not met, the code will fail to build.
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class ObservableRecipientAttribute : Attribute
     {
     }

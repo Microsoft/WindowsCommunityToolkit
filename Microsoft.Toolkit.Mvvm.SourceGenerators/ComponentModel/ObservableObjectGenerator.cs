@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -26,7 +28,25 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
-            throw new System.NotImplementedException();
+            // Check if the type already implements INotifyPropertyChanged...
+            if (classDeclarationSymbol.AllInterfaces.Any(static i => i.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(INotifyPropertyChanged).FullName}"))
+            {
+                descriptor = DuplicateINotifyPropertyChangedInterfaceForObservableObjectAttributeError;
+
+                return false;
+            }
+
+            // ...or INotifyPropertyChanging
+            if (classDeclarationSymbol.AllInterfaces.Any(static i => i.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(INotifyPropertyChanging).FullName}"))
+            {
+                descriptor = DuplicateINotifyPropertyChangingInterfaceForObservableObjectAttributeError;
+
+                return false;
+            }
+
+            descriptor = null;
+
+            return true;
         }
     }
 }

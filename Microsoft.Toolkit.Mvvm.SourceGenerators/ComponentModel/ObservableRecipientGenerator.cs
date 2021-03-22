@@ -3,12 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
@@ -30,7 +32,30 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
-            throw new System.NotImplementedException();
+            // Check if the type already inherits from ObservableRecipient
+            if (classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient"))
+            {
+                descriptor = DuplicateObservableRecipientError;
+
+                return false;
+            }
+
+            // In order to use [ObservableRecipient], the target type needs to inherit from ObservableObject,
+            // or be annotated with [ObservableObject] or [INotifyPropertyChanged] (with additional helpers).
+            if (!classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject") &&
+                !classDeclarationSymbol.GetAttributes().Any(static a => a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute") &&
+                !classDeclarationSymbol.GetAttributes().Any(static a =>
+                    a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.INotifyPropertyChangedAttribute" &&
+                    !a.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false)))
+            {
+                descriptor = MissingBaseObservableObjectFunctionalityError;
+
+                return false;
+            }
+
+            descriptor = null;
+
+            return true;
         }
 
         /// <inheritdoc/>
@@ -66,25 +91,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 }
             }
 
-            INamedTypeSymbol? baseTypeSymbol = classDeclarationSymbol.BaseType;
-
-            while (baseTypeSymbol != null)
+            // Skip the SetProperty overloads if the target type inherits from ObservableValidator, to avoid conflicts
+            if (classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator"))
             {
-                // Skip the SetProperty overloads if the target type inherits from ObservableValidator, to avoid conflicts
-                if (baseTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")
+                foreach (MemberDeclarationSyntax member in sourceDeclaration.Members.Where(static member => member is not ConstructorDeclarationSyntax))
                 {
-                    foreach (MemberDeclarationSyntax member in sourceDeclaration.Members.Where(static member => member is not ConstructorDeclarationSyntax))
+                    if (member is not MethodDeclarationSyntax { Identifier: { ValueText: "SetProperty" } })
                     {
-                        if (member is not MethodDeclarationSyntax { Identifier: { ValueText: "SetProperty" } })
-                        {
-                            yield return member;
-                        }
+                        yield return member;
                     }
-
-                    yield break;
                 }
 
-                baseTypeSymbol = baseTypeSymbol.BaseType;
+                yield break;
             }
 
             // If the target type has at least one custom constructor, only generate methods

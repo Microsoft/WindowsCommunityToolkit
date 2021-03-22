@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// </para>
     /// And with this, the same APIs from <see cref="ObservableObject"/> will be available on this type as well.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class ObservableObjectAttribute : Attribute
     {
     }

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// </code>
     /// </para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class INotifyPropertyChangedAttribute : Attribute
     {
         /// <summary>
