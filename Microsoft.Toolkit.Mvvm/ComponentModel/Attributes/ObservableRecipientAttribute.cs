@@ -30,7 +30,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// To avoid conflicts with other APIs in types where the new members are being generated, constructors are only generated when the annotated
     /// type doesn't have any explicit constructors being declared. If that is the case, the same constructors from <see cref="ObservableRecipient"/>
     /// are emitted, with the accessibility adapted to that of the annotated type. Otherwise, they are skipped, so the type being annotated has the
-    /// respondibility of properly initializing the <see cref="ObservableRecipient.Messenger"/> property.
+    /// respondibility of properly initializing the <see cref="ObservableRecipient.Messenger"/> property. Additionally, if the annotated type inherits
+    /// from <see cref="ObservableValidator"/>, the <see cref="ObservableRecipient.SetProperty{T}(ref T, T, bool, string?)"/> overloads will be skipped
+    /// as well, as they would conflict with the <see cref="ObservableValidator.SetProperty{T}(ref T, T, bool, string?)"/> methods.
     /// </para>
     /// </summary>
     /// <remarks>

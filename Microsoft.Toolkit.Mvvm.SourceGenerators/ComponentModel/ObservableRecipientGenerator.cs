@@ -51,6 +51,27 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 }
             }
 
+            INamedTypeSymbol? baseTypeSymbol = classDeclarationSymbol.BaseType;
+
+            while (baseTypeSymbol != null)
+            {
+                // Skip the SetProperty overloads if the target type inherits from ObservableValidator, to avoid conflicts
+                if (baseTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")
+                {
+                    foreach (MemberDeclarationSyntax member in sourceDeclaration.Members.Where(static member => member is not ConstructorDeclarationSyntax))
+                    {
+                        if (member is not MethodDeclarationSyntax { Identifier: { ValueText: "SetProperty" } })
+                        {
+                            yield return member;
+                        }
+                    }
+
+                    yield break;
+                }
+
+                baseTypeSymbol = baseTypeSymbol.BaseType;
+            }
+
             // If the target type has at least one custom constructor, only generate methods
             foreach (MemberDeclarationSyntax member in sourceDeclaration.Members.Where(static member => member is not ConstructorDeclarationSyntax))
             {
