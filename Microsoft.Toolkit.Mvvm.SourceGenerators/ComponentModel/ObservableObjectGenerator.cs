@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for the <see cref="ObservableObjectAttribute"/> type.
     /// </summary>
     [Generator]
-    public class ObservableObjectGenerator : TransitiveMembersGenerator<ObservableObjectAttribute>
+    public sealed class ObservableObjectGenerator : TransitiveMembersGenerator<ObservableObjectAttribute>
     {
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableObjectGeneratorError;

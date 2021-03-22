@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for the <see cref="ObservableRecipientAttribute"/> type.
     /// </summary>
     [Generator]
-    public class ObservableRecipientGenerator : TransitiveMembersGenerator<ObservableRecipientAttribute>
+    public sealed class ObservableRecipientGenerator : TransitiveMembersGenerator<ObservableRecipientAttribute>
     {
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableRecipientGeneratorError;
@@ -43,7 +43,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // In order to use [ObservableRecipient], the target type needs to inherit from ObservableObject,
             // or be annotated with [ObservableObject] or [INotifyPropertyChanged] (with additional helpers).
             if (!classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject") &&
-                !classDeclarationSymbol.GetAttributes().Any(static a => a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute") &&
+                !classDeclarationSymbol.GetAttributes().Any(static a =>
+                    a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute") &&
                 !classDeclarationSymbol.GetAttributes().Any(static a =>
                     a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.INotifyPropertyChangedAttribute" &&
                     !a.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false)))

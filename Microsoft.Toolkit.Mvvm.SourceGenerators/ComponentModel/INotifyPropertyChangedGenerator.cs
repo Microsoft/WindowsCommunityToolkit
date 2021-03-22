@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for the <see cref="INotifyPropertyChangedAttribute"/> type.
     /// </summary>
     [Generator]
-    public class INotifyPropertyChangedGenerator : TransitiveMembersGenerator<INotifyPropertyChangedAttribute>
+    public sealed class INotifyPropertyChangedGenerator : TransitiveMembersGenerator<INotifyPropertyChangedAttribute>
     {
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => INotifyPropertyChangedGeneratorError;
