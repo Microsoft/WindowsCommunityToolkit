@@ -13,7 +13,7 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableObject_Events()
+        public void Test_ObservableObjectAttribute_Events()
         {
             var model = new SampleModel();
 
