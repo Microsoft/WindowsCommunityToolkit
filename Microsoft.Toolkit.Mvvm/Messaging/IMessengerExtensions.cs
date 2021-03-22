@@ -98,27 +98,43 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // target recipient type, and just create a delegate wrapping that method if it is found.
             static Action<IMessenger, object, TToken> LoadRegistrationMethodsForType(Type recipientType)
             {
-                if (recipientType.Assembly.GetType("Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions") is Type extensionsType &&
-                    extensionsType.GetMethods(BindingFlags.Static | BindingFlags.Public) is MethodInfo[] { Length: > 0 } extensionMethods)
+                if (recipientType.Assembly.GetType("Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions") is Type extensionsType)
                 {
-                    foreach (MethodInfo methodInfo in extensionMethods)
+#if NETSTANDARD2_0
+                    // .NET Standard 2.0 doesn't have Type.MakeGenericMethodParameter, so we need to iterate manually
+                    foreach (MethodInfo methodInfo in extensionsType.GetMethods(BindingFlags.Static | BindingFlags.Public))
                     {
                         if (methodInfo.Name is "RegisterAll" &&
                             methodInfo.GetParameters()[1].ParameterType == recipientType)
                         {
-                            MethodInfo genericMethodInfo = methodInfo.MakeGenericMethod(typeof(TToken));
-                            Type delegateType = typeof(Action<,,>).MakeGenericType(typeof(IMessenger), recipientType, typeof(TToken));
-
-                            // We need an unsafe cast here like we did in StrongReferenceMessenger to be able to treat the new delegate
-                            // type as if it was covariant in its input recipient. This allows us to keep the type-specific overloads in
-                            // the generated code while still creating non-generic delegates here. This code is technically safe since
-                            // we have control over what types we're working with, and we know the type conversions will always be valid.
-                            return Unsafe.As<Action<IMessenger, object, TToken>>(genericMethodInfo.CreateDelegate(delegateType));
+                            return CreateGenericDelegate(recipientType, methodInfo);
                         }
                     }
+#else
+                    // On .NET Standard 2.1 and up, we can directly look for the target method in one call
+                    Type[] methodTypes = new[] { typeof(IMessenger), recipientType, Type.MakeGenericMethodParameter(0) };
+
+                    if (extensionsType.GetMethod("RegisterAll", methodTypes) is MethodInfo methodInfo)
+                    {
+                        return CreateGenericDelegate(recipientType, methodInfo);
+                    }
+#endif
                 }
 
                 return LoadRegistrationMethodsForTypeFallback(recipientType);
+            }
+
+            // A shared method to create a generic delegate from an identified method
+            static Action<IMessenger, object, TToken> CreateGenericDelegate(Type recipientType, MethodInfo methodInfo)
+            {
+                MethodInfo genericMethodInfo = methodInfo.MakeGenericMethod(typeof(TToken));
+                Type delegateType = typeof(Action<,,>).MakeGenericType(typeof(IMessenger), recipientType, typeof(TToken));
+
+                // We need an unsafe cast here like we did in StrongReferenceMessenger to be able to treat the new delegate
+                // type as if it was covariant in its input recipient. This allows us to keep the type-specific overloads in
+                // the generated code while still creating non-generic delegates here. This code is technically safe since
+                // we have control over what types we're working with, and we know the type conversions will always be valid.
+                return Unsafe.As<Action<IMessenger, object, TToken>>(genericMethodInfo.CreateDelegate(delegateType));
             }
 
             // Fallback method when a generated method is not found.
