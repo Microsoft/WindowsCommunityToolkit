@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -41,7 +42,21 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         i.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>") == true
                 select classSymbol;
 
-            int i = 0; // TODO
+            // Prepare the attributes to add to the first class declaration
+            AttributeListSyntax[] classAttributes = new[]
+            {
+                AttributeList(SingletonSeparatedList(
+                    Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
+                    AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                AttributeList(SingletonSeparatedList(
+                    Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                    AttributeArgument(LiteralExpression(
+                        SyntaxKind.StringLiteralExpression,
+                        Literal("This type is not intended to be used directly by user code"))))))
+            };
+
+            // Local counter to avoid filename conflicts in case of different types with the same name
+            int i = 0;
 
             foreach (INamedTypeSymbol classSymbol in classSymbols)
             {
@@ -78,15 +93,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     ClassDeclaration("__IMessengerExtensions").AddModifiers(
                         Token(SyntaxKind.InternalKeyword),
                         Token(SyntaxKind.StaticKeyword),
-                        Token(SyntaxKind.PartialKeyword)).AddAttributeLists(
-                        AttributeList(SingletonSeparatedList(
-                            Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                            AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
-                        AttributeList(SingletonSeparatedList(
-                            Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
-                            AttributeArgument(LiteralExpression(
-                                SyntaxKind.StringLiteralExpression,
-                                Literal("This type is not intended to be used directly by user code"))))))).AddMembers(
+                        Token(SyntaxKind.PartialKeyword)).AddAttributeLists(classAttributes).AddMembers(
                     MethodDeclaration(
                         PredefinedType(Token(SyntaxKind.VoidKeyword)),
                         Identifier("RegisterAll")).AddAttributeLists(
@@ -111,8 +118,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     .NormalizeWhitespace()
                     .ToFullString();
 
+                // Reset the attributes list (so the same class doesn't get duplicate attributes)
+                classAttributes = Array.Empty<AttributeListSyntax>();
+
                 // Add the partial type
-                context.AddSource($"[IRecipient{{T}}]_[{classSymbol.Name}]{i++}.cs", SourceText.From(source, Encoding.UTF8));
+                context.AddSource($"[IRecipient{{T}}]_[{classSymbol.Name}]_[{i++}].cs", SourceText.From(source, Encoding.UTF8));
             }
         }
 
