@@ -489,6 +489,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 //     inst0.ValidateProperty(inst0.Property0, nameof(MyViewModel.Property0));
                 //     inst0.ValidateProperty(inst0.Property1, nameof(MyViewModel.Property1));
                 //     ...
+                //     inst0.ValidateProperty(inst0.PropertyN, nameof(MyViewModel.PropertyN));
                 // }
                 // ===============================================================================
                 // We also add an explicit object conversion to represent boxing, if a given property
