@@ -145,6 +145,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     foreach (MethodInfo methodInfo in extensionsType.GetMethods(BindingFlags.Static | BindingFlags.Public))
                     {
                         if (methodInfo.Name is "RegisterAll" &&
+                            methodInfo.IsGenericMethod &&
                             methodInfo.GetParameters()[1].ParameterType == recipientType)
                         {
                             return CreateGenericDelegate(recipientType, methodInfo);
