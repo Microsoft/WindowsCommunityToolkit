@@ -93,11 +93,39 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void RegisterAll<TToken>(this IMessenger messenger, object recipient, TToken token)
             where TToken : IEquatable<TToken>
         {
-            // We use this method as a callback for the conditional weak table, which will both
-            // handle thread-safety for us, as well as avoiding all the LINQ codegen bloat here.
+            // We use this method as a callback for the conditional weak table, which will handle
+            // thread-safety for us. This first callback will try to find a generated method for the
+            // target recipient type, and just create a delegate wrapping that method if it is found.
+            static Action<IMessenger, object, TToken> LoadRegistrationMethodsForType(Type recipientType)
+            {
+                if (recipientType.Assembly.GetType("Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions") is Type extensionsType &&
+                    extensionsType.GetMethods(BindingFlags.Static | BindingFlags.Public) is MethodInfo[] { Length: > 0 } extensionMethods)
+                {
+                    foreach (MethodInfo methodInfo in extensionMethods)
+                    {
+                        if (methodInfo.Name is "RegisterAll" &&
+                            methodInfo.GetParameters()[1].ParameterType == recipientType)
+                        {
+                            MethodInfo genericMethodInfo = methodInfo.MakeGenericMethod(typeof(TToken));
+                            Type delegateType = typeof(Action<,,>).MakeGenericType(typeof(IMessenger), recipientType, typeof(TToken));
+
+                            // We need an unsafe cast here like we did in StrongReferenceMessenger to be able to treat the new delegate
+                            // type as if it was covariant in its input recipient. This allows us to keep the type-specific overloads in
+                            // the generated code while still creating non-generic delegates here. This code is technically safe since
+                            // we have control over what types we're working with, and we know the type conversions will always be valid.
+                            return Unsafe.As<Action<IMessenger, object, TToken>>(genericMethodInfo.CreateDelegate(delegateType));
+                        }
+                    }
+                }
+
+                return LoadRegistrationMethodsForTypeFallback(recipientType);
+            }
+
+            // Fallback method when a generated method is not found.
             // This method is only invoked once per recipient type and token type, so we're not
             // worried about making it super efficient, and we can use the LINQ code for clarity.
-            static Action<IMessenger, object, TToken> LoadRegistrationMethodsForType(Type recipientType)
+            // The LINQ codegen bloat is not really important for the same reason.
+            static Action<IMessenger, object, TToken> LoadRegistrationMethodsForTypeFallback(Type recipientType)
             {
                 // Input parameters (IMessenger instance, non-generic recipient, token)
                 ParameterExpression
