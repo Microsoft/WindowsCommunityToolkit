@@ -61,6 +61,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             foreach (INamedTypeSymbol classSymbol in classSymbols)
             {
                 // Create a static method to register all messages for a given recipient type.
+                // There are two versions that are generated: a non-generic one doing the registration
+                // with no tokens, which is the most common scenario and will help particularly in AOT
+                // scenarios, and a generic version that will support all other cases with custom tokens.
                 // This code takes a class symbol and produces a compilation unit as follows:
                 //
                 // // Licensed to the .NET Foundation under one or more agreements.
@@ -76,8 +79,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // {
                 //     [EditorBrowsable(EditorBrowsableState.Never)]
                 //     [Obsolete("This type is not intended to be used directly by user code")]
-                //     internal static partial class HashCodeProvider
+                //     internal static partial class __IMessengerExtensions
                 //     {
+                //         [EditorBrowsable(EditorBrowsableState.Never)]
+                //         [Obsolete("This method is not intended to be called directly by user code")]
+                //         public static void RegisterAll(IMessenger messenger, <RECIPIENT_TYPE> recipient)
+                //         {
+                //             <BODY>
+                //         }
+                //
                 //         [EditorBrowsable(EditorBrowsableState.Never)]
                 //         [Obsolete("This method is not intended to be called directly by user code")]
                 //         public static void RegisterAll<TToken>(IMessenger messenger, <RECIPIENT_TYPE> recipient, TToken token)
@@ -114,13 +124,29 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Token(SyntaxKind.PublicKeyword),
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
                             Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
+                            Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                        .WithBody(Block(EnumerateRegistrationStatements(classSymbol).ToArray())),
+                    MethodDeclaration(
+                        PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                        Identifier("RegisterAll")).AddAttributeLists(
+                            AttributeList(SingletonSeparatedList(
+                                Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
+                                AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                            AttributeList(SingletonSeparatedList(
+                                Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                                AttributeArgument(LiteralExpression(
+                                    SyntaxKind.StringLiteralExpression,
+                                    Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
+                        Token(SyntaxKind.PublicKeyword),
+                        Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
+                            Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
                             Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))),
                             Parameter(Identifier("token")).WithType(IdentifierName("TToken")))
                         .AddTypeParameterListParameters(TypeParameter("TToken"))
                         .AddConstraintClauses(
                             TypeParameterConstraintClause("TToken")
                             .AddConstraints(TypeConstraint(GenericName("IEquatable").AddTypeArgumentListArguments(IdentifierName("TToken")))))
-                        .WithBody(Block(EnumerateRegistrationStatements(classSymbol).ToArray())))))
+                        .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol).ToArray())))))
                     .NormalizeWhitespace()
                     .ToFullString();
 
@@ -139,6 +165,40 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <returns>The sequence of <see cref="StatementSyntax"/> instances to register message handleers.</returns>
         [Pure]
         private static IEnumerable<StatementSyntax> EnumerateRegistrationStatements(INamedTypeSymbol classSymbol)
+        {
+            foreach (var interfaceSymbol in classSymbol.AllInterfaces)
+            {
+                if (!interfaceSymbol.IsGenericType ||
+                    interfaceSymbol.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) != "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>")
+                {
+                    continue;
+                }
+
+                // This enumerator produces a sequence of statements as follows:
+                //
+                // messenger.Register<<TYPE_0>, TToken>(recipient);
+                // messenger.Register<<TYPE_1>, TToken>(recipient);
+                // // ...
+                // messenger.Register<<TYPE_N>, TToken>(recipient);
+                yield return
+                    ExpressionStatement(
+                        InvocationExpression(
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("messenger"),
+                                GenericName(Identifier("Register")).AddTypeArgumentListArguments(
+                                    IdentifierName(interfaceSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))))
+                        .AddArgumentListArguments(Argument(IdentifierName("recipient"))));
+            }
+        }
+
+        /// <summary>
+        /// Gets a sequence of statements to register declared message handlers with custom tokens.
+        /// </summary>
+        /// <param name="classSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
+        /// <returns>The sequence of <see cref="StatementSyntax"/> instances to register message handleers.</returns>
+        [Pure]
+        private static IEnumerable<StatementSyntax> EnumerateRegistrationStatementsWithTokens(INamedTypeSymbol classSymbol)
         {
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
