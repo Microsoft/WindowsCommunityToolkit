@@ -2,7 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+#pragma warning disable CS0618
+
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,24 +14,49 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_UnregisterRecipientWithMessageType(Type type)
+        public void Test_IRecipientGenerator_GeneratedRegistration()
         {
-            var messenger = (IMessenger)Activator.CreateInstance(type);
-            var recipient = new object();
+            var messenger = new StrongReferenceMessenger();
+            var recipient = new RecipientWithSomeMessages();
 
-            messenger.Unregister<MessageA>(recipient);
+            var messageA = new MessageA();
+            var messageB = new MessageB();
+
+            Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions.RegisterAll(messenger, recipient, 42);
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA, int>(recipient, 42));
+            Assert.IsTrue(messenger.IsRegistered<MessageB, int>(recipient, 42));
+
+            Assert.IsNull(recipient.A);
+            Assert.IsNull(recipient.B);
+
+            messenger.Send(messageA, 42);
+
+            Assert.AreSame(recipient.A, messageA);
+            Assert.IsNull(recipient.B);
+
+            messenger.Send(messageB, 42);
+
+            Assert.AreSame(recipient.A, messageA);
+            Assert.AreSame(recipient.B, messageB);
         }
 
         public sealed class RecipientWithSomeMessages :
             IRecipient<MessageA>,
             IRecipient<MessageB>
         {
+            public MessageA A { get; private set; }
+
+            public MessageB B { get; private set; }
+
             public void Receive(MessageA message)
             {
+                A = message;
             }
 
             public void Receive(MessageB message)
             {
+                B = message;
             }
         }
 
