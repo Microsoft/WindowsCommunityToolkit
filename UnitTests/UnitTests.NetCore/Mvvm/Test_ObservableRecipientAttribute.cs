@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -41,6 +42,7 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(args[3].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
 
             Assert.IsNotNull(typeof(Person).GetProperty("Messenger", BindingFlags.Instance | BindingFlags.NonPublic));
+            Assert.AreEqual(typeof(Person).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, 1);
         }
 
         [ObservableRecipient]
@@ -67,6 +69,36 @@ namespace UnitTests.Mvvm
                 // Validates that the method Broadcast is correctly being generated
                 Broadcast(0, 1, nameof(TestCompile));
             }
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableRecipientAttribute_AbstractConstructors()
+        {
+            var ctors = typeof(AbstractPerson).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.AreEqual(ctors.Length, 2);
+            Assert.IsTrue(ctors.All(static ctor => ctor.IsFamily));
+        }
+
+        [ObservableRecipient]
+        public abstract partial class AbstractPerson : ObservableObject
+        {
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableRecipientAttribute_NonAbstractConstructors()
+        {
+            var ctors = typeof(NonAbstractPerson).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.AreEqual(ctors.Length, 2);
+            Assert.IsTrue(ctors.All(static ctor => ctor.IsPublic));
+        }
+
+        [ObservableRecipient]
+        public partial class NonAbstractPerson : ObservableObject
+        {
         }
     }
 }

@@ -13,7 +13,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     public class INotifyPropertyChangedGenerator : TransitiveMembersGenerator<INotifyPropertyChangedAttribute>
     {
         /// <inheritdoc/>
-        protected override IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(AttributeData attributeData, ClassDeclarationSyntax sourceDeclaration)
+        protected override IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(
+            AttributeData attributeData,
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol classDeclarationSymbol,
+            ClassDeclarationSyntax sourceDeclaration)
         {
             foreach (KeyValuePair<string, TypedConstant> properties in attributeData.NamedArguments)
             {

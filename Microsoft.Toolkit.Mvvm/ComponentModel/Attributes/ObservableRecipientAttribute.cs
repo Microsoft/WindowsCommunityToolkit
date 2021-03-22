@@ -27,8 +27,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// </para>
     /// And with this, the same APIs from <see cref="ObservableRecipient"/> will be available on this type as well.
     /// <para>
-    /// To avoid conflicts with other APIs in types where the new members are being generated, constructors are omitted. Make sure to
-    /// properly initialize the <see cref="ObservableRecipient.Messenger"/> property from the constructors in the type being annotated.
+    /// To avoid conflicts with other APIs in types where the new members are being generated, constructors are only generated when the annotated
+    /// type doesn't have any explicit constructors being declared. If that is the case, the same constructors from <see cref="ObservableRecipient"/>
+    /// are emitted, with the accessibility adapted to that of the annotated type. Otherwise, they are skipped, so the type being annotated has the
+    /// respondibility of properly initializing the <see cref="ObservableRecipient.Messenger"/> property.
     /// </para>
     /// </summary>
     /// <remarks>

@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 ClassDeclaration(classDeclaration.Identifier.Text)
                 .WithModifiers(classDeclaration.Modifiers)
                 .WithBaseList(baseListSyntax)
-                .AddMembers(FilterDeclaredMembers(attributeData, sourceDeclaration).ToArray());
+                .AddMembers(FilterDeclaredMembers(attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -154,9 +154,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// Filters the <see cref="MemberDeclarationSyntax"/> nodes to generate from the input parsed tree.
         /// </summary>
         /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
+        /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
+        /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="sourceDeclaration">The parsed <see cref="ClassDeclarationSyntax"/> instance with the source nodes.</param>
         /// <returns>A sequence of <see cref="MemberDeclarationSyntax"/> nodes to emit in the generated file.</returns>
-        protected virtual IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(AttributeData attributeData, ClassDeclarationSyntax sourceDeclaration)
+        protected virtual IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(
+            AttributeData attributeData,
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol classDeclarationSymbol,
+            ClassDeclarationSyntax sourceDeclaration)
         {
             return sourceDeclaration.Members;
         }
