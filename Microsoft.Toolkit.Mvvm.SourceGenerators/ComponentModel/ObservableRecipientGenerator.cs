@@ -36,18 +36,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         text = ctor.NormalizeWhitespace().ToFullString(),
                         replaced = text.Replace("ObservableRecipient", classDeclarationSymbol.Name);
 
-                    ConstructorDeclarationSyntax updatedCtor = (ConstructorDeclarationSyntax)ParseMemberDeclaration(replaced)!;
-
                     // Adjust the visibility of the constructors based on whether the target type is abstract.
                     // If that is not the case, the constructors have to be declared as public and not protected.
-                    if (classDeclarationSymbol.IsAbstract)
+                    if (!classDeclarationSymbol.IsAbstract)
                     {
-                        yield return updatedCtor;
+                        replaced = replaced.Replace("protected", "public");
                     }
-                    else
-                    {
-                        yield return updatedCtor.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
-                    }
+
+                    yield return (ConstructorDeclarationSyntax)ParseMemberDeclaration(replaced)!;
                 }
             }
 
