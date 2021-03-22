@@ -34,6 +34,17 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <summary>
+        /// A non-generic version of <see cref="DiscoveredRecipients{TToken}"/>.
+        /// </summary>
+        private static class DiscoveredRecipients
+        {
+            /// <summary>
+            /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration action for each recipient.
+            /// </summary>
+            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object>?> RegistrationMethods = new();
+        }
+
+        /// <summary>
         /// A class that acts as a static container to associate a <see cref="ConditionalWeakTable{TKey,TValue}"/> instance to each
         /// <typeparamref name="TToken"/> type in use. This is done because we can only use a single type as key, but we need to track
         /// associations of each recipient type also across different communication channels, each identified by a token.
@@ -73,7 +84,36 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <remarks>See notes for <see cref="RegisterAll{TToken}(IMessenger,object,TToken)"/> for more info.</remarks>
         public static void RegisterAll(this IMessenger messenger, object recipient)
         {
-            messenger.RegisterAll(recipient, default(Unit));
+            // We use this method as a callback for the conditional weak table, which will handle
+            // thread-safety for us. This first callback will try to find a generated method for the
+            // target recipient type, and just create a delegate wrapping that method if it is found.
+            static Action<IMessenger, object>? LoadRegistrationMethodsForType(Type recipientType)
+            {
+                if (recipientType.Assembly.GetType("Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions") is Type extensionsType &&
+                    extensionsType.GetMethod("RegisterAll", new[] { typeof(IMessenger), recipientType }) is MethodInfo methodInfo)
+                {
+                    Type delegateType = typeof(Action<,>).MakeGenericType(typeof(IMessenger), recipientType);
+
+                    // Create the delegate and use an unsafe cast to achieve input covariance (as detailed below)
+                    return Unsafe.As<Action<IMessenger, object>>(methodInfo.CreateDelegate(delegateType));
+                }
+
+                return null;
+            }
+
+            // Try to get the cached delegate, if the generatos has run correctly
+            Action<IMessenger, object>? registrationAction = DiscoveredRecipients.RegistrationMethods.GetValue(
+                recipient.GetType(),
+                static t => LoadRegistrationMethodsForType(t));
+
+            if (registrationAction is not null)
+            {
+                registrationAction(messenger, recipient);
+            }
+            else
+            {
+                messenger.RegisterAll(recipient, default(Unit));
+            }
         }
 
         /// <summary>
