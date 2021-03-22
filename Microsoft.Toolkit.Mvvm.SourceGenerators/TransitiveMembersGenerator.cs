@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             ClassDeclarationSyntax sourceDeclaration = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
             UsingDirectiveSyntax[] usingDirectives = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>().ToArray();
-            BaseListSyntax baseListSyntax = BaseList(SeparatedList(
+            BaseListSyntax? baseListSyntax = BaseList(SeparatedList(
                 sourceDeclaration.BaseList?.Types
                 .OfType<SimpleBaseTypeSyntax>()
                 .Select(static t => t.Type)
@@ -90,6 +90,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .Select(static t => SimpleBaseType(t))
                 .ToArray()
                 ?? Array.Empty<BaseTypeSyntax>()));
+
+            if (baseListSyntax.Types.Count == 0)
+            {
+                baseListSyntax = null;
+            }
 
             // Create the class declaration for the user type. This will produce a tree as follows:
             //

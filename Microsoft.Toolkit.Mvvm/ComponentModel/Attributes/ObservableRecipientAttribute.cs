@@ -26,6 +26,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// </code>
     /// </para>
     /// And with this, the same APIs from <see cref="ObservableRecipient"/> will be available on this type as well.
+    /// <para>
+    /// To avoid conflicts with other APIs in types where the new members are being generated, constructors are omitted. Make sure to
+    /// properly initialize the <see cref="ObservableRecipient.Messenger"/> property from the constructors in the type being annotated.
+    /// </para>
     /// </summary>
     /// <remarks>
     /// In order to work, <see cref="ObservableRecipientAttribute"/> needs to be applied to a type that inherits from
