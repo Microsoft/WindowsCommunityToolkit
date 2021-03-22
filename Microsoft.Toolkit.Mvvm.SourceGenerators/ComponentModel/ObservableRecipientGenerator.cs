@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -21,6 +22,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     {
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableRecipientGeneratorError;
+
+        /// <inheritdoc/>
+        protected override bool ValidateTargetType(
+            AttributeData attributeData,
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol classDeclarationSymbol,
+            [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <inheritdoc/>
         protected override IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(

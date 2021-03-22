@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -69,6 +70,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
                 INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)!;
                 AttributeData attributeData = classDeclarationSymbol.GetAttributes().First(a => a.ApplicationSyntaxReference?.GetSyntax() == attribute);
+
+                if (!ValidateTargetType(attributeData, classDeclaration, classDeclarationSymbol, out var descriptor))
+                {
+                    context.ReportDiagnostic(descriptor, attribute, classDeclarationSymbol);
+
+                    continue;
+                }
 
                 try
                 {
@@ -166,6 +174,20 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Add the partial type
             context.AddSource($"[{typeof(TAttribute).Name}]_[{classDeclaration.Identifier.Text}].cs", SourceText.From(source, Encoding.UTF8));
         }
+
+        /// <summary>
+        /// Validates a target type being processed.
+        /// </summary>
+        /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
+        /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
+        /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
+        /// <param name="descriptor">The resulting <see cref="DiagnosticDescriptor"/> to emit in case the target type isn't valid.</param>
+        /// <returns>Whether or not the target type is valid and can be processed normally.</returns>
+        protected abstract bool ValidateTargetType(
+            AttributeData attributeData,
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol classDeclarationSymbol,
+            [NotNullWhen(false)] out DiagnosticDescriptor? descriptor);
 
         /// <summary>
         /// Filters the <see cref="MemberDeclarationSyntax"/> nodes to generate from the input parsed tree.
