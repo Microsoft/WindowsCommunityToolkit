@@ -39,8 +39,11 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Mvvm.SourceGenerators\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj" PrivateAssets="all" />
   </ItemGroup>
 
-  <!-- Target to pack the source generator into the "analyzers\dotnet\cs" package folder -->
-  <Target Name="CopyAnalyzerProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+  <!-- Target to pack the source generator into the "analyzers\dotnet\cs" package folder.
+       The condition is set to .NET Standard 2.0 so that the analyzer is only added to the package
+       when that target is being built, instead of once for all three targets, which would fail.
+       It will still be available for all targets anyway though, as analyzers don't have a target. -->
+  <Target Name="CopyAnalyzerProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences" Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <ItemGroup>
       <TfmSpecificPackageFile Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))">
         <PackagePath>analyzers\dotnet\cs</PackagePath>
