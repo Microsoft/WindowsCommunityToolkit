@@ -18,6 +18,7 @@
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;WinUI;WPF;Xamarin;Forms;Uno;Platform;MVVM;Toolkit;MVVMToolkit;INotifyPropertyChanged;observable;Ioc;dependency injection;services;extensions;helpers</PackageTags>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CopyAnalyzerProjectReferencesToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and IAsyncEnumerable<T> types -->
@@ -32,5 +33,19 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
   </ItemGroup>
+    
+  <!-- Source generator project reference for packing -->
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Mvvm.SourceGenerators\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Target to pack the source generator into the "analyzers\dotnet\cs" package folder -->
+  <Target Name="CopyAnalyzerProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))">
+        <PackagePath>analyzers\dotnet\cs</PackagePath>
+      </TfmSpecificPackageFile>
+    </ItemGroup>
+  </Target>
 
 </Project>
