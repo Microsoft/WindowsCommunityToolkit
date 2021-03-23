@@ -15,6 +15,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
 
@@ -164,7 +165,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{typeof(TAttribute).Name}]_[{classDeclaration.Identifier.Text}].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"[{typeof(TAttribute).Name}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>

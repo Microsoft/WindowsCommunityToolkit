@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
@@ -54,9 +55,6 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         SyntaxKind.StringLiteralExpression,
                         Literal("This type is not intended to be used directly by user code"))))))
             };
-
-            // Local counter to avoid filename conflicts in case of different types with the same name
-            int i = 0;
 
             foreach (INamedTypeSymbol classSymbol in classSymbols)
             {
@@ -154,7 +152,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 classAttributes = Array.Empty<AttributeListSyntax>();
 
                 // Add the partial type
-                context.AddSource($"[IRecipient{{T}}]_[{classSymbol.Name}]_[{i++}].cs", SourceText.From(source, Encoding.UTF8));
+                context.AddSource($"[IRecipient{{T}}]_[{classSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
             }
         }
 
@@ -176,10 +174,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
                 // This enumerator produces a sequence of statements as follows:
                 //
-                // messenger.Register<<TYPE_0>, TToken>(recipient);
-                // messenger.Register<<TYPE_1>, TToken>(recipient);
+                // messenger.Register<<TYPE_0>>(recipient);
+                // messenger.Register<<TYPE_1>>(recipient);
                 // // ...
-                // messenger.Register<<TYPE_N>, TToken>(recipient);
+                // messenger.Register<<TYPE_N>>(recipient);
                 yield return
                     ExpressionStatement(
                         InvocationExpression(
