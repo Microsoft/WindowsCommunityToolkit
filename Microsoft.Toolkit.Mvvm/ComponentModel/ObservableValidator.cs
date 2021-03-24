@@ -471,7 +471,23 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected void ValidateAllProperties()
         {
+            // Fast path that tries to create a delegate from a generated type-specific method. This
+            // is used to make this method more AOT-friendly and faster, as there is no dynamic code.
             static Action<object> GetValidationAction(Type type)
+            {
+                if (type.Assembly.GetType("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__ObservableValidatorExtensions") is Type extensionsType &&
+                    extensionsType.GetMethod("ValidateAllProperties", new[] { type }) is MethodInfo methodInfo)
+                {
+                    Type delegateType = typeof(Action<>).MakeGenericType(type);
+
+                    return Unsafe.As<Action<object>>(methodInfo.CreateDelegate(delegateType));
+                }
+
+                return GetValidationActionFallback(type);
+            }
+
+            // Fallback method to create the delegate with a compiled LINQ expression
+            static Action<object> GetValidationActionFallback(Type type)
             {
                 // MyViewModel inst0 = (MyViewModel)arg0;
                 ParameterExpression arg0 = Expression.Parameter(typeof(object));
