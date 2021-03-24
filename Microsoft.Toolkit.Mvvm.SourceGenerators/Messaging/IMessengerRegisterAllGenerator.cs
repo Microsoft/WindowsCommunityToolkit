@@ -35,12 +35,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 from syntaxTree in context.Compilation.SyntaxTrees
                 let semanticModel = context.Compilation.GetSemanticModel(syntaxTree)
                 from classDeclaration in syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
-                let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration) as INamedTypeSymbol
+                let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
                 where
                     classSymbol is { IsGenericType: false } &&
-                    classSymbol?.AllInterfaces.Any(static i =>
+                    classSymbol.AllInterfaces.Any(static i =>
                         i.IsGenericType &&
-                        i.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>") == true
+                        i.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>")
                 select classSymbol;
 
             // Prepare the attributes to add to the first class declaration

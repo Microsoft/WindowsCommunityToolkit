@@ -524,7 +524,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="value">The value to test for the specified property.</param>
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
-        protected void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
+        protected internal void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null)
             {
