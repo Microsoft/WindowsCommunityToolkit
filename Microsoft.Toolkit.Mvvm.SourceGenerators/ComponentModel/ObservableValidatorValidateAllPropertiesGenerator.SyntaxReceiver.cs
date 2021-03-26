@@ -32,8 +32,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
             {
                 if (context.Node is ClassDeclarationSyntax classDeclaration &&
-                    context.SemanticModel.GetDeclaredSymbol(classDeclaration) is INamedTypeSymbol classSymbol &&
-                    !classSymbol.IsGenericType &&
+                    context.SemanticModel.GetDeclaredSymbol(classDeclaration) is INamedTypeSymbol { IsGenericType: false } classSymbol &&
                     context.SemanticModel.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator") is INamedTypeSymbol validatorSymbol &&
                     classSymbol.InheritsFrom(validatorSymbol))
                 {

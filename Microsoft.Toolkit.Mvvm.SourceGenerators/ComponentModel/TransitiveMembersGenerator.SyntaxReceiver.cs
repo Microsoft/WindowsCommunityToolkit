@@ -31,8 +31,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             /// <inheritdoc/>
             public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
             {
-                if (context.Node is ClassDeclarationSyntax classDeclaration &&
-                    classDeclaration.AttributeLists.Count > 0 &&
+                if (context.Node is ClassDeclarationSyntax { AttributeLists: { Count: > 0 } } classDeclaration &&
                     context.SemanticModel.GetDeclaredSymbol(classDeclaration) is INamedTypeSymbol classSymbol &&
                     context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(TAttribute).FullName) is INamedTypeSymbol attributeSymbol &&
                     classSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
