@@ -21,12 +21,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             /// <summary>
             /// The list of info gathered during exploration.
             /// </summary>
-            private readonly List<(ClassDeclarationSyntax Class, AttributeSyntax Attribute, AttributeData Data)> gatheredInfo = new();
+            private readonly List<Item> gatheredInfo = new();
 
             /// <summary>
             /// Gets the collection of gathered info to process.
             /// </summary>
-            public IReadOnlyCollection<(ClassDeclarationSyntax Class, AttributeSyntax Attribute, AttributeData Data)> GatheredInfo => this.gatheredInfo;
+            public IReadOnlyCollection<Item> GatheredInfo => this.gatheredInfo;
 
             /// <inheritdoc/>
             public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
@@ -38,9 +38,22 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     attributeData.ApplicationSyntaxReference is SyntaxReference syntaxReference &&
                     syntaxReference.GetSyntax() is AttributeSyntax attributeSyntax)
                 {
-                    this.gatheredInfo.Add((classDeclaration, attributeSyntax, attributeData));
+                    this.gatheredInfo.Add(new Item(classDeclaration, classSymbol, attributeSyntax, attributeData));
                 }
             }
+
+            /// <summary>
+            /// A model for a group of item representing a discovered type to process.
+            /// </summary>
+            /// <param name="ClassDeclaration">The <see cref="ClassDeclarationSyntax"/> instance for the target class declaration.</param>
+            /// <param name="ClassSymbol">The <see cref="INamedTypeSymbol"/> instance for <paramref name="ClassDeclaration"/>.</param>
+            /// <param name="AttributeSyntax">The <see cref="AttributeSyntax"/> instance for the target attribute over <paramref name="ClassDeclaration"/>.</param>
+            /// <param name="AttributeData">The <see cref="AttributeData"/> instance for <paramref name="AttributeSyntax"/>.</param>
+            public sealed record Item(
+                ClassDeclarationSyntax ClassDeclaration,
+                INamedTypeSymbol ClassSymbol,
+                AttributeSyntax AttributeSyntax,
+                AttributeData AttributeData);
         }
     }
 }

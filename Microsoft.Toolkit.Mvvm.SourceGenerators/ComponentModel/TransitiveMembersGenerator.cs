@@ -53,25 +53,22 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Load the syntax tree with the members to generate
             SyntaxTree sourceSyntaxTree = LoadSourceSyntaxTree();
 
-            foreach (var info in syntaxReceiver.GatheredInfo)
+            foreach (SyntaxReceiver.Item item in syntaxReceiver.GatheredInfo)
             {
-                SemanticModel semanticModel = context.Compilation.GetSemanticModel(info.Class.SyntaxTree);
-                INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(info.Class)!;
-
-                if (!ValidateTargetType(context, info.Data, info.Class, classDeclarationSymbol, out var descriptor))
+                if (!ValidateTargetType(context, item.AttributeData, item.ClassDeclaration, item.ClassSymbol, out var descriptor))
                 {
-                    context.ReportDiagnostic(descriptor, info.Attribute, classDeclarationSymbol);
+                    context.ReportDiagnostic(descriptor, item.AttributeSyntax, item.ClassSymbol);
 
                     continue;
                 }
 
                 try
                 {
-                    OnExecute(context, info.Data, info.Class, classDeclarationSymbol, sourceSyntaxTree);
+                    OnExecute(context, item.AttributeData, item.ClassDeclaration, item.ClassSymbol, sourceSyntaxTree);
                 }
                 catch
                 {
-                    context.ReportDiagnostic(TargetTypeErrorDescriptor, info.Attribute, classDeclarationSymbol);
+                    context.ReportDiagnostic(TargetTypeErrorDescriptor, item.AttributeSyntax, item.ClassSymbol);
                 }
             }
         }
