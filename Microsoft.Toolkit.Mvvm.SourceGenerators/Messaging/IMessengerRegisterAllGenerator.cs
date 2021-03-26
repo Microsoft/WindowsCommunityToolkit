@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         public void Execute(GeneratorExecutionContext context)
         {
             // Get the symbol for the IRecipient<T> interface type
-            INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!.ConstructUnboundGenericType();
+            INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!;
 
             // Find all the class symbols with at least one IRecipient<T> usage, that are not generic
             IEnumerable<INamedTypeSymbol> classSymbols =
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     classSymbol is { IsGenericType: false } &&
                     classSymbol.AllInterfaces.Any(i =>
                         i.IsGenericType &&
-                        SymbolEqualityComparer.Default.Equals(i.ConstructUnboundGenericType(), iRecipientSymbol))
+                        SymbolEqualityComparer.Default.Equals(i.ConstructedFrom, iRecipientSymbol))
                 select classSymbol;
 
             // Prepare the attributes to add to the first class declaration
@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
                 if (!interfaceSymbol.IsGenericType ||
-                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructUnboundGenericType(), iRecipientSymbol))
+                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructedFrom, iRecipientSymbol))
                 {
                     continue;
                 }
@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
                 if (!interfaceSymbol.IsGenericType ||
-                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructUnboundGenericType(), iRecipientSymbol))
+                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructedFrom, iRecipientSymbol))
                 {
                     continue;
                 }
