@@ -23,13 +23,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
         /// <inheritdoc/>
         protected override bool ValidateTargetType(
+            GeneratorExecutionContext context,
             AttributeData attributeData,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
+            INamedTypeSymbol
+                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanged).FullName)!,
+                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!;
+
             // Check if the type already implements INotifyPropertyChanged...
-            if (classDeclarationSymbol.AllInterfaces.Any(static i => i.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(INotifyPropertyChanged).FullName}"))
+            if (classDeclarationSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, iNotifyPropertyChangedSymbol)))
             {
                 descriptor = DuplicateINotifyPropertyChangedInterfaceForObservableObjectAttributeError;
 
@@ -37,7 +42,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             }
 
             // ...or INotifyPropertyChanging
-            if (classDeclarationSymbol.AllInterfaces.Any(static i => i.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(INotifyPropertyChanging).FullName}"))
+            if (classDeclarationSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, iNotifyPropertyChangingSymbol)))
             {
                 descriptor = DuplicateINotifyPropertyChangingInterfaceForObservableObjectAttributeError;
 

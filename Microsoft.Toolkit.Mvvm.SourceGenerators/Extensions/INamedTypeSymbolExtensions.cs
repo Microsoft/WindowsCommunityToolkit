@@ -53,18 +53,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions
         /// Checks whether or not a given <see cref="INamedTypeSymbol"/> inherits from a specified type.
         /// </summary>
         /// <param name="typeSymbol">The target <see cref="INamedTypeSymbol"/> instance to check.</param>
-        /// <param name="typeName">The full name of the type to check for inheritance (without global qualifier).</param>
-        /// <returns>Whether or not <paramref name="typeSymbol"/> inherits from <paramref name="typeName"/>.</returns>
+        /// <param name="targetTypeSymbol">The type symbol of the type to check for inheritance.</param>
+        /// <returns>Whether or not <paramref name="typeSymbol"/> inherits from <paramref name="targetTypeSymbol"/>.</returns>
         [Pure]
-        public static bool InheritsFrom(this INamedTypeSymbol typeSymbol, string typeName)
+        public static bool InheritsFrom(this INamedTypeSymbol typeSymbol, INamedTypeSymbol targetTypeSymbol)
         {
-            typeName = "global::" + typeName;
-
             INamedTypeSymbol? baseType = typeSymbol.BaseType;
 
             while (baseType != null)
             {
-                if (baseType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == typeName)
+                if (SymbolEqualityComparer.Default.Equals(baseType, targetTypeSymbol))
                 {
                     return true;
                 }

@@ -27,13 +27,20 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
         /// <inheritdoc/>
         protected override bool ValidateTargetType(
+            GeneratorExecutionContext context,
             AttributeData attributeData,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
+            INamedTypeSymbol
+                observableRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient")!,
+                observableObjectSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject")!,
+                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute")!,
+                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanged).FullName)!;
+
             // Check if the type already inherits from ObservableRecipient
-            if (classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient"))
+            if (classDeclarationSymbol.InheritsFrom(observableRecipientSymbol))
             {
                 descriptor = DuplicateObservableRecipientError;
 
@@ -42,11 +49,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             // In order to use [ObservableRecipient], the target type needs to inherit from ObservableObject,
             // or be annotated with [ObservableObject] or [INotifyPropertyChanged] (with additional helpers).
-            if (!classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject") &&
-                !classDeclarationSymbol.GetAttributes().Any(static a =>
-                    a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute") &&
-                !classDeclarationSymbol.GetAttributes().Any(static a =>
-                    a.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.ComponentModel.INotifyPropertyChangedAttribute" &&
+            if (!classDeclarationSymbol.InheritsFrom(observableObjectSymbol) &&
+                !classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol)) &&
+                !classDeclarationSymbol.GetAttributes().Any(a =>
+                    SymbolEqualityComparer.Default.Equals(a.AttributeClass, iNotifyPropertyChangedSymbol) &&
                     !a.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false)))
             {
                 descriptor = MissingBaseObservableObjectFunctionalityError;
@@ -61,6 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
         /// <inheritdoc/>
         protected override IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(
+            GeneratorExecutionContext context,
             AttributeData attributeData,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
@@ -92,8 +99,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 }
             }
 
+            INamedTypeSymbol observableValidatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!;
+
             // Skip the SetProperty overloads if the target type inherits from ObservableValidator, to avoid conflicts
-            if (classDeclarationSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator"))
+            if (classDeclarationSymbol.InheritsFrom(observableValidatorSymbol))
             {
                 foreach (MemberDeclarationSyntax member in sourceDeclaration.Members.Where(static member => member is not ConstructorDeclarationSyntax))
                 {

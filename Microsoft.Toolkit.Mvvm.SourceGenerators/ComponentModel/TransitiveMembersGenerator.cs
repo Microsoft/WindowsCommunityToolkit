@@ -41,13 +41,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
+            // Get the symbol for the current target attribute
+            INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(TAttribute).FullName)!;
+
             // Find all the target attribute usages
             IEnumerable<AttributeSyntax> attributes =
                 from syntaxTree in context.Compilation.SyntaxTrees
                 let semanticModel = context.Compilation.GetSemanticModel(syntaxTree)
                 from attribute in syntaxTree.GetRoot().DescendantNodes().OfType<AttributeSyntax>()
                 let typeInfo = semanticModel.GetTypeInfo(attribute)
-                where typeInfo.Type?.Name == typeof(TAttribute).Name
+                where SymbolEqualityComparer.Default.Equals(typeInfo.Type, attributeSymbol)
                 select attribute;
 
             SyntaxTree? sourceSyntaxTree = null;
@@ -72,7 +75,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)!;
                 AttributeData attributeData = classDeclarationSymbol.GetAttributes().First(a => a.ApplicationSyntaxReference?.GetSyntax() == attribute);
 
-                if (!ValidateTargetType(attributeData, classDeclaration, classDeclarationSymbol, out var descriptor))
+                if (!ValidateTargetType(context, attributeData, classDeclaration, classDeclarationSymbol, out var descriptor))
                 {
                     context.ReportDiagnostic(descriptor, attribute, classDeclarationSymbol);
 
@@ -132,7 +135,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 ClassDeclaration(classDeclaration.Identifier.Text)
                 .WithModifiers(classDeclaration.Modifiers)
                 .WithBaseList(baseListSyntax)
-                .AddMembers(FilterDeclaredMembers(attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
+                .AddMembers(FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -171,12 +174,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <summary>
         /// Validates a target type being processed.
         /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
         /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="descriptor">The resulting <see cref="DiagnosticDescriptor"/> to emit in case the target type isn't valid.</param>
         /// <returns>Whether or not the target type is valid and can be processed normally.</returns>
         protected abstract bool ValidateTargetType(
+            GeneratorExecutionContext context,
             AttributeData attributeData,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
@@ -185,12 +190,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <summary>
         /// Filters the <see cref="MemberDeclarationSyntax"/> nodes to generate from the input parsed tree.
         /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
         /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="sourceDeclaration">The parsed <see cref="ClassDeclarationSyntax"/> instance with the source nodes.</param>
         /// <returns>A sequence of <see cref="MemberDeclarationSyntax"/> nodes to emit in the generated file.</returns>
         protected virtual IEnumerable<MemberDeclarationSyntax> FilterDeclaredMembers(
+            GeneratorExecutionContext context,
             AttributeData attributeData,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,

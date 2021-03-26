@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
+            // Get the symbol for the IRecipient<T> interface type
+            INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!.ConstructUnboundGenericType();
+
             // Find all the class symbols with at least one IRecipient<T> usage, that are not generic
             IEnumerable<INamedTypeSymbol> classSymbols =
                 from syntaxTree in context.Compilation.SyntaxTrees
@@ -38,9 +42,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
                 where
                     classSymbol is { IsGenericType: false } &&
-                    classSymbol.AllInterfaces.Any(static i =>
+                    classSymbol.AllInterfaces.Any(i =>
                         i.IsGenericType &&
-                        i.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>")
+                        SymbolEqualityComparer.Default.Equals(i.ConstructUnboundGenericType(), iRecipientSymbol))
                 select classSymbol;
 
             // Prepare the attributes to add to the first class declaration
@@ -123,7 +127,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
                             Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
                             Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                        .WithBody(Block(EnumerateRegistrationStatements(classSymbol).ToArray())),
+                        .WithBody(Block(EnumerateRegistrationStatements(classSymbol, iRecipientSymbol).ToArray())),
                     MethodDeclaration(
                         PredefinedType(Token(SyntaxKind.VoidKeyword)),
                         Identifier("RegisterAll")).AddAttributeLists(
@@ -144,7 +148,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         .AddConstraintClauses(
                             TypeParameterConstraintClause("TToken")
                             .AddConstraints(TypeConstraint(GenericName("IEquatable").AddTypeArgumentListArguments(IdentifierName("TToken")))))
-                        .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol).ToArray())))))
+                        .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())))))
                     .NormalizeWhitespace()
                     .ToFullString();
 
@@ -160,14 +164,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// Gets a sequence of statements to register declared message handlers.
         /// </summary>
         /// <param name="classSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
+        /// <param name="iRecipientSymbol">The type symbol for the <c>IRecipient&lt;T&gt;</c> interface.</param>
         /// <returns>The sequence of <see cref="StatementSyntax"/> instances to register message handleers.</returns>
         [Pure]
-        private static IEnumerable<StatementSyntax> EnumerateRegistrationStatements(INamedTypeSymbol classSymbol)
+        private static IEnumerable<StatementSyntax> EnumerateRegistrationStatements(INamedTypeSymbol classSymbol, INamedTypeSymbol iRecipientSymbol)
         {
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
                 if (!interfaceSymbol.IsGenericType ||
-                    interfaceSymbol.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) != "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>")
+                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructUnboundGenericType(), iRecipientSymbol))
                 {
                     continue;
                 }
@@ -194,14 +199,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// Gets a sequence of statements to register declared message handlers with custom tokens.
         /// </summary>
         /// <param name="classSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
+        /// <param name="iRecipientSymbol">The type symbol for the <c>IRecipient&lt;T&gt;</c> interface.</param>
         /// <returns>The sequence of <see cref="StatementSyntax"/> instances to register message handleers.</returns>
         [Pure]
-        private static IEnumerable<StatementSyntax> EnumerateRegistrationStatementsWithTokens(INamedTypeSymbol classSymbol)
+        private static IEnumerable<StatementSyntax> EnumerateRegistrationStatementsWithTokens(INamedTypeSymbol classSymbol, INamedTypeSymbol iRecipientSymbol)
         {
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
                 if (!interfaceSymbol.IsGenericType ||
-                    interfaceSymbol.ConstructUnboundGenericType().ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) != "global::Microsoft.Toolkit.Mvvm.Messaging.IRecipient<>")
+                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructUnboundGenericType(), iRecipientSymbol))
                 {
                     continue;
                 }

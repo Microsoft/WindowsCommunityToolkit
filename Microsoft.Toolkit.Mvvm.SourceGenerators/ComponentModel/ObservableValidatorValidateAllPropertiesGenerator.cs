@@ -31,6 +31,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
+            // Get the symbol for the ObservableValidator type and the ValidationAttribute type
+            INamedTypeSymbol
+                validatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!,
+                validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!;
+
             // Find all the class symbols inheriting from ObservableValidator, that are not generic
             IEnumerable<INamedTypeSymbol> classSymbols =
                 from syntaxTree in context.Compilation.SyntaxTrees
@@ -39,7 +44,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
                 where
                     classSymbol is { IsGenericType: false } &&
-                    classSymbol.InheritsFrom("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")
+                    classSymbol.InheritsFrom(validatorSymbol)
                 select classSymbol;
 
             // Prepare the attributes to add to the first class declaration
@@ -110,7 +115,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Token(SyntaxKind.PublicKeyword),
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
                             Parameter(Identifier("instance")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                        .WithBody(Block(EnumerateValidationStatements(classSymbol).ToArray())))))
+                        .WithBody(Block(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())))))
                     .NormalizeWhitespace()
                     .ToFullString();
 
@@ -126,9 +131,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// Gets a sequence of statements to validate declared properties.
         /// </summary>
         /// <param name="classSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
+        /// <param name="validationSymbol">The type symbol for the <c>ValidationAttribute</c> type.</param>
         /// <returns>The sequence of <see cref="StatementSyntax"/> instances to validate declared properties.</returns>
         [Pure]
-        private static IEnumerable<StatementSyntax> EnumerateValidationStatements(INamedTypeSymbol classSymbol)
+        private static IEnumerable<StatementSyntax> EnumerateValidationStatements(INamedTypeSymbol classSymbol, INamedTypeSymbol validationSymbol)
         {
             foreach (var propertySymbol in classSymbol.GetMembers().OfType<IPropertySymbol>())
             {
@@ -139,7 +145,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
                 ImmutableArray<AttributeData> attributes = propertySymbol.GetAttributes();
 
-                if (!attributes.Any(static a => a.AttributeClass?.InheritsFrom("System.ComponentModel.DataAnnotations.ValidationAttribute") == true))
+                if (!attributes.Any(a => a.AttributeClass?.InheritsFrom(validationSymbol) == true))
                 {
                     continue;
                 }
