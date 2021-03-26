@@ -34,7 +34,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 if (context.Node is ClassDeclarationSyntax classDeclaration &&
                     classDeclaration.AttributeLists.Count > 0 &&
                     context.SemanticModel.GetDeclaredSymbol(classDeclaration) is INamedTypeSymbol classSymbol &&
-                    classSymbol.GetAttributes().FirstOrDefault(static a => a.AttributeClass?.ToDisplayString() == typeof(TAttribute).FullName) is AttributeData attributeData &&
+                    context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(TAttribute).FullName) is INamedTypeSymbol attributeSymbol &&
+                    classSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
                     attributeData.ApplicationSyntaxReference is SyntaxReference syntaxReference &&
                     syntaxReference.GetSyntax() is AttributeSyntax attributeSyntax)
                 {

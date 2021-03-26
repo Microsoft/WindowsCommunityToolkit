@@ -20,29 +20,26 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for message registration without relying on compiled LINQ expressions.
     /// </summary>
     [Generator]
-    public sealed class IMessengerRegisterAllGenerator : ISourceGenerator
+    public sealed partial class IMessengerRegisterAllGenerator : ISourceGenerator
     {
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
         {
+            context.RegisterForSyntaxNotifications(static () => new SyntaxReceiver());
         }
 
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
+            // Get the syntax receiver with the candidate nodes
+            if (context.SyntaxContextReceiver is not SyntaxReceiver syntaxReceiver ||
+                syntaxReceiver.GatheredInfo.Count == 0)
+            {
+                return;
+            }
+
             // Get the symbol for the IRecipient<T> interface type
             INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!;
-
-            // Find all the class symbols with at least one IRecipient<T> usage, that are not generic
-            IEnumerable<INamedTypeSymbol> classSymbols =
-                from syntaxTree in context.Compilation.SyntaxTrees
-                let semanticModel = context.Compilation.GetSemanticModel(syntaxTree)
-                from classDeclaration in syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
-                let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
-                where
-                    classSymbol is { IsGenericType: false } &&
-                    classSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i.OriginalDefinition, iRecipientSymbol))
-                select classSymbol;
 
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
@@ -57,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Literal("This type is not intended to be used directly by user code"))))))
             };
 
-            foreach (INamedTypeSymbol classSymbol in classSymbols)
+            foreach (INamedTypeSymbol classSymbol in syntaxReceiver.GatheredInfo)
             {
                 // Create a static method to register all messages for a given recipient type.
                 // There are two versions that are generated: a non-generic one doing the registration

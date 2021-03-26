@@ -21,31 +21,26 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for properties validation without relying on compiled LINQ expressions.
     /// </summary>
     [Generator]
-    public sealed class ObservableValidatorValidateAllPropertiesGenerator : ISourceGenerator
+    public sealed partial class ObservableValidatorValidateAllPropertiesGenerator : ISourceGenerator
     {
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
         {
+            context.RegisterForSyntaxNotifications(static () => new SyntaxReceiver());
         }
 
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
-            // Get the symbol for the ObservableValidator type and the ValidationAttribute type
-            INamedTypeSymbol
-                validatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!,
-                validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!;
+            // Get the syntax receiver with the candidate nodes
+            if (context.SyntaxContextReceiver is not SyntaxReceiver syntaxReceiver ||
+                syntaxReceiver.GatheredInfo.Count == 0)
+            {
+                return;
+            }
 
-            // Find all the class symbols inheriting from ObservableValidator, that are not generic
-            IEnumerable<INamedTypeSymbol> classSymbols =
-                from syntaxTree in context.Compilation.SyntaxTrees
-                let semanticModel = context.Compilation.GetSemanticModel(syntaxTree)
-                from classDeclaration in syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
-                let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
-                where
-                    classSymbol is { IsGenericType: false } &&
-                    classSymbol.InheritsFrom(validatorSymbol)
-                select classSymbol;
+            // Get the symbol for the ValidationAttribute type
+            INamedTypeSymbol validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!;
 
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
@@ -60,7 +55,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Literal("This type is not intended to be used directly by user code"))))))
             };
 
-            foreach (INamedTypeSymbol classSymbol in classSymbols)
+            foreach (INamedTypeSymbol classSymbol in syntaxReceiver.GatheredInfo)
             {
                 // Create a static method to validate all properties in a given class.
                 // This code takes a class symbol and produces a compilation unit as follows:
