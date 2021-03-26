@@ -42,9 +42,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 let classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)
                 where
                     classSymbol is { IsGenericType: false } &&
-                    classSymbol.AllInterfaces.Any(i =>
-                        i.IsGenericType &&
-                        SymbolEqualityComparer.Default.Equals(i.ConstructedFrom, iRecipientSymbol))
+                    classSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i.OriginalDefinition, iRecipientSymbol))
                 select classSymbol;
 
             // Prepare the attributes to add to the first class declaration
@@ -171,8 +169,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
-                if (!interfaceSymbol.IsGenericType ||
-                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructedFrom, iRecipientSymbol))
+                if (!SymbolEqualityComparer.Default.Equals(interfaceSymbol.OriginalDefinition, iRecipientSymbol))
                 {
                     continue;
                 }
@@ -206,8 +203,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             foreach (var interfaceSymbol in classSymbol.AllInterfaces)
             {
-                if (!interfaceSymbol.IsGenericType ||
-                    !SymbolEqualityComparer.Default.Equals(interfaceSymbol.ConstructedFrom, iRecipientSymbol))
+                if (!SymbolEqualityComparer.Default.Equals(interfaceSymbol.OriginalDefinition, iRecipientSymbol))
                 {
                     continue;
                 }
