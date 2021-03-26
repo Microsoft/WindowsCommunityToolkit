@@ -44,6 +44,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
             {
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("DebuggerNonUserCode")))),
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("ExcludeFromCodeCoverage")))),
                 AttributeList(SingletonSeparatedList(
                     Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
                     AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
@@ -70,9 +72,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // using System;
                 // using System.ComponentModel;
+                // using System.Diagnostics;
+                // using System.Diagnostics.CodeAnalysis;
                 //
                 // namespace Microsoft.Toolkit.Mvvm.Messaging.__Internals
                 // {
+                //     [DebuggerNonUserCode]
+                //     [ExcludeFromCodeCoverage]
                 //     [EditorBrowsable(EditorBrowsableState.Never)]
                 //     [Obsolete("This type is not intended to be used directly by user code")]
                 //     internal static partial class __IMessengerExtensions
@@ -100,7 +106,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Comment("// The .NET Foundation licenses this file to you under the MIT license."),
                         Comment("// See the LICENSE file in the project root for more information."),
                         Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))),
-                    UsingDirective(IdentifierName("System.ComponentModel"))).AddMembers(
+                    UsingDirective(IdentifierName("System.ComponentModel")),
+                    UsingDirective(IdentifierName("System.Diagnostics")),
+                    UsingDirective(IdentifierName("System.Diagnostics.CodeAnalysis"))).AddMembers(
                     NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.Messaging.__Internals")).AddMembers(
                     ClassDeclaration("__IMessengerExtensions").AddModifiers(
                         Token(SyntaxKind.InternalKeyword),
