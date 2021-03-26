@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
     /// A source generator for the <see cref="ObservableObjectAttribute"/> type.
     /// </summary>
     /// <typeparam name="TAttribute">The type of the source attribute to look for.</typeparam>
-    public abstract class TransitiveMembersGenerator<TAttribute> : ISourceGenerator
+    public abstract partial class TransitiveMembersGenerator<TAttribute> : ISourceGenerator
         where TAttribute : Attribute
     {
         /// <summary>
@@ -36,61 +37,60 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
         {
+            context.RegisterForSyntaxNotifications(static () => new SyntaxReceiver());
         }
 
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
-            // Get the symbol for the current target attribute
-            INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(TAttribute).FullName)!;
-
-            // Find all the target attribute usages
-            IEnumerable<AttributeSyntax> attributes =
-                from syntaxTree in context.Compilation.SyntaxTrees
-                let semanticModel = context.Compilation.GetSemanticModel(syntaxTree)
-                from attribute in syntaxTree.GetRoot().DescendantNodes().OfType<AttributeSyntax>()
-                let typeInfo = semanticModel.GetTypeInfo(attribute)
-                where SymbolEqualityComparer.Default.Equals(typeInfo.Type, attributeSymbol)
-                select attribute;
-
-            SyntaxTree? sourceSyntaxTree = null;
-
-            foreach (AttributeSyntax attribute in attributes)
+            // Get the syntax receiver with the candidate nodes
+            if (context.SyntaxContextReceiver is not SyntaxReceiver syntaxReceiver ||
+                syntaxReceiver.GatheredInfo.Count == 0)
             {
-                // Load the source syntax tree if needed
-                if (sourceSyntaxTree is null)
+                return;
+            }
+
+            // Load the syntax tree with the members to generate
+            SyntaxTree sourceSyntaxTree = LoadSourceSyntaxTree();
+
+            foreach (var info in syntaxReceiver.GatheredInfo)
+            {
+                SemanticModel semanticModel = context.Compilation.GetSemanticModel(info.Class.SyntaxTree);
+                INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(info.Class)!;
+
+                if (!ValidateTargetType(context, info.Data, info.Class, classDeclarationSymbol, out var descriptor))
                 {
-                    string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.EmbeddedResources.{typeof(TAttribute).Name.Replace("Attribute", string.Empty)}.cs";
-
-                    Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
-                    StreamReader reader = new(stream);
-
-                    string observableObjectSource = reader.ReadToEnd();
-
-                    sourceSyntaxTree = CSharpSyntaxTree.ParseText(observableObjectSource);
-                }
-
-                ClassDeclarationSyntax classDeclaration = attribute.FirstAncestorOrSelf<ClassDeclarationSyntax>()!;
-                SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-                INamedTypeSymbol classDeclarationSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)!;
-                AttributeData attributeData = classDeclarationSymbol.GetAttributes().First(a => a.ApplicationSyntaxReference?.GetSyntax() == attribute);
-
-                if (!ValidateTargetType(context, attributeData, classDeclaration, classDeclarationSymbol, out var descriptor))
-                {
-                    context.ReportDiagnostic(descriptor, attribute, classDeclarationSymbol);
+                    context.ReportDiagnostic(descriptor, info.Attribute, classDeclarationSymbol);
 
                     continue;
                 }
 
                 try
                 {
-                    OnExecute(context, attributeData, classDeclaration, classDeclarationSymbol, sourceSyntaxTree);
+                    OnExecute(context, info.Data, info.Class, classDeclarationSymbol, sourceSyntaxTree);
                 }
                 catch
                 {
-                    context.ReportDiagnostic(TargetTypeErrorDescriptor, attribute, classDeclarationSymbol);
+                    context.ReportDiagnostic(TargetTypeErrorDescriptor, info.Attribute, classDeclarationSymbol);
                 }
             }
+        }
+
+        /// <summary>
+        /// Loads the source syntax tree for the current generator.
+        /// </summary>
+        /// <returns>The syntax tree with the elements to emit in the generated code.</returns>
+        [Pure]
+        private static SyntaxTree LoadSourceSyntaxTree()
+        {
+            string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.EmbeddedResources.{typeof(TAttribute).Name.Replace("Attribute", string.Empty)}.cs";
+
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
+            StreamReader reader = new(stream);
+
+            string observableObjectSource = reader.ReadToEnd();
+
+            return CSharpSyntaxTree.ParseText(observableObjectSource);
         }
 
         /// <summary>
