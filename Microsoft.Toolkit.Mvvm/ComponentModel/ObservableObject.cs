@@ -9,9 +9,10 @@
 
 // ================================== NOTE ==================================
 // This file is mirrored in the trimmed-down INotifyPropertyChanged file in
-// the source generator project, to be used with the [INotifyPropertyChanged]
-// attribute. If any changes are made to this file, they should also be
-// appropriately ported to that file as well to keep the behavior consistent.
+// the source generator project, to be used with the [INotifyPropertyChanged],
+// attribute, along with the ObservableObject annotated copy (for debugging info).
+// If any changes are made to this file, they should also be appropriately
+// ported to that file as well to keep the behavior consistent.
 // ==========================================================================
 
 using System;

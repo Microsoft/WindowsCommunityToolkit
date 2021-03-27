@@ -2,20 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#pragma warning disable SA1512
-
-// This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
-// more info in ThirdPartyNotices.txt in the root of the project.
-
-// ================================= NOTE =================================
-// This file is mirrored in the ObservableRecipient annotated copy
-// (for debugging info) in the Mvvm.SourceGenerators project.
-// If any changes are made to this file, they should also be appropriately
-// ported to that file as well to keep the behavior consistent.
-// ========================================================================
+#pragma warning disable
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -35,6 +27,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// This constructor will produce an instance that will use the <see cref="WeakReferenceMessenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected ObservableRecipient()
             : this(WeakReferenceMessenger.Default)
         {
@@ -44,6 +38,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected ObservableRecipient(IMessenger messenger)
         {
             Messenger = messenger;
@@ -52,6 +48,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Gets the <see cref="IMessenger"/> instance in use.
         /// </summary>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected IMessenger Messenger { get; }
 
         private bool isActive;
@@ -59,6 +57,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Gets or sets a value indicating whether the current view model is currently active.
         /// </summary>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         public bool IsActive
         {
             get => this.isActive;
@@ -89,6 +89,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// If you need more fine tuned control, want to register messages individually or just prefer
         /// the lambda-style syntax for message registration, override this method and register manually.
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected virtual void OnActivated()
         {
             Messenger.RegisterAll(this);
@@ -104,6 +106,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// handlers for a given subscriber, regardless of what token was used to register them.
         /// That is, all registered handlers across all subscription channels will be removed.
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected virtual void OnDeactivated()
         {
             Messenger.UnregisterAll(this);
@@ -121,6 +125,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// You should override this method if you wish to customize the channel being
         /// used to send the message (eg. if you need to use a specific token for the channel).
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected virtual void Broadcast<T>(T oldValue, T newValue, string? propertyName)
         {
             PropertyChangedMessage<T> message = new(this, propertyName, oldValue, newValue);
@@ -145,6 +151,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             T oldValue = field;
@@ -174,6 +182,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             T oldValue = field;
@@ -208,6 +218,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(oldValue, newValue, callback, propertyName);
@@ -234,6 +246,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(oldValue, newValue, comparer, callback, propertyName);
@@ -263,6 +277,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
@@ -295,6 +311,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        [DebuggerNonUserCode]
+        [ExcludeFromCodeCoverage]
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
