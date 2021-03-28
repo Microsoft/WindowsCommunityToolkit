@@ -16,6 +16,7 @@
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" />
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" />
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" />
   </ItemGroup>
 
