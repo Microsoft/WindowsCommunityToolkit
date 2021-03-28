@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// A base class for observable objects that also acts as recipients for messages. This class is an extension of
     /// <see cref="ObservableObject"/> which also provides built-in support to use the <see cref="IMessenger"/> type.
     /// </summary>
-    public abstract class ObservableRecipient : ObservableObject
+    public abstract class ObservableRecipient
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.

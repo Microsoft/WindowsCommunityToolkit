@@ -107,20 +107,6 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             ClassDeclarationSyntax sourceDeclaration = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
             UsingDirectiveSyntax[] usingDirectives = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>().ToArray();
-            BaseListSyntax? baseListSyntax = BaseList(SeparatedList(
-                sourceDeclaration.BaseList?.Types
-                .OfType<SimpleBaseTypeSyntax>()
-                .Select(static t => t.Type)
-                .OfType<IdentifierNameSyntax>()
-                .Where(static t => t.Identifier.ValueText.StartsWith("I"))
-                .Select(static t => SimpleBaseType(t))
-                .ToArray()
-                ?? Array.Empty<BaseTypeSyntax>()));
-
-            if (baseListSyntax.Types.Count == 0)
-            {
-                baseListSyntax = null;
-            }
 
             // Create the class declaration for the user type. This will produce a tree as follows:
             //
@@ -131,7 +117,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclaration.Identifier.Text)
                 .WithModifiers(classDeclaration.Modifiers)
-                .WithBaseList(baseListSyntax)
+                .WithBaseList(sourceDeclaration.BaseList)
                 .AddMembers(FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
@@ -151,16 +137,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // From this, we can finally generate the source code to output.
             var namespaceName = classDeclarationSymbol.ContainingNamespace.ToDisplayString(new(typeQualificationStyle: NameAndContainingTypesAndNamespaces));
 
+            // Create the final compilation unit to generate (with using directives and the full type declaration)
             var source =
                 CompilationUnit()
                 .AddMembers(NamespaceDeclaration(IdentifierName(namespaceName))
                 .AddMembers(typeDeclarationSyntax))
-                .AddUsings(usingDirectives.First().WithLeadingTrivia(TriviaList(
-                    Comment("// Licensed to the .NET Foundation under one or more agreements."),
-                    Comment("// The .NET Foundation licenses this file to you under the MIT license."),
-                    Comment("// See the LICENSE file in the project root for more information."),
-                    Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))))
-                .AddUsings(usingDirectives.Skip(1).ToArray())
+                .AddUsings(usingDirectives)
                 .NormalizeWhitespace()
                 .ToFullString();
 
