@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,17 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             IEnumerable<SyntaxReceiver.Item> items)
         {
+            // Check whether INotifyPropertyChanging is present as well
+            INamedTypeSymbol
+                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!,
+                observableObjectSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject")!,
+                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(ObservableObjectAttribute).FullName)!;
+
+            bool isNotifyPropertyChanging =
+                classDeclarationSymbol.AllInterfaces.Contains(iNotifyPropertyChangingSymbol, SymbolEqualityComparer.Default) ||
+                classDeclarationSymbol.InheritsFrom(observableObjectSymbol) ||
+                classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol));
+
             // Create the class declaration for the user type. This will produce a tree as follows:
             //
             // <MODIFIERS> <CLASS_NAME>
@@ -71,7 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol)).ToArray());
+                .AddMembers(items.Select(item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -111,9 +123,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// </summary>
         /// <param name="leadingTrivia">The leading trivia for the field to process.</param>
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
+        /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol)
+        private PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
         {
             // Get the field type and the target property name
             string
@@ -134,7 +147,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             BlockSyntax setter = Block();
 
             // Add the OnPropertyChanging() call if necessary
-            setter = setter.AddStatements(ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanging"))));
+            if (isNotifyPropertyChanging)
+            {
+                setter = setter.AddStatements(ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanging"))));
+            }
 
             // Add the following statements:
             //
