@@ -45,13 +45,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
             {
-                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("DebuggerNonUserCode")))),
-                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("ExcludeFromCodeCoverage")))),
                 AttributeList(SingletonSeparatedList(
-                    Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                    AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                    Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                    .AddArgumentListArguments(
+                        AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
+                        AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))),
                 AttributeList(SingletonSeparatedList(
-                    Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                    Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                    AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
+                AttributeList(SingletonSeparatedList(
+                    Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
                     AttributeArgument(LiteralExpression(
                         SyntaxKind.StringLiteralExpression,
                         Literal("This type is not intended to be used directly by user code"))))))
@@ -68,21 +73,17 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // #pragma warning disable
                 //
-                // using System;
-                // using System.ComponentModel;
-                // using System.Diagnostics;
-                // using System.Diagnostics.CodeAnalysis;
-                //
                 // namespace Microsoft.Toolkit.Mvvm.ComponentModel.__Internals
                 // {
-                //     [DebuggerNonUserCode]
-                //     [ExcludeFromCodeCoverage]
-                //     [EditorBrowsable(EditorBrowsableState.Never)]
-                //     [Obsolete("This type is not intended to be used directly by user code")]
+                //     [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
+                //     [global::System.Diagnostics.DebuggerNonUserCode]
+                //     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                //     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                //     [global::System.Obsolete("This type is not intended to be used directly by user code")]
                 //     internal static partial class __ObservableValidatorExtensions
                 //     {
-                //         [EditorBrowsable(EditorBrowsableState.Never)]
-                //         [Obsolete("This method is not intended to be called directly by user code")]
+                //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
                 //         public static void ValidateAllProperties(<INSTANCE_TYPE> instance)
                 //         {
                 //             <BODY>
@@ -90,16 +91,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //     }
                 // }
                 var source =
-                    CompilationUnit().AddUsings(
-                    UsingDirective(IdentifierName("System")).WithLeadingTrivia(TriviaList(
+                    CompilationUnit().AddMembers(
+                    NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals")).WithLeadingTrivia(TriviaList(
                         Comment("// Licensed to the .NET Foundation under one or more agreements."),
                         Comment("// The .NET Foundation licenses this file to you under the MIT license."),
                         Comment("// See the LICENSE file in the project root for more information."),
-                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))),
-                    UsingDirective(IdentifierName("System.ComponentModel")),
-                    UsingDirective(IdentifierName("System.Diagnostics")),
-                    UsingDirective(IdentifierName("System.Diagnostics.CodeAnalysis"))).AddMembers(
-                    NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals")).AddMembers(
+                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))).AddMembers(
                     ClassDeclaration("__ObservableValidatorExtensions").AddModifiers(
                         Token(SyntaxKind.InternalKeyword),
                         Token(SyntaxKind.StaticKeyword),
@@ -108,10 +105,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         PredefinedType(Token(SyntaxKind.VoidKeyword)),
                         Identifier("ValidateAllProperties")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                                AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                                Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                                AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                                Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
                                 AttributeArgument(LiteralExpression(
                                     SyntaxKind.StringLiteralExpression,
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(

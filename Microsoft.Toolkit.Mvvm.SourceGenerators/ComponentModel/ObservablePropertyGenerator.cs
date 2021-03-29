@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="items">The sequence of fields to process.</param>
-        private static void OnExecute(
+        private void OnExecute(
             GeneratorExecutionContext context,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(static item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol)).ToArray());
+                .AddMembers(items.Select(item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -92,15 +92,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             // Create the final compilation unit to generate (with leading trivia)
             var source =
-                CompilationUnit().AddUsings(
-                    UsingDirective(IdentifierName("System.Collections.Generic")).WithLeadingTrivia(TriviaList(
-                        Comment("// Licensed to the .NET Foundation under one or more agreements."),
-                        Comment("// The .NET Foundation licenses this file to you under the MIT license."),
-                        Comment("// See the LICENSE file in the project root for more information."),
-                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))),
-                    UsingDirective(IdentifierName("System.Diagnostics")),
-                    UsingDirective(IdentifierName("System.Diagnostics.CodeAnalysis"))).AddMembers(
-                NamespaceDeclaration(IdentifierName(namespaceName))
+                CompilationUnit().AddMembers(
+                NamespaceDeclaration(IdentifierName(namespaceName)).WithLeadingTrivia(TriviaList(
+                    Comment("// Licensed to the .NET Foundation under one or more agreements."),
+                    Comment("// The .NET Foundation licenses this file to you under the MIT license."),
+                    Comment("// See the LICENSE file in the project root for more information."),
+                    Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true))))
                 .AddMembers(typeDeclarationSyntax))
                 .NormalizeWhitespace()
                 .ToFullString();
@@ -116,7 +113,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private static PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol)
+        private PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol)
         {
             // Get the field type and the target property name
             string
@@ -154,14 +151,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Construct the generated property as follows:
             //
             // <FIELD_TRIVIA>
-            // [DebuggerNonUserCode]
-            // [ExcludeFromCodeCoverage]
+            // [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
+            // [global::System.Diagnostics.DebuggerNonUserCode]
+            // [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
             // public <FIELD_TYPE> <PROPERTY_NAME>
             // {
             //     get => <FIELD_NAME>;
             //     set
             //     {
-            //         if (!EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
+            //         if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
             //         {
             //             OnPropertyChanging(); // Optional
             //             <FIELD_NAME> = value;
@@ -172,8 +170,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             return
                 PropertyDeclaration(IdentifierName(typeName), Identifier(propertyName))
                 .AddAttributeLists(
-                    AttributeList(SingletonSeparatedList(Attribute(IdentifierName("DebuggerNonUserCode")))),
-                    AttributeList(SingletonSeparatedList(Attribute(IdentifierName("ExcludeFromCodeCoverage")))))
+                    AttributeList(SingletonSeparatedList(
+                        Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                        .AddArgumentListArguments(
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
+                    AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
+                    AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
                 .WithLeadingTrivia(leadingTrivia)
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAccessorListAccessors(
@@ -190,7 +193,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                         SyntaxKind.SimpleMemberAccessExpression,
                                         MemberAccessExpression(
                                             SyntaxKind.SimpleMemberAccessExpression,
-                                            GenericName(Identifier("EqualityComparer"))
+                                            GenericName(Identifier("global::System.Collections.Generic.EqualityComparer"))
                                             .AddTypeArgumentListArguments(IdentifierName(typeName)),
                                             IdentifierName("Default")),
                                         IdentifierName("Equals")))

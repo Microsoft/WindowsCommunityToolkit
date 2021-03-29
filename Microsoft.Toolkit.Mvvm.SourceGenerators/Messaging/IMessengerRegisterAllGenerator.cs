@@ -44,13 +44,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
             {
-                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("DebuggerNonUserCode")))),
-                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("ExcludeFromCodeCoverage")))),
                 AttributeList(SingletonSeparatedList(
-                    Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                    AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                    Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                    .AddArgumentListArguments(
+                        AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
+                        AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
+                AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))),
                 AttributeList(SingletonSeparatedList(
-                    Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                    Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                    AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
+                AttributeList(SingletonSeparatedList(
+                    Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
                     AttributeArgument(LiteralExpression(
                         SyntaxKind.StringLiteralExpression,
                         Literal("This type is not intended to be used directly by user code"))))))
@@ -70,46 +75,38 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // #pragma warning disable
                 //
-                // using System;
-                // using System.ComponentModel;
-                // using System.Diagnostics;
-                // using System.Diagnostics.CodeAnalysis;
-                //
                 // namespace Microsoft.Toolkit.Mvvm.Messaging.__Internals
                 // {
-                //     [DebuggerNonUserCode]
-                //     [ExcludeFromCodeCoverage]
-                //     [EditorBrowsable(EditorBrowsableState.Never)]
-                //     [Obsolete("This type is not intended to be used directly by user code")]
+                //     [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
+                //     [global::System.Diagnostics.DebuggerNonUserCode]
+                //     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                //     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                //     [global::System.Obsolete("This type is not intended to be used directly by user code")]
                 //     internal static partial class __IMessengerExtensions
                 //     {
-                //         [EditorBrowsable(EditorBrowsableState.Never)]
-                //         [Obsolete("This method is not intended to be called directly by user code")]
+                //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
                 //         public static void RegisterAll(IMessenger messenger, <RECIPIENT_TYPE> recipient)
                 //         {
                 //             <BODY>
                 //         }
                 //
-                //         [EditorBrowsable(EditorBrowsableState.Never)]
-                //         [Obsolete("This method is not intended to be called directly by user code")]
+                //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
                 //         public static void RegisterAll<TToken>(IMessenger messenger, <RECIPIENT_TYPE> recipient, TToken token)
-                //             where TToken : IEquatable<TToken>
+                //             where TToken : global::System.IEquatable<TToken>
                 //         {
                 //             <BODY>
                 //         }
                 //     }
                 // }
                 var source =
-                    CompilationUnit().AddUsings(
-                    UsingDirective(IdentifierName("System")).WithLeadingTrivia(TriviaList(
+                    CompilationUnit().AddMembers(
+                    NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.Messaging.__Internals")).WithLeadingTrivia(TriviaList(
                         Comment("// Licensed to the .NET Foundation under one or more agreements."),
                         Comment("// The .NET Foundation licenses this file to you under the MIT license."),
                         Comment("// See the LICENSE file in the project root for more information."),
-                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))),
-                    UsingDirective(IdentifierName("System.ComponentModel")),
-                    UsingDirective(IdentifierName("System.Diagnostics")),
-                    UsingDirective(IdentifierName("System.Diagnostics.CodeAnalysis"))).AddMembers(
-                    NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.Messaging.__Internals")).AddMembers(
+                        Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))).AddMembers(
                     ClassDeclaration("__IMessengerExtensions").AddModifiers(
                         Token(SyntaxKind.InternalKeyword),
                         Token(SyntaxKind.StaticKeyword),
@@ -118,10 +115,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         PredefinedType(Token(SyntaxKind.VoidKeyword)),
                         Identifier("RegisterAll")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                                AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                                Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                                AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                                Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
                                 AttributeArgument(LiteralExpression(
                                     SyntaxKind.StringLiteralExpression,
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
@@ -134,10 +131,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         PredefinedType(Token(SyntaxKind.VoidKeyword)),
                         Identifier("RegisterAll")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("EditorBrowsable")).AddArgumentListArguments(
-                                AttributeArgument(ParseExpression("EditorBrowsableState.Never"))))),
+                                Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                                AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
                             AttributeList(SingletonSeparatedList(
-                                Attribute(IdentifierName("Obsolete")).AddArgumentListArguments(
+                                Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
                                 AttributeArgument(LiteralExpression(
                                     SyntaxKind.StringLiteralExpression,
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
@@ -149,7 +146,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         .AddTypeParameterListParameters(TypeParameter("TToken"))
                         .AddConstraintClauses(
                             TypeParameterConstraintClause("TToken")
-                            .AddConstraints(TypeConstraint(GenericName("IEquatable").AddTypeArgumentListArguments(IdentifierName("TToken")))))
+                            .AddConstraints(TypeConstraint(GenericName("global::System.IEquatable").AddTypeArgumentListArguments(IdentifierName("TToken")))))
                         .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())))))
                     .NormalizeWhitespace()
                     .ToFullString();
