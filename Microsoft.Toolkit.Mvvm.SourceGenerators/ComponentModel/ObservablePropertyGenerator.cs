@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(static item => CreatePropertyDeclaration(item.FieldSymbol)).ToArray());
+                .AddMembers(items.Select(static item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -112,10 +112,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <summary>
         /// Creates a <see cref="PropertyDeclarationSyntax"/> instance for a specified field.
         /// </summary>
+        /// <param name="leadingTrivia">The leading trivia for the field to process.</param>
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private static PropertyDeclarationSyntax CreatePropertyDeclaration(IFieldSymbol fieldSymbol)
+        private static PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol)
         {
             // Get the field type and the target property name
             string
@@ -152,6 +153,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             // Construct the generated property as follows:
             //
+            // <FIELD_TRIVIA>
             // [DebuggerNonUserCode]
             // [ExcludeFromCodeCoverage]
             // public <FIELD_TYPE> <PROPERTY_NAME>
@@ -172,6 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .AddAttributeLists(
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("ExcludeFromCodeCoverage")))))
+                .WithLeadingTrivia(leadingTrivia)
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAccessorListAccessors(
                     AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)

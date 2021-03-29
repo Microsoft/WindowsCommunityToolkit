@@ -52,6 +52,9 @@ namespace UnitTests.Mvvm
 
         public partial class SampleModel : ObservableObject
         {
+            /// <summary>
+            /// This is a sample data field within <see cref="SampleModel"/> of type <see cref="int"/>.
+            /// </summary>
             [ObservableProperty]
             private int data;
         }
