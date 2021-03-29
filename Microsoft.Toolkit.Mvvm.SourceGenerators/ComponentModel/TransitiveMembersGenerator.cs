@@ -108,6 +108,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             ClassDeclarationSyntax sourceDeclaration = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
             UsingDirectiveSyntax[] usingDirectives = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>().ToArray();
 
+            IEnumerable<MemberDeclarationSyntax> generatedMembers = FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration);
+
+            // If the target class is sealed, make protected members private and remove the virtual modifier
+            if (classDeclarationSymbol.IsSealed)
+            {
+                generatedMembers = generatedMembers.Select(static member => member
+                    .ReplaceModifier(SyntaxKind.ProtectedKeyword, SyntaxKind.PrivateKeyword)
+                    .RemoveModifier(SyntaxKind.VirtualKeyword));
+            }
+
             // Create the class declaration for the user type. This will produce a tree as follows:
             //
             // <MODIFIERS> <CLASS_NAME> : <BASE_TYPES>
@@ -118,7 +128,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 ClassDeclaration(classDeclaration.Identifier.Text)
                 .WithModifiers(classDeclaration.Modifiers)
                 .WithBaseList(sourceDeclaration.BaseList)
-                .AddMembers(FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
+                .AddMembers(generatedMembers.ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
