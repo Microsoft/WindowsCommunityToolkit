@@ -24,10 +24,10 @@
     <EmbeddedResource Include="EmbeddedResources\INotifyPropertyChanged.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmbeddedResources\ObservableObject.cs">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="EmbeddedResources\ObservableObject.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmbeddedResources\ObservableRecipient.cs">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableRecipient.cs" Link="EmbeddedResources\ObservableRecipient.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

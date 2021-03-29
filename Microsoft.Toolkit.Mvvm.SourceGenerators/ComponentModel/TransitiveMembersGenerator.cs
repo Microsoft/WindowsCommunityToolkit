@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
@@ -107,15 +108,19 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             ClassDeclarationSyntax sourceDeclaration = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
             UsingDirectiveSyntax[] usingDirectives = sourceSyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>().ToArray();
+            BaseListSyntax? baseListSyntax = BaseList(SeparatedList(
+                sourceDeclaration.BaseList?.Types
+                .OfType<SimpleBaseTypeSyntax>()
+                .Select(static t => t.Type)
+                .OfType<IdentifierNameSyntax>()
+                .Where(static t => t.Identifier.ValueText.StartsWith("I"))
+                .Select(static t => SimpleBaseType(t))
+                .ToArray()
+                ?? Array.Empty<BaseTypeSyntax>()));
 
-            IEnumerable<MemberDeclarationSyntax> generatedMembers = FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration);
-
-            // If the target class is sealed, make protected members private and remove the virtual modifier
-            if (classDeclarationSymbol.IsSealed)
+            if (baseListSyntax.Types.Count == 0)
             {
-                generatedMembers = generatedMembers.Select(static member => member
-                    .ReplaceModifier(SyntaxKind.ProtectedKeyword, SyntaxKind.PrivateKeyword)
-                    .RemoveModifier(SyntaxKind.VirtualKeyword));
+                baseListSyntax = null;
             }
 
             // Create the class declaration for the user type. This will produce a tree as follows:
@@ -127,8 +132,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclaration.Identifier.Text)
                 .WithModifiers(classDeclaration.Modifiers)
-                .WithBaseList(sourceDeclaration.BaseList)
-                .AddMembers(generatedMembers.ToArray());
+                .WithBaseList(baseListSyntax)
+                .AddMembers(OnLoadDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -152,12 +157,67 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 CompilationUnit()
                 .AddMembers(NamespaceDeclaration(IdentifierName(namespaceName))
                 .AddMembers(typeDeclarationSyntax))
-                .AddUsings(usingDirectives)
+                .AddUsings(usingDirectives.ToArray())
                 .NormalizeWhitespace()
                 .ToFullString();
 
             // Add the partial type
             context.AddSource($"[{typeof(TAttribute).Name}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
+        }
+
+        /// <summary>
+        /// Loads the <see cref="MemberDeclarationSyntax"/> nodes to generate from the input parsed tree.
+        /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
+        /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
+        /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
+        /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
+        /// <param name="sourceDeclaration">The parsed <see cref="ClassDeclarationSyntax"/> instance with the source nodes.</param>
+        /// <returns>A sequence of <see cref="MemberDeclarationSyntax"/> nodes to emit in the generated file.</returns>
+        private IEnumerable<MemberDeclarationSyntax> OnLoadDeclaredMembers(
+            GeneratorExecutionContext context,
+            AttributeData attributeData,
+            ClassDeclarationSyntax classDeclaration,
+            INamedTypeSymbol classDeclarationSymbol,
+            ClassDeclarationSyntax sourceDeclaration)
+        {
+            IEnumerable<MemberDeclarationSyntax> generatedMembers = FilterDeclaredMembers(context, attributeData, classDeclaration, classDeclarationSymbol, sourceDeclaration);
+
+            // Add the attributes on each member
+            return generatedMembers.Select(member =>
+            {
+                // [GeneratedCode] is always present
+                member = member
+                    .WithoutLeadingTrivia()
+                    .AddAttributeLists(AttributeList(SingletonSeparatedList(
+                        Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                        .AddArgumentListArguments(
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))))
+                    .WithLeadingTrivia(member.GetLeadingTrivia());
+
+                // [DebuggerNonUserCode] is not supported over interfaces, events or fields
+                if (member.Kind() is not SyntaxKind.InterfaceDeclaration and not SyntaxKind.EventFieldDeclaration and not SyntaxKind.FieldDeclaration)
+                {
+                    member = member.AddAttributeLists(AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))));
+                }
+
+                // [ExcludeFromCodeCoverage] is not supported on interfaces and fields
+                if (member.Kind() is not SyntaxKind.InterfaceDeclaration and not SyntaxKind.FieldDeclaration)
+                {
+                    member = member.AddAttributeLists(AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))));
+                }
+
+                // If the target class is sealed, make protected members private and remove the virtual modifier
+                if (classDeclarationSymbol.IsSealed)
+                {
+                    return member
+                        .ReplaceModifier(SyntaxKind.ProtectedKeyword, SyntaxKind.PrivateKeyword)
+                        .RemoveModifier(SyntaxKind.VirtualKeyword);
+                }
+
+                return member;
+            });
         }
 
         /// <summary>

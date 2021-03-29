@@ -7,8 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -20,15 +18,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged"/>
-        [ExcludeFromCodeCoverage]
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="e">The input <see cref="PropertyChangedEventArgs"/> instance.</param>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
@@ -38,8 +33,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
@@ -57,8 +50,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, newValue))
@@ -84,8 +75,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(field, newValue))
@@ -121,8 +110,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
@@ -149,8 +136,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="callback">A callback to invoke to update the property value.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(oldValue, newValue))
@@ -217,8 +202,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
@@ -250,8 +233,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
@@ -299,8 +280,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <paramref name="taskNotifier"/> is different than the previous one, and it does not mean the new
         /// <see cref="Task"/> instance passed as argument is in any particular state.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
@@ -321,8 +300,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
@@ -361,8 +338,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <paramref name="taskNotifier"/> is different than the previous one, and it does not mean the new
         /// <see cref="Task{TResult}"/> instance passed as argument is in any particular state.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
@@ -384,8 +359,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
@@ -400,8 +373,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="callback">A callback to invoke to update the property value.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         private bool SetPropertyAndNotifyOnCompletion<TTask>(ITaskNotifier<TTask> taskNotifier, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
@@ -456,16 +427,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             /// <summary>
             /// Gets or sets the wrapped <typeparamref name="TTask"/> value.
             /// </summary>
-            [DebuggerNonUserCode]
-            [ExcludeFromCodeCoverage]
             TTask? Task { get; set; }
         }
 
         /// <summary>
         /// A wrapping class that can hold a <see cref="Task"/> value.
         /// </summary>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected sealed class TaskNotifier : ITaskNotifier<Task>
         {
             /// <summary>
@@ -498,8 +465,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// A wrapping class that can hold a <see cref="Task{T}"/> value.
         /// </summary>
         /// <typeparam name="T">The type of value for the wrapped <see cref="Task{T}"/> instance.</typeparam>
-        [DebuggerNonUserCode]
-        [ExcludeFromCodeCoverage]
         protected sealed class TaskNotifier<T> : ITaskNotifier<Task<T>>
         {
             /// <summary>
