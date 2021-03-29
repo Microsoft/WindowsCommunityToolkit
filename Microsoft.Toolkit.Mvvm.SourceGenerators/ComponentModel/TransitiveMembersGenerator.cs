@@ -157,7 +157,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 CompilationUnit()
                 .AddMembers(NamespaceDeclaration(IdentifierName(namespaceName))
                 .AddMembers(typeDeclarationSyntax))
-                .AddUsings(usingDirectives.ToArray())
+                .AddUsings(usingDirectives.First().WithLeadingTrivia(TriviaList(
+                    Comment("// Licensed to the .NET Foundation under one or more agreements."),
+                    Comment("// The .NET Foundation licenses this file to you under the MIT license."),
+                    Comment("// See the LICENSE file in the project root for more information."),
+                    Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))))
+                .AddUsings(usingDirectives.Skip(1).ToArray())
                 .NormalizeWhitespace()
                 .ToFullString();
 
