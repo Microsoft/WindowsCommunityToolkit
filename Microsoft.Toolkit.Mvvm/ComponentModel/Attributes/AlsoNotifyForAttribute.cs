@@ -6,6 +6,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
@@ -68,10 +69,23 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref="AlsoNotifyForAttribute"/> class.
         /// </summary>
-        /// <param name="propertyNames">The property names to also notify when the annotated property changes.</param>
-        public AlsoNotifyForAttribute(params string[] propertyNames)
+        /// <param name="propertyName">The name of the property to also notify when the annotated property changes.</param>
+        public AlsoNotifyForAttribute(string propertyName)
         {
-            PropertyNames = propertyNames;
+            PropertyNames = new[] { propertyName };
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AlsoNotifyForAttribute"/> class.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to also notify when the annotated property changes.</param>
+        /// <param name="otherPropertyNames">
+        /// The other property names to also notify when the annotated property changes. This parameter can optionally
+        /// be used to indicate a series of dependent properties from the same attribute, to keep the code more compact.
+        /// </param>
+        public AlsoNotifyForAttribute(string propertyName, string[] otherPropertyNames)
+        {
+            PropertyNames = new[] { propertyName }.Concat(otherPropertyNames).ToArray();
         }
 
         /// <summary>

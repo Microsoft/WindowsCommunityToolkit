@@ -146,14 +146,35 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // Add dependent property notifications, if needed
                 if (SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass, alsoNotifyForAttributeSymbol))
                 {
-                    foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments[0].Values)
+                    foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments)
                     {
-                        if (attributeArgument.Value is string dependentPropertyName)
+                        if (attributeArgument.IsNull)
+                        {
+                            continue;
+                        }
+
+                        if (attributeArgument.Kind == TypedConstantKind.Primitive &&
+                            attributeArgument.Value is string dependentPropertyName)
                         {
                             // OnPropertyChanged("OtherPropertyName");
                             dependentPropertyNotificationStatements.Add(ExpressionStatement(
                                 InvocationExpression(IdentifierName("OnPropertyChanged"))
                                 .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
+                        }
+                        else if (attributeArgument.Kind == TypedConstantKind.Array)
+                        {
+                            foreach (TypedConstant nestedAttributeArgument in attributeArgument.Values)
+                            {
+                                if (nestedAttributeArgument.IsNull)
+                                {
+                                    continue;
+                                }
+
+                                // Additional property names
+                                dependentPropertyNotificationStatements.Add(ExpressionStatement(
+                                    InvocationExpression(IdentifierName("OnPropertyChanged"))
+                                    .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal((string)nestedAttributeArgument.Value!))))));
+                            }
                         }
                     }
                 }
