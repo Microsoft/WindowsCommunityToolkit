@@ -165,21 +165,31 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         IdentifierName("value"))),
                 ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanged"))));
 
-            INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
+            INamedTypeSymbol alsoNotifyForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
+            INamedTypeSymbol? validationAttributeSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute");
 
-            // Add dependent property notifications, if needed
-            if (fieldSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
-                attributeData.ConstructorArguments.Length == 1)
+            List<AttributeSyntax> validationAttributes = new();
+
+            foreach (AttributeData attributeData in fieldSymbol.GetAttributes())
             {
-                foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments[0].Values)
+                // Add dependent property notifications, if needed
+                if (SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass, alsoNotifyForAttributeSymbol))
                 {
-                    if (attributeArgument.Value is string dependentPropertyName)
+                    foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments[0].Values)
                     {
-                        // OnPropertyChanged("OtherPropertyName");
-                        setter = setter.AddStatements(ExpressionStatement(
-                            InvocationExpression(IdentifierName("OnPropertyChanged"))
-                            .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
+                        if (attributeArgument.Value is string dependentPropertyName)
+                        {
+                            // OnPropertyChanged("OtherPropertyName");
+                            setter = setter.AddStatements(ExpressionStatement(
+                                InvocationExpression(IdentifierName("OnPropertyChanged"))
+                                .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
+                        }
                     }
+                }
+                else if (validationAttributeSymbol is not null &&
+                         attributeData.AttributeClass?.InheritsFrom(validationAttributeSymbol) == true)
+                {
+                    validationAttributes.Add(attributeData.AsAttributeSyntax());
                 }
             }
 
@@ -189,6 +199,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
             // [global::System.Diagnostics.DebuggerNonUserCode]
             // [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+            // <VALIDATION_ATTRIBUTES> // Optional
             // public <FIELD_TYPE> <PROPERTY_NAME>
             // {
             //     get => <FIELD_NAME>;
@@ -212,6 +223,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                             AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
+                .AddAttributeLists(validationAttributes.Select(static a => AttributeList(SingletonSeparatedList(a))).ToArray())
                 .WithLeadingTrivia(leadingTrivia)
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAccessorListAccessors(
