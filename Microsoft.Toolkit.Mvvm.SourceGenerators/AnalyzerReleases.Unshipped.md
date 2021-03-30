@@ -14,3 +14,4 @@ MVVMTK0006 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservableObjectGenerator |
 MVVMTK0007 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservableRecipientGenerator | Error | See https://aka.ms/mvvmtoolkit
 MVVMTK0008 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservableRecipientGenerator | Error | See https://aka.ms/mvvmtoolkit
 MVVMTK0009 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator | Error | See https://aka.ms/mvvmtoolkit
+MVVMTK0010 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator | Error | See https://aka.ms/mvvmtoolkit

@@ -47,7 +47,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 if (items.Key.DeclaringSyntaxReferences.Length > 0 &&
                     items.Key.DeclaringSyntaxReferences.First().GetSyntax() is ClassDeclarationSyntax classDeclaration)
                 {
-                    OnExecute(context, classDeclaration, items.Key, items);
+                    try
+                    {
+                        OnExecute(context, classDeclaration, items.Key, items);
+                    }
+                    catch
+                    {
+                        context.ReportDiagnostic(ObservablePropertyGeneratorError, items.Key, items.Key);
+                    }
                 }
             }
         }

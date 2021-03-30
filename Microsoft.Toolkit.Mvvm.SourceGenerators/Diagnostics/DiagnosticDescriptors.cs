@@ -156,5 +156,21 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             isEnabledByDefault: true,
             description: $"Cannot apply [{nameof(ObservablePropertyAttribute)}] to fields with validation attributes if they are declared in a type that doesn't inherit from ObservableValidator.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when <see cref="ObservablePropertyGenerator"/> failed to run on a given type.
+        /// <para>
+        /// Format: <c>"The generator ObservablePropertyGenerator failed to execute on type {0}"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor ObservablePropertyGeneratorError = new(
+            id: "MVVMTK0010",
+            title: $"Internal error for {nameof(ObservablePropertyGenerator)}",
+            messageFormat: $"The generator {nameof(ObservablePropertyGenerator)} failed to execute on type {{0}}",
+            category: typeof(ObservableObjectGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"The {nameof(ObservablePropertyGenerator)} generator encountered an error while processing a type. Please report this issue at https://aka.ms/mvvmtoolkit.",
+            helpLinkUri: "https://aka.ms/mvvmtoolkit");
     }
 }
