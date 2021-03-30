@@ -138,7 +138,7 @@ namespace UnitTests.Mvvm
             public string FullName => $"{Name} {Surname}";
         }
 
-        public partial class MyFormViewModel : ObservableRecipient
+        public partial class MyFormViewModel : ObservableValidator
         {
             [ObservableProperty]
             [Required]

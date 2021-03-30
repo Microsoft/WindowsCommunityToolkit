@@ -140,5 +140,21 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             isEnabledByDefault: true,
             description: $"Cannot apply [{nameof(ObservableRecipientAttribute)}] to a type that lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [{nameof(ObservableObjectAttribute)}] or [{nameof(INotifyPropertyChangedAttribute)}]).",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when the target type doesn't inherit from the <c>ObservableValidator</c> class.
+        /// <para>
+        /// Format: <c>"The field {0}.{1} cannot be used to generate an observable property, as it has {2} validation attribute(s) but is declared in a type that doesn't inherit from ObservableValidator"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor MissingObservableValidatorInheritanceError = new(
+            id: "MVVMTK0009",
+            title: "Missing ObservableValidator inheritance",
+            messageFormat: $"The field {{0}}.{{1}} cannot be used to generate an observable property, as it has {{2}} validation attribute(s) but is declared in a type that doesn't inherit from ObservableValidator",
+            category: typeof(ObservablePropertyGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot apply [{nameof(ObservablePropertyAttribute)}] to fields with validation attributes if they are declared in a type that doesn't inherit from ObservableValidator.",
+            helpLinkUri: "https://aka.ms/mvvmtoolkit");
     }
 }

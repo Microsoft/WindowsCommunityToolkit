@@ -12,9 +12,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
+using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -63,16 +65,19 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             IEnumerable<SyntaxReceiver.Item> items)
         {
-            // Check whether INotifyPropertyChanging is present as well
             INamedTypeSymbol
                 iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!,
                 observableObjectSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject")!,
-                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(ObservableObjectAttribute).FullName)!;
+                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(ObservableObjectAttribute).FullName)!,
+                observableValidatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!;
 
-            bool isNotifyPropertyChanging =
-                classDeclarationSymbol.AllInterfaces.Contains(iNotifyPropertyChangingSymbol, SymbolEqualityComparer.Default) ||
-                classDeclarationSymbol.InheritsFrom(observableObjectSymbol) ||
-                classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol));
+            // Check whether the current type implements INotifyPropertyChanging and whether it inherits from ObservableValidator
+            bool
+                isObservableValidator = classDeclarationSymbol.InheritsFrom(observableValidatorSymbol),
+                isNotifyPropertyChanging =
+                    classDeclarationSymbol.AllInterfaces.Contains(iNotifyPropertyChangingSymbol, SymbolEqualityComparer.Default) ||
+                    classDeclarationSymbol.InheritsFrom(observableObjectSymbol) ||
+                    classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol));
 
             // Create the class declaration for the user type. This will produce a tree as follows:
             //
@@ -83,7 +88,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(item => CreatePropertyDeclaration(context, item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging)).ToArray());
+                .AddMembers(items.Select(item => CreatePropertyDeclaration(context, item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging, isObservableValidator)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -125,16 +130,21 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="leadingTrivia">The leading trivia for the field to process.</param>
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
+        /// <param name="isObservableValidator">Indicates whether or not the containing type inherits from <c>ObservableValidator</c>.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private static PropertyDeclarationSyntax CreatePropertyDeclaration(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
+        private static PropertyDeclarationSyntax CreatePropertyDeclaration(
+            GeneratorExecutionContext context,
+            SyntaxTriviaList leadingTrivia,
+            IFieldSymbol fieldSymbol,
+            bool isNotifyPropertyChanging,
+            bool isObservableValidator)
         {
             // Get the field type and the target property name
             string
                 typeName = fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 propertyName = GetGeneratedPropertyName(fieldSymbol);
 
-            INamedTypeSymbol observableValidatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!;
             INamedTypeSymbol alsoNotifyForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
             INamedTypeSymbol? validationAttributeSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute");
 
@@ -190,6 +200,19 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             if (validationAttributes.Count > 0)
             {
+                // Emit a diagnostic if the current type doesn't inherit from ObservableValidator
+                if (!isObservableValidator)
+                {
+                    context.ReportDiagnostic(
+                        MissingObservableValidatorInheritanceError,
+                        fieldSymbol,
+                        fieldSymbol.ContainingType,
+                        fieldSymbol.Name,
+                        validationAttributes.Count);
+
+                    setterBlock = Block();
+                }
+
                 // Generate the inner setter block as follows:
                 //
                 // SetProperty(ref <FIELD_NAME>, value, true);
