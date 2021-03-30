@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -32,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
             {
                 if (context.Node is FieldDeclarationSyntax { AttributeLists: { Count: > 0 } } fieldDeclaration &&
-                    context.SemanticModel.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservablePropertyAttribute") is INamedTypeSymbol attributeSymbol)
+                    context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(ObservablePropertyAttribute).FullName) is INamedTypeSymbol attributeSymbol)
                 {
                     SyntaxTriviaList leadingTrivia = fieldDeclaration.GetLeadingTrivia();
 

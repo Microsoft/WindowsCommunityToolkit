@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,6 +51,23 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(changed.Item2, 42);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_AlsoNotifyForAttribute_Events()
+        {
+            var model = new DependentPropertyModel();
+
+            (PropertyChangedEventArgs, int) changed = default;
+            List<string> propertyNames = new();
+
+            model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
+
+            model.Name = "Bob";
+            model.Surname = "Ross";
+
+            CollectionAssert.AreEqual(new[] { nameof(model.Name), nameof(model.FullName), nameof(model.Surname), nameof(model.FullName) }, propertyNames);
+        }
+
         public partial class SampleModel : ObservableObject
         {
             /// <summary>
@@ -57,6 +75,20 @@ namespace UnitTests.Mvvm
             /// </summary>
             [ObservableProperty]
             private int data;
+        }
+
+        [INotifyPropertyChanged]
+        public sealed partial class DependentPropertyModel
+        {
+            [ObservableProperty]
+            [AlsoNotifyFor(nameof(FullName))]
+            private string name;
+
+            [ObservableProperty]
+            [AlsoNotifyFor(nameof(FullName))]
+            private string surname;
+
+            public string FullName => $"{Name} {Surname}";
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(item => CreatePropertyDeclaration(item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging)).ToArray());
+                .AddMembers(items.Select(item => CreatePropertyDeclaration(context, item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -121,12 +121,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <summary>
         /// Creates a <see cref="PropertyDeclarationSyntax"/> instance for a specified field.
         /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
         /// <param name="leadingTrivia">The leading trivia for the field to process.</param>
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private PropertyDeclarationSyntax CreatePropertyDeclaration(SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
+        private PropertyDeclarationSyntax CreatePropertyDeclaration(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
         {
             // Get the field type and the target property name
             string
@@ -163,6 +164,24 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         IdentifierName(fieldSymbol.Name),
                         IdentifierName("value"))),
                 ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanged"))));
+
+            INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
+
+            // Add dependent property notifications, if needed
+            if (fieldSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
+                attributeData.ConstructorArguments.Length == 1)
+            {
+                foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments[0].Values)
+                {
+                    if (attributeArgument.Value is string dependentPropertyName)
+                    {
+                        // OnPropertyChanged("OtherPropertyName");
+                        setter = setter.AddStatements(ExpressionStatement(
+                            InvocationExpression(IdentifierName("OnPropertyChanged"))
+                            .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
+                    }
+                }
+            }
 
             // Construct the generated property as follows:
             //
