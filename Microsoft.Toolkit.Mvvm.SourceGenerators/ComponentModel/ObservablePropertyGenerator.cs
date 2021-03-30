@@ -171,6 +171,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             {
                 // Generate the inner setter block as follows:
                 //
+                // SetProperty(ref <FIELD_NAME>, value, true);
+                //
+                // Or in case there is at least one dependent property:
+                //
                 // if (SetProperty(ref <FIELD_NAME>, value, true))
                 // {
                 //     OnPropertyChanged("Property1"); // Optional
@@ -178,14 +182,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //     ...
                 //     OnPropertyChanged("PropertyN");
                 // }
-                setterBlock = Block(
-                    IfStatement(
-                        InvocationExpression(IdentifierName("SetProperty"))
-                        .AddArgumentListArguments(
-                            Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
-                            Argument(IdentifierName("value")),
-                            Argument(LiteralExpression(SyntaxKind.TrueLiteralExpression))),
-                        Block(dependentPropertyNotificationStatements)));
+                InvocationExpressionSyntax setPropertyExpression =
+                    InvocationExpression(IdentifierName("SetProperty"))
+                    .AddArgumentListArguments(
+                        Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
+                        Argument(IdentifierName("value")),
+                        Argument(LiteralExpression(SyntaxKind.TrueLiteralExpression)));
+
+                setterBlock = dependentPropertyNotificationStatements.Count switch
+                {
+                    0 => Block(ExpressionStatement(setPropertyExpression)),
+                    _ => Block(IfStatement(setPropertyExpression, Block(dependentPropertyNotificationStatements)))
+                };
             }
             else
             {
