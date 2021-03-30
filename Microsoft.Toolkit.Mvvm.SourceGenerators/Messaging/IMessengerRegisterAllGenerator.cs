@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // messenger.Register<<TYPE_0>>(recipient);
                 // messenger.Register<<TYPE_1>>(recipient);
-                // // ...
+                // ...
                 // messenger.Register<<TYPE_N>>(recipient);
                 yield return
                     ExpressionStatement(
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // messenger.Register<<TYPE_0>, TToken>(recipient, token);
                 // messenger.Register<<TYPE_1>, TToken>(recipient, token);
-                // // ...
+                // ...
                 // messenger.Register<<TYPE_N>, TToken>(recipient, token);
                 yield return
                     ExpressionStatement(

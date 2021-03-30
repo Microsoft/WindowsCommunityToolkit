@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //
                 // __ObservableValidatorHelper.ValidateProperty(instance, instance.<PROPERTY_0>, nameof(instance.<PROPERTY_0>));
                 // __ObservableValidatorHelper.ValidateProperty(instance, instance.<PROPERTY_0>, nameof(instance.<PROPERTY_0>));
-                // // ...
+                // ...
                 // __ObservableValidatorHelper.ValidateProperty(instance, instance.<PROPERTY_1>, nameof(instance.<PROPERTY_1>));
                 yield return
                     ExpressionStatement(

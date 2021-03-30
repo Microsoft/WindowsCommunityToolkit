@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="items">The sequence of fields to process.</param>
-        private void OnExecute(
+        private static void OnExecute(
             GeneratorExecutionContext context,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
@@ -127,47 +127,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
-        private PropertyDeclarationSyntax CreatePropertyDeclaration(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
+        private static PropertyDeclarationSyntax CreatePropertyDeclaration(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IFieldSymbol fieldSymbol, bool isNotifyPropertyChanging)
         {
             // Get the field type and the target property name
             string
                 typeName = fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                propertyName = fieldSymbol.Name;
+                propertyName = GetGeneratedPropertyName(fieldSymbol);
 
-            if (propertyName.StartsWith("m_"))
-            {
-                propertyName = propertyName.Substring(2);
-            }
-            else if (propertyName.StartsWith("_"))
-            {
-                propertyName = propertyName.TrimStart('_');
-            }
-
-            propertyName = $"{char.ToUpper(propertyName[0])}{propertyName.Substring(1)}";
-
-            BlockSyntax setter = Block();
-
-            // Add the OnPropertyChanging() call if necessary
-            if (isNotifyPropertyChanging)
-            {
-                setter = setter.AddStatements(ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanging"))));
-            }
-
-            // Add the following statements:
-            //
-            // <FIELD_NAME> = value;
-            // OnPropertyChanged();
-            setter = setter.AddStatements(
-                ExpressionStatement(
-                    AssignmentExpression(
-                        SyntaxKind.SimpleAssignmentExpression,
-                        IdentifierName(fieldSymbol.Name),
-                        IdentifierName("value"))),
-                ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanged"))));
-
+            INamedTypeSymbol observableValidatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!;
             INamedTypeSymbol alsoNotifyForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
             INamedTypeSymbol? validationAttributeSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute");
 
+            List<StatementSyntax> dependentPropertyNotificationStatements = new();
             List<AttributeSyntax> validationAttributes = new();
 
             foreach (AttributeData attributeData in fieldSymbol.GetAttributes())
@@ -180,7 +151,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         if (attributeArgument.Value is string dependentPropertyName)
                         {
                             // OnPropertyChanged("OtherPropertyName");
-                            setter = setter.AddStatements(ExpressionStatement(
+                            dependentPropertyNotificationStatements.Add(ExpressionStatement(
                                 InvocationExpression(IdentifierName("OnPropertyChanged"))
                                 .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
                         }
@@ -189,8 +160,87 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 else if (validationAttributeSymbol is not null &&
                          attributeData.AttributeClass?.InheritsFrom(validationAttributeSymbol) == true)
                 {
+                    // Track the current validation attribute
                     validationAttributes.Add(attributeData.AsAttributeSyntax());
                 }
+            }
+
+            BlockSyntax setterBlock;
+
+            if (validationAttributes.Count > 0)
+            {
+                // Generate the inner setter block as follows:
+                //
+                // if (SetProperty(ref <FIELD_NAME>, value, true))
+                // {
+                //     OnPropertyChanged("Property1"); // Optional
+                //     OnPropertyChanged("Property2");
+                //     ...
+                //     OnPropertyChanged("PropertyN");
+                // }
+                setterBlock = Block(
+                    IfStatement(
+                        InvocationExpression(IdentifierName("SetProperty"))
+                        .AddArgumentListArguments(
+                            Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
+                            Argument(IdentifierName("value")),
+                            Argument(LiteralExpression(SyntaxKind.TrueLiteralExpression))),
+                        Block(dependentPropertyNotificationStatements)));
+            }
+            else
+            {
+                BlockSyntax updateAndNotificationBlock = Block();
+
+                // Add the OnPropertyChanging() call if necessary
+                if (isNotifyPropertyChanging)
+                {
+                    updateAndNotificationBlock = updateAndNotificationBlock.AddStatements(ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanging"))));
+                }
+
+                // Add the following statements:
+                //
+                // <FIELD_NAME> = value;
+                // OnPropertyChanged();
+                updateAndNotificationBlock = updateAndNotificationBlock.AddStatements(
+                    ExpressionStatement(
+                        AssignmentExpression(
+                            SyntaxKind.SimpleAssignmentExpression,
+                            IdentifierName(fieldSymbol.Name),
+                            IdentifierName("value"))),
+                    ExpressionStatement(InvocationExpression(IdentifierName("OnPropertyChanged"))));
+
+                // Add the dependent property notifications at the end
+                updateAndNotificationBlock = updateAndNotificationBlock.AddStatements(dependentPropertyNotificationStatements.ToArray());
+
+                // Generate the inner setter block as follows:
+                //
+                // if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
+                // {
+                //     OnPropertyChanging(); // Optional
+                //     <FIELD_NAME> = value;
+                //     OnPropertyChanged();
+                //     OnPropertyChanged("Property1"); // Optional
+                //     OnPropertyChanged("Property2");
+                //     ...
+                //     OnPropertyChanged("PropertyN");
+                // }
+                setterBlock = Block(
+                    IfStatement(
+                        PrefixUnaryExpression(
+                            SyntaxKind.LogicalNotExpression,
+                            InvocationExpression(
+                                MemberAccessExpression(
+                                    SyntaxKind.SimpleMemberAccessExpression,
+                                    MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        GenericName(Identifier("global::System.Collections.Generic.EqualityComparer"))
+                                        .AddTypeArgumentListArguments(IdentifierName(typeName)),
+                                        IdentifierName("Default")),
+                                    IdentifierName("Equals")))
+                            .AddArgumentListArguments(
+                                    Argument(IdentifierName(fieldSymbol.Name)),
+                                    Argument(IdentifierName("value")))),
+                        updateAndNotificationBlock));
             }
 
             // Construct the generated property as follows:
@@ -199,18 +249,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
             // [global::System.Diagnostics.DebuggerNonUserCode]
             // [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-            // <VALIDATION_ATTRIBUTES> // Optional
+            // <VALIDATION_ATTRIBUTE1> // Optional
+            // <VALIDATION_ATTRIBUTE2>
+            // ...
+            // <VALIDATION_ATTRIBUTEN>
             // public <FIELD_TYPE> <PROPERTY_NAME>
             // {
             //     get => <FIELD_NAME>;
             //     set
             //     {
-            //         if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
-            //         {
-            //             OnPropertyChanging(); // Optional
-            //             <FIELD_NAME> = value;
-            //             OnPropertyChanged();
-            //         }
+            //         <BODY>
             //     }
             // }
             return
@@ -219,8 +267,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     AttributeList(SingletonSeparatedList(
                         Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
                         .AddArgumentListArguments(
-                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
-                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ObservablePropertyGenerator).FullName))),
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ObservablePropertyGenerator).Assembly.GetName().Version.ToString())))))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
                 .AddAttributeLists(validationAttributes.Select(static a => AttributeList(SingletonSeparatedList(a))).ToArray())
@@ -231,23 +279,29 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     .WithExpressionBody(ArrowExpressionClause(IdentifierName(fieldSymbol.Name)))
                     .WithSemicolonToken(Token(SyntaxKind.SemicolonToken)),
                     AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                    .AddBodyStatements(
-                        IfStatement(
-                            PrefixUnaryExpression(
-                                SyntaxKind.LogicalNotExpression,
-                                InvocationExpression(
-                                    MemberAccessExpression(
-                                        SyntaxKind.SimpleMemberAccessExpression,
-                                        MemberAccessExpression(
-                                            SyntaxKind.SimpleMemberAccessExpression,
-                                            GenericName(Identifier("global::System.Collections.Generic.EqualityComparer"))
-                                            .AddTypeArgumentListArguments(IdentifierName(typeName)),
-                                            IdentifierName("Default")),
-                                        IdentifierName("Equals")))
-                                .AddArgumentListArguments(
-                                        Argument(IdentifierName(fieldSymbol.Name)),
-                                        Argument(IdentifierName("value")))),
-                            setter)));
+                    .WithBody(setterBlock));
+        }
+
+        /// <summary>
+        /// Get the generated property name for an input field.
+        /// </summary>
+        /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
+        /// <returns>The generated property name for <paramref name="fieldSymbol"/>.</returns>
+        [Pure]
+        private static string GetGeneratedPropertyName(IFieldSymbol fieldSymbol)
+        {
+            string propertyName = fieldSymbol.Name;
+
+            if (propertyName.StartsWith("m_"))
+            {
+                propertyName = propertyName.Substring(2);
+            }
+            else if (propertyName.StartsWith("_"))
+            {
+                propertyName = propertyName.TrimStart('_');
+            }
+
+            return $"{char.ToUpper(propertyName[0])}{propertyName.Substring(1)}";
         }
     }
 }
