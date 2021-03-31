@@ -16,7 +16,7 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ICommandAttribute_RelayCommand()
+        public async Task Test_ICommandAttribute_RelayCommand()
         {
             var model = new MyViewModel();
 
@@ -30,19 +30,19 @@ namespace UnitTests.Mvvm
 
             Assert.AreEqual(model.Counter, 6);
 
-            model.IncrementCounterAsyncCommand.Execute(null);
+            await model.DelayAndIncrementCounterCommand.ExecuteAsync(null);
 
             Assert.AreEqual(model.Counter, 7);
 
-            model.IncrementCounterWithTokenAsyncCommand.Execute(null);
+            await model.DelayAndIncrementCounterWithTokenCommand.ExecuteAsync(null);
 
             Assert.AreEqual(model.Counter, 8);
 
-            model.IncrementCounterWithValueAsyncCommand.Execute(5);
+            await model.DelayAndIncrementCounterWithValueCommand.ExecuteAsync(5);
 
             Assert.AreEqual(model.Counter, 13);
 
-            model.IncrementCounterWithValueAndTokenAsyncCommand.Execute(5);
+            await model.DelayAndIncrementCounterWithValueAndTokenCommand.ExecuteAsync(5);
 
             Assert.AreEqual(model.Counter, 18);
         }
@@ -64,35 +64,35 @@ namespace UnitTests.Mvvm
             }
 
             [ICommand]
-            private Task IncrementCounterAsync()
+            private async Task DelayAndIncrementCounterAsync()
             {
+                await Task.Delay(50);
+
                 Counter += 1;
-
-                return Task.CompletedTask;
             }
 
             [ICommand]
-            private Task IncrementCounterWithTokenAsync(CancellationToken token)
+            private async Task DelayAndIncrementCounterWithTokenAsync(CancellationToken token)
             {
+                await Task.Delay(50);
+
                 Counter += 1;
-
-                return Task.CompletedTask;
             }
 
             [ICommand]
-            private Task IncrementCounterWithValueAsync(int count)
+            private async Task DelayAndIncrementCounterWithValueAsync(int count)
             {
-                Counter += count;
+                await Task.Delay(50);
 
-                return Task.CompletedTask;
+                Counter += count;
             }
 
             [ICommand]
-            private Task IncrementCounterWithValueAndTokenAsync(int count, CancellationToken token)
+            private async Task DelayAndIncrementCounterWithValueAndTokenAsync(int count, CancellationToken token)
             {
-                Counter += count;
+                await Task.Delay(50);
 
-                return Task.CompletedTask;
+                Counter += count;
             }
         }
     }

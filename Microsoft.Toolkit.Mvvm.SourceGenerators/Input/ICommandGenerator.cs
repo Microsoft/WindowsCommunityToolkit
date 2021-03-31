@@ -126,9 +126,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         private static IEnumerable<MemberDeclarationSyntax> CreateCommandMembers(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IMethodSymbol methodSymbol)
         {
             // Get the command member names
-            string
-                propertyName = methodSymbol.Name + "Command",
-                fieldName = $"{char.ToLower(propertyName[0])}{propertyName.Substring(1)}";
+            var (fieldName, propertyName) = GetGeneratedFieldAndPropertyNames(context, methodSymbol);
 
             // Get the command type symbols
             if (!TryMapCommandTypesFromMethod(
@@ -188,6 +186,30 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
             return new MemberDeclarationSyntax[] { fieldDeclaration, propertyDeclaration };
+        }
+
+        /// <summary>
+        /// Get the generated field and property names for the input method.
+        /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
+        /// <param name="methodSymbol">The input <see cref="IMethodSymbol"/> instance to process.</param>
+        /// <returns>The generated field and property names for <paramref name="methodSymbol"/>.</returns>
+        [Pure]
+        private static (string FieldName, string PropertyName) GetGeneratedFieldAndPropertyNames(GeneratorExecutionContext context, IMethodSymbol methodSymbol)
+        {
+            string propertyName = methodSymbol.Name;
+
+            if (SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")!) &&
+                methodSymbol.Name.EndsWith("Async"))
+            {
+                propertyName = propertyName.Substring(0, propertyName.Length - "Async".Length);
+            }
+
+            propertyName += "Command";
+
+            string fieldName = $"{char.ToLower(propertyName[0])}{propertyName.Substring(1)}";
+
+            return (fieldName, propertyName);
         }
 
         /// <summary>

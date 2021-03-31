@@ -60,7 +60,6 @@ namespace UnitTests.Mvvm
         {
             var model = new DependentPropertyModel();
 
-            (PropertyChangedEventArgs, int) changed = default;
             List<string> propertyNames = new();
 
             model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
