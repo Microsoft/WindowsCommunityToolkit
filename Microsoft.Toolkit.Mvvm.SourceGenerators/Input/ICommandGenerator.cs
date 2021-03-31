@@ -123,14 +123,27 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         [Pure]
         private static IEnumerable<MemberDeclarationSyntax> CreateCommandMembers(GeneratorExecutionContext context, SyntaxTriviaList leadingTrivia, IMethodSymbol methodSymbol)
         {
+            // Get the command member names
+            string
+                propertyName = methodSymbol.Name + "Command",
+                fieldName = $"{char.ToLower(propertyName[0])}{propertyName.Substring(1)}";
+
+            // Get the command type symbols
+            ExtractCommandTypesFromMethod(
+                context,
+                methodSymbol,
+                out ITypeSymbol commandInterfaceTypeSymbol,
+                out ITypeSymbol commandClassTypeSymbol,
+                out ITypeSymbol delegateTypeSymbol);
+
             // Construct the generated field as follows:
             //
             // [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
             // private <COMMAND_TYPE>? <COMMAND_FIELD_NAME>;
             FieldDeclarationSyntax fieldDeclaration =
                 FieldDeclaration(
-                VariableDeclaration(NullableType(IdentifierName("IRelayCommand")))
-                .AddVariables(VariableDeclarator(Identifier("fooCommand"))))
+                VariableDeclaration(NullableType(IdentifierName(commandInterfaceTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                .AddVariables(VariableDeclarator(Identifier(fieldName))))
                 .AddModifiers(Token(SyntaxKind.PrivateKeyword))
                 .AddAttributeLists(AttributeList(SingletonSeparatedList(
                     Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
@@ -138,15 +151,17 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).FullName))),
                         AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).Assembly.GetName().Version.ToString())))))));
 
-            // Construct the generated property as follows:
+            // Construct the generated property as follows (the explicit delegate cast is needed to avoid overload resolution conflicts):
             //
-            // <METHOD_TRIVIA>
+            // <METHOD_SUMMARY>
             // [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
             // [global::System.Diagnostics.DebuggerNonUserCode]
             // [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
             // public <COMMAND_TYPE> <COMMAND_PROPERTY_NAME> => <COMMAND_FIELD_NAME> ??= new <RELAY_COMMAND_TYPE>(new <DELEGATE_TYPE>(<METHOD_NAME>));
             PropertyDeclarationSyntax propertyDeclaration =
-                PropertyDeclaration(IdentifierName("IRelayCommand"), Identifier("FooCommand"))
+                PropertyDeclaration(
+                    IdentifierName(commandInterfaceTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                    Identifier(propertyName))
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAttributeLists(
                     AttributeList(SingletonSeparatedList(
@@ -160,13 +175,51 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     ArrowExpressionClause(
                         AssignmentExpression(
                             SyntaxKind.CoalesceAssignmentExpression,
-                            IdentifierName("fooCommand"),
-                            ObjectCreationExpression(IdentifierName("RelayCommand"))
+                            IdentifierName(fieldName),
+                            ObjectCreationExpression(IdentifierName(commandClassTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
                             .AddArgumentListArguments(Argument(
-                                ObjectCreationExpression(IdentifierName("Action"))
-                                .AddArgumentListArguments(Argument(IdentifierName("Foo"))))))));
+                                ObjectCreationExpression(IdentifierName(delegateTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
+                                .AddArgumentListArguments(Argument(IdentifierName(methodSymbol.Name))))))))
+                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
             return new MemberDeclarationSyntax[] { fieldDeclaration, propertyDeclaration };
+        }
+
+        /// <summary>
+        /// Gets the type symbols for the input method, if supported.
+        /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
+        /// <param name="methodSymbol">The input <see cref="IMethodSymbol"/> instance to process.</param>
+        /// <param name="commandInterfaceTypeSymbol">The command interface type symbol.</param>
+        /// <param name="commandClassTypeSymbol">The command class type symbol.</param>
+        /// <param name="delegateTypeSymbol">The delegate type symbol for the wrapped method.</param>
+        private static void ExtractCommandTypesFromMethod(
+            GeneratorExecutionContext context,
+            IMethodSymbol methodSymbol,
+            out ITypeSymbol commandInterfaceTypeSymbol,
+            out ITypeSymbol commandClassTypeSymbol,
+            out ITypeSymbol delegateTypeSymbol)
+        {
+            if (methodSymbol.ReturnsVoid && methodSymbol.Parameters.Length == 0)
+            {
+                commandInterfaceTypeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Input.IRelayCommand")!;
+                commandClassTypeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Input.RelayCommand")!;
+                delegateTypeSymbol = context.Compilation.GetTypeByMetadataName("System.Action")!;
+            }
+            else if (methodSymbol.ReturnsVoid &&
+                     methodSymbol.Parameters.Length == 1 &&
+                     methodSymbol.Parameters[0] is IParameterSymbol { RefKind: RefKind.None } parameter)
+            {
+                commandInterfaceTypeSymbol = null;
+                commandClassTypeSymbol = null;
+                delegateTypeSymbol = null;
+            }
+            else
+            {
+                commandInterfaceTypeSymbol = null;
+                commandClassTypeSymbol = null;
+                delegateTypeSymbol = null;
+            }
         }
     }
 }
