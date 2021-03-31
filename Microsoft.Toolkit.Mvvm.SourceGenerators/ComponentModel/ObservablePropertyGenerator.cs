@@ -324,7 +324,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 PropertyDeclaration(IdentifierName(typeName), Identifier(propertyName))
                 .AddAttributeLists(
                     AttributeList(SingletonSeparatedList(
-                        Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                        Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
                         .AddArgumentListArguments(
                             AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ObservablePropertyGenerator).FullName))),
                             AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ObservablePropertyGenerator).Assembly.GetName().Version.ToString())))))),
