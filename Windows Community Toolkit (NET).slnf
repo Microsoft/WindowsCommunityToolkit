@@ -10,7 +10,8 @@
       "UnitTests\\UnitTests.HighPerformance.NetCore\\UnitTests.HighPerformance.NetCore.csproj",
       "UnitTests\\UnitTests.HighPerformance.Shared\\UnitTests.HighPerformance.Shared.shproj",
       "UnitTests\\UnitTests.NetCore\\UnitTests.NetCore.csproj",
-      "UnitTests\\UnitTests.Shared\\UnitTests.Shared.shproj"
+      "UnitTests\\UnitTests.Shared\\UnitTests.Shared.shproj",
+      "UnitTests\\UnitTests.SourceGenerators\\UnitTests.SourceGenerators.csproj",
     ]
   }
 }
