@@ -40,11 +40,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     foreach (VariableDeclaratorSyntax variableDeclarator in fieldDeclaration.Declaration.Variables)
                     {
                         if (context.SemanticModel.GetDeclaredSymbol(variableDeclarator) is IFieldSymbol fieldSymbol &&
-                            fieldSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
-                            attributeData.ApplicationSyntaxReference is SyntaxReference syntaxReference &&
-                            syntaxReference.GetSyntax() is AttributeSyntax attributeSyntax)
+                            fieldSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)))
                         {
-                            this.gatheredInfo.Add(new Item(leadingTrivia, variableDeclarator, fieldSymbol, attributeSyntax, attributeData));
+                            this.gatheredInfo.Add(new Item(leadingTrivia, fieldSymbol));
                         }
                     }
                 }
@@ -54,16 +52,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             /// A model for a group of item representing a discovered type to process.
             /// </summary>
             /// <param name="LeadingTrivia">The leading trivia for the field declaration.</param>
-            /// <param name="FieldDeclarator">The <see cref="VariableDeclaratorSyntax"/> instance for the target field variable declaration.</param>
-            /// <param name="FieldSymbol">The <see cref="IFieldSymbol"/> instance for <paramref name="FieldDeclarator"/>.</param>
-            /// <param name="AttributeSyntax">The <see cref="AttributeSyntax"/> instance for the target attribute over <paramref name="FieldDeclarator"/>.</param>
-            /// <param name="AttributeData">The <see cref="AttributeData"/> instance for <paramref name="AttributeSyntax"/>.</param>
-            public sealed record Item(
-                SyntaxTriviaList LeadingTrivia,
-                VariableDeclaratorSyntax FieldDeclarator,
-                IFieldSymbol FieldSymbol,
-                AttributeSyntax AttributeSyntax,
-                AttributeData AttributeData);
+            /// <param name="FieldSymbol">The <see cref="IFieldSymbol"/> instance for the target field.</param>
+            public sealed record Item(SyntaxTriviaList LeadingTrivia, IFieldSymbol FieldSymbol);
         }
     }
 }
