@@ -19,6 +19,7 @@
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" />
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" />
     <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
