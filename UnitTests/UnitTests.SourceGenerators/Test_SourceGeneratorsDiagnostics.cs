@@ -221,6 +221,25 @@ namespace UnitTests.Mvvm
             VerifyGeneratedDiagnostics<ObservablePropertyGenerator>(source, "MVVMTK0009");
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void InvalidICommandMethodSignatureError()
+        {
+            string source = @"
+            using Microsoft.Toolkit.Mvvm.Input;
+
+            namespace MyApp
+            {
+                public partial class SampleViewModel
+                {
+                    [ICommand]
+                    private string GreetUser() => ""Hello world!"";
+                }
+            }";
+
+            VerifyGeneratedDiagnostics<ICommandGenerator>(source, "MVVMTK0012");
+        }
+
         /// <summary>
         /// Verifies the output of a source generator.
         /// </summary>

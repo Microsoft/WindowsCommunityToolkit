@@ -13,9 +13,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
+using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -52,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     }
                     catch
                     {
-                        // TODO
+                        context.ReportDiagnostic(ICommandGeneratorError, classDeclaration, items.Key);
                     }
                 }
             }
@@ -136,6 +138,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 out ITypeSymbol? commandClassTypeSymbol,
                 out ITypeSymbol? delegateTypeSymbol))
             {
+                context.ReportDiagnostic(InvalidICommandMethodSignatureError, methodSymbol, methodSymbol.ContainingType, methodSymbol);
+
                 return Array.Empty<MemberDeclarationSyntax>();
             }
 

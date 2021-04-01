@@ -5,6 +5,7 @@
 using System.ComponentModel;
 using Microsoft.CodeAnalysis;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
 {
@@ -150,7 +151,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor MissingObservableValidatorInheritanceError = new(
             id: "MVVMTK0009",
             title: "Missing ObservableValidator inheritance",
-            messageFormat: $"The field {{0}}.{{1}} cannot be used to generate an observable property, as it has {{2}} validation attribute(s) but is declared in a type that doesn't inherit from ObservableValidator",
+            messageFormat: "The field {0}.{1} cannot be used to generate an observable property, as it has {2} validation attribute(s) but is declared in a type that doesn't inherit from ObservableValidator",
             category: typeof(ObservablePropertyGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
@@ -171,6 +172,38 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"The {nameof(ObservablePropertyGenerator)} generator encountered an error while processing a type. Please report this issue at https://aka.ms/mvvmtoolkit.",
+            helpLinkUri: "https://aka.ms/mvvmtoolkit");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when <see cref="ICommandGenerator"/> failed to run on a given type.
+        /// <para>
+        /// Format: <c>"The generator ICommandGenerator failed to execute on type {0}"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor ICommandGeneratorError = new(
+            id: "MVVMTK0011",
+            title: $"Internal error for {nameof(ICommandGenerator)}",
+            messageFormat: $"The generator {nameof(ICommandGenerator)} failed to execute on type {{0}}",
+            category: typeof(ICommandGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"The {nameof(ICommandGenerator)} generator encountered an error while processing a type. Please report this issue at https://aka.ms/mvvmtoolkit.",
+            helpLinkUri: "https://aka.ms/mvvmtoolkit");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when an annotated method to generate a command for has an invalid signature.
+        /// <para>
+        /// Format: <c>"The method {0}.{1} cannot be used to generate a command property, as its signature isn't compatible with any of the existing relay command types"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor InvalidICommandMethodSignatureError = new(
+            id: "MVVMTK0012",
+            title: "Invalid ICommand method signature",
+            messageFormat: "The method {0}.{1} cannot be used to generate a command property, as its signature isn't compatible with any of the existing relay command types",
+            category: typeof(ICommandGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot apply [{nameof(ICommandAttribute)}] to methods with a signature that doesn't match any of the existing relay command types.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
     }
 }
