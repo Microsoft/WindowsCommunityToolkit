@@ -80,10 +80,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             // Check whether the current type implements INotifyPropertyChanging and whether it inherits from ObservableValidator
             bool
+                isObservableObject = classDeclarationSymbol.InheritsFrom(observableObjectSymbol),
                 isObservableValidator = classDeclarationSymbol.InheritsFrom(observableValidatorSymbol),
                 isNotifyPropertyChanging =
+                    isObservableObject ||
                     classDeclarationSymbol.AllInterfaces.Contains(iNotifyPropertyChangingSymbol, SymbolEqualityComparer.Default) ||
-                    classDeclarationSymbol.InheritsFrom(observableObjectSymbol) ||
                     classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol));
 
             // Create the class declaration for the user type. This will produce a tree as follows:
@@ -95,7 +96,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(items.Select(item => CreatePropertyDeclaration(context, item.LeadingTrivia, item.FieldSymbol, isNotifyPropertyChanging, isObservableValidator)).ToArray());
+                .AddMembers(items.Select(item =>
+                    CreatePropertyDeclaration(
+                        context,
+                        item.LeadingTrivia,
+                        item.FieldSymbol,
+                        isNotifyPropertyChanging,
+                        isObservableObject,
+                        isObservableValidator)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -137,6 +145,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="leadingTrivia">The leading trivia for the field to process.</param>
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
+        /// <param name="isObservableObject">Indicates whether or not the containing type inherits from <c>ObservableObject</c>.</param>
         /// <param name="isObservableValidator">Indicates whether or not the containing type inherits from <c>ObservableValidator</c>.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
@@ -145,6 +154,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             SyntaxTriviaList leadingTrivia,
             IFieldSymbol fieldSymbol,
             bool isNotifyPropertyChanging,
+            bool isObservableObject,
             bool isObservableValidator)
         {
             // Get the field type and the target property name
@@ -239,6 +249,33 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
                         Argument(IdentifierName("value")),
                         Argument(LiteralExpression(SyntaxKind.TrueLiteralExpression)));
+
+                setterBlock = dependentPropertyNotificationStatements.Count switch
+                {
+                    0 => Block(ExpressionStatement(setPropertyExpression)),
+                    _ => Block(IfStatement(setPropertyExpression, Block(dependentPropertyNotificationStatements)))
+                };
+            }
+            else if (isObservableObject)
+            {
+                // Generate the inner setter block as follows:
+                //
+                // SetProperty(ref <FIELD_NAME>, value);
+                //
+                // Or in case there is at least one dependent property:
+                //
+                // if (SetProperty(ref <FIELD_NAME>, value))
+                // {
+                //     OnPropertyChanged("Property1"); // Optional
+                //     OnPropertyChanged("Property2");
+                //     ...
+                //     OnPropertyChanged("PropertyN");
+                // }
+                InvocationExpressionSyntax setPropertyExpression =
+                    InvocationExpression(IdentifierName("SetProperty"))
+                    .AddArgumentListArguments(
+                        Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
+                        Argument(IdentifierName("value")));
 
                 setterBlock = dependentPropertyNotificationStatements.Count switch
                 {
