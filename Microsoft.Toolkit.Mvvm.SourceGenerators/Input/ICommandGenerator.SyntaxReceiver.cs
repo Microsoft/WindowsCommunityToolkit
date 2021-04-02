@@ -22,12 +22,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             /// <summary>
             /// The list of info gathered during exploration.
             /// </summary>
-            private readonly List<IMethodSymbol> gatheredInfo = new();
+            private readonly List<Item> gatheredInfo = new();
 
             /// <summary>
             /// Gets the collection of gathered info to process.
             /// </summary>
-            public IReadOnlyCollection<IMethodSymbol> GatheredInfo => this.gatheredInfo;
+            public IReadOnlyCollection<Item> GatheredInfo => this.gatheredInfo;
 
             /// <inheritdoc/>
             public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
@@ -37,9 +37,16 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(ICommandAttribute).FullName) is INamedTypeSymbol iCommandSymbol &&
                     methodSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, iCommandSymbol)))
                 {
-                    this.gatheredInfo.Add(methodSymbol);
+                    this.gatheredInfo.Add(new Item(methodDeclaration.GetLeadingTrivia(), methodSymbol));
                 }
             }
+
+            /// <summary>
+            /// A model for a group of item representing a discovered type to process.
+            /// </summary>
+            /// <param name="LeadingTrivia">The leading trivia for the field declaration.</param>
+            /// <param name="MethodSymbol">The <see cref="IMethodSymbol"/> instance for the target method.</param>
+            public sealed record Item(SyntaxTriviaList LeadingTrivia, IMethodSymbol MethodSymbol);
         }
     }
 }

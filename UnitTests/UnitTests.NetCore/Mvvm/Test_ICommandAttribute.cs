@@ -51,18 +51,25 @@ namespace UnitTests.Mvvm
         {
             public int Counter { get; private set; }
 
+            /// <summary>This is a single line summary.</summary>
             [ICommand]
             private void IncrementCounter()
             {
                 Counter++;
             }
 
+            /// <summary>
+            /// This is a multiline summary
+            /// </summary>
             [ICommand]
             private void IncrementCounterWithValue(int count)
             {
                 Counter += count;
             }
 
+            /// <summary>This is single line with also other stuff below</summary>
+            /// <returns>Foo bar baz</returns>
+            /// <returns>A task</returns>
             [ICommand]
             private async Task DelayAndIncrementCounterAsync()
             {
@@ -71,6 +78,11 @@ namespace UnitTests.Mvvm
                 Counter += 1;
             }
 
+            /// <summary>
+            /// This is multi line with also other stuff below
+            /// </summary>
+            /// <returns>Foo bar baz</returns>
+            /// <returns>A task</returns>
             [ICommand]
             private async Task DelayAndIncrementCounterWithTokenAsync(CancellationToken token)
             {
@@ -79,6 +91,7 @@ namespace UnitTests.Mvvm
                 Counter += 1;
             }
 
+            // This should not be ported over
             [ICommand]
             private async Task DelayAndIncrementCounterWithValueAsync(int count)
             {

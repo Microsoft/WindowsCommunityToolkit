@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -43,7 +44,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
-            foreach (var items in syntaxReceiver.GatheredInfo.GroupBy<IMethodSymbol, INamedTypeSymbol>(static item => item.ContainingType, SymbolEqualityComparer.Default))
+            foreach (var items in syntaxReceiver.GatheredInfo.GroupBy<SyntaxReceiver.Item, INamedTypeSymbol>(static item => item.MethodSymbol.ContainingType, SymbolEqualityComparer.Default))
             {
                 if (items.Key.DeclaringSyntaxReferences.Length > 0 &&
                     items.Key.DeclaringSyntaxReferences.First().GetSyntax() is ClassDeclarationSyntax classDeclaration)
@@ -66,12 +67,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
-        /// <param name="methodSymbols">The sequence of <see cref="IMethodSymbol"/> instances to process.</param>
+        /// <param name="items">The sequence of <see cref="IMethodSymbol"/> instances to process.</param>
         private static void OnExecute(
             GeneratorExecutionContext context,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
-            IEnumerable<IMethodSymbol> methodSymbols)
+            IEnumerable<SyntaxReceiver.Item> items)
         {
             // Create the class declaration for the user type. This will produce a tree as follows:
             //
@@ -82,7 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             var classDeclarationSyntax =
                 ClassDeclaration(classDeclarationSymbol.Name)
                 .WithModifiers(classDeclaration.Modifiers)
-                .AddMembers(methodSymbols.Select(item => CreateCommandMembers(context, default, item)).SelectMany(static g => g).ToArray());
+                .AddMembers(items.Select(item => CreateCommandMembers(context, item.LeadingTrivia, item.MethodSymbol)).SelectMany(static g => g).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -158,6 +159,27 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).FullName))),
                         AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).Assembly.GetName().Version.ToString())))))));
 
+            SyntaxTriviaList summaryTrivia = SyntaxTriviaList.Empty;
+
+            // Parse the <summary> docs, if present
+            foreach (SyntaxTrivia trivia in leadingTrivia)
+            {
+                if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) ||
+                    trivia.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia))
+                {
+                    string text = trivia.ToString();
+
+                    Match match = Regex.Match(text, @"<summary>.*?<\/summary>", RegexOptions.Singleline);
+
+                    if (match.Success)
+                    {
+                        summaryTrivia = TriviaList(Comment($"/// {match.Value}"));
+
+                        break;
+                    }
+                }
+            }
+
             // Construct the generated property as follows (the explicit delegate cast is needed to avoid overload resolution conflicts):
             //
             // <METHOD_SUMMARY>
@@ -175,7 +197,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
                         .AddArgumentListArguments(
                             AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).FullName))),
-                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).Assembly.GetName().Version.ToString())))))),
+                            AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(typeof(ICommandGenerator).Assembly.GetName().Version.ToString()))))))
+                    .WithOpenBracketToken(Token(summaryTrivia, SyntaxKind.OpenBracketToken, TriviaList())),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
                 .WithExpressionBody(
