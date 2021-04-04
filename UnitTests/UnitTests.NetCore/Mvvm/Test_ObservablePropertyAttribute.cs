@@ -10,6 +10,8 @@ using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+#nullable enable
+
 namespace UnitTests.Mvvm
 {
     [TestClass]
@@ -128,11 +130,11 @@ namespace UnitTests.Mvvm
         {
             [ObservableProperty]
             [AlsoNotifyFor(nameof(FullName))]
-            private string name;
+            private string? name;
 
             [ObservableProperty]
             [AlsoNotifyFor(nameof(FullName))]
-            private string surname;
+            private string? surname;
 
             public string FullName => $"{Name} {Surname}";
         }
@@ -143,7 +145,7 @@ namespace UnitTests.Mvvm
             [Required]
             [MinLength(1)]
             [MaxLength(100)]
-            private string name;
+            private string? name;
 
             [ObservableProperty]
             [Range(0, 120)]
@@ -151,7 +153,7 @@ namespace UnitTests.Mvvm
 
             [ObservableProperty]
             [EmailAddress]
-            private string email;
+            private string? email;
 
             [ObservableProperty]
             [TestValidation(null, typeof(SampleModel), true, 6.28, new[] { "Bob", "Ross" }, NestedArray = new object[] { 1, "Hello", new int[] { 2, 3, 4 } }, Animal = Animal.Llama)]
@@ -160,7 +162,7 @@ namespace UnitTests.Mvvm
 
         private sealed class TestValidationAttribute : ValidationAttribute
         {
-            public TestValidationAttribute(object o, Type t, bool flag, double d, string[] names)
+            public TestValidationAttribute(object? o, Type t, bool flag, double d, string[] names)
             {
                 O = o;
                 T = t;
@@ -169,7 +171,7 @@ namespace UnitTests.Mvvm
                 Names = names;
             }
 
-            public object O { get; }
+            public object? O { get; }
 
             public Type T { get; }
 

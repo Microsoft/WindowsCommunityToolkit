@@ -339,6 +339,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         updateAndNotificationBlock));
             }
 
+            // Get the right type for the declared property (including nullability annotations)
+            TypeSyntax propertyType = IdentifierName(typeName);
+
+            if (fieldSymbol.Type is { IsReferenceType: true, NullableAnnotation: NullableAnnotation.Annotated })
+            {
+                propertyType = NullableType(propertyType);
+            }
+
             // Construct the generated property as follows:
             //
             // <FIELD_TRIVIA>
@@ -349,7 +357,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // <VALIDATION_ATTRIBUTE2>
             // ...
             // <VALIDATION_ATTRIBUTEN>
-            // public <FIELD_TYPE> <PROPERTY_NAME>
+            // public <FIELD_TYPE><NULLABLE_ANNOTATION?> <PROPERTY_NAME>
             // {
             //     get => <FIELD_NAME>;
             //     set
@@ -358,7 +366,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             //     }
             // }
             return
-                PropertyDeclaration(IdentifierName(typeName), Identifier(propertyName))
+                PropertyDeclaration(propertyType, Identifier(propertyName))
                 .AddAttributeLists(
                     AttributeList(SingletonSeparatedList(
                         Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
