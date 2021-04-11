@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                 InvocationExpression(IdentifierName("OnPropertyChanged"))
                                 .AddArgumentListArguments(Argument(MemberAccessExpression(
                                     SyntaxKind.SimpleMemberAccessExpression,
-                                    AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                                    IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
                                     IdentifierName($"{dependentPropertyName}{nameof(PropertyChangedEventArgs)}"))))));
                         }
                         else if (attributeArgument.Kind == TypedConstantKind.Array)
@@ -227,7 +227,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                     InvocationExpression(IdentifierName("OnPropertyChanged"))
                                     .AddArgumentListArguments(Argument(MemberAccessExpression(
                                         SyntaxKind.SimpleMemberAccessExpression,
-                                        AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                                        IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
                                         IdentifierName($"{currentPropertyName}{nameof(PropertyChangedEventArgs)}"))))));
                             }
                         }
@@ -257,32 +257,68 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
                     setterBlock = Block();
                 }
-
-                // Generate the inner setter block as follows:
-                //
-                // SetProperty(ref <FIELD_NAME>, value, true);
-                //
-                // Or in case there is at least one dependent property:
-                //
-                // if (SetProperty(ref <FIELD_NAME>, value, true))
-                // {
-                //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.Property1PropertyChangedEventArgs); // Optional
-                //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.Property2PropertyChangedEventArgs);
-                //     ...
-                //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNPropertyChangedEventArgs);
-                // }
-                InvocationExpressionSyntax setPropertyExpression =
-                    InvocationExpression(IdentifierName("SetProperty"))
-                    .AddArgumentListArguments(
-                        Argument(IdentifierName(fieldSymbol.Name)).WithRefOrOutKeyword(Token(SyntaxKind.RefKeyword)),
-                        Argument(IdentifierName("value")),
-                        Argument(LiteralExpression(SyntaxKind.TrueLiteralExpression)));
-
-                setterBlock = dependentPropertyNotificationStatements.Count switch
+                else
                 {
-                    0 => Block(ExpressionStatement(setPropertyExpression)),
-                    _ => Block(IfStatement(setPropertyExpression, Block(dependentPropertyNotificationStatements)))
-                };
+                    propertyChangedNames.Add(propertyName);
+                    propertyChangingNames.Add(propertyName);
+
+                    // Generate the inner setter block as follows:
+                    //
+                    // if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
+                    // {
+                    //     OnPropertyChanging(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNamePropertyChangingEventArgs); // Optional
+                    //     <FIELD_NAME> = value;
+                    //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNamePropertyChangedEventArgs);
+                    //     ValidateProperty(value, <PROPERTY_NAME>);
+                    //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.Property1PropertyChangedEventArgs); // Optional
+                    //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.Property2PropertyChangedEventArgs);
+                    //     ...
+                    //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNPropertyChangedEventArgs);
+                    // }
+                    //
+                    // The reason why the code is explicitly generated instead of just calling ObservableValidator.SetProperty() is so that we can
+                    // take advantage of the cached property changed arguments for the current property as well, not just for the dependent ones.
+                    setterBlock = Block(
+                        IfStatement(
+                            PrefixUnaryExpression(
+                                SyntaxKind.LogicalNotExpression,
+                                InvocationExpression(
+                                    MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        MemberAccessExpression(
+                                            SyntaxKind.SimpleMemberAccessExpression,
+                                            GenericName(Identifier("global::System.Collections.Generic.EqualityComparer"))
+                                            .AddTypeArgumentListArguments(IdentifierName(typeName)),
+                                            IdentifierName("Default")),
+                                        IdentifierName("Equals")))
+                                .AddArgumentListArguments(
+                                    Argument(IdentifierName(fieldSymbol.Name)),
+                                    Argument(IdentifierName("value")))),
+                            Block(
+                                ExpressionStatement(
+                                    InvocationExpression(IdentifierName("OnPropertyChanging"))
+                                    .AddArgumentListArguments(Argument(MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
+                                        IdentifierName($"{propertyName}{nameof(PropertyChangingEventArgs)}"))))),
+                                ExpressionStatement(
+                                    AssignmentExpression(
+                                        SyntaxKind.SimpleAssignmentExpression,
+                                        IdentifierName(fieldSymbol.Name),
+                                        IdentifierName("value"))),
+                                ExpressionStatement(
+                                    InvocationExpression(IdentifierName("OnPropertyChanged"))
+                                    .AddArgumentListArguments(Argument(MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
+                                        IdentifierName($"{propertyName}{nameof(PropertyChangedEventArgs)}"))))),
+                                ExpressionStatement(
+                                    InvocationExpression(IdentifierName("ValidateProperty"))
+                                    .AddArgumentListArguments(
+                                        Argument(IdentifierName("value")),
+                                        Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(propertyName))))))
+                            .AddStatements(dependentPropertyNotificationStatements.ToArray())));
+                }
             }
             else
             {
@@ -297,7 +333,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         InvocationExpression(IdentifierName("OnPropertyChanging"))
                         .AddArgumentListArguments(Argument(MemberAccessExpression(
                             SyntaxKind.SimpleMemberAccessExpression,
-                            AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                            IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
                             IdentifierName($"{propertyName}{nameof(PropertyChangingEventArgs)}"))))));
                 }
 
@@ -317,7 +353,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         InvocationExpression(IdentifierName("OnPropertyChanged"))
                         .AddArgumentListArguments(Argument(MemberAccessExpression(
                             SyntaxKind.SimpleMemberAccessExpression,
-                            AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                            IdentifierName("global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs"),
                             IdentifierName($"{propertyName}{nameof(PropertyChangedEventArgs)}"))))));
 
                 // Add the dependent property notifications at the end
