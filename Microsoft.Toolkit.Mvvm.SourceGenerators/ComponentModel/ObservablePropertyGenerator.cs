@@ -42,6 +42,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
+            // Sets of discovered property names
+            HashSet<string>
+                propertyChangedNames = new(),
+                propertyChangingNames = new();
+
+            // Process the annotated fields
             foreach (var items in syntaxReceiver.GatheredInfo.GroupBy<SyntaxReceiver.Item, INamedTypeSymbol>(static item => item.FieldSymbol.ContainingType, SymbolEqualityComparer.Default))
             {
                 if (items.Key.DeclaringSyntaxReferences.Length > 0 &&
@@ -49,7 +55,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 {
                     try
                     {
-                        OnExecute(context, classDeclaration, items.Key, items);
+                        OnExecuteForProperties(context, classDeclaration, items.Key, items, propertyChangedNames, propertyChangingNames);
                     }
                     catch
                     {
@@ -57,20 +63,27 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     }
                 }
             }
+
+            // Process the fields for the cached args
+            OnExecuteForPropertyArgs(context, propertyChangedNames, propertyChangingNames);
         }
 
         /// <summary>
-        /// Processes a given target type.
+        /// Processes a given target type for declared observable properties.
         /// </summary>
         /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
         /// <param name="items">The sequence of fields to process.</param>
-        private static void OnExecute(
+        /// <param name="propertyChangedNames">The collection of discovered property changed names.</param>
+        /// <param name="propertyChangingNames">The collection of discovered property changing names.</param>
+        private static void OnExecuteForProperties(
             GeneratorExecutionContext context,
             ClassDeclarationSyntax classDeclaration,
             INamedTypeSymbol classDeclarationSymbol,
-            IEnumerable<SyntaxReceiver.Item> items)
+            IEnumerable<SyntaxReceiver.Item> items,
+            ICollection<string> propertyChangedNames,
+            ICollection<string> propertyChangingNames)
         {
             INamedTypeSymbol
                 iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!,
@@ -103,7 +116,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         item.FieldSymbol,
                         isNotifyPropertyChanging,
                         isObservableObject,
-                        isObservableValidator)).ToArray());
+                        isObservableValidator,
+                        propertyChangedNames,
+                        propertyChangingNames)).ToArray());
 
             TypeDeclarationSyntax typeDeclarationSyntax = classDeclarationSyntax;
 
@@ -147,6 +162,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="isNotifyPropertyChanging">Indicates whether or not <see cref="INotifyPropertyChanging"/> is also implemented.</param>
         /// <param name="isObservableObject">Indicates whether or not the containing type inherits from <c>ObservableObject</c>.</param>
         /// <param name="isObservableValidator">Indicates whether or not the containing type inherits from <c>ObservableValidator</c>.</param>
+        /// <param name="propertyChangedNames">The collection of discovered property changed names.</param>
+        /// <param name="propertyChangingNames">The collection of discovered property changing names.</param>
         /// <returns>A generated <see cref="PropertyDeclarationSyntax"/> instance for the input field.</returns>
         [Pure]
         private static PropertyDeclarationSyntax CreatePropertyDeclaration(
@@ -155,7 +172,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             IFieldSymbol fieldSymbol,
             bool isNotifyPropertyChanging,
             bool isObservableObject,
-            bool isObservableValidator)
+            bool isObservableValidator,
+            ICollection<string> propertyChangedNames,
+            ICollection<string> propertyChangingNames)
         {
             // Get the field type and the target property name
             string
@@ -183,10 +202,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         if (attributeArgument.Kind == TypedConstantKind.Primitive &&
                             attributeArgument.Value is string dependentPropertyName)
                         {
+                            propertyChangedNames.Add(dependentPropertyName);
+
                             // OnPropertyChanged("OtherPropertyName");
                             dependentPropertyNotificationStatements.Add(ExpressionStatement(
                                 InvocationExpression(IdentifierName("OnPropertyChanged"))
-                                .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(dependentPropertyName))))));
+                                .AddArgumentListArguments(Argument(MemberAccessExpression(
+                                    SyntaxKind.SimpleMemberAccessExpression,
+                                    AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                                    IdentifierName($"{dependentPropertyName}{nameof(PropertyChangedEventArgs)}"))))));
                         }
                         else if (attributeArgument.Kind == TypedConstantKind.Array)
                         {
@@ -197,10 +221,17 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                     continue;
                                 }
 
+                                string currentPropertyName = (string)nestedAttributeArgument.Value!;
+
+                                propertyChangedNames.Add(currentPropertyName);
+
                                 // Additional property names
                                 dependentPropertyNotificationStatements.Add(ExpressionStatement(
                                     InvocationExpression(IdentifierName("OnPropertyChanged"))
-                                    .AddArgumentListArguments(Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal((string)nestedAttributeArgument.Value!))))));
+                                    .AddArgumentListArguments(Argument(MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        AliasQualifiedName(IdentifierName(Token(SyntaxKind.GlobalKeyword)), IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs")),
+                                        IdentifierName($"{currentPropertyName}{nameof(PropertyChangedEventArgs)}"))))));
                             }
                         }
                     }
@@ -406,6 +437,111 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             }
 
             return $"{char.ToUpper(propertyName[0])}{propertyName.Substring(1)}";
+        }
+
+        /// <summary>
+        /// Processes the cached property changed/changing args.
+        /// </summary>
+        /// <param name="context">The input <see cref="GeneratorExecutionContext"/> instance to use.</param>
+        /// <param name="propertyChangedNames">The collection of discovered property changed names.</param>
+        /// <param name="propertyChangingNames">The collection of discovered property changing names.</param>
+        public void OnExecuteForPropertyArgs(GeneratorExecutionContext context, IReadOnlyCollection<string> propertyChangedNames, IReadOnlyCollection<string> propertyChangingNames)
+        {
+            if (propertyChangedNames.Count == 0 &&
+                propertyChangingNames.Count == 0)
+            {
+                return;
+            }
+
+            static FieldDeclarationSyntax CreateFieldDeclaration(INamedTypeSymbol type, string propertyName)
+            {
+                // Create a static field with a cached property changed/changing argument for a specified property.
+                // This code produces a field declaration as follows:
+                //
+                // [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+                // [global::System.Obsolete("This field is not intended to be referenced directly by user code")]
+                // public static readonly <ARG_TYPE> <PROPERTY_NAME><ARG_TYPE> = new("<PROPERTY_NAME>");
+                return
+                    FieldDeclaration(
+                    VariableDeclaration(IdentifierName(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
+                    .AddVariables(
+                        VariableDeclarator(Identifier($"{propertyName}{type.Name}"))
+                        .WithInitializer(EqualsValueClause(
+                            ImplicitObjectCreationExpression()
+                            .AddArgumentListArguments(Argument(
+                                LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(propertyName))))))))
+                    .AddModifiers(
+                        Token(SyntaxKind.PublicKeyword),
+                        Token(SyntaxKind.StaticKeyword),
+                        Token(SyntaxKind.ReadOnlyKeyword))
+                    .AddAttributeLists(
+                        AttributeList(SingletonSeparatedList(
+                            Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                            AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
+                        AttributeList(SingletonSeparatedList(
+                            Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
+                            AttributeArgument(LiteralExpression(
+                                SyntaxKind.StringLiteralExpression,
+                                Literal("This field is not intended to be referenced directly by user code")))))));
+            }
+
+            INamedTypeSymbol
+                propertyChangedEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangedEventArgs).FullName)!,
+                propertyChangingEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangingEventArgs).FullName)!;
+
+            // Create a static method to validate all properties in a given class.
+            // This code takes a class symbol and produces a compilation unit as follows:
+            //
+            // // Licensed to the .NET Foundation under one or more agreements.
+            // // The .NET Foundation licenses this file to you under the MIT license.
+            // // See the LICENSE file in the project root for more information.
+            //
+            // #pragma warning disable
+            //
+            // namespace Microsoft.Toolkit.Mvvm.ComponentModel.__Internals
+            // {
+            //     [global::System.CodeDom.Compiler.GeneratedCode("...", "...")]
+            //     [global::System.Diagnostics.DebuggerNonUserCode]
+            //     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+            //     [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+            //     [global::System.Obsolete("This type is not intended to be used directly by user code")]
+            //     internal static class __KnownINotifyPropertyChangedOrChangingArgs
+            //     {
+            //         <FIELDS>
+            //     }
+            // }
+            var source =
+                CompilationUnit().AddMembers(
+                NamespaceDeclaration(IdentifierName("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals")).WithLeadingTrivia(TriviaList(
+                    Comment("// Licensed to the .NET Foundation under one or more agreements."),
+                    Comment("// The .NET Foundation licenses this file to you under the MIT license."),
+                    Comment("// See the LICENSE file in the project root for more information."),
+                    Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), true)))).AddMembers(
+                ClassDeclaration("__KnownINotifyPropertyChangedOrChangingArgs").AddModifiers(
+                    Token(SyntaxKind.InternalKeyword),
+                    Token(SyntaxKind.StaticKeyword)).AddAttributeLists(
+                        AttributeList(SingletonSeparatedList(
+                            Attribute(IdentifierName($"global::System.CodeDom.Compiler.GeneratedCode"))
+                            .AddArgumentListArguments(
+                                AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().FullName))),
+                                AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(GetType().Assembly.GetName().Version.ToString())))))),
+                        AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
+                        AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))),
+                        AttributeList(SingletonSeparatedList(
+                            Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                            AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
+                        AttributeList(SingletonSeparatedList(
+                            Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
+                            AttributeArgument(LiteralExpression(
+                                SyntaxKind.StringLiteralExpression,
+                                Literal("This type is not intended to be used directly by user code")))))))
+                    .AddMembers(propertyChangedNames.Select(name => CreateFieldDeclaration(propertyChangedEventArgsSymbol, name)).ToArray())
+                    .AddMembers(propertyChangingNames.Select(name => CreateFieldDeclaration(propertyChangingEventArgsSymbol, name)).ToArray())))
+                .NormalizeWhitespace()
+                .ToFullString();
+
+            // Add the partial type
+            context.AddSource($"[{typeof(ObservablePropertyAttribute).Name}]_[__KnownINotifyPropertyChangedOrChangingArgs].cs", SourceText.From(source, Encoding.UTF8));
         }
     }
 }
