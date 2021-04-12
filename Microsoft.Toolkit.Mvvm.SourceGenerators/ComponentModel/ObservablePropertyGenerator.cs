@@ -473,38 +473,6 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
-            static FieldDeclarationSyntax CreateFieldDeclaration(INamedTypeSymbol type, string propertyName)
-            {
-                // Create a static field with a cached property changed/changing argument for a specified property.
-                // This code produces a field declaration as follows:
-                //
-                // [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-                // [global::System.Obsolete("This field is not intended to be referenced directly by user code")]
-                // public static readonly <ARG_TYPE> <PROPERTY_NAME><ARG_TYPE> = new("<PROPERTY_NAME>");
-                return
-                    FieldDeclaration(
-                    VariableDeclaration(IdentifierName(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
-                    .AddVariables(
-                        VariableDeclarator(Identifier($"{propertyName}{type.Name}"))
-                        .WithInitializer(EqualsValueClause(
-                            ImplicitObjectCreationExpression()
-                            .AddArgumentListArguments(Argument(
-                                LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(propertyName))))))))
-                    .AddModifiers(
-                        Token(SyntaxKind.PublicKeyword),
-                        Token(SyntaxKind.StaticKeyword),
-                        Token(SyntaxKind.ReadOnlyKeyword))
-                    .AddAttributeLists(
-                        AttributeList(SingletonSeparatedList(
-                            Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
-                            AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
-                        AttributeList(SingletonSeparatedList(
-                            Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
-                            AttributeArgument(LiteralExpression(
-                                SyntaxKind.StringLiteralExpression,
-                                Literal("This field is not intended to be referenced directly by user code")))))));
-            }
-
             INamedTypeSymbol
                 propertyChangedEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangedEventArgs).FullName)!,
                 propertyChangingEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangingEventArgs).FullName)!;
@@ -562,6 +530,45 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             // Add the partial type
             context.AddSource($"[{typeof(ObservablePropertyAttribute).Name}]_[__KnownINotifyPropertyChangedOrChangingArgs].cs", SourceText.From(source, Encoding.UTF8));
+        }
+
+        /// <summary>
+        /// Creates a field declaration for a cached property change name.
+        /// </summary>
+        /// <param name="type">The type of cached property change argument (either <see cref="PropertyChangedEventArgs"/> or <see cref="PropertyChangingEventArgs"/>).</param>
+        /// <param name="propertyName">The name of the cached property name.</param>
+        /// <returns>A <see cref="FieldDeclarationSyntax"/> instance for the input cached property name.</returns>
+        [Pure]
+        private static FieldDeclarationSyntax CreateFieldDeclaration(INamedTypeSymbol type, string propertyName)
+        {
+            // Create a static field with a cached property changed/changing argument for a specified property.
+            // This code produces a field declaration as follows:
+            //
+            // [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+            // [global::System.Obsolete("This field is not intended to be referenced directly by user code")]
+            // public static readonly <ARG_TYPE> <PROPERTY_NAME><ARG_TYPE> = new("<PROPERTY_NAME>");
+            return
+                FieldDeclaration(
+                VariableDeclaration(IdentifierName(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
+                .AddVariables(
+                    VariableDeclarator(Identifier($"{propertyName}{type.Name}"))
+                    .WithInitializer(EqualsValueClause(
+                        ImplicitObjectCreationExpression()
+                        .AddArgumentListArguments(Argument(
+                            LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(propertyName))))))))
+                .AddModifiers(
+                    Token(SyntaxKind.PublicKeyword),
+                    Token(SyntaxKind.StaticKeyword),
+                    Token(SyntaxKind.ReadOnlyKeyword))
+                .AddAttributeLists(
+                    AttributeList(SingletonSeparatedList(
+                        Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
+                        AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
+                    AttributeList(SingletonSeparatedList(
+                        Attribute(IdentifierName("global::System.Obsolete")).AddArgumentListArguments(
+                        AttributeArgument(LiteralExpression(
+                            SyntaxKind.StringLiteralExpression,
+                            Literal("This field is not intended to be referenced directly by user code")))))));
         }
     }
 }
