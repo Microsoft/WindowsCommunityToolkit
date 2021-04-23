@@ -63,10 +63,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             foreach (INamedTypeSymbol classSymbol in syntaxReceiver.GatheredInfo)
             {
-                // Create a static method to register all messages for a given recipient type.
+                // Create a static factory method to register all messages for a given recipient type.
+                // This follows the same pattern used in ObservableValidatorValidateAllPropertiesGenerator,
+                // with the same advantages mentioned there (type safety, more AOT-friendly, etc.).
                 // There are two versions that are generated: a non-generic one doing the registration
                 // with no tokens, which is the most common scenario and will help particularly in AOT
                 // scenarios, and a generic version that will support all other cases with custom tokens.
+                // Note: the generic overload has a different name to simplify the lookup with reflection.
                 // This code takes a class symbol and produces a compilation unit as follows:
                 //
                 // // Licensed to the .NET Foundation under one or more agreements.
@@ -86,17 +89,27 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //     {
                 //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
                 //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
-                //         public static void RegisterAll(IMessenger messenger, <RECIPIENT_TYPE> recipient)
+                //         public static global::System.Action<IMessenger, object> CreateAllMessagesRegistrator(<RECIPIENT_TYPE> _)
                 //         {
-                //             <BODY>
+                //             static void RegisterAll(IMessenger messenger, <INSTANCE_TYPE> instance)
+                //             {
+                //                 <BODY>
+                //             }
+                //
+                //             return static (m, r) => RegisterAll(m, (<INSTANCE_TYPE>)r);
                 //         }
                 //
                 //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
                 //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
-                //         public static void RegisterAll<TToken>(IMessenger messenger, <RECIPIENT_TYPE> recipient, TToken token)
+                //         public static global::System.Action<IMessenger, object, TToken> CreateAllMessagesRegistratorWithToken<TToken>(<RECIPIENT_TYPE> _)
                 //             where TToken : global::System.IEquatable<TToken>
                 //         {
-                //             <BODY>
+                //             static void RegisterAll(IMessenger messenger, <INSTANCE_TYPE> instance, TToken token)
+                //             {
+                //                 <BODY>
+                //             }
+                //
+                //             return static (m, r, t) => RegisterAll(m, (<INSTANCE_TYPE>)r, t);
                 //         }
                 //     }
                 // }
@@ -112,8 +125,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Token(SyntaxKind.StaticKeyword),
                         Token(SyntaxKind.PartialKeyword)).AddAttributeLists(classAttributes).AddMembers(
                     MethodDeclaration(
-                        PredefinedType(Token(SyntaxKind.VoidKeyword)),
-                        Identifier("RegisterAll")).AddAttributeLists(
+                        GenericName("global::System.Action").AddTypeArgumentListArguments(
+                            IdentifierName("IMessenger"),
+                            PredefinedType(Token(SyntaxKind.ObjectKeyword))),
+                        Identifier("CreateAllMessagesRegistrator")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
                                 Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
                                 AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
@@ -124,12 +139,35 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
                         Token(SyntaxKind.PublicKeyword),
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
-                            Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
-                            Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                        .WithBody(Block(EnumerateRegistrationStatements(classSymbol, iRecipientSymbol).ToArray())),
+                            Parameter(Identifier("_")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                        .WithBody(Block(
+                            LocalFunctionStatement(
+                                PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                                Identifier("RegisterAll"))
+                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                            .AddParameterListParameters(
+                                Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
+                                Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                            .WithBody(Block(EnumerateRegistrationStatements(classSymbol, iRecipientSymbol).ToArray())),
+                            ReturnStatement(
+                            ParenthesizedLambdaExpression()
+                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                            .AddParameterListParameters(
+                                Parameter(Identifier("m")),
+                                Parameter(Identifier("r")))
+                            .WithExpressionBody(
+                                InvocationExpression(IdentifierName("RegisterAll"))
+                                .AddArgumentListArguments(
+                                    Argument(IdentifierName("m")),
+                                    Argument(CastExpression(
+                                        IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                        IdentifierName("r")))))))),
                     MethodDeclaration(
-                        PredefinedType(Token(SyntaxKind.VoidKeyword)),
-                        Identifier("RegisterAll")).AddAttributeLists(
+                        GenericName("global::System.Action").AddTypeArgumentListArguments(
+                            IdentifierName("IMessenger"),
+                            PredefinedType(Token(SyntaxKind.ObjectKeyword)),
+                            IdentifierName("TToken")),
+                        Identifier("CreateAllMessagesRegistratorWithToken")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
                                 Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
                                 AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
@@ -140,14 +178,36 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
                         Token(SyntaxKind.PublicKeyword),
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
-                            Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
-                            Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))),
-                            Parameter(Identifier("token")).WithType(IdentifierName("TToken")))
+                            Parameter(Identifier("_")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
                         .AddTypeParameterListParameters(TypeParameter("TToken"))
                         .AddConstraintClauses(
                             TypeParameterConstraintClause("TToken")
                             .AddConstraints(TypeConstraint(GenericName("global::System.IEquatable").AddTypeArgumentListArguments(IdentifierName("TToken")))))
-                        .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())))))
+                        .WithBody(Block(
+                            LocalFunctionStatement(
+                                PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                                Identifier("RegisterAll"))
+                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                            .AddParameterListParameters(
+                                Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
+                                Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))),
+                                Parameter(Identifier("token")).WithType(IdentifierName("TToken")))
+                            .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())),
+                            ReturnStatement(
+                            ParenthesizedLambdaExpression()
+                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                            .AddParameterListParameters(
+                                Parameter(Identifier("m")),
+                                Parameter(Identifier("r")),
+                                Parameter(Identifier("t")))
+                            .WithExpressionBody(
+                                InvocationExpression(IdentifierName("RegisterAll"))
+                                .AddArgumentListArguments(
+                                    Argument(IdentifierName("m")),
+                                    Argument(CastExpression(
+                                        IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                        IdentifierName("r"))),
+                                    Argument(IdentifierName("t"))))))))))
                     .NormalizeWhitespace()
                     .ToFullString();
 

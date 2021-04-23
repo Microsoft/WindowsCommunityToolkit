@@ -4,6 +4,7 @@
 
 #pragma warning disable CS0618
 
+using System;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,7 +23,9 @@ namespace UnitTests.Mvvm
             var messageA = new MessageA();
             var messageB = new MessageB();
 
-            Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions.RegisterAll(messenger, recipient, 42);
+            Action<IMessenger, object, int> registrator = Microsoft.Toolkit.Mvvm.Messaging.__Internals.__IMessengerExtensions.CreateAllMessagesRegistratorWithToken<int>(recipient);
+
+            registrator(messenger, recipient, 42);
 
             Assert.IsTrue(messenger.IsRegistered<MessageA, int>(recipient, 42));
             Assert.IsTrue(messenger.IsRegistered<MessageB, int>(recipient, 42));
