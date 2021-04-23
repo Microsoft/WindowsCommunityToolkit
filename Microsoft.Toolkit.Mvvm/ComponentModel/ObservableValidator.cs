@@ -476,11 +476,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             static Action<object> GetValidationAction(Type type)
             {
                 if (type.Assembly.GetType("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__ObservableValidatorExtensions") is Type extensionsType &&
-                    extensionsType.GetMethod("ValidateAllProperties", new[] { type }) is MethodInfo methodInfo)
+                    extensionsType.GetMethod("CreateAllPropertiesValidator", new[] { type }) is MethodInfo methodInfo)
                 {
-                    Type delegateType = typeof(Action<>).MakeGenericType(type);
-
-                    return Unsafe.As<Action<object>>(methodInfo.CreateDelegate(delegateType));
+                    return (Action<object>)methodInfo.Invoke(null, new object?[] { null })!;
                 }
 
                 return GetValidationActionFallback(type);

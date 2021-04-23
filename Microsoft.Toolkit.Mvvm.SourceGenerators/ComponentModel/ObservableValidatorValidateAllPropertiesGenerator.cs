@@ -64,7 +64,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
             foreach (INamedTypeSymbol classSymbol in syntaxReceiver.GatheredInfo)
             {
-                // Create a static method to validate all properties in a given class.
+                // Create a static factory method creating a delegate that can be used to validate all properties in a given class.
+                // This pattern is used so that the library doesn't have to use MakeGenericType(...) at runtime, nor use unsafe casts
+                // over the created delegate to be able to cache it as an Action<object> instance. This pattern enables the same
+                // functionality and with almost identical performance (not noticeable in this context anyway), but while preserving
+                // full runtime type safety (as a safe cast is used to validate the input argument), and with less reflection needed.
                 // This code takes a class symbol and produces a compilation unit as follows:
                 //
                 // // Licensed to the .NET Foundation under one or more agreements.
@@ -84,9 +88,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //     {
                 //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
                 //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
-                //         public static void ValidateAllProperties(<INSTANCE_TYPE> instance)
+                //         public static global::System.Action<object> CreateAllPropertiesValidator(<INSTANCE_TYPE> _)
                 //         {
-                //             <BODY>
+                //             static void ValidateAllProperties(<INSTANCE_TYPE> instance)
+                //             {
+                //                 <BODY>
+                //             }
+                //
+                //             return static o => ValidateAllProperties((<INSTANCE_TYPE>)o);
                 //         }
                 //     }
                 // }
@@ -102,8 +111,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                         Token(SyntaxKind.StaticKeyword),
                         Token(SyntaxKind.PartialKeyword)).AddAttributeLists(classAttributes).AddMembers(
                     MethodDeclaration(
-                        PredefinedType(Token(SyntaxKind.VoidKeyword)),
-                        Identifier("ValidateAllProperties")).AddAttributeLists(
+                        GenericName("global::System.Action").AddTypeArgumentListArguments(PredefinedType(Token(SyntaxKind.ObjectKeyword))),
+                        Identifier("CreateAllPropertiesValidator")).AddAttributeLists(
                             AttributeList(SingletonSeparatedList(
                                 Attribute(IdentifierName("global::System.ComponentModel.EditorBrowsable")).AddArgumentListArguments(
                                 AttributeArgument(ParseExpression("global::System.ComponentModel.EditorBrowsableState.Never"))))),
@@ -114,8 +123,24 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                     Literal("This method is not intended to be called directly by user code"))))))).AddModifiers(
                         Token(SyntaxKind.PublicKeyword),
                         Token(SyntaxKind.StaticKeyword)).AddParameterListParameters(
-                            Parameter(Identifier("instance")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                        .WithBody(Block(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())))))
+                            Parameter(Identifier("_")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                        .WithBody(Block(
+                            LocalFunctionStatement(
+                                PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                                Identifier("ValidateAllProperties"))
+                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                            .AddParameterListParameters(
+                                Parameter(Identifier("instance")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                            .WithBody(Block(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())),
+                            ReturnStatement(
+                                SimpleLambdaExpression(Parameter(Identifier("o")))
+                                .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                                .WithExpressionBody(
+                                    InvocationExpression(IdentifierName("ValidateAllProperties"))
+                                    .AddArgumentListArguments(Argument(
+                                        CastExpression(
+                                            IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                            IdentifierName("o")))))))))))
                     .NormalizeWhitespace()
                     .ToFullString();
 
