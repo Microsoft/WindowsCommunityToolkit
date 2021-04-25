@@ -91,12 +91,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
                 //         public static global::System.Action<IMessenger, object> CreateAllMessagesRegistrator(<RECIPIENT_TYPE> _)
                 //         {
-                //             static void RegisterAll(IMessenger messenger, <INSTANCE_TYPE> instance)
+                //             static void RegisterAll(IMessenger messenger, object obj)
                 //             {
+                //                 var recipient = (<INSTANCE_TYPE>)obj;
                 //                 <BODY>
                 //             }
                 //
-                //             return static (m, r) => RegisterAll(m, (<INSTANCE_TYPE>)r);
+                //             return RegisterAll;
                 //         }
                 //
                 //         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -104,12 +105,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //         public static global::System.Action<IMessenger, object, TToken> CreateAllMessagesRegistratorWithToken<TToken>(<RECIPIENT_TYPE> _)
                 //             where TToken : global::System.IEquatable<TToken>
                 //         {
-                //             static void RegisterAll(IMessenger messenger, <INSTANCE_TYPE> instance, TToken token)
+                //             static void RegisterAll(IMessenger messenger, object obj, TToken token)
                 //             {
+                //                 var recipient = (<INSTANCE_TYPE>)obj;
                 //                 <BODY>
                 //             }
                 //
-                //             return static (m, r, t) => RegisterAll(m, (<INSTANCE_TYPE>)r, t);
+                //             return RegisterAll;
                 //         }
                 //     }
                 // }
@@ -147,21 +149,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                             .AddModifiers(Token(SyntaxKind.StaticKeyword))
                             .AddParameterListParameters(
                                 Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
-                                Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                            .WithBody(Block(EnumerateRegistrationStatements(classSymbol, iRecipientSymbol).ToArray())),
-                            ReturnStatement(
-                            ParenthesizedLambdaExpression()
-                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                            .AddParameterListParameters(
-                                Parameter(Identifier("m")),
-                                Parameter(Identifier("r")))
-                            .WithExpressionBody(
-                                InvocationExpression(IdentifierName("RegisterAll"))
-                                .AddArgumentListArguments(
-                                    Argument(IdentifierName("m")),
-                                    Argument(CastExpression(
-                                        IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
-                                        IdentifierName("r")))))))),
+                                Parameter(Identifier("obj")).WithType(PredefinedType(Token(SyntaxKind.ObjectKeyword))))
+                            .WithBody(Block(
+                                LocalDeclarationStatement(
+                                    VariableDeclaration(IdentifierName("var"))
+                                    .AddVariables(
+                                        VariableDeclarator(Identifier("recipient"))
+                                        .WithInitializer(EqualsValueClause(
+                                            CastExpression(
+                                                IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                                IdentifierName("obj")))))))
+                                .AddStatements(EnumerateRegistrationStatements(classSymbol, iRecipientSymbol).ToArray())),
+                            ReturnStatement(IdentifierName("RegisterAll")))),
                     MethodDeclaration(
                         GenericName("global::System.Action").AddTypeArgumentListArguments(
                             IdentifierName("IMessenger"),
@@ -190,24 +189,19 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                             .AddModifiers(Token(SyntaxKind.StaticKeyword))
                             .AddParameterListParameters(
                                 Parameter(Identifier("messenger")).WithType(IdentifierName("IMessenger")),
-                                Parameter(Identifier("recipient")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))),
+                                Parameter(Identifier("obj")).WithType(PredefinedType(Token(SyntaxKind.ObjectKeyword))),
                                 Parameter(Identifier("token")).WithType(IdentifierName("TToken")))
-                            .WithBody(Block(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())),
-                            ReturnStatement(
-                            ParenthesizedLambdaExpression()
-                            .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                            .AddParameterListParameters(
-                                Parameter(Identifier("m")),
-                                Parameter(Identifier("r")),
-                                Parameter(Identifier("t")))
-                            .WithExpressionBody(
-                                InvocationExpression(IdentifierName("RegisterAll"))
-                                .AddArgumentListArguments(
-                                    Argument(IdentifierName("m")),
-                                    Argument(CastExpression(
-                                        IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
-                                        IdentifierName("r"))),
-                                    Argument(IdentifierName("t"))))))))))
+                            .WithBody(Block(
+                                LocalDeclarationStatement(
+                                    VariableDeclaration(IdentifierName("var"))
+                                    .AddVariables(
+                                        VariableDeclarator(Identifier("recipient"))
+                                        .WithInitializer(EqualsValueClause(
+                                            CastExpression(
+                                                IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                                IdentifierName("obj")))))))
+                                .AddStatements(EnumerateRegistrationStatementsWithTokens(classSymbol, iRecipientSymbol).ToArray())),
+                            ReturnStatement(IdentifierName("RegisterAll")))))))
                     .NormalizeWhitespace()
                     .ToFullString();
 

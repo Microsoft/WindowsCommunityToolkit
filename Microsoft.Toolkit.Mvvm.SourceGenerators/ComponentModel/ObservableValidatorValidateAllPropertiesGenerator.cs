@@ -69,6 +69,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 // over the created delegate to be able to cache it as an Action<object> instance. This pattern enables the same
                 // functionality and with almost identical performance (not noticeable in this context anyway), but while preserving
                 // full runtime type safety (as a safe cast is used to validate the input argument), and with less reflection needed.
+                // Note that we're deliberately creating a new delegate instance here and not using code that could see the C# compiler
+                // create a static class to cache a reusable delegate, because each generated method will only be called at most once,
+                // as the returned delegate will be cached by the MVVM Toolkit itself. So this ensures the the produced code is minimal,
+                // and that there will be no unnecessary static fields and objects being created and possibly never collected.
                 // This code takes a class symbol and produces a compilation unit as follows:
                 //
                 // // Licensed to the .NET Foundation under one or more agreements.
@@ -90,12 +94,13 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 //         [global::System.Obsolete("This method is not intended to be called directly by user code")]
                 //         public static global::System.Action<object> CreateAllPropertiesValidator(<INSTANCE_TYPE> _)
                 //         {
-                //             static void ValidateAllProperties(<INSTANCE_TYPE> instance)
+                //             static void ValidateAllProperties(object obj)
                 //             {
+                //                 var instance = (<INSTANCE_TYPE>)obj;
                 //                 <BODY>
                 //             }
                 //
-                //             return static o => ValidateAllProperties((<INSTANCE_TYPE>)o);
+                //             return ValidateAllProperties;
                 //         }
                 //     }
                 // }
@@ -130,17 +135,18 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                 Identifier("ValidateAllProperties"))
                             .AddModifiers(Token(SyntaxKind.StaticKeyword))
                             .AddParameterListParameters(
-                                Parameter(Identifier("instance")).WithType(IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
-                            .WithBody(Block(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())),
-                            ReturnStatement(
-                                SimpleLambdaExpression(Parameter(Identifier("o")))
-                                .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                                .WithExpressionBody(
-                                    InvocationExpression(IdentifierName("ValidateAllProperties"))
-                                    .AddArgumentListArguments(Argument(
-                                        CastExpression(
-                                            IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
-                                            IdentifierName("o")))))))))))
+                                Parameter(Identifier("obj")).WithType(PredefinedType(Token(SyntaxKind.ObjectKeyword))))
+                            .WithBody(Block(
+                                LocalDeclarationStatement(
+                                    VariableDeclaration(IdentifierName("var")) // Cannot Token(SyntaxKind.VarKeyword) here (throws an ArgumentException)
+                                    .AddVariables(
+                                        VariableDeclarator(Identifier("instance"))
+                                        .WithInitializer(EqualsValueClause(
+                                            CastExpression(
+                                                IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                                                IdentifierName("obj")))))))
+                                .AddStatements(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())),
+                            ReturnStatement(IdentifierName("ValidateAllProperties")))))))
                     .NormalizeWhitespace()
                     .ToFullString();
 
