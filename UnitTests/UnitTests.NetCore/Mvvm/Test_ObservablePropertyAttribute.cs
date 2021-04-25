@@ -62,7 +62,7 @@ namespace UnitTests.Mvvm
         {
             var model = new DependentPropertyModel();
 
-            List<string> propertyNames = new();
+            List<string?> propertyNames = new();
 
             model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
 
@@ -76,27 +76,27 @@ namespace UnitTests.Mvvm
         [TestMethod]
         public void Test_ValidationAttributes()
         {
-            var nameProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Name));
+            var nameProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Name))!;
 
             Assert.IsNotNull(nameProperty.GetCustomAttribute<RequiredAttribute>());
             Assert.IsNotNull(nameProperty.GetCustomAttribute<MinLengthAttribute>());
-            Assert.AreEqual(nameProperty.GetCustomAttribute<MinLengthAttribute>().Length, 1);
+            Assert.AreEqual(nameProperty.GetCustomAttribute<MinLengthAttribute>()!.Length, 1);
             Assert.IsNotNull(nameProperty.GetCustomAttribute<MaxLengthAttribute>());
-            Assert.AreEqual(nameProperty.GetCustomAttribute<MaxLengthAttribute>().Length, 100);
+            Assert.AreEqual(nameProperty.GetCustomAttribute<MaxLengthAttribute>()!.Length, 100);
 
-            var ageProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Age));
+            var ageProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Age))!;
 
             Assert.IsNotNull(ageProperty.GetCustomAttribute<RangeAttribute>());
-            Assert.AreEqual(ageProperty.GetCustomAttribute<RangeAttribute>().Minimum, 0);
-            Assert.AreEqual(ageProperty.GetCustomAttribute<RangeAttribute>().Maximum, 120);
+            Assert.AreEqual(ageProperty.GetCustomAttribute<RangeAttribute>()!.Minimum, 0);
+            Assert.AreEqual(ageProperty.GetCustomAttribute<RangeAttribute>()!.Maximum, 120);
 
-            var emailProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Email));
+            var emailProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.Email))!;
 
             Assert.IsNotNull(emailProperty.GetCustomAttribute<EmailAddressAttribute>());
 
-            var comboProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.IfThisWorksThenThatsGreat));
+            var comboProperty = typeof(MyFormViewModel).GetProperty(nameof(MyFormViewModel.IfThisWorksThenThatsGreat))!;
 
-            TestValidationAttribute? testAttribute = comboProperty.GetCustomAttribute<TestValidationAttribute>();
+            TestValidationAttribute testAttribute = comboProperty.GetCustomAttribute<TestValidationAttribute>()!;
 
             Assert.IsNotNull(testAttribute);
             Assert.IsNull(testAttribute.O);

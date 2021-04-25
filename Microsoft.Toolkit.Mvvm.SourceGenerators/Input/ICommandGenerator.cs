@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             // private <COMMAND_TYPE>? <COMMAND_FIELD_NAME>;
             FieldDeclarationSyntax fieldDeclaration =
                 FieldDeclaration(
-                VariableDeclaration(NullableType(IdentifierName(commandInterfaceTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
+                VariableDeclaration(NullableType(IdentifierName(commandClassTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))))
                 .AddVariables(VariableDeclarator(Identifier(fieldName))))
                 .AddModifiers(Token(SyntaxKind.PrivateKeyword))
                 .AddAttributeLists(AttributeList(SingletonSeparatedList(
