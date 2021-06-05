@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -79,6 +80,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when a response is not available.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForNoResponseReceived()
         {
             throw new InvalidOperationException("No response was received for the given request message");
@@ -87,6 +89,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="Reply(T)"/> or <see cref="Reply(Task{T})"/> are called twice.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForDuplicateReply()
         {
             throw new InvalidOperationException("A response has already been issued for the current message");

@@ -6,7 +6,7 @@
 // across all targets, ensuring that the layout of our Nullable<T> mapping type
 // will be correct. Exposing this API on older targets (especially .NET Standard)
 // is not guaranteed to be correct and could result in invalid memory accesses.
-#if NET5_0
+#if NET5_0_OR_GREATER
 
 using System;
 using System.Runtime.CompilerServices;

@@ -3,12 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
 {
     /// <summary>
     /// A helper class to throw exceptions for memory types.
     /// </summary>
+    [StackTraceHidden]
     internal static class ThrowHelper
     {
         /// <summary>

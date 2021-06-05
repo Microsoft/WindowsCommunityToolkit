@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
@@ -535,6 +536,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when trying to add a duplicate handler.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForDuplicateRegistration()
         {
             throw new InvalidOperationException("The target recipient has already subscribed to the target message");

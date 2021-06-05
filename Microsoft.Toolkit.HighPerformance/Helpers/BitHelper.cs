@@ -4,7 +4,7 @@
 
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
 using System.Runtime.Intrinsics.X86;
 #endif
 
@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint ExtractRange(uint value, byte start, byte length)
         {
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             if (Bmi1.IsSupported)
             {
                 return Bmi1.BitFieldExtract(value, start, length);
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 loadMask = highBits << start,
                 storeMask = (flags & highBits) << start;
 
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             if (Bmi1.IsSupported)
             {
                 return Bmi1.AndNot(loadMask, value) | storeMask;
@@ -406,7 +406,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong ExtractRange(ulong value, byte start, byte length)
         {
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             if (Bmi1.X64.IsSupported)
             {
                 return Bmi1.X64.BitFieldExtract(value, start, length);
@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 loadMask = highBits << start,
                 storeMask = (flags & highBits) << start;
 
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             if (Bmi1.X64.IsSupported)
             {
                 return Bmi1.X64.AndNot(loadMask, value) | storeMask;

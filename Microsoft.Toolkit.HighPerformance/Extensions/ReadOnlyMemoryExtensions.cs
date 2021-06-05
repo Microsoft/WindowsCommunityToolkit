@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -128,6 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             // Throws when the memory instance has an unsupported backing store
+            [StackTraceHidden]
             static ReadOnlyMemory<TTo> ThrowArgumentExceptionForUnsupportedMemory()
             {
                 throw new ArgumentException("The input instance doesn't have a supported underlying data store.");

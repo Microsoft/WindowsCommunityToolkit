@@ -405,6 +405,7 @@ namespace Microsoft.Collections.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to load an element with a missing key.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForKeyNotFound(TKey key)
         {
             throw new ArgumentException($"The target key {key} was not present in the dictionary");
@@ -413,6 +414,7 @@ namespace Microsoft.Collections.Extensions
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when trying to resize over the maximum capacity.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForMaxCapacityExceeded()
         {
             throw new InvalidOperationException("Max capacity exceeded");

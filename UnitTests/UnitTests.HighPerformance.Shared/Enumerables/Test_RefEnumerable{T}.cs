@@ -5,6 +5,7 @@
 #if !WINDOWS_UWP
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Enumerables
 {
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_RefEnumerable
     {
         [TestCategory("RefEnumerable")]

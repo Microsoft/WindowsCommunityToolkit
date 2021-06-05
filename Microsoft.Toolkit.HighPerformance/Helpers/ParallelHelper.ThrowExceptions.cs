@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
@@ -14,6 +15,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when an invalid parameter is specified for the minimum actions per thread.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForInvalidMinimumActionsPerThread()
         {
             // Having the argument name here manually typed is
@@ -28,6 +30,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when an invalid start parameter is specified for 1D loops.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForStartGreaterThanEnd()
         {
             throw new ArgumentOutOfRangeException("start", "The start parameter must be less than or equal to end");
@@ -36,6 +39,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a range has an index starting from an end.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForRangeIndexFromEnd(string name)
         {
             throw new ArgumentException("The bounds of the range can't start from an end", name);
@@ -44,6 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when an invalid top parameter is specified for 2D loops.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForTopGreaterThanBottom()
         {
             throw new ArgumentOutOfRangeException("top", "The top parameter must be less than or equal to bottom");
@@ -52,6 +57,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when an invalid left parameter is specified for 2D loops.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForLeftGreaterThanRight()
         {
             throw new ArgumentOutOfRangeException("left", "The left parameter must be less than or equal to right");

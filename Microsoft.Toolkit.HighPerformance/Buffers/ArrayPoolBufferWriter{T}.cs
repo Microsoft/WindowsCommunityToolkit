@@ -333,6 +333,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeCount()
         {
             throw new ArgumentOutOfRangeException("count", "The count can't be a negative value");
@@ -341,6 +342,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the size hint is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeSizeHint()
         {
             throw new ArgumentOutOfRangeException("sizeHint", "The size hint can't be a negative value");
@@ -349,6 +351,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForAdvancedTooFar()
         {
             throw new ArgumentException("The buffer writer has advanced too far");
@@ -357,6 +360,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException("The current buffer has already been disposed");

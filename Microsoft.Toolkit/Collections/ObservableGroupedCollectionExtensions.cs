@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -32,6 +33,7 @@ namespace Microsoft.Toolkit.Collections
 
             if (group is null)
             {
+                [StackTraceHidden]
                 static void ThrowArgumentExceptionForKeyNotFound()
                 {
                     throw new InvalidOperationException("The requested key was not present in the collection");

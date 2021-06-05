@@ -32,6 +32,13 @@ jobs:
     inputs:
       versionSpec: 5.6.0
 
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '6.0.x'
+      includePreviewVersions: true
+    displayName: Use .NET 6 SDK
+
   - task: DotNetCoreCLI@2  
     inputs:
       command: custom

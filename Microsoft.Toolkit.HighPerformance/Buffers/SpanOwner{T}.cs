@@ -7,7 +7,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCORE_RUNTIME || NET5_0
+#if NETCORE_RUNTIME || NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-#if NETCORE_RUNTIME || NET5_0
+#if NETCORE_RUNTIME || NET5_0_OR_GREATER
                 ref T r0 = ref array!.DangerousGetReference();
 
                 return MemoryMarshal.CreateSpan(ref r0, this.length);

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -791,6 +792,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the requested size exceeds the capacity.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeException()
         {
             throw new ArgumentOutOfRangeException("minimumSize", "The requested size must be greater than 0");

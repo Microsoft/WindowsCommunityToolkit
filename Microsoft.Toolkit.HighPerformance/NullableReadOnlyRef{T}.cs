@@ -5,6 +5,7 @@
 #if SPAN_RUNTIME_SUPPORT
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -129,6 +130,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> when trying to access <see cref="Value"/> for a default instance.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationException()
         {
             throw new InvalidOperationException("The current instance doesn't have a value that can be accessed");

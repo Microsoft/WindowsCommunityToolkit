@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
@@ -483,6 +484,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "length" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForLength()
         {
             throw new ArgumentOutOfRangeException("length");
@@ -491,6 +493,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "step" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForStep()
         {
             throw new ArgumentOutOfRangeException("step");
@@ -499,6 +502,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the target span is too short.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForDestinationTooShort()
         {
             throw new ArgumentException("The target span is too short to copy all the current items to");

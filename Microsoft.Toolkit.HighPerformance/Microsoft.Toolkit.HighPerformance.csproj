@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -62,7 +62,7 @@
       </ItemGroup>
       <PropertyGroup>
 
-        <!-- NETSTANDARD2_1_OR_GREATER: includes both .NET Standard 2.1 and .NET Core 3.1.
+        <!-- NETSTANDARD2_1_OR_GREATER: includes both .NET Standard 2.1 and .NET Core 3.1 (and later).
              This is needed because .NET Core 3.1 will be a separate package than .NET Standard 2.1. -->
 
         <!-- SPAN_RUNTIME_SUPPORT: define a constant to indicate runtimes with runtime support for
@@ -75,7 +75,7 @@
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>
     </When>
-    <When Condition=" '$(TargetFramework)' == 'net5.0' ">
+    <When Condition=" '$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net6.0' ">
       <PropertyGroup>
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>

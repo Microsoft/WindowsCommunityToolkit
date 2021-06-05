@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 #if !NETSTANDARD1_4
@@ -16,6 +17,8 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to efficiently throw exceptions.
     /// </summary>
+    [DebuggerStepThrough]
+    [StackTraceHidden]
     public static partial class ThrowHelper
     {
         /// <summary>

@@ -53,6 +53,7 @@ namespace Microsoft.Toolkit.Collections
             // is only reporting the changes one by one. We consider only this case for now.
             if (e.OldItems?.Count > 1 || e.NewItems?.Count > 1)
             {
+                [StackTraceHidden]
                 static void ThrowNotSupportedException()
                 {
                     throw new NotSupportedException(

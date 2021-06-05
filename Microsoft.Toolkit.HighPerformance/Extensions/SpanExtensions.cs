@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -293,6 +294,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the given reference is out of range.
         /// </summary>
+        [StackTraceHidden]
         internal static void ThrowArgumentOutOfRangeExceptionForInvalidReference()
         {
             throw new ArgumentOutOfRangeException("value", "The input reference does not belong to an element of the input span");

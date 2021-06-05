@@ -6,6 +6,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -88,6 +89,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the input index for <see cref="Pin"/> is not valid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForInvalidElementIndex()
         {
             throw new ArgumentOutOfRangeException("elementIndex", "The input element index was not in the valid range");

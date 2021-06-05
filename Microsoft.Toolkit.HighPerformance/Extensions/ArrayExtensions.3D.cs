@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -316,6 +317,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "depth" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForDepth()
         {
             throw new ArgumentOutOfRangeException("depth");

@@ -180,6 +180,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidCastExceptionForGetFrom()
         {
             throw new InvalidCastException($"Can't cast the input object to the type Box<{typeof(T)}>");

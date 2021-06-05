@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
@@ -736,6 +737,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> when a property name given as input is <see langword="null"/>.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentNullExceptionForNullPropertyName()
         {
             throw new ArgumentNullException("propertyName", "The input property name cannot be null when validating a property");

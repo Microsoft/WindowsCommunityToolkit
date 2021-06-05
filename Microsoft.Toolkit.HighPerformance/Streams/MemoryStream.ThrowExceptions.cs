@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
@@ -24,6 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws a <see cref="NotSupportedException"/> when trying to perform a not supported operation.
         /// </summary>
+        [StackTraceHidden]
         public static void ThrowNotSupportedException()
         {
             throw GetNotSupportedException();
@@ -32,6 +34,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target stream.
         /// </summary>
+        [StackTraceHidden]
         public static void ThrowArgumentExceptionForEndOfStreamOnWrite()
         {
             throw new ArgumentException("The current stream can't contain the requested input data.");
@@ -41,6 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Throws an <see cref="ArgumentException"/> when using an invalid seek mode.
         /// </summary>
         /// <returns>Nothing, as this method throws unconditionally.</returns>
+        [StackTraceHidden]
         public static long ThrowArgumentExceptionForSeekOrigin()
         {
             throw new ArgumentException("The input seek mode is not valid.", "origin");
@@ -49,6 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when setting the <see cref="Stream.Position"/> property.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForPosition()
         {
             throw new ArgumentOutOfRangeException(nameof(Stream.Position), "The value for the property was not in the valid range.");
@@ -57,6 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> when an input buffer is <see langword="null"/>.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentNullExceptionForBuffer()
         {
             throw new ArgumentNullException("buffer", "The buffer is null.");
@@ -65,6 +71,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the input count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForOffset()
         {
             throw new ArgumentOutOfRangeException("offset", "Offset can't be negative.");
@@ -73,6 +80,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the input count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForCount()
         {
             throw new ArgumentOutOfRangeException("count", "Count can't be negative.");
@@ -81,6 +89,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the sum of offset and count exceeds the length of the target buffer.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForLength()
         {
             throw new ArgumentException("The sum of offset and count can't be larger than the buffer length.", "buffer");
@@ -89,6 +98,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when using a disposed <see cref="Stream"/> instance.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException("source", "The current stream has already been disposed");

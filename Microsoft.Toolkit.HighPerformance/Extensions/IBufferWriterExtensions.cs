@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -128,6 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target writer.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForEndOfBuffer()
         {
             throw new ArgumentException("The current buffer writer can't contain the requested input data.");

@@ -60,6 +60,16 @@ namespace UnitTests.HighPerformance.Extensions
             TestForType(Math.PI, CreateRandomData);
         }
 
+#if NET6_0_OR_GREATER
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCountPtr()
+        {
+            TestForType(nint.MaxValue / 2, CreateRandomData);
+            TestForType(nuint.MaxValue / 2, CreateRandomData);
+        }
+#endif
+
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_RandomCountManaged()

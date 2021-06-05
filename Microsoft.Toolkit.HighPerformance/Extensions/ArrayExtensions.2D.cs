@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
@@ -443,6 +444,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArrayTypeMismatchException()
         {
             throw new ArrayTypeMismatchException("The given array doesn't match the specified type T");
@@ -451,6 +453,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "row" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForRow()
         {
             throw new ArgumentOutOfRangeException("row");
@@ -459,6 +462,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "column" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForColumn()
         {
             throw new ArgumentOutOfRangeException("column");

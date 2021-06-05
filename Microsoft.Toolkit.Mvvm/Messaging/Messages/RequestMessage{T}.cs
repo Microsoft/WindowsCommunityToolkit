@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 
 #pragma warning disable CS8618
 
@@ -68,6 +69,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when a response is not available.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForNoResponseReceived()
         {
             throw new InvalidOperationException("No response was received for the given request message");
@@ -76,6 +78,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="Reply"/> is called twice.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForDuplicateReply()
         {
             throw new InvalidOperationException("A response has already been issued for the current message");

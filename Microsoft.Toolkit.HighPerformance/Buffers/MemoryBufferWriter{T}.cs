@@ -160,6 +160,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeCount()
         {
             throw new ArgumentOutOfRangeException("count", "The count can't be a negative value");
@@ -168,6 +169,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the size hint is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeSizeHint()
         {
             throw new ArgumentOutOfRangeException("sizeHint", "The size hint can't be a negative value");
@@ -176,6 +178,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForAdvancedTooFar()
         {
             throw new ArgumentException("The buffer writer has advanced too far");
@@ -184,6 +187,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the requested size exceeds the capacity.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForCapacityExceeded()
         {
             throw new ArgumentException("The buffer writer doesn't have enough capacity left");

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -245,6 +246,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="Read{T}"/> fails.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOperationExceptionForEndOfStream()
         {
             throw new InvalidOperationException("The stream didn't contain enough data to read the requested item");

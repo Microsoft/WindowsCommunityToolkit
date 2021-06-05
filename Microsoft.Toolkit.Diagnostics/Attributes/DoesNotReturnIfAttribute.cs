@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if !NETSTANDARD2_1_OR_GREATER
+#if !NETSTANDARD2_1_OR_GREATER && !NET5_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis
 {

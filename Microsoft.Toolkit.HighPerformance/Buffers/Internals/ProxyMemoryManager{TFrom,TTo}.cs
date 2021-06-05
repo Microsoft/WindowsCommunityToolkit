@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
@@ -118,6 +119,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the target index for <see cref="Pin"/> is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForInvalidIndex()
         {
             throw new ArgumentOutOfRangeException("elementIndex", "The input index is not in the valid range");
@@ -126,6 +128,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Pin"/> receives an invalid target index.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowArgumentExceptionForInvalidAlignment()
         {
             throw new ArgumentOutOfRangeException("elementIndex", "The input index doesn't result in an aligned item access");

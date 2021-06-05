@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -27,7 +28,10 @@ namespace Microsoft.Toolkit
         {
             if (column < 0 || column >= rectarray.Max(array => array.Length))
             {
-                throw new ArgumentOutOfRangeException(nameof(column));
+                [StackTraceHidden]
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(column));
+
+                Throw();
             }
 
             for (int r = 0; r < rectarray.GetLength(0); r++)

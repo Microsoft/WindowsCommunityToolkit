@@ -4,7 +4,7 @@
 
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
 using static System.Numerics.BitOperations;
 #endif
 
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int RoundUpPowerOfTwo(int x)
         {
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             return 1 << (32 - LeadingZeroCount((uint)(x - 1)));
 #else
             x--;

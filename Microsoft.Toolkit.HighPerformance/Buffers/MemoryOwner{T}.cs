@@ -7,7 +7,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCORE_RUNTIME || NET5_0
+#if NETCORE_RUNTIME || NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-#if NETCORE_RUNTIME || NET5_0
+#if NETCORE_RUNTIME || NET5_0_OR_GREATER
                 ref T r0 = ref array!.DangerousGetReferenceAt(this.start);
 
                 // On .NET Core runtimes, we can manually create a span from the starting reference to
@@ -331,6 +331,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException(nameof(MemoryOwner<T>), "The current buffer has already been disposed");
@@ -339,6 +340,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="start"/> is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidOffsetException()
         {
             throw new ArgumentOutOfRangeException(nameof(start), "The input start parameter was not valid");
@@ -347,6 +349,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="length"/> is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowInvalidLengthException()
         {
             throw new ArgumentOutOfRangeException(nameof(length), "The input length parameter was not valid");

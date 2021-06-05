@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -87,6 +88,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// or <see cref="IMemoryOwner{T}"/> instance has an unsupported backing store.
         /// </summary>
         /// <returns>Nothing, this method always throws.</returns>
+        [StackTraceHidden]
         private static Stream ThrowNotSupportedExceptionForInvalidMemory()
         {
             throw new ArgumentException("The input instance doesn't have a valid underlying data store.");
