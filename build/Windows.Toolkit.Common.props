@@ -9,7 +9,7 @@
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
-    <PackageIcon>nuget.png</PackageIcon>
+    <PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
   </PropertyGroup>
 
@@ -44,7 +44,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsPackable)">
-    <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\" />
+    <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\Icon.png" />
     <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
