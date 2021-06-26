@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-    <Title>Windows Community Toolkit UI Media</Title>
+    <Title>Windows Community Toolkit - UI Media</Title>
     <Description>
-      This library provides UI brushes. It is part of the Windows Community Toolkit.
+      This library provides UI brushes. It is a part of the Windows Community Toolkit.
 
       Media:
       - AcrylicBrush: A custom Brush that that implements an acrylic effect with full control over all parameters.

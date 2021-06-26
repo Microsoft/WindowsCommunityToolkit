@@ -1,108 +1,19 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.Primitives.DesignTools</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <TargetPlatformVersion>8.1</TargetPlatformVersion>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <ValidateFrameworkCompatibility>false</ValidateFrameworkCompatibility>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\bin\Debug\uap10.0.17763\Design\</OutputPath>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\bin\Release\uap10.0.17763\Design\</OutputPath>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
+
   <PropertyGroup>
-    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17763</AssetTargetFallback>
+    <AssemblyTitle>Windows Community Toolkit - Basic Controls (Design)</AssemblyTitle>
+    <Description>Design time support for Windows Community Toolkit Basic Controls</Description>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.ObjectModel" />
-    <Reference Include="System.Runtime.WindowsRuntime" />
-    <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
-    <Reference Include="Microsoft.VisualStudio.DesignTools.Extensibility">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.DesignTools.Interaction">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\*.cs" LinkBase="Common" />
   </ItemGroup>
-  <ItemGroup Label="WinRT References">
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
-    <Reference Include="Windows.Foundation.FoundationContract">
-      <HintPath>$(ProgramFiles)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
-      <Aliases>WindowsRuntime</Aliases>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Windows.Foundation.UniversalApiContract">
-      <HintPath>$(ProgramFiles)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
-      <Aliases>WindowsRuntime</Aliases>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\Constants.cs" Link="Common\Constants.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
-    <Compile Include="Controls\AdaptiveGridView.Metadata.cs" />
-    <Compile Include="Controls\AdaptiveGridView.Typedata.cs" />
-    <Compile Include="Controls\WrapPanel.Metadata.cs" />
-    <Compile Include="Controls\WrapPanel.Typedata.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <AppDesigner Include="Properties\" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.xml">
-      <Link>Microsoft.Toolkit.Uwp.UI.Controls.Primitives.xml</Link>
-      <Visible>False</Visible>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- No-op to avoid build error when packing solution from commandline -->
-  <Target Name="Pack" />
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.targets" />
+
 </Project>

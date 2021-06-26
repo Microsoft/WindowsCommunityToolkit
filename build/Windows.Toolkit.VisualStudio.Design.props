@@ -1,21 +1,29 @@
 <Project>
 
   <PropertyGroup>
-    <BaseIntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::ValueOrDefault('$(BaseIntermediateOutputPath)', 'obj'))))</BaseIntermediateOutputPath>
+    <UseWPF>True</UseWPF>
+    <NoWarn>0618</NoWarn>
+    <Platforms>x86</Platforms>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="$(MSBuildProjectName.EndsWith('.Design'))">
-      <PropertyGroup>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)Design\</MSBuildProjectExtensionsPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="$(MSBuildProjectName.EndsWith('.DesignTools'))">
-      <PropertyGroup>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)DesignTools\</MSBuildProjectExtensionsPath>
-      </PropertyGroup>
-    </When>
-    <Otherwise/>
-  </Choose>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
+    <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
+    <ParentTargetFramework>uap$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision)</ParentTargetFramework>
+    <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
+    <!-- Strip root namespace from strings like "Microsoft.Toolkit.Uwp.UI.Controls.Primitives" to just "Primitives" -->
+    <ParentProjectType>$(ParentProjectName.Remove(0, $([MSBuild]::Add($(ParentProjectName.LastIndexOf('.')), '1'))))</ParentProjectType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AppDesigner Include="Properties\"/>
+    <EmbeddedResource Include="Icons\$(ParentProjectName).*.icon.png"/>
+    <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml">
+      <Link>$(ParentProjectType).xml</Link>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

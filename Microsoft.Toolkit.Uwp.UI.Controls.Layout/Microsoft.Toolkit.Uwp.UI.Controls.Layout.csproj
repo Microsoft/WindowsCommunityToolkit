@@ -1,10 +1,14 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <Title>Windows Community Toolkit Layout</Title>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - Layout Controls</Title>
     <Description>
-      This library provides XAML layout controls. It is part of the Windows Community Toolkit.
+      This library provides XAML layout controls. It is a part of the Windows Community Toolkit.
 
       Controls:
         - BladeView: Provides a horizontal collection of blades for drilling into detailed scenarios.
@@ -29,35 +33,20 @@
       List;Details;View       ;ListDetailsView       ;ListDetails    ;
       Orbit;View              ;OrbitView             ;
     </PackageTags>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+  </ItemGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
 </Project>

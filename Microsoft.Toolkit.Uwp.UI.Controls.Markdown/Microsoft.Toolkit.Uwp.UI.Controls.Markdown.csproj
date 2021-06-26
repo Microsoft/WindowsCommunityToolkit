@@ -1,51 +1,42 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <Title>Windows Community Toolkit Controls Markdown</Title>
-    <Description>
-      This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is part of the Windows Community Toolkit.
-
-    </Description>
-    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;Text;Block;MarkdownTextBlock</PackageTags>
+    <TargetFramework>uap10.0.17763</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - Markdown Control</Title>
+    <Description>
+      This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is a part of the Windows Community Toolkit.
+    </Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;Text;Block;MarkdownTextBlock</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
 
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
-  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
-    <ItemGroup>
-      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
-    </ItemGroup>
-    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
-    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
-  </Target>
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Uwp.Controls.targets" />
 
   <!--
-    Required workaround for ProjectReference inclusion of the Controls package
-    The UWP project system is including the Controls resources in the pri file because
-    it doesn't know it'll be an independent package later during packing.
-    Therefore, we need to remove these extra resources in the PRI pipeline so the
-    Markdown pri file is properly generated and doesn't include duplicate references to Control resources.
+    HACK: Fix the 'ProjectReference' inclusion of duplicate UWP resources.
+    The UWP project system includes the 'Controls.Core' project's resources because
+    it doesn't know, it'll be an independent package later during packing.
+    Therefore, we need to remove these extra resources in the packaging pipeline.
   -->
-  <Target Name="RemoveUnwantedPri" AfterTargets="GetPackagingOutputs">
-    <!--<Message Text="Files Before: @(PackagingOutputs)" Importance="high" />-->
+  <Target Name="_RemoveUnwantedResources" AfterTargets="GetPackagingOutputs">
+    <!--<Message Text="Package Files Before: @(PackagingOutputs)" Importance="High" />-->
     <ItemGroup>
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.Core.pri'" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Core\'))" />
     </ItemGroup>
-    <!--<Message Text="Files After: @(PackagingOutputs)" Importance="high" />-->
+    <!--<Message Text="Package Files After: @(PackagingOutputs)" Importance="High" />-->
   </Target>
 
 </Project>

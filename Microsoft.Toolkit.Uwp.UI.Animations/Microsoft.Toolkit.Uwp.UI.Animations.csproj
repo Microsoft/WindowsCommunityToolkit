@@ -1,10 +1,13 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <Title>Windows Community Toolkit Animations</Title>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - UI Animations</Title>
     <Description>
-      This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.
+      This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is a part of the Windows Community Toolkit.
 
       Namespace:
       - CompositionAnimations:
@@ -15,7 +18,6 @@
       - AnimationExtensions: Blur, Fade, Light, Offset, Rotate, Saturation, Scale
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Animations;Composition;Connected;Implicit;XAML</PackageTags>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

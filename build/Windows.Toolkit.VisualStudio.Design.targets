@@ -1,0 +1,21 @@
+<Project>
+
+  <PropertyGroup>
+    <ParentProjectOutputPath>..\$(ParentProjectName)\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
+    <OutputPath>$(ParentProjectOutputPath)Design\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(SolutionDir)' == '' OR '$(SolutionDir)' == '*Undefined*'">
+    <ProjectReference Include="..\$(ParentProjectName)\$(ParentProjectName)$(MSBuildProjectExtension)">
+      <Private>False</Private>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.DesignTools.Extensibility" Version="16.4.29519.181" ExcludeAssets="Runtime" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision).*" />
+  </ItemGroup>
+
+</Project>
