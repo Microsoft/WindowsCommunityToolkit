@@ -39,6 +39,13 @@ namespace UnitTests.Extensions
 
         [TestCategory("TaskExtensions")]
         [TestMethod]
+        public void Test_TaskExtensions_ResultOrDefault_FromTaskCompleted()
+        {
+            Assert.AreEqual(null, Task.CompletedTask.GetResultOrDefault());
+        }
+
+        [TestCategory("TaskExtensions")]
+        [TestMethod]
         public async Task Test_TaskExtensions_ResultOrDefault_FromAsyncTaskMethodBuilder()
         {
             var tcs = new TaskCompletionSource<object>();

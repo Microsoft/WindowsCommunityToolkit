@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -22,7 +22,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await App.Dispatcher.EnqueueAsync(() =>
             {
-                var xamlItemsPanelTemplate = @"<ItemsPanelTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
+                var xamlItemsPanelTemplate = @"<ItemsPanelTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
                                                  xmlns:controls='using:Microsoft.Toolkit.Uwp.UI.Controls'>
                       <controls:WrapPanel Padding='0,0,0,0'
@@ -30,7 +30,7 @@ namespace UnitTests.XamlIslands.UWPApp
                                           HorizontalSpacing='5' />
                     </ItemsPanelTemplate>";
 
-                var xamlDataTemplate = @"<DataTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
+                var xamlDataTemplate = @"<DataTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'>
                         <Image Width='100' Height='100' Margin='0' HorizontalAlignment='Center' Stretch='UniformToFill'>
                             <Image.Source>

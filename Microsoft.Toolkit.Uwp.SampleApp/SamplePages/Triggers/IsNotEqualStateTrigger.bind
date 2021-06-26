@@ -37,7 +37,7 @@
 			<Slider x:Name="slider" Minimum="0" Maximum="5" />
 			<TextBlock x:Name="sliderStatus" Text="Slider value is 0" />
 		</StackPanel>
-    
+
 
   </Grid>
 </Page>

@@ -1,9 +1,11 @@
-﻿<Application x:Class="UnitTests.App"
+<Application x:Class="UnitTests.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:helpers="using:UnitTests.Extensions.Helpers"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:unitTestExtensions="using:UnitTests.Extensions"
              RequestedTheme="Light">
     <Application.Resources>
@@ -34,6 +36,12 @@
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
+
+        <TextBox x:Key="DummyTextBox">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:AutoSelectBehavior />
+            </interactivity:Interaction.Behaviors>
+        </TextBox>
 
         <Style TargetType="controls:UniformGrid" />
         <ui:NullableBoolExtension x:Key="nullableBool" />

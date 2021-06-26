@@ -1,11 +1,13 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
@@ -95,6 +97,152 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 storyboard.Begin();
+            }
+        }
+
+        /// <summary>
+        /// Starts the animations present in the current <see cref="AnimationBuilder"/> instance.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
+        /// <param name="callback">The callback to invoke when the animation completes.</param>
+        public void Start(UIElement element, Action callback)
+        {
+            // The point of this overload is to allow consumers to invoke a callback when an animation
+            // completes, without having to create an async state machine. There are three different possible
+            // scenarios to handle, and each can have a specialized code path to ensure the implementation
+            // is as lean and efficient as possible. Specifically, for a given AnimationBuilder instance:
+            //   1) There are only Composition animations
+            //   2) There are only XAML animations
+            //   3) There are both Composition and XAML animations
+            // The implementation details of each of these paths is described below.
+            if (this.compositionAnimationFactories.Count > 0)
+            {
+                if (this.xamlAnimationFactories.Count == 0)
+                {
+                    // There are only Composition animations. In this case we can just use a Composition scoped batch,
+                    // capture the user-provided callback and invoke it directly when the batch completes. There is no
+                    // additional overhead here, since we would've had to create a closure regardless to be able to monitor
+                    // the completion of the animation (eg. to capture a TaskCompletionSource like we're doing below).
+                    static void Start(AnimationBuilder builder, UIElement element, Action callback)
+                    {
+                        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+                        Visual visual = ElementCompositionPreview.GetElementVisual(element);
+                        CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+
+                        batch.Completed += (_, _) => callback();
+
+                        foreach (var factory in builder.compositionAnimationFactories)
+                        {
+                            var animation = factory.GetAnimation(visual, out var target);
+
+                            if (target is null)
+                            {
+                                visual.StartAnimation(animation.Target, animation);
+                            }
+                            else
+                            {
+                                target.StartAnimation(animation.Target, animation);
+                            }
+                        }
+
+                        batch.End();
+                    }
+
+                    Start(this, element, callback);
+                }
+                else
+                {
+                    // In this case we need to wait for both the Composition and XAML animation groups to complete. These two
+                    // groups use different APIs and can have a different duration, so we need to synchronize between them
+                    // without creating an async state machine (as that'd defeat the point of this separate overload).
+                    //
+                    // The code below relies on a mutable boxed counter that's shared across the two closures for the Completed
+                    // events for both the Composition scoped batch and the XAML Storyboard. The counter is initialized to 2, and
+                    // when each group completes, the counter is decremented (we don't need an interlocked decrement as the delegates
+                    // will already be invoked on the current DispatcherQueue instance, which acts as the synchronization context here.
+                    // The handlers for the Composition batch and the Storyboard will never execute concurrently). If the counter has
+                    // reached zero, it means that both groups have completed, so the user-provided callback is triggered, otherwise
+                    // the handler just does nothing. This ensures that the callback is executed exactly once when all the animation
+                    // complete, but without the need to create TaskCompletionSource-s and an async state machine to await for that.
+                    //
+                    // Note: we're using StrongBox<T> here because that exposes a mutable field of the type we need (int).
+                    // We can't just mutate a boxed int in-place with Unsafe.Unbox<T> as that's against the ECMA spec, since
+                    // that API uses the unbox IL opcode (§III.4.32) which returns a "controlled-mutability managed pointer"
+                    // (§III.1.8.1.2.2), which is not "verifier-assignable-to" (ie. directly assigning to it is not legal).
+                    static void Start(AnimationBuilder builder, UIElement element, Action callback)
+                    {
+                        StrongBox<int> counter = new(2);
+
+                        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+                        Visual visual = ElementCompositionPreview.GetElementVisual(element);
+                        CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+
+                        batch.Completed += (_, _) =>
+                        {
+                            if (--counter.Value == 0)
+                            {
+                                callback();
+                            }
+                        };
+
+                        foreach (var factory in builder.compositionAnimationFactories)
+                        {
+                            var animation = factory.GetAnimation(visual, out var target);
+
+                            if (target is null)
+                            {
+                                visual.StartAnimation(animation.Target, animation);
+                            }
+                            else
+                            {
+                                target.StartAnimation(animation.Target, animation);
+                            }
+                        }
+
+                        batch.End();
+
+                        Storyboard storyboard = new();
+
+                        foreach (var factory in builder.xamlAnimationFactories)
+                        {
+                            storyboard.Children.Add(factory.GetAnimation(element));
+                        }
+
+                        storyboard.Completed += (_, _) =>
+                        {
+                            if (--counter.Value == 0)
+                            {
+                                callback();
+                            }
+                        };
+                        storyboard.Begin();
+                    }
+
+                    Start(this, element, callback);
+                }
+            }
+            else
+            {
+                // There are only XAML animations. This case is extremely similar to that where we only have Composition
+                // animations, with the main difference being that the Completed event is directly exposed from the
+                // Storyboard type, so we don't need a separate type to track the animation completion. The same
+                // considerations regarding the closure to capture the provided callback apply here as well.
+                static void Start(AnimationBuilder builder, UIElement element, Action callback)
+                {
+                    Storyboard storyboard = new();
+
+                    foreach (var factory in builder.xamlAnimationFactories)
+                    {
+                        storyboard.Children.Add(factory.GetAnimation(element));
+                    }
+
+                    storyboard.Completed += (_, _) => callback();
+                    storyboard.Begin();
+                }
+
+                Start(this, element, callback);
             }
         }
 

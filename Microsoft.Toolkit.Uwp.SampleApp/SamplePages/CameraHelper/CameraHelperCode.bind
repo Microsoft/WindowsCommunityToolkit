@@ -1,4 +1,4 @@
-﻿// Creates a Camera Helper and subscribes to frames from an available frame source.
+// Creates a Camera Helper and subscribes to frames from an available frame source.
 // Make sure you have the capability webcam enabled for your app to access the device's camera.
 
 using Microsoft.Toolkit.Uwp.Helpers;

@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
@@ -7,7 +7,7 @@
       This library provides XAML layout controls. It is part of the Windows Community Toolkit.
 
       Controls:
-        - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
+        - BladeView: Provides a horizontal collection of blades for drilling into detailed scenarios.
         - Carousel: Presents items in a carousel control.
         - Expander: Expander allows user to show/hide content based on a boolean state.
         - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
@@ -17,9 +17,19 @@
         - ListDetailsView: Implements the List/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
     </Description>
-    <PackageTags>BladeView Blade Carousel Expander GridSplitter HeaderedContent List Details ListDetails Orbit</PackageTags>
+    <PackageTags>
+      Windows;Community;Toolkit;WCT;
+      Blade;View              ;BladeView             ;
+      Carousel                ;
+      Expander                ;
+      Grid;Splitter           ;GridSplitter          ;
+      Headered;Content;Control;HeaderedContentControl;ContentControl ;HeaderedContent;
+      Headered;Items;Control  ;HeaderedItemsControl  ;ItemsControl   ;HeaderedItems  ;
+      Layout;Transform;Control;LayoutTransformControl;LayoutTransform;
+      List;Details;View       ;ListDetailsView       ;ListDetails    ;
+      Orbit;View              ;OrbitView             ;
+    </PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
@@ -49,4 +59,5 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+
 </Project>

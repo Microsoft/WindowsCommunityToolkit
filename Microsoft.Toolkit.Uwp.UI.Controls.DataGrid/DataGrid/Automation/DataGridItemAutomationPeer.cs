@@ -256,17 +256,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             switch (patternInterface)
             {
                 case PatternInterface.Invoke:
-                {
                     if (!this.OwningDataGrid.IsReadOnly)
                     {
                         return this;
                     }
 
                     break;
-                }
-
                 case PatternInterface.ScrollItem:
-                {
                     if (this.OwningDataGrid.VerticalScrollBar != null &&
                         this.OwningDataGrid.VerticalScrollBar.Maximum > 0)
                     {
@@ -274,8 +270,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                     }
 
                     break;
-                }
-
                 case PatternInterface.Selection:
                 case PatternInterface.SelectionItem:
                     return this;

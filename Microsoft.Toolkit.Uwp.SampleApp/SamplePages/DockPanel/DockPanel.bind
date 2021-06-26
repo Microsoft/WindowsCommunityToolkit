@@ -10,10 +10,10 @@
   <Grid>
     <TextBlock Margin="5" Text="In this demo you can't add a child after a Stretch child"/>
     <Grid Padding="48">
-      <controls:DockPanel x:Name="SampleDockPanel" 
-                          Background="LightGray" 
-                          LastChildFill="False" 
-                          Margin="2" 
+      <controls:DockPanel x:Name="SampleDockPanel"
+                          Background="LightGray"
+                          LastChildFill="False"
+                          Margin="2"
                           Padding="@[Padding:Thickness:0,0,0,0]@">
         <StackPanel Height="100" controls:DockPanel.Dock="Top" Background="Black"></StackPanel>
         <StackPanel Width="100" controls:DockPanel.Dock="Left" Background="Red"></StackPanel>

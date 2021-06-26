@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SampleController"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -50,7 +50,7 @@
                         Margin="5,0,0,0"
                         Width="50">
                         <AppBarButton.Icon>
-                            <PathIcon Margin="-3" 
+                            <PathIcon Margin="-3"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Data="{StaticResource GithubIcon}">
@@ -249,7 +249,7 @@
                                         StackMode="QueueBehind"
                                         Margin="10"
                                         Canvas.ZIndex="999" />
-            
+
             <Grid x:Name="waitRing"
                     Grid.Row="1"
                     Grid.RowSpan="3"

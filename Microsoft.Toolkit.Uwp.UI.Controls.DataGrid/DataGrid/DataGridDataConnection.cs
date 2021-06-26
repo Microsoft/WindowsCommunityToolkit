@@ -1053,10 +1053,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
             if (_incrementalItemsSource != null && _incrementalItemsSource is INotifyPropertyChanged inpc)
             {
-                    _weakIncrementalItemsSourcePropertyChangedListener = new WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs>(this);
-                    _weakIncrementalItemsSourcePropertyChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingIncrementalItemsSource(source, eventArgs);
-                    _weakIncrementalItemsSourcePropertyChangedListener.OnDetachAction = (weakEventListener) => inpc.PropertyChanged -= weakEventListener.OnEvent;
-                    inpc.PropertyChanged += _weakIncrementalItemsSourcePropertyChangedListener.OnEvent;
+                _weakIncrementalItemsSourcePropertyChangedListener = new WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs>(this);
+                _weakIncrementalItemsSourcePropertyChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingIncrementalItemsSource(source, eventArgs);
+                _weakIncrementalItemsSourcePropertyChangedListener.OnDetachAction = (weakEventListener) => inpc.PropertyChanged -= weakEventListener.OnEvent;
+                inpc.PropertyChanged += _weakIncrementalItemsSourcePropertyChangedListener.OnEvent;
             }
 
             if (_loadingOperation != null)

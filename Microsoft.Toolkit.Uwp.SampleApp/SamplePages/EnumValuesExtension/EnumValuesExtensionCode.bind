@@ -20,7 +20,7 @@ public sealed class AnimalToColorConverter : IValueConverter
             Animal.Bunny => Colors.Green,
             Animal.Parrot => Colors.YellowGreen,
             Animal.Squirrel => Colors.SaddleBrown,
-            _ => throw new ArgumentException("Invalid value", nameof(value))
+            _ => DependencyProperty.UnsetValue
         };
     }
 

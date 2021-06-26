@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -525,7 +525,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
         /// <returns>A <see cref="Memory2D{T}"/> instance with the specified parameters.</returns>
-        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when one of the input parameters is out of range.
         /// </exception>

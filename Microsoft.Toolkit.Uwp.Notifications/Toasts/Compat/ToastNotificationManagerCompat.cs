@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #if WIN32
         private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
         private const string REG_HAS_SENT_NOTIFICATION = "HasSentNotification";
+        private const string REG_HAS_7_0_1_FIX = "Has7.0.1Fix";
         internal const string DEFAULT_GROUP = "toolkitGroupNull";
 
         private const int CLASS_E_NOAGGREGATION = -2147221232;
@@ -175,6 +176,23 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                     // Additionally, we need to read whether they've sent a notification before
                     _hasSentNotification = rootKey.GetValue(REG_HAS_SENT_NOTIFICATION) != null;
+
+                    // And read if we've already applied the 7_0_1 fix
+                    bool has7_0_1fix = rootKey.GetValue(REG_HAS_7_0_1_FIX) != null;
+
+                    // If it doesn't have the fix yet
+                    if (!has7_0_1fix)
+                    {
+                        // If the AUMID changed
+                        if (win32AppInfo.Pre7_0_1Aumid != null)
+                        {
+                            // Uninstall the old AUMID
+                            CleanUpOldAumid(win32AppInfo.Pre7_0_1Aumid);
+                        }
+
+                        // Set that it has the fix so we don't try uninstalling again in the future
+                        rootKey.SetValue(REG_HAS_7_0_1_FIX, 1);
+                    }
                 }
 
                 rootKey.SetValue("CustomActivator", string.Format("{{{0}}}", activatorType.GUID));
@@ -183,7 +201,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static string GetRegistrySubKey()
         {
-            return @"Software\Classes\AppUserModelId\" + _win32Aumid;
+            return GetRegistrySubKey(_win32Aumid);
+        }
+
+        private static string GetRegistrySubKey(string win32Aumid)
+        {
+            return @"Software\Classes\AppUserModelId\" + win32Aumid;
         }
 
         private static Type CreateActivatorType()
@@ -443,7 +466,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     // Remove all scheduled notifications (do this first before clearing current notifications)
                     var notifier = CreateToastNotifier();
-                    foreach (var scheduled in CreateToastNotifier().GetScheduledToastNotifications())
+                    foreach (var scheduled in notifier.GetScheduledToastNotifications())
                     {
                         try
                         {
@@ -516,20 +539,70 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
             }
 
-            if (!DesktopBridgeHelpers.HasIdentity() && _win32Aumid != null)
+            try
             {
-                try
+                // Delete any of the app files
+                var appDataFolderPath = Win32AppInfo.GetAppDataFolderPath(_win32Aumid);
+                if (Directory.Exists(appDataFolderPath))
                 {
-                    // Delete any of the app files
-                    var appDataFolderPath = Win32AppInfo.GetAppDataFolderPath(_win32Aumid);
-                    if (Directory.Exists(appDataFolderPath))
+                    Directory.Delete(appDataFolderPath, recursive: true);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private static void CleanUpOldAumid(string oldAumid)
+        {
+            try
+            {
+                // Remove all scheduled notifications (do this first before clearing current notifications)
+                var notifier = ToastNotificationManager.CreateToastNotifier(oldAumid);
+                foreach (var scheduled in notifier.GetScheduledToastNotifications())
+                {
+                    try
                     {
-                        Directory.Delete(appDataFolderPath, recursive: true);
+                        notifier.RemoveFromSchedule(scheduled);
+                    }
+                    catch
+                    {
                     }
                 }
-                catch
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Clear all current notifications
+                ToastNotificationManager.History.Clear(oldAumid);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Remove registry key
+                Registry.CurrentUser.DeleteSubKey(GetRegistrySubKey(oldAumid));
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Delete any of the app files
+                var appDataFolderPath = Win32AppInfo.GetAppDataFolderPath(oldAumid);
+                if (Directory.Exists(appDataFolderPath))
                 {
+                    Directory.Delete(appDataFolderPath, recursive: true);
                 }
+            }
+            catch
+            {
             }
         }
 #endif

@@ -7,7 +7,7 @@
     mc:Ignorable="d">
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-  
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup >
 				<VisualState x:Name="connected">
@@ -28,9 +28,9 @@
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-		
+
 		<TextBlock x:Name="connectionStatus"
-			HorizontalAlignment="Center" 
+			HorizontalAlignment="Center"
 			VerticalAlignment="Center" />
   </Grid>
 </Page>

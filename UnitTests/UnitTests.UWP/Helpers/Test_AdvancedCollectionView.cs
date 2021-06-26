@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -65,7 +65,7 @@ namespace UnitTests.Helpers
             ObservableCollection<SampleClass> col = new ObservableCollection<SampleClass>();
             AdvancedCollectionView acv = new AdvancedCollectionView(col, true);
 
-            // Add all items to collection while DeferRefresh() is active: 
+            // Add all items to collection while DeferRefresh() is active:
             using (acv.DeferRefresh())
             {
                 foreach (var item in refList)
@@ -101,7 +101,7 @@ namespace UnitTests.Helpers
                 col.Add(item);
             }
 
-            // Remove all items from collection while DeferRefresh() is active: 
+            // Remove all items from collection while DeferRefresh() is active:
             using (acv.DeferRefresh())
             {
                 while (col.Count > 0)

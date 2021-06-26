@@ -1,4 +1,4 @@
-﻿<Application x:Class="Microsoft.Toolkit.Uwp.SampleApp.App"
+<Application x:Class="Microsoft.Toolkit.Uwp.SampleApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"

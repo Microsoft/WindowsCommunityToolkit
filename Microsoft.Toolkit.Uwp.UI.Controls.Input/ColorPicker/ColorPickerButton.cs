@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -66,11 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty FlyoutPresenterStyleProperty = DependencyProperty.Register("FlyoutPresenterStyle", typeof(Style), typeof(ColorPickerButton), new PropertyMetadata(default(Style)));
 
-        #pragma warning disable CS0419 // Ambiguous reference in cref attribute
+#pragma warning disable CS0419 // Ambiguous reference in cref attribute
         /// <summary>
         /// Gets or sets the selected <see cref="Windows.UI.Color"/> the user has picked from the <see cref="ColorPicker"/>.
         /// </summary>
-        #pragma warning restore CS0419 // Ambiguous reference in cref attribute
+#pragma warning restore CS0419 // Ambiguous reference in cref attribute
         public Color SelectedColor
         {
             get { return (Color)GetValue(SelectedColorProperty); }
@@ -83,10 +83,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(ColorPickerButton), new PropertyMetadata(null));
 
-        #pragma warning disable SA1306 // Field names should begin with lower-case letter
+#pragma warning disable SA1306 // Field names should begin with lower-case letter
         //// Template Parts
         private Border CheckeredBackgroundBorder;
-        #pragma warning restore SA1306 // Field names should begin with lower-case letter
+#pragma warning restore SA1306 // Field names should begin with lower-case letter
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorPickerButton"/> class.

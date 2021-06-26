@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SystemInformationPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SystemInformationPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -172,6 +172,18 @@
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
                                FontWeight="Bold"
+                               Text="Previous version installed:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind PreviousVersionInstalled}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack14"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
                                Text="First use time:"
                                TextWrapping="Wrap" />
                     <TextBlock Margin="20,0"
@@ -179,7 +191,7 @@
                                Text="{x:Bind FirstUseTime}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack14"
+                <StackPanel x:Name="Stack15"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -191,7 +203,7 @@
                                Text="{x:Bind LaunchTime}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack15"
+                <StackPanel x:Name="Stack16"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -203,7 +215,7 @@
                                Text="{x:Bind LastLaunchTime}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack16"
+                <StackPanel x:Name="Stack17"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -215,7 +227,7 @@
                                Text="{x:Bind LastResetTime, Mode=OneWay}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack17"
+                <StackPanel x:Name="Stack18"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -227,7 +239,7 @@
                                Text="{x:Bind LaunchCount, Mode=OneWay}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack18"
+                <StackPanel x:Name="Stack19"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -239,7 +251,7 @@
                                Text="{x:Bind TotalLaunchCount}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel x:Name="Stack19"
+                <StackPanel x:Name="Stack20"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
@@ -284,6 +296,9 @@
                         <Setter Target="Stack15.Orientation" Value="Vertical" />
                         <Setter Target="Stack16.Orientation" Value="Vertical" />
                         <Setter Target="Stack17.Orientation" Value="Vertical" />
+                        <Setter Target="Stack18.Orientation" Value="Vertical" />
+                        <Setter Target="Stack19.Orientation" Value="Vertical" />
+                        <Setter Target="Stack20.Orientation" Value="Vertical" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -488,24 +488,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue:
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation:
-                    {
-                        // Hue
-                        return ColorChannel.Channel1;
-                    }
+                {
+                    // Hue
+                    return ColorChannel.Channel1;
+                }
 
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
-                    {
-                        // Saturation
-                        return ColorChannel.Channel2;
-                    }
+                {
+                    // Saturation
+                    return ColorChannel.Channel2;
+                }
 
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
-                    {
-                        // Value
-                        return ColorChannel.Channel3;
-                    }
+                {
+                    // Value
+                    return ColorChannel.Channel3;
+                }
             }
 
             return ColorChannel.Alpha; // Error, should never get here
@@ -671,31 +671,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     switch (this.GetActiveColorSpectrumThirdDimension())
                     {
                         case ColorChannel.Channel1:
-                            {
-                                // Hue
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 360;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = hue;
-                                break;
-                            }
+                        {
+                            // Hue
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 360;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = hue;
+                            break;
+                        }
 
                         case ColorChannel.Channel2:
-                            {
-                                // Saturation
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
-                                break;
-                            }
+                        {
+                            // Saturation
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
+                            break;
+                        }
 
                         case ColorChannel.Channel3:
-                            {
-                                // Value
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = value;
-                                break;
-                            }
+                        {
+                            // Value
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = value;
+                            break;
+                        }
                     }
                 }
 
@@ -885,29 +885,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 switch (channel)
                 {
                     case ColorChannel.Channel1:
-                        {
-                            hue = Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 360);
-                            break;
-                        }
+                    {
+                        hue = Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 360);
+                        break;
+                    }
 
                     case ColorChannel.Channel2:
-                        {
-                            saturation = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        saturation = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
+                        break;
+                    }
 
                     case ColorChannel.Channel3:
-                        {
-                            value = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        value = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
+                        break;
+                    }
 
                     case ColorChannel.Alpha:
-                        {
-                            // Unlike color channels, default to no transparency
-                            alpha = Math.Clamp((double.IsNaN(newValue) ? 100 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        // Unlike color channels, default to no transparency
+                        alpha = Math.Clamp((double.IsNaN(newValue) ? 100 : newValue) / 100, 0, 1);
+                        break;
+                    }
                 }
 
                 newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
@@ -936,29 +936,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 switch (channel)
                 {
                     case ColorChannel.Channel1:
-                        {
-                            red = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        red = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Channel2:
-                        {
-                            green = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        green = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Channel3:
-                        {
-                            blue = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        blue = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Alpha:
-                        {
-                            // Unlike color channels, default to no transparency
-                            alpha = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 255 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        // Unlike color channels, default to no transparency
+                        alpha = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 255 : newValue, 0, 255));
+                        break;
+                    }
                 }
 
                 newRgbColor = new Color()
@@ -1160,7 +1160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
                 {
                     for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
-                {
+                    {
                         this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
                     }
                 }

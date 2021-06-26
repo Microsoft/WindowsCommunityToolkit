@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -35,7 +35,7 @@ namespace UnitTests.UWP.UI.Controls
 
                 // Sets the selected item to "World" from the items above.
                 carousel.SelectedIndex = expectedSelectedIndex;
-                
+
                 var carouselAutomationPeer =
                     FrameworkElementAutomationPeer.CreatePeerForElement(carousel) as CarouselAutomationPeer;
 
@@ -43,7 +43,7 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsFalse(carouselAutomationPeer.CanSelectMultiple, "Verify that CarouselAutomationPeer.CanSelectMultiple is false.");
                 Assert.IsTrue(carouselAutomationPeer.IsSelectionRequired, "Verify that CarouselAutomationPeer.IsSelectionRequired is true.");
 
-                // Asserts the automation peer name based on the Automation Property Name value. 
+                // Asserts the automation peer name based on the Automation Property Name value.
                 carousel.SetValue(AutomationProperties.NameProperty, expectedCarouselAutomationName);
                 Assert.IsTrue(carouselAutomationPeer.GetName().Contains(expectedCarouselAutomationName), "Verify that the UIA name contains the given AutomationProperties.Name of the Carousel.");
 
@@ -52,7 +52,7 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsTrue(carouselAutomationPeer.GetName().Contains(expectedCarouselName), "Verify that the UIA name contains the given Name of the Carousel.");
 
                 var carouselItemAutomationPeers = carouselAutomationPeer.GetChildren().Cast<CarouselItemAutomationPeer>().ToList();
-                Assert.AreEqual(items.Count,  carouselItemAutomationPeers.Count);
+                Assert.AreEqual(items.Count, carouselItemAutomationPeers.Count);
 
                 // Asserts the default calculated position in set and size of set values
                 for (var i = 0; i < carouselItemAutomationPeers.Count; i++)

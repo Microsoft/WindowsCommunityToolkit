@@ -67,8 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Style HeaderStyle
         {
-            get { return (Style)GetValue(HeaderStyleProperty);  }
-            set { SetValue(HeaderStyleProperty, value);  }
+            get { return (Style)GetValue(HeaderStyleProperty); }
+            set { SetValue(HeaderStyleProperty, value); }
         }
 
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

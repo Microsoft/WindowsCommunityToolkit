@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    [TemplatePart(Name = Preview_MediaPlayerElementControl, Type =typeof(MediaPlayerElement))]
+    [TemplatePart(Name = Preview_MediaPlayerElementControl, Type = typeof(MediaPlayerElement))]
     [TemplatePart(Name = Preview_FrameSourceGroupButton, Type = typeof(Button))]
     public partial class CameraPreview : Control
     {
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartAsync()
         {
-             await StartAsync(new CameraHelper());
+            await StartAsync(new CameraHelper());
         }
 
         /// <summary>

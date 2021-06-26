@@ -1,5 +1,5 @@
 // XAML UIElement
-<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100">
 
 // C# - Offset can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -9,4 +9,3 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 // want to animate the position of an element with respect to its original
 // relative position to its parent, use a translation animation instead.
 await AnimationBuilder.Create().Offset(to: new Vector2(20, 30), duration: TimeSpan.FromSeconds(3)).StartAsync(ToolkitLogo);
-

@@ -36,7 +36,7 @@
                          ui:TextBoxExtensions.Mask="9a9a-a9a*"
                          Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
-                         Style="{StaticResource MaskedTextBoxStyle}" 
+                         Style="{StaticResource MaskedTextBoxStyle}"
                          Text="TextBoxMask" />
 
                 <TextBox Grid.Row="1"

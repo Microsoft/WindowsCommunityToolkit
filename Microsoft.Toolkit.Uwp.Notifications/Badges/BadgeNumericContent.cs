@@ -63,10 +63,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
 #if WINDOWS_UWP
-    /// <summary>
-    /// Retrieves the notification Xml content as a WinRT Xml document.
-    /// </summary>
-    /// <returns>The notification Xml content as a WinRT Xml document.</returns>
+        /// <summary>
+        /// Retrieves the notification Xml content as a WinRT Xml document.
+        /// </summary>
+        /// <returns>The notification Xml content as a WinRT Xml document.</returns>
         public XmlDocument GetXml()
         {
             XmlDocument xml = new XmlDocument();

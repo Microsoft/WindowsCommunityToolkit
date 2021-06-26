@@ -54,5 +54,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             element.SetValue(IsFrozenProperty, value);
         }
-   }
+    }
 }

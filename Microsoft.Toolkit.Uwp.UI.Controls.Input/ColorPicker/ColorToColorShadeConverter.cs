@@ -1,10 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -40,7 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided");
+                // Invalid color value provided
+                return DependencyProperty.UnsetValue;
             }
 
             // Get the value component delta
@@ -50,7 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             catch
             {
-                throw new ArgumentException("Invalid parameter provided, unable to convert to integer");
+                // Invalid parameter provided, unable to convert to integer
+                return DependencyProperty.UnsetValue;
             }
 
             // Specially handle minimum (black) and maximum (white)
@@ -119,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             object parameter,
             string language)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
@@ -23,6 +23,8 @@ namespace UITests.Tests
     [TestClass]
     public class TestAssembly
     {
+        private static AppServiceConnection CommunicationService { get; set; }
+
         [AssemblyInitialize]
         [TestProperty("CoreClrProfile", ".")]
         [TestProperty("RunFixtureAs:Assembly", "ElevatedUserOrSystem")]
@@ -34,7 +36,97 @@ namespace UITests.Tests
         [AssemblyCleanup]
         public static void AssemblyCleanup()
         {
-            TestEnvironment.AssemblyCleanup();
+            TestEnvironment.AssemblyCleanupWorker(UITestBase.WinUICsUWPSampleApp);
+        }
+
+        private static async Task InitalizeComService()
+        {
+            CommunicationService = new AppServiceConnection();
+
+            CommunicationService.RequestReceived += CommunicationService_RequestReceived;
+
+            // Here, we use the app service name defined in the app service
+            // provider's Package.appxmanifest file in the <Extension> section.
+            CommunicationService.AppServiceName = "TestHarnessCommunicationService";
+
+            // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
+            // within the app service provider to get this value.
+            CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
+
+            var status = await CommunicationService.OpenAsync();
+
+            if (status != AppServiceConnectionStatus.Success)
+            {
+                Log.Error("Failed to connect to App Service host.");
+                CommunicationService = null;
+                throw new Exception("Failed to connect to App Service host.");
+            }
+        }
+
+        internal static Task<bool> OpenPage(string pageName)
+        {
+            Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
+
+            return SendMessageToApp(new()
+            {
+                { "Command", "OpenPage" },
+                { "Page", pageName }
+            });
+        }
+
+        private static async Task<bool> SendMessageToApp(ValueSet message)
+        {
+            if (CommunicationService is null)
+            {
+                await InitalizeComService();
+            }
+
+            var response = await CommunicationService.SendMessageAsync(message);
+
+            return response.Status == AppServiceResponseStatus.Success
+                && response.Message.TryGetValue("Status", out var s)
+                && s is string status
+                && status == "OK";
+        }
+
+        private static void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            var messageDeferral = args.GetDeferral();
+            var message = args.Request.Message;
+            string cmd = message["Command"] as string;
+
+            try
+            {
+                // Return the data to the caller.
+                if (cmd == "Log")
+                {
+                    string level = message["Level"] as string;
+                    string msg = message["Message"] as string;
+
+                    switch (level)
+                    {
+                        case "Comment":
+                            Log.Comment("[Host] {0}", msg);
+                            break;
+                        case "Warning":
+                            Log.Warning("[Host] {0}", msg);
+                            break;
+                        case "Error":
+                            Log.Error("[Host] {0}", msg);
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error("Exception receiving message: {0}", e.Message);
+            }
+            finally
+            {
+                // Complete the deferral so that the platform knows that we're done responding to the app service call.
+                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
+                messageDeferral.Complete();
+            }
         }
     }
 }

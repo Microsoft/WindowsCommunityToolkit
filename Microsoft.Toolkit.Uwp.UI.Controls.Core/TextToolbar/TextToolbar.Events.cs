@@ -248,41 +248,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             LastKeyPress = e.Key;
 
-            if (GetTemplateChild(RootControl) is CommandBar root)
+            if (GetTemplateChild(RootControl) is CommandBar root && IsDoingShortcut(e.Key))
             {
-                if (ControlKeyDown && e.Key != VirtualKey.Control)
+                var key = FindBestAlternativeKey(e.Key);
+
+                var matchingButtons = root.PrimaryCommands.OfType<ToolbarButton>().Where(item => item.ShortcutKey == key);
+                if (matchingButtons.Any())
                 {
-                    var key = FindBestAlternativeKey(e.Key);
-
-                    var matchingButtons = root.PrimaryCommands.OfType<ToolbarButton>().Where(item => item.ShortcutKey == key);
-                    if (matchingButtons.Any())
+                    if (e.Handled)
                     {
-                        if (e.Handled)
+                        Editor.Document.Undo();
+                        if (string.IsNullOrWhiteSpace(Editor.Document.Selection.Text))
                         {
-                            Editor.Document.Undo();
-                            if (string.IsNullOrWhiteSpace(Editor.Document.Selection.Text))
-                            {
-                                Editor.Document.Redo();
-                            }
+                            Editor.Document.Redo();
                         }
+                    }
 
-                        var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
-                        foreach (var button in matchingButtons)
+                    var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
+                    foreach (var button in matchingButtons)
+                    {
+                        if (button != null && !args.Handled)
                         {
-                            if (button != null && !args.Handled)
-                            {
-                                button.ShortcutRequested(ref args);
-                            }
+                            button.ShortcutRequested(ref args);
                         }
+                    }
 
-                        ShortcutRequested?.Invoke(this, args);
-                        if (args.Handled)
-                        {
-                            e.Handled = true;
-                        }
+                    ShortcutRequested?.Invoke(this, args);
+                    if (args.Handled)
+                    {
+                        e.Handled = true;
                     }
                 }
             }
+        }
+
+        private bool IsDoingShortcut(VirtualKey pressedKey)
+        {
+            // Control should be down
+            if (!ControlKeyDown || pressedKey == VirtualKey.Control)
+            {
+                return false;
+            }
+
+            // ignore when Control is used in combination with Menu (aka Alt) to avoid blocking use of AltGr key
+            if (MenuKeyDown)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private KeyEventHandler KeyEventHandler { get; set; }
@@ -293,6 +307,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool ControlKeyDown
         {
             get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control)); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether Menu is pressed down
+        /// </summary>
+        public bool MenuKeyDown
+        {
+            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Menu)); }
         }
 
         /// <summary>

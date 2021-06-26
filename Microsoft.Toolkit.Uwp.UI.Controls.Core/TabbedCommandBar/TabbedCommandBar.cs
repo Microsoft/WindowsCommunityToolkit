@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -12,16 +12,16 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A basic ribbon control that houses <see cref="TabbedCommandBarItem"/>s
+    /// A basic TabbedCommandBar control that houses <see cref="TabbedCommandBarItem"/>s
     /// </summary>
     [ContentProperty(Name = nameof(MenuItems))]
-    [TemplatePart(Name = "PART_RibbonContent", Type = typeof(ContentControl))]
-    [TemplatePart(Name = "PART_RibbonContentBorder", Type = typeof(Border))]
+    [TemplatePart(Name = "PART_TabbedCommandBarContent", Type = typeof(ContentControl))]
+    [TemplatePart(Name = "PART_TabbedCommandBarContentBorder", Type = typeof(Border))]
     [TemplatePart(Name = "PART_TabChangedStoryboard", Type = typeof(Storyboard))]
     public class TabbedCommandBar : NavigationView
     {
-        private ContentControl _ribbonContent = null;
-        private Border _ribbonContentBorder = null;
+        private ContentControl _tabbedCommandBarContent = null;
+        private Border _tabbedCommandBarContentBorder = null;
         private Storyboard _tabChangedStoryboard = null;
 
         /// <summary>
@@ -45,14 +45,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (_ribbonContent != null)
+            if (_tabbedCommandBarContent != null)
             {
-                _ribbonContent.Content = null;
+                _tabbedCommandBarContent.Content = null;
             }
 
-            // Get RibbonContent first, since setting SelectedItem requires it
-            _ribbonContent = GetTemplateChild("PART_RibbonContent") as ContentControl;
-            _ribbonContentBorder = GetTemplateChild("PART_RibbonContentBorder") as Border;
+            // Get TabbedCommandBarContent first, since setting SelectedItem requires it
+            _tabbedCommandBarContent = GetTemplateChild("PART_TabbedCommandBarContent") as ContentControl;
+            _tabbedCommandBarContentBorder = GetTemplateChild("PART_TabbedCommandBarContentBorder") as Border;
             _tabChangedStoryboard = GetTemplateChild("TabChangedStoryboard") as Storyboard;
 
             SelectedItem = MenuItems.FirstOrDefault();
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _visibilityChangedToken =
             _previousSelectedItem.RegisterPropertyChangedCallback(TabbedCommandBarItem.VisibilityProperty, SelectedItemVisibilityChanged);
 
-            // Set the ribbon background and start the transition animation
+            // Set the TabbedCommandBar background and start the transition animation
             _tabChangedStoryboard?.Begin();
         }
 

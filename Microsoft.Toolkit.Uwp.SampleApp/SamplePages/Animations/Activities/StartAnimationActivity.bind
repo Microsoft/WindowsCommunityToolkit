@@ -9,7 +9,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
-  
+
   <Button Background="Gray" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
     <ani:Explicit.Animations>
       <ani:AnimationSet x:Name="MoveAnimation" IsSequential="True">
@@ -19,7 +19,7 @@
         <ani:TranslationAnimation Duration="0:0:1" To="0,0,0" From="0,32,0" />
       </ani:AnimationSet>
     </ani:Explicit.Animations>
-    
+
     <Image Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100">
       <ani:Explicit.Animations>
         <ani:AnimationSet x:Name="FadeOutAnimation">

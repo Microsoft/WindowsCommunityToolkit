@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
@@ -14,7 +14,7 @@
       - Expressions: ExpressionNodes, ExpressionValues, ReferenceNodes, CompositionExtensions, ExpressionFunctions, OperationType
       - AnimationExtensions: Blur, Fade, Light, Offset, Rotate, Saturation, Scale
     </Description>
-    <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Animations;Composition;Connected;Implicit;XAML</PackageTags>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 

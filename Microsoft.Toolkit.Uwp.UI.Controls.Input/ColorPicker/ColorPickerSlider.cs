@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -82,46 +82,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 switch (this.ColorChannel)
                 {
                     case ColorChannel.Channel1:
-                        {
-                            var channelValue = Math.Clamp(sliderPercent * 360.0, 0.0, 360.0);
+                    {
+                        var channelValue = Math.Clamp(sliderPercent * 360.0, 0.0, 360.0);
 
-                            hsvColor = new HsvColor()
-                            {
-                                H = channelValue,
-                                S = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.S,
-                                V = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.V,
-                                A = hsvColor.A
-                            };
-                            break;
-                        }
+                        hsvColor = new HsvColor()
+                        {
+                            H = channelValue,
+                            S = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.S,
+                            V = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.V,
+                            A = hsvColor.A
+                        };
+                        break;
+                    }
 
                     case ColorChannel.Channel2:
-                        {
-                            var channelValue = Math.Clamp(sliderPercent * 1.0, 0.0, 1.0);
+                    {
+                        var channelValue = Math.Clamp(sliderPercent * 1.0, 0.0, 1.0);
 
-                            hsvColor = new HsvColor()
-                            {
-                                H = hsvColor.H,
-                                S = channelValue,
-                                V = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.V,
-                                A = hsvColor.A
-                            };
-                            break;
-                        }
+                        hsvColor = new HsvColor()
+                        {
+                            H = hsvColor.H,
+                            S = channelValue,
+                            V = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.V,
+                            A = hsvColor.A
+                        };
+                        break;
+                    }
 
                     case ColorChannel.Channel3:
-                        {
-                            var channelValue = Math.Clamp(sliderPercent * 1.0, 0.0, 1.0);
+                    {
+                        var channelValue = Math.Clamp(sliderPercent * 1.0, 0.0, 1.0);
 
-                            hsvColor = new HsvColor()
-                            {
-                                H = hsvColor.H,
-                                S = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.S,
-                                V = channelValue,
-                                A = hsvColor.A
-                            };
-                            break;
-                        }
+                        hsvColor = new HsvColor()
+                        {
+                            H = hsvColor.H,
+                            S = this.IsSaturationValueMaxForced ? 1.0 : hsvColor.S,
+                            V = channelValue,
+                            A = hsvColor.A
+                        };
+                        break;
+                    }
                 }
 
                 selectedRgbColor = Uwp.Helpers.ColorHelper.FromHsv(

@@ -6,7 +6,7 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d">
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup >
 				<VisualState x:Name="checkstate">

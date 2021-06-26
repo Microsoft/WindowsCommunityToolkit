@@ -59,7 +59,7 @@ namespace UnitTests.Markdown.Parse
         public void Header_2_Alt()
         {
             /***
-             * Note: This is a tricky scenario because Header 2's 
+             * Note: This is a tricky scenario because Header 2's
              * can be easily confused with thematic breaks, see specs:
              * https://spec.commonmark.org/0.29/#setext-headings
              * https://spec.commonmark.org/0.29/#thematic-breaks
@@ -78,7 +78,7 @@ namespace UnitTests.Markdown.Parse
         public void Header_2_Alt_NotHorizontalRule()
         {
             /***
-             * Note: This is a tricky scenario because Header 2's 
+             * Note: This is a tricky scenario because Header 2's
              * can be easily confused with thematic breaks, see specs:
              * https://spec.commonmark.org/0.29/#setext-headings
              * https://spec.commonmark.org/0.29/#thematic-breaks

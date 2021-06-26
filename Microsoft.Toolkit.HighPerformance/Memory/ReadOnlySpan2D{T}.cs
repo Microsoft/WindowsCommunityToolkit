@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -654,14 +654,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="destination">The destination <see cref="Span2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="ReadOnlySpan2D{T}"/> instance.
+        /// Thrown when <paramref name="destination" /> does not have the same shape as the source <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </exception>
         public void CopyTo(Span2D<T> destination)
         {
             if (destination.Height != Height ||
                 destination.Width != Width)
             {
-                ThrowHelper.ThrowArgumentException();
+                ThrowHelper.ThrowArgumentExceptionForDestinationWithNotSameShape();
             }
 
             if (IsEmpty)
@@ -803,15 +803,15 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="row">The target row to map within the current instance.</param>
         /// <param name="column">The target column to map within the current instance.</param>
-        /// <param name="width">The width to map within the current instance.</param>
         /// <param name="height">The height to map within the current instance.</param>
+        /// <param name="width">The width to map within the current instance.</param>
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for the current instance.
         /// </exception>
         /// <returns>A new <see cref="ReadOnlySpan2D{T}"/> instance representing a slice of the current one.</returns>
         [Pure]
-        public ReadOnlySpan2D<T> Slice(int row, int column, int width, int height)
+        public ReadOnlySpan2D<T> Slice(int row, int column, int height, int width)
         {
             if ((uint)row >= Height)
             {
@@ -823,14 +823,14 @@ namespace Microsoft.Toolkit.HighPerformance
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
-            if ((uint)width > (this.width - column))
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
-            }
-
             if ((uint)height > (Height - row))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if ((uint)width > (this.width - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
             }
 
             nint shift = ((nint)(uint)this.stride * (nint)(uint)row) + (nint)(uint)column;
@@ -906,7 +906,10 @@ namespace Microsoft.Toolkit.HighPerformance
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, (int)Length);
+                    T[] array = Unsafe.As<T[]>(this.instance)!;
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.offset));
+
+                    span = array.AsSpan(index, (int)Length);
 
                     return true;
                 }

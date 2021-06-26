@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.XamlOnlyPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.XamlOnlyPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
@@ -32,6 +32,7 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
         <controls:ColorPicker x:Key="ColorPicker" />
         <controls:ColorPickerButton x:Key="ColorPickerButton" />
         <primitives:ColorPickerSlider x:Key="ColorPickerSlider" />

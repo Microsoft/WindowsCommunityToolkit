@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ExecuteCommand(command);
         }
 
-        internal void ExecuteCreateTextBox(double x, double y, double width, double height, int textFontSize, string text, Color color, bool isBold, bool isItalic)
+        internal void ExecuteCreateTextBox(double x, double y, double width, double height, float textFontSize, string text, Color color, bool isBold, bool isItalic)
         {
             var command = new InfiniteCanvasCreateTextBoxCommand(_drawableList, x, y, width, height, textFontSize, text, color, isBold, isItalic);
             ExecuteCommand(command);

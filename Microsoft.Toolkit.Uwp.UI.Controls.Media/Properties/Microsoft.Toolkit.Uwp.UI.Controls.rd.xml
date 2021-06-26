@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
-  <Library Name="Microsoft.Toolkit.Uwp.UI.Controls">
-    <Namespace Name="System.Text.Json.Serialization.Converters" Dynamic="Required All"/>
-    <Type Name="System.Text.Json.ReflectionMemberAccessor" Dynamic="Required All"/>
-  </Library>
-</Directives>

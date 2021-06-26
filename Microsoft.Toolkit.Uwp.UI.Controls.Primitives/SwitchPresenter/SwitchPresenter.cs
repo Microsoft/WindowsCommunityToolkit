@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (compare.GetType() == TargetType)
             {
-                // If we have a TargetType and the first value is ther right type
+                // If we have a TargetType and the first value is the right type
                 // Then our 2nd value isn't, so convert to string and coerce.
                 var valueBase2 = ConvertValue(TargetType, value);
 

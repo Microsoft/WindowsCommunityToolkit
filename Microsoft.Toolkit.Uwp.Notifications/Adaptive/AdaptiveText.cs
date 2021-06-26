@@ -2,10 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#pragma warning disable SA1121 // UseBuiltInTypeAlias
+
+using System;
+using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
+
 #if WINRT
 using System.Collections.Generic;
+using BindableString = System.String;
+#else
+using BindableString = Microsoft.Toolkit.Uwp.Notifications.BindableString;
 #endif
-using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -29,13 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Gets or sets the text to display. Data binding support added in Creators Update,
         /// only works for toast top-level text elements.
         /// </summary>
-        public
-#if WINRT
-            string
-#else
-            BindableString
-#endif
-            Text { get; set; }
+        public BindableString Text { get; set; }
 
         /// <summary>
         /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags

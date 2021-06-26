@@ -234,7 +234,7 @@
                               Content="Ok"
                               Height="32"
                               Width="100"
-                              Command="{StaticResource DismissCommand}" 
+                              Command="{StaticResource DismissCommand}"
                               CommandParameter="{Binding ElementName=ExampleCustomInAppNotification}"
                               AutomationProperties.Name="Ok" />
 
@@ -259,7 +259,7 @@
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
                         AutomationProperties.Name="Dismiss"
-                        Command="{StaticResource DismissCommand}" 
+                        Command="{StaticResource DismissCommand}"
                         CommandParameter="{Binding ElementName=ExampleCustomInAppNotification}"
                         VerticalAlignment="Center"
                         Visibility="{Binding ShowDismissButton, ElementName=ExampleCustomInAppNotification}">
@@ -332,7 +332,7 @@
                                    TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Button Content="Action 1" 
+                            <Button Content="Action 1"
                                     Command="{StaticResource DismissCommand}"
                                     CommandParameter="{Binding ElementName=ExampleVSCodeInAppNotification}"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />

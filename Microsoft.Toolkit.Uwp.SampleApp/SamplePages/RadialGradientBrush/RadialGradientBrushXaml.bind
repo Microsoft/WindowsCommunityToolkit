@@ -10,7 +10,7 @@
     <Image Source="/Assets/Photos/NovemberHikeWaterfall.jpg"/>
     <Rectangle Width="300" Height="300" Stroke="Black" StrokeThickness="2">
       <Rectangle.Fill>
-        <media:RadialGradientBrush 
+        <media:RadialGradientBrush
                 AlphaMode="@[Alpha Mode:Enum:AlphaMode.Premultiplied]"
                 Center="0.5,0.5"
                 ColorInterpolationMode="@[Color Interpolation Mode:Enum:ColorInterpolationMode.SRgbLinearInterpolation]"

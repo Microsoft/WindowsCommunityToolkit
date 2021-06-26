@@ -13,7 +13,7 @@
                   <ColumnDefinition Width="280"></ColumnDefinition>
                   <ColumnDefinition Width="50"></ColumnDefinition>
               </Grid.ColumnDefinitions>
-              <controls:RadialGauge 
+              <controls:RadialGauge
                   x:Name="RadialGauge"
                   Grid.Column="1"
                   Value="@[Value:Slider:120:0-240]@"
@@ -28,7 +28,7 @@
                   Unit="units"
                   ValueStringFormat="@[ValueStringFormat:String:N0]"
                   NeedleWidth="@[NeedleWidth:Slider:4:1-10]"
-                  NeedleLength="@[NeedleLength:Slider:100:20-100]" 
+                  NeedleLength="@[NeedleLength:Slider:100:20-100]"
                   TickLength="@[TickLength:Slider:10:0-30]"
                   TickWidth="@[TickWidth:Slider:4:0-30]"
                   ScalePadding="@[ScalePadding:Slider:23:0-100]@"

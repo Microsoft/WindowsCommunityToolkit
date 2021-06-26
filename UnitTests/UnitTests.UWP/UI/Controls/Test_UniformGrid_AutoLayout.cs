@@ -94,7 +94,7 @@ namespace UnitTests.UI.Controls
         <Border/>
         <Border/>
         <Border/>
-        <!-- Since Grid Row/Columns are 0 by default, we need to also add 
+        <!-- Since Grid Row/Columns are 0 by default, we need to also add
              AutoLayout False here as well to get the desired behavior,
              Otherwise we can't tell it apart from the other items. -->
         <Border Grid.Row=""0"" Grid.Column=""0"" controls:UniformGrid.AutoLayout=""{ui:NullableBool Value=False}""/>

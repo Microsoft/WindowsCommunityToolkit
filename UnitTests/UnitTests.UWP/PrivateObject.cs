@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -694,7 +694,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         }
 
         /// <summary>
-        /// Invokes the memeber
+        /// Invokes the member
         /// </summary>
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional attributes</param>
@@ -887,7 +887,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="m1">Method1</param>
         /// <param name="m2">Method2</param>
-        /// <returns>True if they are similiar.</returns>
+        /// <returns>True if they are similar.</returns>
         internal static bool CompareMethodSigAndName(MethodBase m1, MethodBase m2)
         {
             ParameterInfo[] params1 = m1.GetParameters();

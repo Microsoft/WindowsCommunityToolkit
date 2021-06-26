@@ -8,7 +8,7 @@
                 Margin="50,100,20,20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                ui:Mouse.Cursor="UniversalNo"
+                ui:FrameworkElementExtensions.Cursor="UniversalNo"
                 Background="DeepSkyBlue">
             <TextBlock Margin="4"
                        HorizontalAlignment="Center"
@@ -21,7 +21,7 @@
                 Margin="20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                ui:Mouse.Cursor="Wait"
+                ui:FrameworkElementExtensions.Cursor="Wait"
                 Background="Orange">
             <TextBlock Margin="4"
                        HorizontalAlignment="Center"
@@ -37,7 +37,7 @@
         <Button Margin="20,290,20,20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                ui:Mouse.Cursor="Hand"
+                ui:FrameworkElementExtensions.Cursor="Hand"
                 Content="Button with Hand cursor, just like on web" />
     </Grid>
 </Page>

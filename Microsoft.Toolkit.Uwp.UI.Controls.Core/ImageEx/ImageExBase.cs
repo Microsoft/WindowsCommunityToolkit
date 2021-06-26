@@ -166,8 +166,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Event Arguments</param>
         protected virtual void OnImageOpened(object sender, RoutedEventArgs e)
         {
-            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
             VisualStateManager.GoToState(this, LoadedState, true);
+            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
         }
 
         /// <summary>
@@ -177,8 +177,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Event Arguments</param>
         protected virtual void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
+            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
         }
 
         private void ImageExBase_LayoutUpdated(object sender, object e)

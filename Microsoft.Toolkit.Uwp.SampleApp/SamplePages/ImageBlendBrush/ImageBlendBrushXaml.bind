@@ -27,7 +27,7 @@
       <Border Grid.Column="1">
         <Border.Background>
           <media:ImageBlendBrush
-            Source="/SamplePages/DropShadowPanel/Trex.png" 
+            Source="/SamplePages/DropShadowPanel/Trex.png"
             Stretch="@[Trex Stretch:Enum:Stretch.None]"
             Mode="@[Trex Blend Mode:Enum:ImageBlendMode.Subtract]"
           />

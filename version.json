@@ -1,7 +1,7 @@
 {
   "version": "7.0.0-build.{height}",
   "publicReleaseRefSpec": [
-    "^refs/heads/master$", // we release out of master
+    "^refs/heads/main$", // we release out of main
     "^refs/heads/dev$", // we release out of dev
     "^refs/heads/rel/\\d+\\.\\d+\\.\\d+" // we also release branches starting with rel/N.N.N
   ],

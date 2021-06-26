@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
@@ -39,7 +39,7 @@
       Geometry:
       - CanvasPathGeometry: A class that parses Win2d Path Mini Language and converts it to CanvasGeometry, CanvasBrush, CanvasStroke, CanvasStrokeStyle or Color.
     </Description>
-    <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;XAML;brushes;blur;effects;animations</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,4 +50,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
   </ItemGroup>
+
 </Project>

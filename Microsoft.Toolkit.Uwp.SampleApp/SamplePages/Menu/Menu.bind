@@ -205,12 +205,12 @@
               <core:InvokeCommandAction Command="{StaticResource GenericCommand}" CommandParameter="View Tapped" />
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
-      
+
       </controls:MenuItem>
 
       <controls:MenuItem controls:Menu.InputGestureText="Alt+H" Header="^Help">
         <MenuFlyoutItem Text="About"
-                        Icon="Help" 
+                        Icon="Help"
                         Command="{StaticResource GenericCommand}"
                         CommandParameter="Windows Community Toolkit"/>
       </controls:MenuItem>

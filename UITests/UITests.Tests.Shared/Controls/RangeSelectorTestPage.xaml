@@ -1,0 +1,123 @@
+﻿<Page x:Class="UITests.App.Pages.RangeSelectorTestPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sys="using:System"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+    <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="100" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Input  -->
+        <TextBox x:Name="inputStepFrequency"
+                 Grid.Row="0"
+                 Grid.Column="0"
+                 Header="Step Frequency" />
+        <Button x:Name="submitStepFrequency"
+                Grid.Row="2"
+                Grid.Column="0"
+                Click="SubmitStepFrequency_Click"
+                Content="Submit" />
+
+        <TextBox x:Name="inputMinimum"
+                 Grid.Row="0"
+                 Grid.Column="2"
+                 Header="Minimum" />
+        <Button x:Name="submitMinimum"
+                Grid.Row="2"
+                Grid.Column="2"
+                Click="SubmitMinimum_Click"
+                Content="Submit" />
+
+        <TextBox x:Name="inputRangeStart"
+                 Grid.Row="0"
+                 Grid.Column="4"
+                 Header="RangeStart" />
+        <Button x:Name="submitRangeStart"
+                Grid.Row="2"
+                Grid.Column="4"
+                Click="SubmitRangeStart_Click"
+                Content="Submit" />
+
+        <TextBox x:Name="inputRangeEnd"
+                 Grid.Row="0"
+                 Grid.Column="6"
+                 Header="RangeEnd" />
+        <Button x:Name="submitRangeEnd"
+                Grid.Row="2"
+                Grid.Column="6"
+                Click="SubmitRangeEnd_Click"
+                Content="Submit" />
+
+        <TextBox x:Name="inputMaximum"
+                 Grid.Row="0"
+                 Grid.Column="8"
+                 Header="Maximum" />
+        <Button x:Name="submitMaximum"
+                Grid.Row="2"
+                Grid.Column="8"
+                Click="SubmitMaximum_Click"
+                Content="Submit" />
+
+        <Button x:Name="submitAll"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="10"
+                Click="SubmitAll_Click"
+                Content="Submit All" />
+
+        <controls:RangeSelector x:Name="rangeSelector"
+                                Grid.Row="4"
+                                Grid.ColumnSpan="11" />
+
+        <!--  Results  -->
+        <TextBlock x:Name="currentStepFrequency"
+                   Grid.Row="6"
+                   Grid.Column="0"
+                   Text="{x:Bind rangeSelector.StepFrequency, Mode=OneWay}" />
+
+        <TextBlock x:Name="currentMinimum"
+                   Grid.Row="6"
+                   Grid.Column="2"
+                   Text="{x:Bind rangeSelector.Minimum, Mode=OneWay}" />
+
+        <TextBlock x:Name="currentRangeStart"
+                   Grid.Row="6"
+                   Grid.Column="4"
+                   Text="{x:Bind rangeSelector.RangeStart, Mode=OneWay}" />
+
+        <TextBlock x:Name="currentRangeEnd"
+                   Grid.Row="6"
+                   Grid.Column="6"
+                   Text="{x:Bind rangeSelector.RangeEnd, Mode=OneWay}" />
+
+        <TextBlock x:Name="currentMaximum"
+                   Grid.Row="6"
+                   Grid.Column="8"
+                   Text="{x:Bind rangeSelector.Maximum, Mode=OneWay}" />
+    </Grid>
+</Page>

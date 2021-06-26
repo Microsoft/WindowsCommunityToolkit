@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -11,6 +10,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)TestAssertHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestMail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestTileContentBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestToastArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestToastContentBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestWeather.cs" />

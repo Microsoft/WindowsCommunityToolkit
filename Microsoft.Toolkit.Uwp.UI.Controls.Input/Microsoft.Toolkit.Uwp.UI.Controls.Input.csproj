@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
@@ -13,9 +13,14 @@
         - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Range Radial Gauge RadiaGauge Tokenizing TextBox</PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
+    <PackageTags>
+        Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+        Color;Picker;Button ;ColorPickerButton ;ColorPicker ;
+        Radial;Gauge        ;RadialGauge       ;
+        Range;Selector      ;RangeSelector     ;
+        Remote;Device;Picker;RemoteDevicePicker;DevicePicker;RemoteDevice;
+        Tokenizing;Text;Box ;TokenizingTextBox ;TextBox     ;
+    </PackageTags>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
@@ -46,4 +51,5 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+
 </Project>

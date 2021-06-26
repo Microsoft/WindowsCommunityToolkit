@@ -5,7 +5,7 @@ BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
 bluetoothLEHelper.StartEnumeration();
 
 // At this point the user needs to select a device they want to connect to. This can be done by
-// creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found, 
+// creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found,
 // the Connect() method can be called to connect to the device and start interacting with its services
 
 // Connect to a device if your choice

@@ -10,7 +10,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
-  
+
   <Button Background="Gray" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
     <ani:Explicit.Animations>
       <ani:AnimationSet x:Name="MoveAnimation" IsSequential="True">
@@ -22,7 +22,7 @@
         <ani:StartAnimationActivity Delay="0:0:2" Animation="{Binding ElementName=FadeInAnimation}"/>
       </ani:AnimationSet>
     </ani:Explicit.Animations>
-    
+
     <TextBlock x:Name="MyText" Text="🦙 Text">
       <ani:Explicit.Animations>
         <ani:AnimationSet x:Name="FadeOutAnimation">

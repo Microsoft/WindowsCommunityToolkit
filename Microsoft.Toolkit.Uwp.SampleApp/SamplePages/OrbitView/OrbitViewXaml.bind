@@ -56,7 +56,7 @@
             </controls:OrbitView.ItemsSource>
             <controls:OrbitView.CenterContent>
               <Grid>
-                <controls:DropShadowPanel BlurRadius="24" 
+                <controls:DropShadowPanel BlurRadius="24"
                                           Color="{StaticResource SystemChromeBlackHighColor}">
                   <Ellipse Width="60"
                            Height="60"

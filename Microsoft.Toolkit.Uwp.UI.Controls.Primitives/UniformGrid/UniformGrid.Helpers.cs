@@ -16,9 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class UniformGrid : Grid
     {
         // Provides the next spot in the boolean array with a 'false' value.
-        #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
         internal static IEnumerable<(int row, int column)> GetFreeSpot(TakenSpotsReferenceHolder arrayref, int firstcolumn, bool topdown)
-        #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
         {
             if (topdown)
             {
@@ -62,9 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Based on the number of visible children,
         // returns the dimensions of the
         // grid we need to hold all elements.
-        #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
         internal static (int rows, int columns) GetDimensions(FrameworkElement[] visible, int rows, int cols, int firstColumn)
-        #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
             // If a dimension isn't specified, we need to figure out the other one (or both).
             if (rows == 0 || cols == 0)

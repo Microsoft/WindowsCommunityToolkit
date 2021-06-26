@@ -37,21 +37,28 @@ namespace Microsoft.Toolkit
 #endif
             )
             {
-                // Try to get the Task<T>.Result property. This method would've
-                // been called anyway after the type checks, but using that to
-                // validate the input type saves some additional reflection calls.
-                // Furthermore, doing this also makes the method flexible enough to
-                // cases whether the input Task<T> is actually an instance of some
-                // runtime-specific type that inherits from Task<T>.
-                PropertyInfo? propertyInfo =
+                // We need an explicit check to ensure the input task is not the cached
+                // Task.CompletedTask instance, because that can internally be stored as
+                // a Task<T> for some given T (eg. on .NET 5 it's VoidTaskResult), which
+                // would cause the following code to return that result instead of null.
+                if (task != Task.CompletedTask)
+                {
+                    // Try to get the Task<T>.Result property. This method would've
+                    // been called anyway after the type checks, but using that to
+                    // validate the input type saves some additional reflection calls.
+                    // Furthermore, doing this also makes the method flexible enough to
+                    // cases whether the input Task<T> is actually an instance of some
+                    // runtime-specific type that inherits from Task<T>.
+                    PropertyInfo? propertyInfo =
 #if NETSTANDARD1_4
-                    task.GetType().GetRuntimeProperty(nameof(Task<object>.Result));
+                        task.GetType().GetRuntimeProperty(nameof(Task<object>.Result));
 #else
-                    task.GetType().GetProperty(nameof(Task<object>.Result));
+                        task.GetType().GetProperty(nameof(Task<object>.Result));
 #endif
 
-                // Return the result, if possible
-                return propertyInfo?.GetValue(task);
+                    // Return the result, if possible
+                    return propertyInfo?.GetValue(task);
+                }
             }
 
             return null;

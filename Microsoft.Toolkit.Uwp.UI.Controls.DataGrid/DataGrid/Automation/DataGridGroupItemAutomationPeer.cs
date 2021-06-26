@@ -306,15 +306,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 case PatternInterface.Table:
                     return this;
                 case PatternInterface.ScrollItem:
+                {
+                    if (this.OwningDataGrid.VerticalScrollBar != null &&
+                        this.OwningDataGrid.VerticalScrollBar.Maximum > 0)
                     {
-                        if (this.OwningDataGrid.VerticalScrollBar != null &&
-                            this.OwningDataGrid.VerticalScrollBar.Maximum > 0)
-                        {
-                            return this;
-                        }
-
-                        break;
+                        return this;
                     }
+
+                    break;
+                }
             }
 
             return base.GetPatternCore(patternInterface);

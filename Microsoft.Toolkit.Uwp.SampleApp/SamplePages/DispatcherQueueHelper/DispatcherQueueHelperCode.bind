@@ -4,9 +4,9 @@ var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 // The use it from any other thread
 int crossThreadReturnedValue = await Task.Run<int>( async () =>
 	{
-		// Task.Run() will guarantee the given piece of code be executed on a separate thread pool. 
+		// Task.Run() will guarantee the given piece of code be executed on a separate thread pool.
 		// This is used to simulate the scenario of updating the UI element from a different thread.
-		int returnedFromUIThread = await dispatcherQueue.ExecuteOnUIThreadAsync<int>(() =>
+		int returnedFromUIThread = await dispatcherQueue.EnqueueAsync<int>(() =>
 			{
 				NormalTextBlock.Text = "Updated from a random thread!";
 				return 1;

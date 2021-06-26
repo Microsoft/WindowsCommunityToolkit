@@ -1,4 +1,4 @@
-﻿// XAML
+// XAML
 <ScrollViewer>
     ...
     <Image Width="100"

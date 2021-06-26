@@ -14,7 +14,7 @@
       <TextBlock Text="Use the FontIcon extension to create FontIcon items from custom glyphs."
                  TextWrapping="Wrap"
                  Style="{StaticResource BodyTextBlockStyle}"/>
-      
+
       <CommandBar>
         <AppBarButton Icon="{ui:FontIcon Glyph=&#xE102;}"/>
         <AppBarButton Icon="{ui:FontIcon Glyph=&#xE103;}"/>

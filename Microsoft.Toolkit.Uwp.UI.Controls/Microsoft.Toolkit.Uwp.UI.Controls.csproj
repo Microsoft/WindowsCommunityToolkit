@@ -1,4 +1,5 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
@@ -9,9 +10,9 @@
     </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)readme.txt" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)ReadMe.txt" Pack="true" PackagePath="\" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj" />
@@ -20,4 +21,5 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj" />
   </ItemGroup>
+
 </Project>

@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = CanvasTextBoxToolsName, Type = typeof(StackPanel))]
     [TemplatePart(Name = CanvasTextBoxColorPickerName, Type = typeof(Windows.UI.Xaml.Controls.ColorPicker))]
-    [TemplatePart(Name = CanvasTextBoxFontSizeTextBoxName, Type = typeof(TextBox))]
+    [TemplatePart(Name = CanvasComboBoxFontSizeTextBoxName, Type = typeof(TextBox))]
     [TemplatePart(Name = CanvasTextBoxItalicButtonName, Type = typeof(ToggleButton))]
     [TemplatePart(Name = CanvasTextBoxBoldButtonName, Type = typeof(ToggleButton))]
     [TemplatePart(Name = DrawingSurfaceRendererName, Type = typeof(InfiniteCanvasVirtualDrawingSurface))]
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private const string CanvasTextBoxToolsName = "CanvasTextBoxTools";
         private const string CanvasTextBoxColorPickerName = "CanvasTextBoxColorPicker";
-        private const string CanvasTextBoxFontSizeTextBoxName = "CanvasTextBoxFontSizeTextBox";
+        private const string CanvasComboBoxFontSizeTextBoxName = "CanvasComboBoxFontSizeTextBox";
         private const string CanvasTextBoxItalicButtonName = "CanvasTextBoxItalicButton";
         private const string CanvasTextBoxBoldButtonName = "CanvasTextBoxBoldButton";
         private const string DrawingSurfaceRendererName = "DrawingSurfaceRenderer";
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private StackPanel _canvasTextBoxTools;
         private Windows.UI.Xaml.Controls.ColorPicker _canvasTextBoxColorPicker;
 
-        private TextBox _canvasTextBoxFontSizeTextBox;
+        private ComboBox _canvasComboBoxFontSizeTextBox;
         private ToggleButton _canvasTextBoxItalicButton;
         private ToggleButton _canvasTextBoxBoldButton;
         private Button _undoButton;
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _canvasTextBoxTools = (StackPanel)GetTemplateChild(CanvasTextBoxToolsName);
             this._canvasTextBoxColorPicker = (Windows.UI.Xaml.Controls.ColorPicker)GetTemplateChild(CanvasTextBoxColorPickerName);
-            _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild(CanvasTextBoxFontSizeTextBoxName);
+            _canvasComboBoxFontSizeTextBox = (ComboBox)GetTemplateChild(CanvasComboBoxFontSizeTextBoxName);
             _canvasTextBoxItalicButton = (ToggleButton)GetTemplateChild(CanvasTextBoxItalicButtonName);
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild(CanvasTextBoxBoldButtonName);
             _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild(DrawingSurfaceRendererName);
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UnRegisterEvents()
         {
-            _canvasTextBoxFontSizeTextBox.TextChanged -= CanvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasComboBoxFontSizeTextBox.SelectionChanged -= CanvasComboBoxFontSizeTextBox_SelectionChanged;
             _canvasTextBoxItalicButton.Click -= CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click -= CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged -= CanvasTextBoxColorPicker_ColorChanged;
@@ -314,13 +314,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded -= InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground -= Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted -= DrawingSurfaceRenderer_CommandExecuted;
-            _canvasTextBoxFontSizeTextBox.PreviewKeyDown -= CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.PreviewKeyDown -= CanvasComboBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.TextSubmitted -= CanvasComboBoxFontSizeTextBox_TextSubmitted;
             Loaded -= InfiniteCanvas_Loaded;
         }
 
         private void RegisterEvents()
         {
-            _canvasTextBoxFontSizeTextBox.TextChanged += CanvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasComboBoxFontSizeTextBox.SelectionChanged += CanvasComboBoxFontSizeTextBox_SelectionChanged;
             _canvasTextBoxItalicButton.Click += CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click += CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged += CanvasTextBoxColorPicker_ColorChanged;
@@ -338,7 +339,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded += InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground += Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted += DrawingSurfaceRenderer_CommandExecuted;
-            _canvasTextBoxFontSizeTextBox.PreviewKeyDown += CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.PreviewKeyDown += CanvasComboBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.TextSubmitted += CanvasComboBoxFontSizeTextBox_TextSubmitted;
             Loaded += InfiniteCanvas_Loaded;
         }
 
@@ -366,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             SetCanvasWidthHeight();
 
-            _canvasTextBox.UpdateFontSize(TextFontSize);
+            SetFontSize(_textFontSize);
         }
 
         private void SetZoomFactor()

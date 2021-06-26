@@ -57,8 +57,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsMasked), typeof(bool), typeof(DropShadowPanel), new PropertyMetadata(true, OnIsMaskedChanged));
 
         /// <summary>
-         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
-         /// </summary>
+        /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
+        /// </summary>
         public DropShadow DropShadow => _dropShadow;
 
         /// <summary>

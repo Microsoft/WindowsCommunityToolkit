@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TokenizingTextBoxPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TokenizingTextBoxPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -9,7 +9,7 @@
     <Page.Resources>
         <local:NameToColorConverter x:Key="NameToColorConverter"/>
     </Page.Resources>
-    
+
     <Grid Visibility="Collapsed">
         <SymbolIcon Symbol="Accept"/>
         <controls:TokenizingTextBox />

@@ -30,6 +30,8 @@ namespace Microsoft.Toolkit.Uwp
          ISupportIncrementalLoading
          where TSource : Collections.IIncrementalSource<IType>
     {
+        private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
+
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
         /// </summary>
@@ -226,7 +228,23 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
         {
-            var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
+            var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
+                .ContinueWith(
+                    t =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            throw t.Exception;
+                        }
+
+                        if (t.IsCompletedSuccessfully)
+                        {
+                            CurrentPageIndex += 1;
+                        }
+
+                        return t.Result;
+                    }, cancellationToken);
+
             return result;
         }
 
@@ -235,6 +253,9 @@ namespace Microsoft.Toolkit.Uwp
             uint resultCount = 0;
             _cancellationToken = cancellationToken;
 
+            // TODO (2021.05.05): Make use common AsyncMutex class.
+            // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
+            await _mutex.WaitAsync();
             try
             {
                 if (!_cancellationToken.IsCancellationRequested)
@@ -278,6 +299,8 @@ namespace Microsoft.Toolkit.Uwp
                     _refreshOnLoad = false;
                     await RefreshAsync();
                 }
+
+                _mutex.Release();
             }
 
             return new LoadMoreItemsResult { Count = resultCount };

@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.LayoutTransformControlPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,9 +19,9 @@
                 </TransformGroup>
             </controls:LayoutTransformControl.Transform>
 
-            <Border HorizontalAlignment="Center" 
+            <Border HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Background="#FF333333" 
+                    Background="#FF333333"
                     BorderBrush="Red"
                     BorderThickness="5">
                 <Grid>

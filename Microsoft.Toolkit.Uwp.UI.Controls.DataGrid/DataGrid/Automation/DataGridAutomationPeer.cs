@@ -238,14 +238,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 case PatternInterface.Table:
                     return this;
                 case PatternInterface.Scroll:
+                    if (this.HorizontallyScrollable || this.VerticallyScrollable)
                     {
-                        if (this.HorizontallyScrollable || this.VerticallyScrollable)
-                        {
-                            return this;
-                        }
-
-                        break;
+                        return this;
                     }
+
+                    break;
             }
 
             return base.GetPatternCore(patternInterface);

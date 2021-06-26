@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RemoteDeviceHelperPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,7 @@
     <Page.Resources>
         <converters:RemoteSystemKindToSymbolConverter x:Key="KindToImageConverter" />
     </Page.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

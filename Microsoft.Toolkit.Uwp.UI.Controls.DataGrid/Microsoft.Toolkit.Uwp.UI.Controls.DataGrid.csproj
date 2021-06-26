@@ -1,4 +1,5 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls DataGrid</Title>
@@ -6,10 +7,8 @@
       This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
 
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Data;Grid;DataGrid</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,4 +43,5 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+
 </Project>

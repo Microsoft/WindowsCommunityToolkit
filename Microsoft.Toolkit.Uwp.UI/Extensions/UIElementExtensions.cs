@@ -1,9 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Point = Windows.Foundation.Point;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -19,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             "ClipToBounds",
             typeof(bool),
             typeof(UIElementExtensions),
-            new PropertyMetadata(DependencyProperty.UnsetValue, OnClipToBoundsPropertyChanged));
+            new PropertyMetadata(null, OnClipToBoundsPropertyChanged));
 
         /// <summary>
         /// Gets the value of <see cref="ClipToBoundsProperty"/>
@@ -43,6 +44,32 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var visual = ElementCompositionPreview.GetElementVisual(element);
                 visual.Clip = clipToBounds ? visual.Compositor.CreateInsetClip() : null;
             }
+        }
+
+        /// <summary>
+        /// Provides the distance in a <see cref="Point"/> from the passed in element to the element being called on.
+        /// For instance, calling child.CoordinatesFrom(container) will return the position of the child within the container.
+        /// Helper for <see cref="UIElement.TransformToVisual(UIElement)"/>.
+        /// </summary>
+        /// <param name="target">Element to measure distance.</param>
+        /// <param name="parent">Starting parent element to provide coordinates from.</param>
+        /// <returns><see cref="Point"/> containing difference in position of elements.</returns>
+        public static Point CoordinatesFrom(this UIElement target, UIElement parent)
+        {
+            return target.TransformToVisual(parent).TransformPoint(default(Point));
+        }
+
+        /// <summary>
+        /// Provides the distance in a <see cref="Point"/> to the passed in element from the element being called on.
+        /// For instance, calling container.CoordinatesTo(child) will return the position of the child within the container.
+        /// Helper for <see cref="UIElement.TransformToVisual(UIElement)"/>.
+        /// </summary>
+        /// <param name="parent">Starting parent element to provide coordinates from.</param>
+        /// <param name="target">Element to measure distance to.</param>
+        /// <returns><see cref="Point"/> containing difference in position of elements.</returns>
+        public static Point CoordinatesTo(this UIElement parent, UIElement target)
+        {
+            return target.TransformToVisual(parent).TransformPoint(default(Point));
         }
     }
 }

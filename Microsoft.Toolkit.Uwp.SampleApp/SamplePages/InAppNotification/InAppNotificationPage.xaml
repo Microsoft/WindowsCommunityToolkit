@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Name="CurrentPage"
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.InAppNotificationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -18,6 +18,6 @@
         <Border Margin="20" BorderBrush="LightGray" BorderThickness="2">
             <Grid x:Name="XamlRoot"/>
         </Border>
-        
+
     </Grid>
 </Page>

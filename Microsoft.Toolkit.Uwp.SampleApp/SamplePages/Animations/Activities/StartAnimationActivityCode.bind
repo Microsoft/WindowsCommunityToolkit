@@ -20,7 +20,7 @@ AnimationBuilder
         .KeyFrame(TimeSpan.FromSeconds(3), 0, EasingType.Linear)
         .KeyFrame(TimeSpan.FromSeconds(6), 1, EasingType.Linear))
     .Start(MyImage);
-    
+
 // Alternatively, a simpler but less efficient solution involves separate animations
 await AnimationBuilder
     .Create()

@@ -1,10 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Enums;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
@@ -21,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
                 Animal.Llama => Colors.Beige,
                 Animal.Parrot => Colors.YellowGreen,
                 Animal.Squirrel => Colors.SaddleBrown,
-                _ => throw new ArgumentException("Invalid value", nameof(value))
+                _ => DependencyProperty.UnsetValue
             };
         }
 

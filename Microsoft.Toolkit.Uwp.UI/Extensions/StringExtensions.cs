@@ -29,12 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (text.Length > 0)
             {
                 // The format <x> or <x, y> is supported
-                if (text.Length >= 2 &&
-                    text[0] == '>' &&
-                    text[text.Length - 1] == '>')
-                {
-                    text = text.Substring(1, text.Length - 2);
-                }
+                text = Unbracket(text);
 
                 // Skip allocations when only a component is used
                 if (text.IndexOf(',') == -1)
@@ -78,12 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (text.Length > 0)
             {
-                if (text.Length >= 2 &&
-                    text[0] == '>' &&
-                    text[text.Length - 1] == '>')
-                {
-                    text = text.Substring(1, text.Length - 2);
-                }
+                text = Unbracket(text);
 
                 if (text.IndexOf(',') == -1)
                 {
@@ -127,12 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (text.Length > 0)
             {
-                if (text.Length >= 2 &&
-                    text[0] == '>' &&
-                    text[text.Length - 1] == '>')
-                {
-                    text = text.Substring(1, text.Length - 2);
-                }
+                text = Unbracket(text);
 
                 if (text.IndexOf(',') == -1)
                 {
@@ -176,12 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (text.Length > 0)
             {
-                if (text.Length >= 2 &&
-                    text[0] == '>' &&
-                    text[text.Length - 1] == '>')
-                {
-                    text = text.Substring(1, text.Length - 2);
-                }
+                text = Unbracket(text);
 
                 string[] values = text.Split(',');
 
@@ -200,6 +180,24 @@ namespace Microsoft.Toolkit.Uwp.UI
             return Throw(text);
 
             static Quaternion Throw(string text) => throw new FormatException($"Cannot convert \"{text}\" to {nameof(Quaternion)}. Use the format \"float, float, float, float\"");
+        }
+
+        /// <summary>
+        /// Converts an angle bracketed <see cref="string"/> value to its unbracketed form (e.g. "&lt;float, float&gt;" to "float, float").
+        /// If the value is already unbracketed, this method will return the value unchanged.
+        /// </summary>
+        /// <param name="text">A bracketed <see cref="string"/> value.</param>
+        /// <returns>The unbracketed <see cref="string"/> value.</returns>
+        private static string Unbracket(string text)
+        {
+            if (text.Length >= 2 &&
+                text[0] == '<' &&
+                text[text.Length - 1] == '>')
+            {
+                text = text.Substring(1, text.Length - 2);
+            }
+
+            return text;
         }
     }
 }

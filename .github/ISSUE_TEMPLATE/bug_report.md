@@ -38,9 +38,9 @@ If applicable, add screenshots to help explain your problem.
 ## Environment
 <!-- Check one or more of the following options with "x" -->
 ```
-NuGet Package(s): 
+NuGet Package(s):
 
-Package Version(s): 
+Package Version(s):
 
 Windows 10 Build Number:
 - [ ] Fall Creators Update (16299)
@@ -64,9 +64,9 @@ Device form factor:
 - [ ] Surface Hub
 - [ ] IoT
 
-Visual Studio 
+Visual Studio
 - [ ] 2017 (version: )
-- [ ] 2019 (version: ) 
+- [ ] 2019 (version: )
 - [ ] 2019 Preview (version: )
 
 ```

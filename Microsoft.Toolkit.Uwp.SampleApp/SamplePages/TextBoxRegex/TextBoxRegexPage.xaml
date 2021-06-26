@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
@@ -19,6 +19,6 @@
 
         <TextBox ui:TextBoxExtensions.ValidationMode="Normal"
                  ui:TextBoxExtensions.ValidationType="PhoneNumber" />
-                    
+
     </Grid>
 </Page>

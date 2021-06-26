@@ -33,53 +33,53 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 switch (colorString.Length)
                 {
                     case 9:
-                        {
-                            var cuint = Convert.ToUInt32(colorString.Substring(1), 16);
-                            var a = (byte)(cuint >> 24);
-                            var r = (byte)((cuint >> 16) & 0xff);
-                            var g = (byte)((cuint >> 8) & 0xff);
-                            var b = (byte)(cuint & 0xff);
+                    {
+                        var cuint = Convert.ToUInt32(colorString.Substring(1), 16);
+                        var a = (byte)(cuint >> 24);
+                        var r = (byte)((cuint >> 16) & 0xff);
+                        var g = (byte)((cuint >> 8) & 0xff);
+                        var b = (byte)(cuint & 0xff);
 
-                            return Color.FromArgb(a, r, g, b);
-                        }
+                        return Color.FromArgb(a, r, g, b);
+                    }
 
                     case 7:
-                        {
-                            var cuint = Convert.ToUInt32(colorString.Substring(1), 16);
-                            var r = (byte)((cuint >> 16) & 0xff);
-                            var g = (byte)((cuint >> 8) & 0xff);
-                            var b = (byte)(cuint & 0xff);
+                    {
+                        var cuint = Convert.ToUInt32(colorString.Substring(1), 16);
+                        var r = (byte)((cuint >> 16) & 0xff);
+                        var g = (byte)((cuint >> 8) & 0xff);
+                        var b = (byte)(cuint & 0xff);
 
-                            return Color.FromArgb(255, r, g, b);
-                        }
+                        return Color.FromArgb(255, r, g, b);
+                    }
 
                     case 5:
-                        {
-                            var cuint = Convert.ToUInt16(colorString.Substring(1), 16);
-                            var a = (byte)(cuint >> 12);
-                            var r = (byte)((cuint >> 8) & 0xf);
-                            var g = (byte)((cuint >> 4) & 0xf);
-                            var b = (byte)(cuint & 0xf);
-                            a = (byte)(a << 4 | a);
-                            r = (byte)(r << 4 | r);
-                            g = (byte)(g << 4 | g);
-                            b = (byte)(b << 4 | b);
+                    {
+                        var cuint = Convert.ToUInt16(colorString.Substring(1), 16);
+                        var a = (byte)(cuint >> 12);
+                        var r = (byte)((cuint >> 8) & 0xf);
+                        var g = (byte)((cuint >> 4) & 0xf);
+                        var b = (byte)(cuint & 0xf);
+                        a = (byte)(a << 4 | a);
+                        r = (byte)(r << 4 | r);
+                        g = (byte)(g << 4 | g);
+                        b = (byte)(b << 4 | b);
 
-                            return Color.FromArgb(a, r, g, b);
-                        }
+                        return Color.FromArgb(a, r, g, b);
+                    }
 
                     case 4:
-                        {
-                            var cuint = Convert.ToUInt16(colorString.Substring(1), 16);
-                            var r = (byte)((cuint >> 8) & 0xf);
-                            var g = (byte)((cuint >> 4) & 0xf);
-                            var b = (byte)(cuint & 0xf);
-                            r = (byte)(r << 4 | r);
-                            g = (byte)(g << 4 | g);
-                            b = (byte)(b << 4 | b);
+                    {
+                        var cuint = Convert.ToUInt16(colorString.Substring(1), 16);
+                        var r = (byte)((cuint >> 8) & 0xf);
+                        var g = (byte)((cuint >> 4) & 0xf);
+                        var b = (byte)(cuint & 0xf);
+                        r = (byte)(r << 4 | r);
+                        g = (byte)(g << 4 | g);
+                        b = (byte)(b << 4 | b);
 
-                            return Color.FromArgb(255, r, g, b);
-                        }
+                        return Color.FromArgb(255, r, g, b);
+                    }
 
                     default: return ThrowFormatException();
                 }

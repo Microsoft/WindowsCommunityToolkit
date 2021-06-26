@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ViewportBehaviorPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ViewportBehaviorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -9,7 +9,7 @@
     <Page.Resources>
         <behaviors:ViewportBehavior x:Key="ViewportBehavior" />
     </Page.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

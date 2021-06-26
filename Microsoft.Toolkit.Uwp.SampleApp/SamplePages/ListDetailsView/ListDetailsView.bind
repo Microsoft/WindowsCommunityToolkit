@@ -8,22 +8,22 @@
     mc:Ignorable="d">
 
     <Grid>
-        <controls:ListDetailsView BackButtonBehavior="Automatic" 
+        <controls:ListDetailsView BackButtonBehavior="Automatic"
                                     ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
                                     CompactModeThresholdWidth="720">
             <controls:ListDetailsView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">
-                        <TextBlock Text="{Binding From}" 
+                        <TextBlock Text="{Binding From}"
                                    Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                        <TextBlock Text="{Binding Subject}" 
-                                   Style="{ThemeResource BodyTextBlockStyle}" 
-                                   Foreground="{ThemeResource Brush-Blue-01}" 
+                        <TextBlock Text="{Binding Subject}"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Foreground="{ThemeResource Brush-Blue-01}"
                                    MaxLines="1"/>
-                        <TextBlock Text="{Binding Body}" 
-                                   Style="{ThemeResource BodyTextBlockStyle}" 
-                                   Opacity=".6" 
+                        <TextBlock Text="{Binding Body}"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Opacity=".6"
                                    MaxLines="1"/>
                     </StackPanel>
                 </DataTemplate>
@@ -36,38 +36,38 @@
                                                Width="50"
                                                Height="50"
                                                CornerRadius="999"/>
-                        <TextBlock Text="{Binding From}" 
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" 
-                                   RelativePanel.RightOf="FromEllipse" 
+                        <TextBlock Text="{Binding From}"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                                   RelativePanel.RightOf="FromEllipse"
                                    Margin="12,-6,0,0"/>
                         <TextBlock x:Name="SubjectLine"
-                                   Text="{Binding Subject}" 
-                                   Style="{ThemeResource BodyTextBlockStyle}" 
+                                   Text="{Binding Subject}"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
                                    RelativePanel.Below="FromEllipse"
                                    Margin="0,12,0,0"/>
-                        <TextBlock x:Name="Body" 
-                                   Text="{Binding Body}" 
-                                   Style="{ThemeResource BodyTextBlockStyle}" 
-                                   TextWrapping="Wrap" 
-                                   RelativePanel.Below="SubjectLine" 
+                        <TextBlock x:Name="Body"
+                                   Text="{Binding Body}"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   TextWrapping="Wrap"
+                                   RelativePanel.Below="SubjectLine"
                                    Margin="0,12,0,0"/>
                     </RelativePanel>
                 </DataTemplate>
             </controls:ListDetailsView.DetailsTemplate>
             <controls:ListDetailsView.NoSelectionContentTemplate>
                 <DataTemplate>
-                    <StackPanel HorizontalAlignment="Center" 
+                    <StackPanel HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
-                        <SymbolIcon Symbol="Mail" 
+                        <SymbolIcon Symbol="Mail"
                                     RenderTransformOrigin=".5,.5">
                             <SymbolIcon.RenderTransform>
-                                <CompositeTransform 
-                                  ScaleX="2" 
+                                <CompositeTransform
+                                  ScaleX="2"
                                   ScaleY="2"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
-                        <TextBlock Text="{Binding}" 
-                                   FontSize="24" 
+                        <TextBlock Text="{Binding}"
+                                   FontSize="24"
                                    Margin="0,12"/>
                     </StackPanel>
                 </DataTemplate>

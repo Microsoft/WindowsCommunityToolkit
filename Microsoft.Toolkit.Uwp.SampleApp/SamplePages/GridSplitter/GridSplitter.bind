@@ -13,13 +13,13 @@
         <Setter Property="Padding" Value="16" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
     </Style>
-    
+
     <Style TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
   </Page.Resources>
-  
-  <Grid x:Name="RootGrid" 
+
+  <Grid x:Name="RootGrid"
         Margin="48"
         BorderThickness="0,0,1,1"
         BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
@@ -85,7 +85,7 @@
       <controls:GridSplitter.RenderTransform>
         <TranslateTransform Y="-8" />
       </controls:GridSplitter.RenderTransform>
-      <controls:GridSplitter.Element>  
+      <controls:GridSplitter.Element>
           <TextBlock HorizontalAlignment="Center"
                          IsHitTestVisible="False"
                          VerticalAlignment="Center"
@@ -94,7 +94,7 @@
                          FontFamily="Segoe MDL2 Assets"/>
       </controls:GridSplitter.Element>
     </controls:GridSplitter>
-    
+
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup>
         <VisualState x:Name="Full">

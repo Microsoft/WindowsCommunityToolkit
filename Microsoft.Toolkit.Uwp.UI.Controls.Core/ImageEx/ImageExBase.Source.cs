@@ -88,6 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, UnloadedState, true);
             }
+            else if (source is BitmapSource { PixelHeight: > 0, PixelWidth: > 0 })
+            {
+                VisualStateManager.GoToState(this, LoadedState, true);
+                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+            }
         }
 
         private async void SetSource(object source)
@@ -124,8 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var url = source as string ?? source.ToString();
                 if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
                 {
-                    ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new UriFormatException("Invalid uri specified.")));
                     VisualStateManager.GoToState(this, FailedState, true);
+                    ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new UriFormatException("Invalid uri specified.")));
                     return;
                 }
             }
@@ -145,8 +150,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             catch (Exception e)
             {
-                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
                 VisualStateManager.GoToState(this, FailedState, true);
+                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
             }
         }
 

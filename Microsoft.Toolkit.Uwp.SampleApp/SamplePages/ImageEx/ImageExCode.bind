@@ -30,21 +30,21 @@
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   Style="{StaticResource BaseStyle}"/>
-              
+
                 <controls:ImageEx x:Name="ImageExControl2"
                                   IsCacheEnabled="@[Enable Cache:Bool:True]"
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   CornerRadius="30,60,30,60"
                                   Style="{StaticResource BaseStyle}"/>
-              
+
                 <controls:ImageEx x:Name="ImageExControl3"
                                   CornerRadius="999"
                                   IsCacheEnabled="@[Enable Cache]"
                                   Source="/Assets/Photos/Owl.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   Style="{StaticResource BaseStyle}"/>
-           </StackPanel>    
+           </StackPanel>
         </ScrollViewer>
         <Border x:Name="LazyLoadingControlHost" />
     </Grid>

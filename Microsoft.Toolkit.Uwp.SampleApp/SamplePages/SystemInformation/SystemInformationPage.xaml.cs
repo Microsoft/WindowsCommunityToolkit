@@ -54,6 +54,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         // To get the first version installed
         public string FirstVersionInstalled => SystemInformation.Instance.FirstVersionInstalled.ToFormattedString();
 
+        // To get the previous version installed
+        public string PreviousVersionInstalled => SystemInformation.Instance.PreviousVersionInstalled.ToFormattedString();
+
         // To get the first time the app was launched
         public string FirstUseTime => SystemInformation.Instance.FirstUseTime.ToString(Culture.DateTimeFormat);
 

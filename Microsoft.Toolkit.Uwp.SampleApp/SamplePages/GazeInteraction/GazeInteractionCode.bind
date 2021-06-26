@@ -1,4 +1,4 @@
-﻿        
+
 // You can handle State changes in the StateChanged handler declared in the XAML markup for the element
 
 private int dwellCount = 0;
@@ -24,13 +24,13 @@ private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs 
         }
         else
         {
-           // do something 
+           // do something
 
             dwellCount += 1;
         }
     }
     if (ea.PointerState == GazePointerState.Exit)
-    {       
+    {
        // do something
     }
 
@@ -41,11 +41,10 @@ private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs 
 
  private void OnProgressFeedback(object sender, GazeProgressEventArgs e)
 {
-    // do something   
+    // do something
 }
 
 private void OnGazeInvoked(object sender, GazeInvokedRoutedEventArgs e)
 {
     // do something
 }
-

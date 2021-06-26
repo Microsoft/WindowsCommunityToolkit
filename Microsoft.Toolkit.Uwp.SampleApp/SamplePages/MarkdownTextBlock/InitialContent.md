@@ -1,4 +1,4 @@
-﻿This control was originally written by [Quinn Damerell](https://github.com/QuinnDamerell) and [Paul Bartrum](https://github.com/paulbartrum) for [Baconit](https://github.com/QuinnDamerell/Baconit), a popular open source reddit UWP. The control *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering. The control is efficient enough to be used in virtualizing lists.
+This control was originally written by [Quinn Damerell](https://github.com/QuinnDamerell) and [Paul Bartrum](https://github.com/paulbartrum) for [Baconit](https://github.com/QuinnDamerell/Baconit), a popular open source reddit UWP. The control *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering. The control is efficient enough to be used in virtualizing lists.
 
 *Note:* For a full list of markdown syntax, see the [official syntax guide](http://daringfireball.net/projects/markdown/syntax).
 
@@ -27,8 +27,8 @@ Paragraphs are delimited by a blank line.  Simply starting text on a new line wo
 
 You can also add non-paragraph line breaks by ending a line with two spaces.  The difference is subtle:
 
-Paragraph 1, Line 1  
-Paragraph 1, Line 2  
+Paragraph 1, Line 1
+Paragraph 1, Line 2
 
 Paragraph 2
 
@@ -39,7 +39,7 @@ Paragraph 2
 
 Text can be displayed in an italic font by surrounding a word or words with either single asterisks (\*) or single underscores (\_).
 
-For example: 
+For example:
 
 >This sentence includes \*italic text\*.
 
@@ -52,7 +52,7 @@ is displayed as:
 
 Text can be displayed in a bold font by surrounding a word or words with either double asterisks (\*) or double underscores (\_).
 
-For example: 
+For example:
 
 >This sentence includes \*\*bold text\*\*.
 
@@ -64,7 +64,7 @@ is displayed as:
 
 Text can be displayed in a bold font by surrounding a word or words with either triple asterisks (\*) or triple underscores (\_).
 
-For example: 
+For example:
 
 >This sentence includes \*\*\*bold & italic text\*\*\*.
 
@@ -76,7 +76,7 @@ is displayed as:
 
 Text can be displayed in a strikethrough font by surrounding a word or words with double tildes (~~).  For example:
 
->This sentence includes ~ ~strikethrough text~ ~ 
+>This sentence includes ~ ~strikethrough text~ ~
 
 >*(but with no spaces between the tildes; escape sequences [see far below] appear not to work with tildes, so I can't demonstrate the exact usage).*
 
@@ -86,9 +86,9 @@ is displayed as:
 
 ### Superscript
 
-Text can be displayed in a superscript font by preceding it with a caret ( ^ ).  
+Text can be displayed in a superscript font by preceding it with a caret ( ^ ).
 
->This sentence includes super^ script 
+>This sentence includes super^ script
 
 >*(but with no spaces after the caret; Like strikethrough, the superscript syntax doesn't play nicely with escape sequences).*
 
@@ -132,7 +132,7 @@ Markdown supports 6 levels of headers (some of which don't actually display as h
 
 ######Header 6
 
-...which can be created in a couple of different ways.  Level 1 and 2 headers can be created by adding a line of equals signs (=) or dashes (\-), respectively, underneath the header text. 
+...which can be created in a couple of different ways.  Level 1 and 2 headers can be created by adding a line of equals signs (=) or dashes (\-), respectively, underneath the header text.
 
 However, *all* types of headers can be created with a second method.  Simply prepend a number of hashes (#) corresponding to the header level you want, so:
 
@@ -191,7 +191,7 @@ results in
 >* Item 1
 >+ Item 2
 >- Item 3
- 
+
 
 
 ### Ordered Lists
@@ -344,13 +344,13 @@ results in:
 
 Custom Scheme's can be added now using `SchemeList` Property. Scheme's should be separated by a comma( , )
 
-*Example*: 
+*Example*:
 
 If `SchemeList="companyportal,randomscheme"` then markdown will render
 
 `companyportal://mycompanyportal.com` to companyportal://mycompanyportal.com
 
-and 
+and
 
 `randomscheme://www.randomscheme.render` to randomscheme://www.randomscheme.render
 
@@ -358,13 +358,13 @@ and
 
 # Email Links
 
-Emails can be used as Masked Links or Direct email links. 
+Emails can be used as Masked Links or Direct email links.
 
->[Email\]\(`email@email.com`) 
+>[Email\]\(`email@email.com`)
 
 will be rendered to [Email](email@email.com)
 
->`email@email.com` 
+>`email@email.com`
 
 will be rendered to email@email.com
 
@@ -376,11 +376,11 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 Rendering Images is now supported through prefix. use property **UriPrefix**
 
@@ -410,13 +410,13 @@ which renders in:
 ![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
 ![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
 
-MarkdownTextblock supports links wrapped with Images. 
+MarkdownTextblock supports links wrapped with Images.
 
->\[!\[image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+>\[!\[image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
-will render into 
+will render into
 
-[![image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+[![image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 and when clicked will go to the Linked Page.
 
@@ -425,16 +425,16 @@ MarkdownTextBlock also supports Reference based links.
 ```
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 ```
 
-will render into 
+will render into
 
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 *****
@@ -540,10 +540,10 @@ d|e|f
 
 Which is produced with the following markdown:
 
->`some|header|labels`  
->`:---|:--:|---:`  
->`Left-justified|center-justified|right-justified`  
->`a|b|c`  
+>`some|header|labels`
+>`:---|:--:|---:`
+>`Left-justified|center-justified|right-justified`
+>`a|b|c`
 >`d|e|f`
 
 All you need to produce a table is a row of headers separated by "pipes" (**|**), a row indicating how to justify the columns, and 1 or more rows of data (again, pipe-separated).

@@ -1,43 +1,44 @@
 private void PopToast()
 {
     // Generate the toast notification content
-    ToastContentBuilder builder = new ToastContentBuilder();        
+    ToastContentBuilder builder = new ToastContentBuilder();
 
-    // Include launch string so we know what to open when user clicks toast        
-    builder.AddArgument("action", "viewForecast");        
-    builder.AddArgument("zip", 98008);     
+    // Include launch string so we know what to open when user clicks toast
+    builder.AddArgument("action", "viewForecast");
+    builder.AddArgument("zip", 98008);
 
-    // We'll always have this summary text on our toast notification        
-    // (it is required that your toast starts with a text element)        
-    builder.AddText("Today will be mostly sunny with a high of 63 and a low of 42.");        
+    // We'll always have this summary text on our toast notification
+    // (it is required that your toast starts with a text element)
+    builder.AddText("Today will be mostly sunny with a high of 63 and a low of 42.");
 
-    // If Adaptive Toast Notifications are supported        
-    if (IsAdaptiveToastSupported())        
-    {        
-        // Use the rich Tile-like visual layout        
-        builder.AddVisualChild(new AdaptiveGroup()        
-        {        
-            Children =        
-            {        
-                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),        
-                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),        
-                GenerateSubgroup("Wed", "Sunny.png", 59, 43),        
-                GenerateSubgroup("Thu", "Sunny.png", 62, 42),        
-                GenerateSubgroup("Fri", "Sunny.png", 71, 66)        
-            }        
-        });        
-    }        
+    // If Adaptive Toast Notifications are supported
+    if (IsAdaptiveToastSupported())
+    {
+        // Use the rich Tile-like visual layout
+        builder.AddVisualChild(new AdaptiveGroup()
+        {
+            Children =
+            {
+                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),
+                GenerateSubgroup("Wed", "Sunny.png", 59, 43),
+                GenerateSubgroup("Thu", "Sunny.png", 62, 42),
+                GenerateSubgroup("Fri", "Sunny.png", 71, 66)
+            }
+        });
+    }
 
-    // Otherwise...        
-    else        
-    {        
-        // We'll just add two simple lines of text        
-        builder.AddText("Monday ? 63∞ / 42∞")        
-            .AddText("Tuesday ? 57∞ / 38∞");        
-    }        
+    // Otherwise...
+    else
+    {
+        // We'll just add two simple lines of text
+        builder
+            .AddText("Monday ‚õÖ 63¬∞ / 42¬∞")
+            .AddText("Tuesday ‚òÅ 57¬∞ / 38¬∞");
+    }
 
-    // Set the base URI for the images, so we don't redundantly specify the entire path        
-    builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);        
+    // Set the base URI for the images, so we don't redundantly specify the entire path
+    builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);
 
     // Show the toast
     builder.Show();
@@ -61,63 +62,63 @@ private async void PinTile()
     {
         return;
     }
-    
+
     // Generate the tile notification content and update the tile
     TileContent content = GenerateTileContent();
     TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
 }
 
 public static TileContent GenerateTileContent()
-{        
-    TileContentBuilder builder = new TileContentBuilder();        
+{
+    TileContentBuilder builder = new TileContentBuilder();
 
-    // Small Tile        
-    builder.AddTile(Notifications.TileSize.Small)        
-        .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Small)        
-        .AddText("Mon", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)        
-        .AddText("63∞", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);        
+    // Small Tile
+    builder.AddTile(Notifications.TileSize.Small)
+        .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Small)
+        .AddText("Mon", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
+        .AddText("63¬∞", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
 
-    // Medium Tile        
-    builder.AddTile(Notifications.TileSize.Medium)        
-        .AddAdaptiveTileVisualChild(        
-            new AdaptiveGroup()        
-            {        
-                Children =        
-                {        
-                    GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),        
-                    GenerateSubgroup("Tue", "Cloudy.png", 57, 38)        
-                }        
-            }, Notifications.TileSize.Medium);        
+    // Medium Tile
+    builder.AddTile(Notifications.TileSize.Medium)
+        .AddAdaptiveTileVisualChild(
+            new AdaptiveGroup()
+            {
+                Children =
+                {
+                    GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                    GenerateSubgroup("Tue", "Cloudy.png", 57, 38)
+                }
+            }, Notifications.TileSize.Medium);
 
-    // Wide Tile        
-    builder.AddTile(Notifications.TileSize.Wide)        
-        .AddAdaptiveTileVisualChild(        
-        new AdaptiveGroup()        
-        {        
-            Children =        
-            {        
-                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),        
-                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),        
-                GenerateSubgroup("Wed", "Sunny.png", 59, 43),        
-                GenerateSubgroup("Thu", "Sunny.png", 62, 42),        
-                GenerateSubgroup("Fri", "Sunny.png", 71, 66)        
-            }        
-        }, Notifications.TileSize.Wide);        
+    // Wide Tile
+    builder.AddTile(Notifications.TileSize.Wide)
+        .AddAdaptiveTileVisualChild(
+        new AdaptiveGroup()
+        {
+            Children =
+            {
+                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),
+                GenerateSubgroup("Wed", "Sunny.png", 59, 43),
+                GenerateSubgroup("Thu", "Sunny.png", 62, 42),
+                GenerateSubgroup("Fri", "Sunny.png", 71, 66)
+            }
+        }, Notifications.TileSize.Wide);
 
-    // Large tile        
-    builder.AddTile(Notifications.TileSize.Large, GenerateLargeTileContent());        
+    // Large tile
+    builder.AddTile(Notifications.TileSize.Large, GenerateLargeTileContent());
 
-    // Set the base URI for the images, so we don't redundantly specify the entire path        
-    builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);        
+    // Set the base URI for the images, so we don't redundantly specify the entire path
+    builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);
 
-    return builder.Content;        
+    return builder.Content;
 }
 
 private static bool IsAdaptiveToastSupported()
 {
     switch (AnalyticsInfo.VersionInfo.DeviceFamily)
     {
-        // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)	
+        // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
         case "Windows.Mobile":
         case "Windows.Desktop":
             return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
@@ -129,71 +130,71 @@ private static bool IsAdaptiveToastSupported()
 }
 
 private static TileBindingContentAdaptive GenerateLargeTileContent()
-{        
-    return new TileBindingContentAdaptive()        
-    {        
-        Children =        
-        {        
-            new AdaptiveGroup()        
-            {        
-                Children =        
-                {        
-                    new AdaptiveSubgroup()        
-                    {        
-                        HintWeight = 30,        
-                        Children =        
-                        {        
-                            new AdaptiveImage() { Source = "Mostly Cloudy.png" }        
-                        }        
-                    },        
+{
+    return new TileBindingContentAdaptive()
+    {
+        Children =
+        {
+            new AdaptiveGroup()
+            {
+                Children =
+                {
+                    new AdaptiveSubgroup()
+                    {
+                        HintWeight = 30,
+                        Children =
+                        {
+                            new AdaptiveImage() { Source = "Mostly Cloudy.png" }
+                        }
+                    },
 
-                    new AdaptiveSubgroup()        
-                    {        
-                        Children =        
-                        {        
-                            new AdaptiveText()        
-                            {        
-                                Text = "Monday",        
-                                HintStyle = AdaptiveTextStyle.Base        
-                            },        
+                    new AdaptiveSubgroup()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Monday",
+                                HintStyle = AdaptiveTextStyle.Base
+                            },
 
-                            new AdaptiveText()        
-                            {        
-                                Text = "63∞ / 42∞"        
-                            },        
+                            new AdaptiveText()
+                            {
+                                Text = "63¬∞ / 42¬∞"
+                            },
 
-                            new AdaptiveText()        
-                            {        
-                                Text = "20% chance of rain",        
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle        
-                            },        
+                            new AdaptiveText()
+                            {
+                                Text = "20% chance of rain",
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle
+                            },
 
-                            new AdaptiveText()        
-                            {        
-                                Text = "Winds 5 mph NE",        
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle        
-                            }        
-                        }        
-                    }        
-                }        
-            },        
+                            new AdaptiveText()
+                            {
+                                Text = "Winds 5 mph NE",
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle
+                            }
+                        }
+                    }
+                }
+            },
 
-            // For spacing        
-            new AdaptiveText(),        
+            // For spacing
+            new AdaptiveText(),
 
-            new AdaptiveGroup()        
-            {        
-                Children =        
-                {        
-                    GenerateLargeSubgroup("Tue", "Cloudy.png", 57, 38),        
-                    GenerateLargeSubgroup("Wed", "Sunny.png", 59, 43),        
-                    GenerateLargeSubgroup("Thu", "Sunny.png", 62, 42),        
-                    GenerateLargeSubgroup("Fri", "Sunny.png", 71, 66)        
-                }        
-            }        
-        }        
-    };        
-}        
+            new AdaptiveGroup()
+            {
+                Children =
+                {
+                    GenerateLargeSubgroup("Tue", "Cloudy.png", 57, 38),
+                    GenerateLargeSubgroup("Wed", "Sunny.png", 59, 43),
+                    GenerateLargeSubgroup("Thu", "Sunny.png", 62, 42),
+                    GenerateLargeSubgroup("Fri", "Sunny.png", 71, 66)
+                }
+            }
+        }
+    };
+}
 
 private static AdaptiveSubgroup GenerateSubgroup(string day, string img, int tempHi, int tempLo)
 {
@@ -220,14 +221,14 @@ private static AdaptiveSubgroup GenerateSubgroup(string day, string img, int tem
             // High temp
             new AdaptiveText()
             {
-                Text = tempHi + "∞",
+                Text = tempHi + "¬∞",
                 HintAlign = AdaptiveTextAlign.Center
             },
 
             // Low temp
             new AdaptiveText()
             {
-                Text = tempLo + "∞",
+                Text = tempLo + "¬∞",
                 HintAlign = AdaptiveTextAlign.Center,
                 HintStyle = AdaptiveTextStyle.CaptionSubtle
             }
@@ -250,6 +251,6 @@ private static AdaptiveText GenerateLegacyToastText(string day, string weatherEm
 {
     return new AdaptiveText()
     {
-        Text = $"{day} {weatherEmoji} {tempHi}∞ / {tempLo}∞"
+        Text = $"{day} {weatherEmoji} {tempHi}¬∞ / {tempLo}¬∞"
     };
 }

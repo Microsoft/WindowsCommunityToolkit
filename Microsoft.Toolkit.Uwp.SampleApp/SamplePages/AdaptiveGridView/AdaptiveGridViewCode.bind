@@ -20,7 +20,7 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-  
+
     <Grid>
         <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
                                    StretchContentForSingleRow="@[StretchContentForSingleRow:Bool:false]"

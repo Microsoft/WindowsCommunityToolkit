@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -9,10 +9,10 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
-#if NETSTANDARD2_1
-using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
-#else
+#if NETSTANDARD2_0
 using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+#else
+using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #endif
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 // Traverse all the existing conditional tables and remove all the ones
                 // with the target recipient as key. We don't perform a cleanup here,
-                // as that is responsability of a separate method defined below.
+                // as that is responsibility of a separate method defined below.
                 while (enumerator.MoveNext())
                 {
                     enumerator.Value.Remove(recipient);
@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
         }
 
-#if !NETSTANDARD2_1
+#if NETSTANDARD2_0
         /// <summary>
         /// A wrapper for <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/>
         /// that backports the enumerable support to .NET Standard 2.0 through an auxiliary list.
@@ -470,7 +470,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static ArrayPoolBufferWriter<T> Create()
             {
-                return new ArrayPoolBufferWriter<T> { array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize) };
+                return new() { array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize) };
             }
 
             /// <summary>

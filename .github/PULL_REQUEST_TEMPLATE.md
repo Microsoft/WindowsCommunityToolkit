@@ -1,16 +1,18 @@
 <!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to evaluate and test the PR. By fulfilling all the required information you will be able to reduce the volume of questions and most likely help merge the PR faster 🚨 -->
 
-<!-- 📝 It is preferred if you keep the "☑️ Allow edits by maintainers" checked in the Pull Request Template as it increases collaboration with the Toolkit maintainers by permitting commits to your PR branch (only) created from your fork.  This can let us quickly make fixes for minor typos or forgotten StyleCop issues during review without needing to wait on you doing extra work. Let us help you help us! 🎉 -->
+<!-- 👉 It is imperative to resolve ONE ISSUE PER PR and avoid making multiple changes unless the changes interrelate with each other --> 
+
+<!-- 📝 Please always keep the "☑️ Allow edits by maintainers" button checked in the Pull Request Template as it increases collaboration with the Toolkit maintainers by permitting commits to your PR branch (only) created from your fork. This can let us quickly make fixes for minor typos or forgotten StyleCop issues during review without needing to wait on you doing extra work. Let us help you help us! 🎉 -->
 
 
 ## Fixes #
-<!-- Add the relevant issue number after the "#" mentioned above (for ex: Fixes #1234) which will automatically close the issue once the PR is merged. -->
+<!-- Add the relevant issue number after the "#" mentioned above (for ex: "## Fixes #1234") which will automatically close the issue once the PR is merged. -->
 
 <!-- Add a brief overview here of the feature/bug & fix. -->
 
 ## PR Type
 What kind of change does this PR introduce?
-<!-- Please uncomment one or more that apply to this PR. -->
+<!-- Please uncomment one or more options below that apply to this PR. -->
 
 <!-- - Bugfix -->
 <!-- - Feature -->
@@ -43,7 +45,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Header has been added to all new source files (run *build/UpdateHeaders.bat*)
 - [ ] Contains **NO** breaking changes
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
+<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below.
      Please note that breaking changes are likely to be rejected within minor release cycles or held until major versions. -->
 
 

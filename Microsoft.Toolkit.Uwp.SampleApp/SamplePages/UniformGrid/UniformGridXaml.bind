@@ -6,14 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <controls:UniformGrid 
+  <controls:UniformGrid
         FirstColumn="@[FirstColumn:Slider:1:0-3]"
         Orientation="@[Orientation:Enum:Orientation.Horizontal]"
         Rows="@[Rows:Slider:0:0-5]"
         Columns="@[Columns:Slider:0:0-5]">
-    <Border Background="AliceBlue" 
-            Grid.Row="1" Grid.Column="1" 
-            Grid.RowSpan="@[Item 1 RowSpan:Slider:2:1-3]" 
+    <Border Background="AliceBlue"
+            Grid.Row="1" Grid.Column="1"
+            Grid.RowSpan="@[Item 1 RowSpan:Slider:2:1-3]"
             Grid.ColumnSpan="@[Item 1 ColumnSpan:Slider:2:1-3]"><TextBlock Text="1"/></Border>
     <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
     <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>

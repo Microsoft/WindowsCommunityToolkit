@@ -8,16 +8,16 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                        
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="TextBlock" Grid.RowSpan="2" 
+                <TextBlock x:Name="TextBlock" Grid.RowSpan="2"
                             Text="Do you like it?" VerticalAlignment="Center" />
 
-                <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
+                <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1"
                             Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="YesButton" Content="Yes" Width="100" Height="32" Click="YesButton_Click" />
                     <Button x:Name="NoButton" Content="No" Width="100" Height="32" Margin="10 0 0 0" Click="NoButton_Click" />

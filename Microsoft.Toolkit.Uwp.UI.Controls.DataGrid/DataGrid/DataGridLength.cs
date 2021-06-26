@@ -381,30 +381,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The result of the conversion.</returns>
         public static string ConvertToString(CultureInfo culture, DataGridLength value)
         {
-                // Convert dataGridLength to a string
-                switch (value.UnitType)
-                {
-                    // for Auto print out "Auto". value is always "1.0"
-                    case DataGridLengthUnitType.Auto:
-                        return "Auto";
+            // Convert dataGridLength to a string
+            switch (value.UnitType)
+            {
+                // for Auto print out "Auto". value is always "1.0"
+                case DataGridLengthUnitType.Auto:
+                    return "Auto";
 
-                    case DataGridLengthUnitType.SizeToHeader:
-                        return "SizeToHeader";
+                case DataGridLengthUnitType.SizeToHeader:
+                    return "SizeToHeader";
 
-                    case DataGridLengthUnitType.SizeToCells:
-                        return "SizeToCells";
+                case DataGridLengthUnitType.SizeToCells:
+                    return "SizeToCells";
 
-                    // Star has one special case when value is "1.0".
-                    // in this case drop value part and print only "Star"
-                    case DataGridLengthUnitType.Star:
-                        return
-                            DoubleUtil.AreClose(1.0, value.Value)
-                            ? _starSuffix
-                            : Convert.ToString(value.Value, culture ?? CultureInfo.CurrentCulture) + _starSuffix;
+                // Star has one special case when value is "1.0".
+                // in this case drop value part and print only "Star"
+                case DataGridLengthUnitType.Star:
+                    return
+                        DoubleUtil.AreClose(1.0, value.Value)
+                        ? _starSuffix
+                        : Convert.ToString(value.Value, culture ?? CultureInfo.CurrentCulture) + _starSuffix;
 
-                    default:
-                        return Convert.ToString(value.Value, culture ?? CultureInfo.CurrentCulture);
-                }
+                default:
+                    return Convert.ToString(value.Value, culture ?? CultureInfo.CurrentCulture);
+            }
         }
 
         /// <summary>

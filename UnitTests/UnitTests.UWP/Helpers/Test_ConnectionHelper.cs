@@ -10,7 +10,7 @@ namespace UnitTests.Helpers
     //// TODO: Need Mock to WinRT Issue #3196 - https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3196
     [TestClass]
     public class Test_ConnectionHelper
-    {        
+    {
         [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]

@@ -58,7 +58,7 @@ namespace UnitTests.XamlIslands
 
             private void XamlHost_ChildChanged(object sender, EventArgs e)
             {
-                if(xamlHost.Child is Frame frame)
+                if (xamlHost.Child is Frame frame)
                 {
                     frame.Navigate(typeof(TestsPage));
                 }

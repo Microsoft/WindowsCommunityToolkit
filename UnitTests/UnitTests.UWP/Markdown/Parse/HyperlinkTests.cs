@@ -692,7 +692,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/r/news/blah", Url = "/r/news/blah", LinkType = HyperlinkType.Subreddit }));
         }
 
-        
+
 
         [TestMethod]
         [TestCategory("Parse - inline")]

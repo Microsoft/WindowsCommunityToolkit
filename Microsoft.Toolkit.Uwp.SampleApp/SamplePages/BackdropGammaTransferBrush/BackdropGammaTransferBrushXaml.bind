@@ -21,23 +21,23 @@
         <Border.Background>
           <media:BackdropGammaTransferBrush
               AlphaDisable="@[Disable Alpha:Bool:false]"
-              AlphaAmplitude="@[Alpha Amplitude:DoubleSlider:1.2:0.0-3.0]" 
-              AlphaExponent="@[Alpha Exponent:DoubleSlider:1.0:0.0-2.0]" 
-              AlphaOffset="@[Alpha Offset:DoubleSlider:0.0:-1.0-1.0]" 
-            
+              AlphaAmplitude="@[Alpha Amplitude:DoubleSlider:1.2:0.0-3.0]"
+              AlphaExponent="@[Alpha Exponent:DoubleSlider:1.0:0.0-2.0]"
+              AlphaOffset="@[Alpha Offset:DoubleSlider:0.0:-1.0-1.0]"
+
               RedDisable="@[Disable Red:Bool:false]"
-              RedAmplitude="@[Red Amplitude:DoubleSlider:1.0:0.0-3.0]" 
-              RedExponent="@[Red Exponent:DoubleSlider:1.0:0.0-2.0]" 
-              RedOffset="@[Red Offset:DoubleSlider:0.0:-1.0-1.0]" 
-            
+              RedAmplitude="@[Red Amplitude:DoubleSlider:1.0:0.0-3.0]"
+              RedExponent="@[Red Exponent:DoubleSlider:1.0:0.0-2.0]"
+              RedOffset="@[Red Offset:DoubleSlider:0.0:-1.0-1.0]"
+
               GreenDisable="@[Disable Green:Bool:false]"
-              GreenAmplitude="@[Green Amplitude:DoubleSlider:1.0:0.0-3.0]" 
-              GreenExponent="@[Green Exponent:DoubleSlider:1.0:0.0-2.0]" 
-              GreenOffset="@[Green Offset:DoubleSlider:0.0:-1.0-1.0]" 
-            
+              GreenAmplitude="@[Green Amplitude:DoubleSlider:1.0:0.0-3.0]"
+              GreenExponent="@[Green Exponent:DoubleSlider:1.0:0.0-2.0]"
+              GreenOffset="@[Green Offset:DoubleSlider:0.0:-1.0-1.0]"
+
               BlueDisable="@[Disable Blue:Bool:false]"
-              BlueAmplitude="@[Blue Amplitude:DoubleSlider:1.0:0.0-3.0]" 
-              BlueExponent="@[Blue Exponent:DoubleSlider:1.0:0.0-2.0]" 
+              BlueAmplitude="@[Blue Amplitude:DoubleSlider:1.0:0.0-3.0]"
+              BlueExponent="@[Blue Exponent:DoubleSlider:1.0:0.0-2.0]"
               BlueOffset="@[Blue Offset:DoubleSlider:0.5:-1.0-1.0]"
           />
         </Border.Background>

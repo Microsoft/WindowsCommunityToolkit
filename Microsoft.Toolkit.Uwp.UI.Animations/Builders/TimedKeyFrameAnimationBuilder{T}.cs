@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public float GetNormalizedProgress(TimeSpan duration)
             {
-                return (float)Math.Clamp(this.progress.TotalMilliseconds * 100 / duration.TotalMilliseconds, 0, 1);
+                return (float)Math.Clamp(this.progress.TotalMilliseconds / duration.TotalMilliseconds, 0, 1);
             }
 
             /// <inheritdoc/>

@@ -6,6 +6,9 @@ root = true
 
 #### Core EditorConfig Options ####
 
+# Encoding
+charset = utf-8
+
 # Indentation and spacing
 indent_size = 4
 indent_style = space
@@ -103,8 +106,8 @@ csharp_new_line_between_query_expression_clauses = true
 csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents = true
-csharp_indent_case_contents_when_block = true
-csharp_indent_labels = one_less_than_current
+csharp_indent_case_contents_when_block = false
+csharp_indent_labels = no_change
 csharp_indent_switch_labels = true
 
 # Space preferences

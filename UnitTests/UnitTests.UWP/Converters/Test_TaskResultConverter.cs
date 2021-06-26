@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using Windows.UI.Xaml;
 
 namespace UnitTests.Converters
 {
@@ -70,12 +71,19 @@ namespace UnitTests.Converters
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_TaskResultConverter_Instance_Null()
+        public void Test_TaskResultConverter_Instance_UnsetValue()
         {
             var converter = new TaskResultConverter();
 
-            Assert.AreEqual(null, converter.Convert(null, null, null, null));
-            Assert.AreEqual(null, converter.Convert("Hello world", null, null, null));
+            Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert(null, null, null, null));
+            Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert("Hello world", null, null, null));
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_TaskResultConverter_Instance_Null()
+        {
+            var converter = new TaskResultConverter();
 
             var cts = new CancellationTokenSource();
 
@@ -84,9 +92,9 @@ namespace UnitTests.Converters
             Assert.AreEqual(null, converter.Convert(Task.FromCanceled(cts.Token), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.FromException(new Exception()), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.CompletedTask, null, null, null));
-            
+
             TaskCompletionSource<int> tcs1 = new TaskCompletionSource<int>();
-            
+
             Assert.AreEqual(null, converter.Convert(tcs1.Task, null, null, null));
 
             TaskCompletionSource<string> tcs2 = new TaskCompletionSource<string>();

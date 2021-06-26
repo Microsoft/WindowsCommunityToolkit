@@ -29,9 +29,9 @@
 		</VisualStateManager.VisualStateGroups>
 
 		<StackPanel VerticalAlignment="Center">
-			<TextBlock x:Name="handPreferenceStatus" 
+			<TextBlock x:Name="handPreferenceStatus"
 				HorizontalAlignment="Center" FontWeight="Bold" />
-			<TextBlock TextWrapping="WrapWholeWords" 
+			<TextBlock TextWrapping="WrapWholeWords"
 				Margin="0,10" HorizontalAlignment="Center"
 				Text="Set your hand preference in Windows settings (Devices -> Pen) then restart the app." />
 		</StackPanel>

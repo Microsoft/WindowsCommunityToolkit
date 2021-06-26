@@ -28,6 +28,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when the target span does not have the same shape as the source.
+        /// </summary>
+        public static void ThrowArgumentExceptionForDestinationWithNotSameShape()
+        {
+            throw new ArgumentException("The target span does not have the same shape as the source one");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
         /// </summary>
         public static void ThrowArrayTypeMismatchException()

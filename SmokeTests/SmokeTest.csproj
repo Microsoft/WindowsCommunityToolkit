@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
@@ -112,7 +111,7 @@
   <!-- Only the Layout package have a dependency on WinUI -->
   <ItemGroup Condition="$(CurrentProject) == 'UWPBaselineWinUI'  or $(CurrentProject) == 'Microsoft.Toolkit.Uwp.UI.Controls.Layout'">
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.3</Version>
+      <Version>2.5.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != '' and '$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' != 'To Fill In With Local Version Number'">
@@ -124,10 +123,12 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Target Name="BeforeBuild">
     <ItemGroup Condition="$(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'">
-      <ToolkitNugets Include="../bin/nupkg/$(CurrentProject).*.nupkg"/>
-      <ToolkitNuget Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNugets)"/>
+      <ToolkitNuGets Include="$(MSBuildThisFileDirectory)..\bin\nupkg\$(CurrentProject).*.nupkg" />
+      <ToolkitNuGet Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNuGets)" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNuget)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet $(CurrentProject).[SEMVER].nupkg doesn't exist!"/>
-    <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set NuGetPackageVersion at the top of SmokeTest.csproj with the version to smoke test locally."/>
+    <Error Condition="'@(ToolkitNuGet)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />
+    <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set 'NuGetPackageVersion' at the top of 'SmokeTest.csproj' with the version to smoke test locally." />
   </Target>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

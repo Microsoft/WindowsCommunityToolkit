@@ -1,9 +1,8 @@
 // XAML UIElement
-<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100">
 
 // C# - Fade can be applied to any UIElement. In this case it is an image called ToolkitLogo.
 using Microsoft.Toolkit.Uwp.UI.Animations;
 
 // Create and start the animation
 await AnimationBuilder.Create().Opacity(to: 0.5, duration: TimeSpan.FromSeconds(3)).StartAsync(ToolkitLogo);
-

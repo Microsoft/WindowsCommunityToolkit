@@ -1,13 +1,14 @@
-﻿<!--
+<!--
     This file enable reflections for Toolkit.Notifications and all of its public/private members,
     enabling the library to work in .NET Native even if developers modified their default rd.xml.
     See issue https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3093 for more details.
 -->
-
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
   <Library Name="Microsoft.Toolkit.Uwp.Notifications">
-    <!-- TODO: We can potentially minimize the metadata needed, but further
-         investigation is needed to fill this in and adequately test this -->
+    <!--
+        TODO: We can potentially minimize the metadata needed,
+        but further investigation is needed to fill this in and adequately test this.
+    -->
     <Assembly Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required All" />
   </Library>
 </Directives>

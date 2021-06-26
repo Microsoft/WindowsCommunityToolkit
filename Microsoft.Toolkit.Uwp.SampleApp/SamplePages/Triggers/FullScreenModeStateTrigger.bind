@@ -6,7 +6,7 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d">
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-	
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup >
                 <VisualState x:Name="fullScreen">
@@ -28,8 +28,8 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-          <TextBlock x:Name="fullScreenModeStatus" 
-              HorizontalAlignment="Center" 
+          <TextBlock x:Name="fullScreenModeStatus"
+              HorizontalAlignment="Center"
 				      VerticalAlignment="Center" />
 
   </Grid>

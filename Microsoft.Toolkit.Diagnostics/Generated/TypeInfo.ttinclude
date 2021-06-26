@@ -1,4 +1,4 @@
-﻿<#@ template language="C#"#>
+<#@ template language="C#"#>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".g.cs"#>

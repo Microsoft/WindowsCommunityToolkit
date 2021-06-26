@@ -1,4 +1,4 @@
-﻿// Grab a sample type
+// Grab a sample type
 public class Person
 {
     public string Name { get; set; }

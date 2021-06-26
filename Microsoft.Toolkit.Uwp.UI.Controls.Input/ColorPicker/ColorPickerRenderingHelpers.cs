@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -290,108 +290,108 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     switch (channel)
                     {
                         case ColorChannel.Channel1:
+                        {
+                            if (colorRepresentation == ColorRepresentation.Hsva)
                             {
-                                if (colorRepresentation == ColorRepresentation.Hsva)
-                                {
-                                    // Sweep hue
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
-                                        Math.Clamp(channelValue, 0.0, 360.0),
-                                        baseHsvColor.S,
-                                        baseHsvColor.V,
-                                        baseHsvColor.A);
-                                }
-                                else
-                                {
-                                    // Sweep red
-                                    newRgbColor = new Color
-                                    {
-                                        R = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
-                                        G = baseRgbColor.G,
-                                        B = baseRgbColor.B,
-                                        A = baseRgbColor.A
-                                    };
-                                }
-
-                                break;
+                                // Sweep hue
+                                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    Math.Clamp(channelValue, 0.0, 360.0),
+                                    baseHsvColor.S,
+                                    baseHsvColor.V,
+                                    baseHsvColor.A);
                             }
+                            else
+                            {
+                                // Sweep red
+                                newRgbColor = new Color
+                                {
+                                    R = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                    G = baseRgbColor.G,
+                                    B = baseRgbColor.B,
+                                    A = baseRgbColor.A
+                                };
+                            }
+
+                            break;
+                        }
 
                         case ColorChannel.Channel2:
+                        {
+                            if (colorRepresentation == ColorRepresentation.Hsva)
                             {
-                                if (colorRepresentation == ColorRepresentation.Hsva)
-                                {
-                                    // Sweep saturation
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
-                                        baseHsvColor.H,
-                                        Math.Clamp(channelValue, 0.0, 1.0),
-                                        baseHsvColor.V,
-                                        baseHsvColor.A);
-                                }
-                                else
-                                {
-                                    // Sweep green
-                                    newRgbColor = new Color
-                                    {
-                                        R = baseRgbColor.R,
-                                        G = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
-                                        B = baseRgbColor.B,
-                                        A = baseRgbColor.A
-                                    };
-                                }
-
-                                break;
+                                // Sweep saturation
+                                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    baseHsvColor.H,
+                                    Math.Clamp(channelValue, 0.0, 1.0),
+                                    baseHsvColor.V,
+                                    baseHsvColor.A);
                             }
+                            else
+                            {
+                                // Sweep green
+                                newRgbColor = new Color
+                                {
+                                    R = baseRgbColor.R,
+                                    G = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                    B = baseRgbColor.B,
+                                    A = baseRgbColor.A
+                                };
+                            }
+
+                            break;
+                        }
 
                         case ColorChannel.Channel3:
+                        {
+                            if (colorRepresentation == ColorRepresentation.Hsva)
                             {
-                                if (colorRepresentation == ColorRepresentation.Hsva)
-                                {
-                                    // Sweep value
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
-                                        baseHsvColor.H,
-                                        baseHsvColor.S,
-                                        Math.Clamp(channelValue, 0.0, 1.0),
-                                        baseHsvColor.A);
-                                }
-                                else
-                                {
-                                    // Sweep blue
-                                    newRgbColor = new Color
-                                    {
-                                        R = baseRgbColor.R,
-                                        G = baseRgbColor.G,
-                                        B = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
-                                        A = baseRgbColor.A
-                                    };
-                                }
-
-                                break;
+                                // Sweep value
+                                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    baseHsvColor.H,
+                                    baseHsvColor.S,
+                                    Math.Clamp(channelValue, 0.0, 1.0),
+                                    baseHsvColor.A);
                             }
+                            else
+                            {
+                                // Sweep blue
+                                newRgbColor = new Color
+                                {
+                                    R = baseRgbColor.R,
+                                    G = baseRgbColor.G,
+                                    B = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                    A = baseRgbColor.A
+                                };
+                            }
+
+                            break;
+                        }
 
                         case ColorChannel.Alpha:
+                        {
+                            if (colorRepresentation == ColorRepresentation.Hsva)
                             {
-                                if (colorRepresentation == ColorRepresentation.Hsva)
-                                {
-                                    // Sweep alpha
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
-                                        baseHsvColor.H,
-                                        baseHsvColor.S,
-                                        baseHsvColor.V,
-                                        Math.Clamp(channelValue, 0.0, 1.0));
-                                }
-                                else
-                                {
-                                    // Sweep alpha
-                                    newRgbColor = new Color
-                                    {
-                                        R = baseRgbColor.R,
-                                        G = baseRgbColor.G,
-                                        B = baseRgbColor.B,
-                                        A = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0))
-                                    };
-                                }
-
-                                break;
+                                // Sweep alpha
+                                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    baseHsvColor.H,
+                                    baseHsvColor.S,
+                                    baseHsvColor.V,
+                                    Math.Clamp(channelValue, 0.0, 1.0));
                             }
+                            else
+                            {
+                                // Sweep alpha
+                                newRgbColor = new Color
+                                {
+                                    R = baseRgbColor.R,
+                                    G = baseRgbColor.G,
+                                    B = baseRgbColor.B,
+                                    A = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0))
+                                };
+                            }
+
+                            break;
+                        }
                     }
 
                     return newRgbColor;

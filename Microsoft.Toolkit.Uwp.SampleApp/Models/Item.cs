@@ -12,14 +12,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 
         public string Title
         {
-            get { return _title; } set { Set(ref _title, value); }
+            get { return _title; }
+            set { Set(ref _title, value); }
         }
 
         private bool? _isFavorite = default(bool);
 
         public bool? IsFavorite
         {
-            get { return _isFavorite; } set { Set(ref _isFavorite, value); }
+            get { return _isFavorite; }
+            set { Set(ref _isFavorite, value); }
         }
 
         private DelegateCommand _toggleFavorite = default(DelegateCommand);

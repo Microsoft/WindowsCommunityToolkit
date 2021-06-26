@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
@@ -10,9 +10,9 @@
             <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
             <AcrylicBrush x:Key="SystemControlFlyoutBackgroundBrush"
-                                           BackgroundSource="Backdrop" 
-                                           TintColor="{StaticResource SystemChromeMediumLowColor}" 
-                                           TintOpacity="0.8" 
+                                           BackgroundSource="Backdrop"
+                                           TintColor="{StaticResource SystemChromeMediumLowColor}"
+                                           TintOpacity="0.8"
                                            FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
         </ResourceDictionary>
 
@@ -23,7 +23,7 @@
             <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
             <SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
         </ResourceDictionary>
-        
+
         <!-- HighContrast is used in all high contrast themes -->
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}" />
@@ -79,7 +79,7 @@
     <Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
         <Setter Property="Background" Value="{ThemeResource SystemControlFlyoutBackgroundBrush}" />
     </Style>
-    
+
     <Style TargetType="local:Menu">
         <Setter Property="MenuFlyoutStyle" Value="{StaticResource MenuFlyoutStyle}" />
         <Setter Property="IsTabStop" Value="True" />
@@ -129,7 +129,7 @@
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
                             IsTabStop="False"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Padding="{TemplateBinding Padding}"
                             Style="{StaticResource MenuButtonBase}">
                         <VisualStateManager.VisualStateGroups>

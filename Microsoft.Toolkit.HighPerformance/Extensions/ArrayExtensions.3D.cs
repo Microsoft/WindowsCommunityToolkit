@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <remarks>
         /// This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/>
         /// and <paramref name="j"/> parameters are valid. Furthermore, this extension will ignore the lower bounds for the input
-        /// array, and will just assume that the input index is 0-based. It is responsability of the caller to adjust the input
+        /// array, and will just assume that the input index is 0-based. It is responsibility of the caller to adjust the input
         /// indices to account for the actual lower bounds, if the input array has either axis not starting at 0.
         /// </remarks>
         [Pure]

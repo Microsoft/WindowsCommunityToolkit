@@ -1,10 +1,10 @@
 trigger:
-- master
+- main
 - dev/*
 - rel/*
 
 pr:
-- master
+- main
 - dev/*
 - rel/*
 
@@ -60,13 +60,6 @@ jobs:
     displayName: Publish Test Results
     condition: always()
 
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Test WexLogFileOutput
-    inputs:
-      targetPath: .\build\WexLogFileOutput
-      artifactName: WexUnitTestErrorLogFileOutput
-    condition: failed()
-
   ### UI Integration Tests ###
 
   - powershell: .\build\build.ps1 -target=UITest
@@ -78,6 +71,13 @@ jobs:
       targetPath: .\build\UITestResults.wtl
       artifactName: WexUITestLogFileOutput
     condition: always()
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Test WexLogFileOutput
+    inputs:
+      targetPath: .\build\WexLogFileOutput
+      artifactName: WexUnitTestErrorLogFileOutput
+    condition: failed()
 
   ### Package ###
 

@@ -171,27 +171,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 switch (patternInterface)
                 {
                     case PatternInterface.Invoke:
+                    {
+                        if (!this.OwningGrid.IsReadOnly &&
+                            this.OwningColumn != null &&
+                            !this.OwningColumn.IsReadOnly)
                         {
-                            if (!this.OwningGrid.IsReadOnly &&
-                                this.OwningColumn != null &&
-                                !this.OwningColumn.IsReadOnly)
-                            {
-                                return this;
-                            }
-
-                            break;
+                            return this;
                         }
+
+                        break;
+                    }
 
                     case PatternInterface.ScrollItem:
+                    {
+                        if (this.OwningGrid.HorizontalScrollBar != null &&
+                            this.OwningGrid.HorizontalScrollBar.Maximum > 0)
                         {
-                            if (this.OwningGrid.HorizontalScrollBar != null &&
-                                this.OwningGrid.HorizontalScrollBar.Maximum > 0)
-                            {
-                                return this;
-                            }
-
-                            break;
+                            return this;
                         }
+
+                        break;
+                    }
 
                     case PatternInterface.GridItem:
                     case PatternInterface.SelectionItem:

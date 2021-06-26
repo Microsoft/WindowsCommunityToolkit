@@ -5,11 +5,11 @@
 
   <!-- Page 1 -->
     <Grid>
-      <Border Height="100" 
-        Width="100" 
-        Background="Purple" 
-        VerticalAlignment="Center" 
-        HorizontalAlignment="Center" 
+      <Border Height="100"
+        Width="100"
+        Background="Purple"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
         animations:Connected.Key="item"></Border>
     </Grid>
   <!-- /Page -->
@@ -25,15 +25,15 @@
       <StackPanel Orientation="Horizontal">
 
         <Border x:Name="HeroElement"
-          Height="300" 
+          Height="300"
           Width="300"
           Background="Purple"
           animations:Connected.Key="item"></Border>
-            
-        <StackPanel x:Name="HeroDetailsElement" 
-          Margin="20,0" 
-          VerticalAlignment="Bottom" 
-          MaxWidth="500" 
+
+        <StackPanel x:Name="HeroDetailsElement"
+          Margin="20,0"
+          VerticalAlignment="Bottom"
+          MaxWidth="500"
           animations:Connected.AnchorElement="{x:Bind HeroElement}">
 
           <TextBlock Text="Header" FontSize="50"/>
@@ -42,11 +42,11 @@
 
       </StackPanel>
 
-      <GridView x:Name="listView" 
-        Margin="0, 40, 0, 0" 
-        SelectionMode="None" 
+      <GridView x:Name="listView"
+        Margin="0, 40, 0, 0"
+        SelectionMode="None"
         Grid.Row="1"
-        ItemClick="ListView_ItemClick" 
+        ItemClick="ListView_ItemClick"
         IsItemClickEnabled="True"
         animations:Connected.ListItemElementName="ItemThumbnail"
         animations:Connected.ListItemKey="listItem">
@@ -70,13 +70,13 @@
     <StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-        <StackPanel x:Name="HeroDetailsElement" 
-          Margin="20,0" 
-          VerticalAlignment="Bottom" 
-          MaxWidth="500" 
+        <StackPanel x:Name="HeroDetailsElement"
+          Margin="20,0"
+          VerticalAlignment="Bottom"
+          MaxWidth="500"
           animations:Connected.AnchorElement="{x:Bind ItemHeroElement}">
 
-          <TextBlock Text="{x:Bind item.Title}" 
+          <TextBlock Text="{x:Bind item.Title}"
             FontSize="50"/>
 
           <TextBlock TextWrapping="WrapWholeWords" Text="Lorem ipsum ..."/>
@@ -89,7 +89,7 @@
                 animations:Connected.Key="listItem"/>
       </StackPanel>
 
-      <TextBlock Margin="0,40" 
+      <TextBlock Margin="0,40"
         TextWrapping="WrapWholeWords" Text="Lorem Ipsum ..."/>
     </StackPanel>
   <!-- /Page -->
