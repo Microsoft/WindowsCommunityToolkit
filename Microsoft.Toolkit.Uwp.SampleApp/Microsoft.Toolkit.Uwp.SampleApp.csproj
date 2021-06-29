@@ -117,7 +117,7 @@
     </PackageReference>
     -->
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>

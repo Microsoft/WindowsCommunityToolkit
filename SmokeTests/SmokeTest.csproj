@@ -111,7 +111,7 @@
   <!-- Only the Layout package have a dependency on WinUI -->
   <ItemGroup Condition="$(CurrentProject) == 'UWPBaselineWinUI'  or $(CurrentProject) == 'Microsoft.Toolkit.Uwp.UI.Controls.Layout'">
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != '' and '$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' != 'To Fill In With Local Version Number'">

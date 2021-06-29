@@ -1,4 +1,4 @@
 Microsoft.NET.Native.Framework.2.2.appx
 Microsoft.NET.Native.Runtime.2.2.appx
-Microsoft.UI.Xaml.2.5.appx
+Microsoft.UI.Xaml.2.6.appx
 Microsoft.VCLibs.x86.14.00.appx

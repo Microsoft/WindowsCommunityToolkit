@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.6.1" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
