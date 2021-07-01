@@ -270,44 +270,46 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 else if (firstInline is TextRunInline textRunInline)
                 {
                     var key = textRunInline.Text.Split(' ').FirstOrDefault();
-                    if (styles.TryGetValue(key, out var style) && !style.Ignore)
+                    if (styles.TryGetValue(key, out var style))
                     {
-                        noteType = style;
-                        header = style.IdentifierReplacement;
-                        symbolGlyph = style.Glyph;
-
-                        // Removes the identifier from the text
-                        textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
-
-                        if (theme == ElementTheme.Light)
+                        if (!style.Ignore)
                         {
-                            localForeground = style.LightForeground;
-                            localBackground = style.LightBackground;
+                            noteType = style;
+                            header = style.IdentifierReplacement;
+                            symbolGlyph = style.Glyph;
+
+                            // Removes the identifier from the text
+                            textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
+
+                            if (theme == ElementTheme.Light)
+                            {
+                                localForeground = style.LightForeground;
+                                localBackground = style.LightBackground;
+                            }
+                            else
+                            {
+                                localForeground = new SolidColorBrush(Colors.White);
+                                localBackground = style.DarkBackground;
+                            }
+
+                            // Apply special formatting context.
+                            if (noteType != null)
+                            {
+                                if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
+                                {
+                                    localContext = newContext;
+
+                                    localContext.TrimLeadingWhitespace = true;
+                                    QuoteForeground = Foreground;
+                                    LinkForeground = localForeground;
+                                }
+                            }
                         }
                         else
                         {
-                            localForeground = new SolidColorBrush(Colors.White);
-                            localBackground = style.DarkBackground;
+                            // Blank entire block
+                            textRunInline.Text = string.Empty;
                         }
-
-                        // Apply special formatting context.
-                        if (noteType != null)
-                        {
-                            if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
-                            {
-                                localContext = newContext;
-
-                                localContext.TrimLeadingWhitespace = true;
-                                QuoteForeground = Foreground;
-                                LinkForeground = localForeground;
-                            }
-                        }
-                    }
-
-                    if (style.Ignore)
-                    {
-                        // Blank entire block
-                        textRunInline.Text = string.Empty;
                     }
                 }
             }
