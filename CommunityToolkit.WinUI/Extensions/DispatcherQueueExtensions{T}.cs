@@ -14,10 +14,21 @@ namespace CommunityToolkit.WinUI
     /// <summary>
     /// A callback that will be executed on the <see cref="DispatcherQueue"/> thread.
     /// </summary>
-    /// <typeparam name="TState">The type of state to receive as input.</typeparam>
+    /// <typeparam name="T">The type of state to receive as input.</typeparam>
     /// <param name="state">The input state for the callback.</param>
-    public delegate void DispatcherQueueHandler<in TState>(TState state)
-        where TState : class;
+    public delegate void DispatcherQueueHandler<in T>(T state)
+        where T : class;
+
+    /// <summary>
+    /// A callback that will be executed on the <see cref="DispatcherQueue"/> thread.
+    /// </summary>
+    /// <typeparam name="T1">The type of the first state to receive as input.</typeparam>
+    /// <typeparam name="T2">The type of the second state to receive as input.</typeparam>
+    /// <param name="state1">The first input state for the callback.</param>
+    /// <param name="state2">The second input state for the callback.</param>
+    public delegate void DispatcherQueueHandler<in T1, in T2>(T1 state1, T2 state2)
+        where T1 : class
+        where T2 : class;
 
     /// <summary>
     /// Helpers for executing code in a <see cref="DispatcherQueue"/>.
@@ -27,17 +38,17 @@ namespace CommunityToolkit.WinUI
         /// <summary>
         /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
         /// </summary>
-        /// <typeparam name="TState">The type of state to capture.</typeparam>
+        /// <typeparam name="T">The type of state to capture.</typeparam>
         /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
-        /// <param name="callback">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
+        /// <param name="callback">The input <see cref="DispatcherQueueHandler{T}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
-        public static unsafe bool TryEnqueue<TState>(this DispatcherQueue dispatcherQueue, DispatcherQueueHandler<TState> callback, TState state)
-            where TState : class
+        public static unsafe bool TryEnqueue<T>(this DispatcherQueue dispatcherQueue, DispatcherQueueHandler<T> callback, T state)
+            where T : class
         {
             IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
-            DispatcherQueueProxyHandler* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler.Create(callback, state);
+            DispatcherQueueProxyHandler1* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler1.Create(callback, state);
 
             bool success;
             int hResult;
@@ -64,18 +75,99 @@ namespace CommunityToolkit.WinUI
         /// <summary>
         /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
         /// </summary>
-        /// <typeparam name="TState">The type of state to capture.</typeparam>
+        /// <typeparam name="T">The type of state to capture.</typeparam>
         /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
         /// <param name="priority"> The desired priority for the callback to schedule.</param>
-        /// <param name="callback">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
+        /// <param name="callback">The input <see cref="DispatcherQueueHandler{T}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
-        public static unsafe bool TryEnqueue<TState>(this DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, DispatcherQueueHandler<TState> callback, TState state)
-            where TState : class
+        public static unsafe bool TryEnqueue<T>(this DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, DispatcherQueueHandler<T> callback, T state)
+            where T : class
         {
             IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
-            DispatcherQueueProxyHandler* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler.Create(callback, state);
+            DispatcherQueueProxyHandler1* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler1.Create(callback, state);
+
+            bool success;
+            int hResult;
+
+            try
+            {
+                hResult = dispatcherQueuePtr->TryEnqueueWithPriority(priority, dispatcherQueueHandlerPtr, (byte*)&success);
+
+                GC.KeepAlive(dispatcherQueue);
+            }
+            finally
+            {
+                dispatcherQueueHandlerPtr->Release();
+            }
+
+            if (hResult != 0)
+            {
+                ExceptionHelpers.ThrowExceptionForHR(hResult);
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first state to capture.</typeparam>
+        /// <typeparam name="T2">The type of the second state to capture.</typeparam>
+        /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="callback">The input <see cref="DispatcherQueueHandler{T}"/> callback to enqueue.</param>
+        /// <param name="state1">The first input state to capture and pass to the callback.</param>
+        /// <param name="state2">The second input state to capture and pass to the callback.</param>
+        /// <returns>Whether or not the task was added to the queue.</returns>
+        /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
+        public static unsafe bool TryEnqueue<T1, T2>(this DispatcherQueue dispatcherQueue, DispatcherQueueHandler<T1, T2> callback, T1 state1, T2 state2)
+            where T1 : class
+            where T2 : class
+        {
+            IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
+            DispatcherQueueProxyHandler2* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler2.Create(callback, state1, state2);
+
+            bool success;
+            int hResult;
+
+            try
+            {
+                hResult = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandlerPtr, (byte*)&success);
+
+                GC.KeepAlive(dispatcherQueue);
+            }
+            finally
+            {
+                dispatcherQueueHandlerPtr->Release();
+            }
+
+            if (hResult != 0)
+            {
+                ExceptionHelpers.ThrowExceptionForHR(hResult);
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first state to capture.</typeparam>
+        /// <typeparam name="T2">The type of the second state to capture.</typeparam>
+        /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="priority"> The desired priority for the callback to schedule.</param>
+        /// <param name="callback">The input <see cref="DispatcherQueueHandler{T}"/> callback to enqueue.</param>
+        /// <param name="state1">The first input state to capture and pass to the callback.</param>
+        /// <param name="state2">The second input state to capture and pass to the callback.</param>
+        /// <returns>Whether or not the task was added to the queue.</returns>
+        /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
+        public static unsafe bool TryEnqueue<T1, T2>(this DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, DispatcherQueueHandler<T1, T2> callback, T1 state1, T2 state2)
+            where T1 : class
+            where T2 : class
+        {
+            IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
+            DispatcherQueueProxyHandler2* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler2.Create(callback, state1, state2);
 
             bool success;
             int hResult;

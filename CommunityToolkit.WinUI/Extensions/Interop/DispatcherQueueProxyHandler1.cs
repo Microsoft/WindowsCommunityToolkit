@@ -18,17 +18,17 @@ namespace CommunityToolkit.WinUI.Interop
     /// A custom <c>IDispatcherQueueHandler</c> object, that internally stores a captured <see cref="DispatcherQueueHandler{TState}"/> instance
     /// and the input captured state. This allows consumers to enqueue a state and a cached stateless delegate without any managed allocations.
     /// </summary>
-    internal unsafe struct DispatcherQueueProxyHandler
+    internal unsafe struct DispatcherQueueProxyHandler1
     {
         /// <summary>
-        /// The shared vtable pointer for <see cref="DispatcherQueueProxyHandler"/> instances.
+        /// The shared vtable pointer for <see cref="DispatcherQueueProxyHandler1"/> instances.
         /// </summary>
         private static readonly void** Vtbl = InitVtbl();
 
         /// <summary>
-        /// Setups the vtable pointer for <see cref="DispatcherQueueProxyHandler"/>.
+        /// Setups the vtable pointer for <see cref="DispatcherQueueProxyHandler1"/>.
         /// </summary>
-        /// <returns>The initialized vtable pointer for <see cref="DispatcherQueueProxyHandler"/>.</returns>
+        /// <returns>The initialized vtable pointer for <see cref="DispatcherQueueProxyHandler1"/>.</returns>
         /// <remarks>
         /// The vtable itself is allocated with <see cref="RuntimeHelpers.AllocateTypeAssociatedMemory(Type, int)"/>,
         /// which allocates memory in the high frequency heap associated with the input runtime type. This will be
@@ -36,12 +36,12 @@ namespace CommunityToolkit.WinUI.Interop
         /// </remarks>
         private static void** InitVtbl()
         {
-            void** lpVtbl = (void**)RuntimeHelpers.AllocateTypeAssociatedMemory(typeof(DispatcherQueueProxyHandler), sizeof(void*) * 4);
+            void** lpVtbl = (void**)RuntimeHelpers.AllocateTypeAssociatedMemory(typeof(DispatcherQueueProxyHandler1), sizeof(void*) * 4);
 
-            lpVtbl[0] = (delegate* unmanaged<DispatcherQueueProxyHandler*, Guid*, void**, int>)&Impl.QueryInterface;
-            lpVtbl[1] = (delegate* unmanaged<DispatcherQueueProxyHandler*, uint>)&Impl.AddRef;
-            lpVtbl[2] = (delegate* unmanaged<DispatcherQueueProxyHandler*, uint>)&Impl.Release;
-            lpVtbl[3] = (delegate* unmanaged<DispatcherQueueProxyHandler*, int>)&Impl.Invoke;
+            lpVtbl[0] = (delegate* unmanaged<DispatcherQueueProxyHandler1*, Guid*, void**, int>)&Impl.QueryInterface;
+            lpVtbl[1] = (delegate* unmanaged<DispatcherQueueProxyHandler1*, uint>)&Impl.AddRef;
+            lpVtbl[2] = (delegate* unmanaged<DispatcherQueueProxyHandler1*, uint>)&Impl.Release;
+            lpVtbl[3] = (delegate* unmanaged<DispatcherQueueProxyHandler1*, int>)&Impl.Invoke;
 
             return lpVtbl;
         }
@@ -67,16 +67,14 @@ namespace CommunityToolkit.WinUI.Interop
         private volatile uint referenceCount;
 
         /// <summary>
-        /// Creates a new <see cref="DispatcherQueueProxyHandler"/> instance for the input callback and state.
+        /// Creates a new <see cref="DispatcherQueueProxyHandler1"/> instance for the input callback and state.
         /// </summary>
-        /// <typeparam name="TState">The type of state to capture.</typeparam>
         /// <param name="handler">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
-        /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler"/> instance.</returns>
-        public static DispatcherQueueProxyHandler* Create<TState>(DispatcherQueueHandler<TState> handler, TState state)
-            where TState : class
+        /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler1"/> instance.</returns>
+        public static DispatcherQueueProxyHandler1* Create(object handler, object state)
         {
-            DispatcherQueueProxyHandler* @this = (DispatcherQueueProxyHandler*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler));
+            DispatcherQueueProxyHandler1* @this = (DispatcherQueueProxyHandler1*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler1));
 
             @this->lpVtbl = Vtbl;
             @this->callbackHandle = GCHandle.Alloc(handler);
@@ -99,6 +97,9 @@ namespace CommunityToolkit.WinUI.Interop
 
             if (referenceCount == 0)
             {
+                callbackHandle.Free();
+                stateHandle.Free();
+
                 Marshal.FreeHGlobal((IntPtr)Unsafe.AsPointer(ref this));
             }
 
@@ -106,7 +107,7 @@ namespace CommunityToolkit.WinUI.Interop
         }
 
         /// <summary>
-        /// A private type with the implementation of the unmanaged methods for <see cref="DispatcherQueueProxyHandler"/>.
+        /// A private type with the implementation of the unmanaged methods for <see cref="DispatcherQueueProxyHandler1"/>.
         /// These methods will be set into the shared vtable and invoked by WinRT from the object passed to it as an interface.
         /// </summary>
         private static class Impl
@@ -115,7 +116,7 @@ namespace CommunityToolkit.WinUI.Interop
             /// Implements <c>IUnknown.QueryInterface(REFIID, void**)</c>.
             /// </summary>
             [UnmanagedCallersOnly]
-            public static int QueryInterface(DispatcherQueueProxyHandler* @this, Guid* riid, void** ppvObject)
+            public static int QueryInterface(DispatcherQueueProxyHandler1* @this, Guid* riid, void** ppvObject)
             {
                 if (riid->Equals(IUnknown) ||
                     riid->Equals(IAgileObject) ||
@@ -135,7 +136,7 @@ namespace CommunityToolkit.WinUI.Interop
             /// Implements <c>IUnknown.AddRef()</c>.
             /// </summary>
             [UnmanagedCallersOnly]
-            public static uint AddRef(DispatcherQueueProxyHandler* @this)
+            public static uint AddRef(DispatcherQueueProxyHandler1* @this)
             {
                 return Interlocked.Increment(ref @this->referenceCount);
             }
@@ -144,7 +145,7 @@ namespace CommunityToolkit.WinUI.Interop
             /// Implements <c>IUnknown.Release()</c>.
             /// </summary>
             [UnmanagedCallersOnly]
-            public static uint Release(DispatcherQueueProxyHandler* @this)
+            public static uint Release(DispatcherQueueProxyHandler1* @this)
             {
                 uint referenceCount = Interlocked.Decrement(ref @this->referenceCount);
 
@@ -163,7 +164,7 @@ namespace CommunityToolkit.WinUI.Interop
             /// Implements <c>IDispatcherQueueHandler.Invoke()</c>.
             /// </summary>
             [UnmanagedCallersOnly]
-            public static int Invoke(DispatcherQueueProxyHandler* @this)
+            public static int Invoke(DispatcherQueueProxyHandler1* @this)
             {
                 object callback = @this->callbackHandle.Target!;
                 object state = @this->stateHandle.Target!;
