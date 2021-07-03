@@ -36,17 +36,19 @@ namespace CommunityToolkit.WinUI
         /// <param name="callback">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
+        /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
         public static unsafe bool TryEnqueue<TState>(this DispatcherQueue dispatcherQueue, DispatcherQueueHandler<TState> callback, TState state)
             where TState : class
         {
             IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
             DispatcherQueueProxyHandler* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler.Create(callback, state);
 
-            byte result;
+            bool success;
+            int hResult;
 
             try
             {
-                _ = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandlerPtr, &result);
+                hResult = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandlerPtr, (byte*)&success);
 
                 GC.KeepAlive(dispatcherQueue);
             }
@@ -55,7 +57,12 @@ namespace CommunityToolkit.WinUI
                 dispatcherQueueHandlerPtr->Release();
             }
 
-            return result == 0;
+            if (hResult != 0)
+            {
+                ExceptionHelpers.ThrowExceptionForHR(hResult);
+            }
+
+            return success;
         }
 
         /// <summary>
@@ -67,17 +74,19 @@ namespace CommunityToolkit.WinUI
         /// <param name="callback">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
+        /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
         public static unsafe bool TryEnqueue<TState>(this DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, DispatcherQueueHandler<TState> callback, TState state)
             where TState : class
         {
             IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
             DispatcherQueueProxyHandler* dispatcherQueueHandlerPtr = DispatcherQueueProxyHandler.Create(callback, state);
 
-            byte result;
+            bool success;
+            int hResult;
 
             try
             {
-                _ = dispatcherQueuePtr->TryEnqueueWithPriority(priority, dispatcherQueueHandlerPtr, &result);
+                hResult = dispatcherQueuePtr->TryEnqueueWithPriority(priority, dispatcherQueueHandlerPtr, (byte*)&success);
 
                 GC.KeepAlive(dispatcherQueue);
             }
@@ -86,7 +95,12 @@ namespace CommunityToolkit.WinUI
                 dispatcherQueueHandlerPtr->Release();
             }
 
-            return result == 0;
+            if (hResult != 0)
+            {
+                ExceptionHelpers.ThrowExceptionForHR(hResult);
+            }
+
+            return success;
         }
 
         /// <summary>
