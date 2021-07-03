@@ -72,13 +72,13 @@ namespace CommunityToolkit.WinUI.Interop
         private volatile uint referenceCount;
 
         /// <summary>
-        /// Creates a new <see cref="DispatcherQueueProxyHandler2"/> instance for the input callback and state.
+        /// Creates a new <see cref="IDispatcherQueueHandler"/> instance for the input callback and state.
         /// </summary>
         /// <param name="handler">The input <see cref="DispatcherQueueHandler{T1,T2}"/> callback to enqueue.</param>
         /// <param name="state1">The first input state to capture and pass to the callback.</param>
         /// <param name="state2">The second input state to capture and pass to the callback.</param>
-        /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler2"/> instance.</returns>
-        public static DispatcherQueueProxyHandler2* Create(object handler, object state1, object state2)
+        /// <returns>A pointer to the newly initialized <see cref="IDispatcherQueueHandler"/> instance.</returns>
+        public static IDispatcherQueueHandler* Create(object handler, object state1, object state2)
         {
             DispatcherQueueProxyHandler2* @this = (DispatcherQueueProxyHandler2*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler2));
 
@@ -88,7 +88,7 @@ namespace CommunityToolkit.WinUI.Interop
             @this->state2Handle = GCHandle.Alloc(state2);
             @this->referenceCount = 1;
 
-            return @this;
+            return (IDispatcherQueueHandler*)@this;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -126,9 +126,9 @@ namespace CommunityToolkit.WinUI.Interop
             [UnmanagedCallersOnly]
             public static int QueryInterface(DispatcherQueueProxyHandler2* @this, Guid* riid, void** ppvObject)
             {
-                if (riid->Equals(IUnknown) ||
-                    riid->Equals(IAgileObject) ||
-                    riid->Equals(IDispatcherQueueHandler))
+                if (riid->Equals(GuidOfIUnknown) ||
+                    riid->Equals(GuidOfIAgileObject) ||
+                    riid->Equals(GuidOfIDispatcherQueueHandler))
                 {
                     @this->AddRef();
 

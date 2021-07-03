@@ -5,8 +5,6 @@
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Dispatching;
 
-#nullable enable
-
 #pragma warning disable CS0649, SA1023
 
 namespace CommunityToolkit.WinUI.Interop
@@ -21,26 +19,26 @@ namespace CommunityToolkit.WinUI.Interop
         /// <summary>
         /// Native API for <see cref="DispatcherQueue.TryEnqueue(DispatcherQueueHandler)"/>.
         /// </summary>
-        /// <param name="callback">A pointer to an <c>IDispatcherQueueHandler</c> object.</param>
+        /// <param name="callback">A pointer to an <see cref="IDispatcherQueueHandler"/> object.</param>
         /// <param name="result">The result of the operation (the <see cref="bool"/> WinRT retval).</param>
         /// <returns>The HRESULT for the operation.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int TryEnqueue(void* callback, byte* result)
+        public int TryEnqueue(IDispatcherQueueHandler* callback, byte* result)
         {
-            return ((delegate* unmanaged<IDispatcherQueue*, void*, byte*, int>)lpVtbl[7])((IDispatcherQueue*)Unsafe.AsPointer(ref this), callback, result);
+            return ((delegate* unmanaged<IDispatcherQueue*, IDispatcherQueueHandler*, byte*, int>)lpVtbl[7])((IDispatcherQueue*)Unsafe.AsPointer(ref this), callback, result);
         }
 
         /// <summary>
         /// Native API for <see cref="DispatcherQueue.TryEnqueue(DispatcherQueuePriority, DispatcherQueueHandler)"/>.
         /// </summary>
         /// <param name="priority">The priority for the input callback.</param>
-        /// <param name="callback">A pointer to an <c>IDispatcherQueueHandler</c> object.</param>
+        /// <param name="callback">A pointer to an <see cref="IDispatcherQueueHandler"/> object.</param>
         /// <param name="result">The result of the operation (the <see cref="bool"/> WinRT retval).</param>
         /// <returns>The HRESULT for the operation.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int TryEnqueueWithPriority(DispatcherQueuePriority priority, void* callback, byte* result)
+        public int TryEnqueueWithPriority(DispatcherQueuePriority priority, IDispatcherQueueHandler* callback, byte* result)
         {
-            return ((delegate* unmanaged<IDispatcherQueue*, DispatcherQueuePriority, void*, byte*, int>)lpVtbl[8])((IDispatcherQueue*)Unsafe.AsPointer(ref this), priority, callback, result);
+            return ((delegate* unmanaged<IDispatcherQueue*, DispatcherQueuePriority, IDispatcherQueueHandler*, byte*, int>)lpVtbl[8])((IDispatcherQueue*)Unsafe.AsPointer(ref this), priority, callback, result);
         }
     }
 }
