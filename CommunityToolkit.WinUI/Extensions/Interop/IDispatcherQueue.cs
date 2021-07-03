@@ -7,7 +7,7 @@ using Microsoft.UI.Dispatching;
 
 #nullable enable
 
-#pragma warning disable SA1023
+#pragma warning disable CS0649, SA1023
 
 namespace CommunityToolkit.WinUI.Interop
 {

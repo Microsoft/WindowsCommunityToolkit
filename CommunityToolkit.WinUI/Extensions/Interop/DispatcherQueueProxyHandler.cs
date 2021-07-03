@@ -6,6 +6,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using static CommunityToolkit.WinUI.Interop.Windows;
 
 #nullable enable
 
@@ -19,13 +20,6 @@ namespace CommunityToolkit.WinUI.Interop
     /// </summary>
     internal unsafe struct DispatcherQueueProxyHandler
     {
-        private const int S_OK = 0;
-        private const int E_NOINTERFACE = unchecked((int)0x80004002);
-
-        private static readonly Guid IUnknown = new(0x00000000, 0x0000, 0x0000, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
-        private static readonly Guid IAgileObject = new(0x94EA2B94, 0xE9CC, 0x49E0, 0xC0, 0xFF, 0xEE, 0x64, 0xCA, 0x8F, 0x5B, 0x90);
-        private static readonly Guid IDispatcherQueueHandler = new(0x2E0872A9, 0x4E29, 0x5F14, 0xB6, 0x88, 0xFB, 0x96, 0xD5, 0xF9, 0xD5, 0xF8);
-
         /// <summary>
         /// The shared vtable pointer for <see cref="DispatcherQueueProxyHandler"/> instances.
         /// </summary>
