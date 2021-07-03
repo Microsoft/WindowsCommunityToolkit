@@ -6,6 +6,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using WinRT;
 using static CommunityToolkit.WinUI.Interop.Windows;
 
 #nullable enable
@@ -179,8 +180,11 @@ namespace CommunityToolkit.WinUI.Interop
                     // need to make the proxy type itself generic, so without knowing the actual type argument.
                     Unsafe.As<DispatcherQueueHandler<object>>(callback)(state);
                 }
-                catch
+                catch (Exception e)
                 {
+                    ExceptionHelpers.SetErrorInfo(e);
+
+                    return ExceptionHelpers.GetHRForException(e);
                 }
 
                 return S_OK;

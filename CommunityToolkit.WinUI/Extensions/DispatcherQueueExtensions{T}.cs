@@ -112,13 +112,13 @@ namespace CommunityToolkit.WinUI
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
         private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, IDispatcherQueueHandler* dispatcherQueueHandler)
         {
-            IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
-
             bool success;
             int hResult;
 
             try
             {
+                IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
+
                 hResult = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandler, (byte*)&success);
 
                 GC.KeepAlive(dispatcherQueue);
@@ -146,13 +146,13 @@ namespace CommunityToolkit.WinUI
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
         private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, IDispatcherQueueHandler* dispatcherQueueHandler)
         {
-            IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
-
             bool success;
             int hResult;
 
             try
             {
+                IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
+
                 hResult = dispatcherQueuePtr->TryEnqueueWithPriority(priority, dispatcherQueueHandler, (byte*)&success);
 
                 GC.KeepAlive(dispatcherQueue);

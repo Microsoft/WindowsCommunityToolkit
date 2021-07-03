@@ -6,6 +6,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using WinRT;
 using static CommunityToolkit.WinUI.Interop.Windows;
 
 #nullable enable
@@ -184,8 +185,11 @@ namespace CommunityToolkit.WinUI.Interop
                     // Same optimization as in DispatcherQueueProxyHandler1
                     Unsafe.As<DispatcherQueueHandler<object, object>>(callback)(state1, state2);
                 }
-                catch
+                catch (Exception e)
                 {
+                    ExceptionHelpers.SetErrorInfo(e);
+
+                    return ExceptionHelpers.GetHRForException(e);
                 }
 
                 return S_OK;
