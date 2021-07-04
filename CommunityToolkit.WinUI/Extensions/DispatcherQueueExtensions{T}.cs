@@ -47,7 +47,7 @@ namespace CommunityToolkit.WinUI
         public static unsafe bool TryEnqueue<T>(this DispatcherQueue dispatcherQueue, DispatcherQueueHandler<T> callback, T state)
             where T : class
         {
-            return TryEnqueue(dispatcherQueue, DispatcherQueueProxyHandler1.Create(callback, state));
+            return TryEnqueue(dispatcherQueue, null, DispatcherQueueProxyHandler1.Create(callback, state));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace CommunityToolkit.WinUI
             where T1 : class
             where T2 : class
         {
-            return TryEnqueue(dispatcherQueue, DispatcherQueueProxyHandler2.Create(callback, state1, state2));
+            return TryEnqueue(dispatcherQueue, null, DispatcherQueueProxyHandler2.Create(callback, state1, state2));
         }
 
         /// <summary>
@@ -107,10 +107,11 @@ namespace CommunityToolkit.WinUI
         /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
         /// </summary>
         /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="priority"> The desired priority for the callback to schedule (if available).</param>
         /// <param name="dispatcherQueueHandler">The input callback to enqueue.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
-        private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, IDispatcherQueueHandler* dispatcherQueueHandler)
+        private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, DispatcherQueuePriority? priority, IDispatcherQueueHandler* dispatcherQueueHandler)
         {
             bool success;
             int hResult;
@@ -119,41 +120,14 @@ namespace CommunityToolkit.WinUI
             {
                 IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
 
-                hResult = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandler, (byte*)&success);
-
-                GC.KeepAlive(dispatcherQueue);
-            }
-            finally
-            {
-                dispatcherQueueHandler->Release();
-            }
-
-            if (hResult != 0)
-            {
-                ExceptionHelpers.ThrowExceptionForHR(hResult);
-            }
-
-            return success;
-        }
-
-        /// <summary>
-        /// Adds a task to the <see cref="DispatcherQueue"/> which will be executed on the thread associated with it.
-        /// </summary>
-        /// <param name="dispatcherQueue">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
-        /// <param name="priority"> The desired priority for the callback to schedule.</param>
-        /// <param name="dispatcherQueueHandler">The input callback to enqueue.</param>
-        /// <returns>Whether or not the task was added to the queue.</returns>
-        /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
-        private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, DispatcherQueuePriority priority, IDispatcherQueueHandler* dispatcherQueueHandler)
-        {
-            bool success;
-            int hResult;
-
-            try
-            {
-                IDispatcherQueue* dispatcherQueuePtr = (IDispatcherQueue*)((IWinRTObject)dispatcherQueue).NativeObject.ThisPtr;
-
-                hResult = dispatcherQueuePtr->TryEnqueueWithPriority(priority, dispatcherQueueHandler, (byte*)&success);
+                if (priority.HasValue)
+                {
+                    hResult = dispatcherQueuePtr->TryEnqueueWithPriority(priority.GetValueOrDefault(), dispatcherQueueHandler, (byte*)&success);
+                }
+                else
+                {
+                    hResult = dispatcherQueuePtr->TryEnqueue(dispatcherQueueHandler, (byte*)&success);
+                }
 
                 GC.KeepAlive(dispatcherQueue);
             }
