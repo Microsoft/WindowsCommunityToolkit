@@ -14,6 +14,9 @@ namespace CommunityToolkit.WinUI.Interop
     /// </summary>
     internal unsafe struct IDispatcherQueue
     {
+        /// <summary>
+        /// The vtable pointer for the current instance.
+        /// </summary>
         private readonly void** lpVtbl;
 
         /// <summary>
