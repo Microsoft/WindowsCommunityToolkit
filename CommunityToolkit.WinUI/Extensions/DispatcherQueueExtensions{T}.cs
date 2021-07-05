@@ -111,7 +111,8 @@ namespace CommunityToolkit.WinUI
         /// <param name="dispatcherQueueHandler">The input callback to enqueue.</param>
         /// <returns>Whether or not the task was added to the queue.</returns>
         /// <exception cref="Exception">Thrown when the enqueue operation fails.</exception>
-        private static unsafe bool TryEnqueue(DispatcherQueue dispatcherQueue, DispatcherQueuePriority? priority, IDispatcherQueueHandler* dispatcherQueueHandler)
+        private static unsafe bool TryEnqueue<THandler>(DispatcherQueue dispatcherQueue, DispatcherQueuePriority? priority, THandler* dispatcherQueueHandler)
+            where THandler : unmanaged, IDispatcherQueueHandler
         {
             bool success;
             int hResult;

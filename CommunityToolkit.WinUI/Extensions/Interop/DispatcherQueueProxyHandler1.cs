@@ -19,7 +19,7 @@ namespace CommunityToolkit.WinUI.Interop
     /// A custom <c>IDispatcherQueueHandler</c> object, that internally stores a captured <see cref="DispatcherQueueHandler{TState}"/> instance
     /// and the input captured state. This allows consumers to enqueue a state and a cached stateless delegate without any managed allocations.
     /// </summary>
-    internal unsafe struct DispatcherQueueProxyHandler1
+    internal unsafe struct DispatcherQueueProxyHandler1 : IDispatcherQueueHandler
     {
         /// <summary>
         /// The shared vtable pointer for <see cref="DispatcherQueueProxyHandler1"/> instances.
@@ -68,12 +68,12 @@ namespace CommunityToolkit.WinUI.Interop
         private volatile uint referenceCount;
 
         /// <summary>
-        /// Creates a new <see cref="IDispatcherQueueHandler"/> instance for the input callback and state.
+        /// Creates a new <see cref="DispatcherQueueProxyHandler1"/> instance for the input callback and state.
         /// </summary>
         /// <param name="handler">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
-        /// <returns>A pointer to the newly initialized <see cref="IDispatcherQueueHandler"/> instance.</returns>
-        public static IDispatcherQueueHandler* Create(object handler, object state)
+        /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler1"/> instance.</returns>
+        public static DispatcherQueueProxyHandler1* Create(object handler, object state)
         {
             DispatcherQueueProxyHandler1* @this = (DispatcherQueueProxyHandler1*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler1));
 
@@ -82,7 +82,7 @@ namespace CommunityToolkit.WinUI.Interop
             @this->stateHandle = GCHandle.Alloc(state);
             @this->referenceCount = 1;
 
-            return (IDispatcherQueueHandler*)@this;
+            return @this;
         }
 
         /// <summary>

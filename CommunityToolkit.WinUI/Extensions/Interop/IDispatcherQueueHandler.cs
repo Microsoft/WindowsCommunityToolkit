@@ -2,30 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Runtime.CompilerServices;
-
-#pragma warning disable CS0649, SA1023
-
 namespace CommunityToolkit.WinUI.Interop
 {
     /// <summary>
-    /// A struct mapping the native WinRT <c>IDispatcherQueueHandler</c> interface.
+    /// An interface mapping the native WinRT <c>IDispatcherQueueHandler</c> interface.
     /// </summary>
-    internal unsafe struct IDispatcherQueueHandler
+    internal interface IDispatcherQueueHandler
     {
         /// <summary>
-        /// The vtable pointer for the current instance.
-        /// </summary>
-        private readonly void** lpVtbl;
-
-        /// <summary>
-        /// Native API for <c>IUnknown.Release()</c>.
+        /// Implements <c>IUnknown.Release()</c>.
         /// </summary>
         /// <returns>The updated reference count for the current instance.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Release()
-        {
-            return ((delegate* unmanaged<IDispatcherQueueHandler*, uint>)lpVtbl[2])((IDispatcherQueueHandler*)Unsafe.AsPointer(ref this));
-        }
+        uint Release();
     }
 }
