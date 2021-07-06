@@ -134,6 +134,11 @@ namespace CommunityToolkit.WinUI
             }
             finally
             {
+                // This call doesn not have a corresponding AddRef() invocation that is visible, and
+                // that is because the static constructors for all existing custom handlers already
+                // set the internal reference count to 1. Structuring the code like this makes it
+                // possible to centralize all logic in this method without each caller needing to
+                // explicitly have a try/finally block for the allocated handler that is passed here.
                 dispatcherQueueHandler->Release();
             }
 
