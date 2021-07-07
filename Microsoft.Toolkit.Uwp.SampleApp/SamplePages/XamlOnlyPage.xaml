@@ -47,6 +47,7 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <controls:ContentSizer x:Key="ContentSizerControl" />
     </Page.Resources>
 
     <Grid>

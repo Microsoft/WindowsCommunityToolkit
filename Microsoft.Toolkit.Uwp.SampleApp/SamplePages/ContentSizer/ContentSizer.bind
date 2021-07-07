@@ -1,0 +1,48 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+  <Grid x:Name="RootGrid">
+    <!-- Just to separate our two examples -->
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    
+    <!-- Left-side 'Shelf' -->
+    <StackPanel Orientation="Horizontal">
+      <Border x:Name="SideContent"
+              Background="DarkGreen"
+              MinWidth="200"
+              MaxWidth="600">
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+          Side Content
+        </TextBlock>
+      </Border>
+      <controls:ContentSizer TargetControl="{Binding ElementName=SideContent}"/>
+    </StackPanel>
+    
+    <!-- Bottom 'Shelf' -->
+    <controls:Expander x:Name="TopExpander"
+                       VerticalAlignment="Top"
+                       ExpandDirection="Up"
+                       Header="This is some Shelf"
+                       HorizontalContentAlignment="Stretch"
+                       IsExpanded="True"
+                       Grid.Column="1">
+      <Grid Height="256">
+        <TextBlock HorizontalAlignment="Center"
+                   TextWrapping="Wrap"
+                   Text="This is the expanded content"
+                   VerticalAlignment="Center"/>
+        <controls:ContentSizer ResizeDirection="Horizontal" Height="16"
+                               VerticalAlignment="Bottom"/>
+      </Grid>
+    </controls:Expander>
+  </Grid>
+</Page>

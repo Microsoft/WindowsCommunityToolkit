@@ -74,6 +74,16 @@ namespace UITests.Tests
             });
         }
 
+        internal static async Task<AppServiceResponse> SendCustomMessageToApp(ValueSet message)
+        {
+            if (CommunicationService is null)
+            {
+                await InitalizeComService();
+            }
+
+            return await CommunicationService.SendMessageAsync(message);
+        }
+
         private static async Task<bool> SendMessageToApp(ValueSet message)
         {
             if (CommunicationService is null)
@@ -83,10 +93,15 @@ namespace UITests.Tests
 
             var response = await CommunicationService.SendMessageAsync(message);
 
+            return CheckResponseStatusOK(response);
+        }
+
+        internal static bool CheckResponseStatusOK(AppServiceResponse response)
+        {
             return response.Status == AppServiceResponseStatus.Success
-                && response.Message.TryGetValue("Status", out var s)
-                && s is string status
-                && status == "OK";
+                    && response.Message.TryGetValue("Status", out var s)
+                    && s is string status
+                    && status == "OK";
         }
 
         private static void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)

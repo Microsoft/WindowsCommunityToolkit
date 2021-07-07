@@ -128,4 +128,8 @@
     <value>GridSplitter</value>
     <comment>Narrator Resource for GridSplitter control</comment>
   </data>
+  <data name="WCT_ContentSizer_AutomationName" xml:space="preserve">
+    <value>Content Sizer</value>
+    <comment>Narrator Resource for ContentSizer control</comment>
+  </data>
 </root>

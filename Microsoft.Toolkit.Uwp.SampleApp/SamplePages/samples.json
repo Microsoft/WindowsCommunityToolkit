@@ -174,6 +174,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/HeaderBehaviors.md"
       },
       {
+        "Name": "ContentSizer",
+        "Subcategory": "Layout",
+        "About": "ContentSizer is a general sizing control which can manipulate the size of its parent or other elements. Used as a building block for more complex UI systems.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/ContentSizer",
+        "XamlCodeFile": "/SamplePages/ContentSizer/ContentSizer.bind",
+        "Icon": "/SamplePages/ContentSizer/ContentSizer.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ContentSizer.md"
+      },
+      {
         "Name": "GridSplitter",
         "Type": "GridSplitterPage",
         "Subcategory": "Layout",

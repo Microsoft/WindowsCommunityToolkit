@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
@@ -7,20 +7,19 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>UITests.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
-
   <Choose>
     <!-- When we're in the test harness include all '*Test.cs' files -->
     <When Condition="'$(IsTestHarness)' == 'true'">
       <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
+        <Compile Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs" />
         <!-- Base test helpers -->
         <Compile Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
         <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)VisualTreeHelper.cs" />
       </ItemGroup>
     </When>
   </Choose>
-
   <Choose>
     <!-- When we're in the UI app used by the test harness, include all the pages -->
     <When Condition="'$(IsTestHost)' == 'true'">
@@ -30,15 +29,15 @@
       </ItemGroup>
     </When>
   </Choose>
-
   <!-- Have a None Include as well to make all items visible in VS in the Shared Project -->
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
+    <None Include="$(MSBuildThisFileDirectory)**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs" />
     <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
     <None Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" DependentUpon="%(Filename)" />
     <!-- Base test helpers -->
     <None Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
     <None Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
     <None Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+    <None Include="$(MSBuildThisFileDirectory)VisualTreeHelper.cs" />
   </ItemGroup>
 </Project>
