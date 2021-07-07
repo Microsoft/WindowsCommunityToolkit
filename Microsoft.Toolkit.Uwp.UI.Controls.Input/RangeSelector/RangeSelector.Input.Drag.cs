@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _absolutePosition += e.HorizontalChange;
 
-            RangeStart = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
+            RangeStart = DragThumb(_minThumb, 0, DragWidth(), _absolutePosition);
 
             if (_toolTipText != null)
             {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _absolutePosition += e.HorizontalChange;
 
-            RangeEnd = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), _absolutePosition);
+            RangeEnd = DragThumb(_maxThumb, 0, DragWidth(), _absolutePosition);
 
             if (_toolTipText != null)
             {
