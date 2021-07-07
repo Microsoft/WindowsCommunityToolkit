@@ -46,5 +46,31 @@ namespace UITests.Tests
 
             Verify.AreEqual(newValue, textBox.GetText());
         }
+
+        [TestMethod]
+        [TestPage("TextBoxMaskTestPage")]
+        public void TestTextBoxMaskBinding_TextChanging_RegressionCheck()
+        {
+            var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();
+            var textBox = FindElement.ById<Edit>("TextBox");
+
+            Verify.AreEqual(initialValue, textBox.GetText());
+
+            var setEmptyButton = FindElement.ById<Button>("SetEmptyButton");
+
+            setEmptyButton.Click();
+            Wait.ForIdle();
+
+            // Previously, if the bound value of TextBox with a mask was set to an empty
+            // string. It would display the old values after text was entered by the user.
+            // PR #4048 should fix this issue.
+            textBox.SendKeys("0");
+
+            // The user entering "0" key at the start position of the TextBox would result
+            // in the following value prior to PR #4048.
+            const string incorrectValue = "02:50:59";
+
+            Verify.AreNotEqual(incorrectValue, textBox.GetText());
+        }
     }
 }

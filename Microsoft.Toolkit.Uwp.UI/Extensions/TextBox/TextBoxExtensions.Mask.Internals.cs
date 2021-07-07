@@ -297,13 +297,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             // case adding data at the end of the textbox
             if (oldSelectionStart >= oldText.Length && !isDeleteOrBackspace)
             {
-                textbox.Text = textbox.Text.Substring(0, oldText.Length);
-                if (oldText.Length >= 0)
+                // ignore change(s) if oldtext is a substring of new text value
+                if (textbox.Text.Contains(oldText))
                 {
-                    textbox.SelectionStart = oldText.Length;
-                }
+                    textbox.Text = oldText;
 
-                return;
+                    if (oldText.Length >= 0)
+                    {
+                        textbox.SelectionStart = oldText.Length;
+                    }
+
+                    return;
+                }
             }
 
             var textArray = oldText.ToCharArray();
@@ -323,6 +328,9 @@ namespace Microsoft.Toolkit.Uwp.UI
                 var displayText = textbox.GetValue(DefaultDisplayTextProperty) as string ?? string.Empty;
                 if (string.IsNullOrEmpty(textbox.Text))
                 {
+                    textbox.SetValue(OldTextProperty, displayText);
+                    textbox.SetValue(OldSelectionStartProperty, 0);
+                    textbox.SetValue(OldSelectionLengthProperty, 0);
                     textbox.Text = displayText;
                     return;
                 }

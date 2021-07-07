@@ -12,6 +12,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -43,5 +45,10 @@
                    Grid.Column="2"
                    HorizontalAlignment="Center"
                    Text="{x:Bind NewValue}" />
+        <Button x:Name="SetEmptyButton"
+                Grid.Row="4"
+                Grid.Column="0"
+                Click="SetEmptyButton_Click"
+                Content="Set Target Value Empty" />
     </Grid>
 </Page>
