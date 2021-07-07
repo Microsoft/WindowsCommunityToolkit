@@ -1,0 +1,30 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <local:SampleCommand x:Key="SampleCommand" />
+
+    <DataTemplate x:Name="NormalTemplate">
+      <TextBlock Text="{Binding}" Foreground="Green" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Name="AlternateTemplate">
+      <TextBlock Text="{Binding}" Foreground="Red" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+    </DataTemplate>
+  </Page.Resources>
+  <ListView
+      x:Name="SampleListView"
+      ItemTemplate="{StaticResource NormalTemplate}"
+      IsItemClickEnabled="True"
+      ui:ListViewExtensions.Command="{StaticResource SampleCommand}"
+      ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+      ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+      ui:ListViewExtensions.ItemContainerStretchDirection="Both">
+  </ListView>
+</Page>

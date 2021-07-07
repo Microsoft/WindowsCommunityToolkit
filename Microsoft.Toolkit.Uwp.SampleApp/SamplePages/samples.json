@@ -1105,7 +1105,8 @@
         "Type": "ListViewExtensionsPage",
         "About": "Extensions for all controls that inherit from ListViewBase like ListView.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase",
-        "XamlCodeFile": "ListViewExtensionsCode.bind",
+        "CodeFile": "ListViewExtensionsCode.bind",
+        "XamlCodeFile": "ListViewExtensionsXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ListViewExtensions.md"
       },
