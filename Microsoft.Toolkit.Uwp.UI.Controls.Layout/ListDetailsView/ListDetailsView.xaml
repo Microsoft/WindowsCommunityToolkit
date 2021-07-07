@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
 
     <Style TargetType="controls:ListDetailsView">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
@@ -13,92 +14,122 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid x:Name="RootPanel">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="ListColumn"
-                                                  Width="Auto" />
-                                <ColumnDefinition x:Name="DetailsColumn"
-                                                  Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid x:Name="ListPanel"
-                                  Width="{TemplateBinding ListPaneWidth}"
-                                  Background="{TemplateBinding ListPaneBackground}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="0,0,1,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <ContentPresenter x:Name="HeaderContentPresenter"
-                                                  Margin="12,0"
-                                                  x:DeferLoadStrategy="Lazy"
-                                                  Content="{TemplateBinding ListHeader}"
-                                                  ContentTemplate="{TemplateBinding ListHeaderTemplate}"
-                                                  Visibility="Collapsed" />
-                                <ListView x:Name="List"
-                                          Grid.Row="1"
-                                          IsTabStop="False"
-                                          ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-                                          ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
-                                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          ItemsSource="{TemplateBinding ItemsSource}"
-                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                                <Grid x:Name="ListCommandBarPanel" Grid.Row="2"></Grid>
-                            </Grid>
-                            <Grid x:Name="DetailsPanel"
-                                  Grid.Column="1">
-                                <ContentPresenter x:Name="NoSelectionPresenter"
-                                                  Content="{TemplateBinding NoSelectionContent}"
-                                                  ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
-                                <Grid x:Name="SelectionDetailsPanel">
+                        <muxc:TwoPaneView x:Name="RootPanel"
+                                          MinWideModeWidth="{TemplateBinding CompactModeThresholdWidth}"
+                                          Pane1Length="{TemplateBinding ListPaneWidth}"
+                                          PanePriority="Pane1"
+                                          TallModeConfiguration="SinglePane"
+                                          WideModeConfiguration="LeftRight">
+                            <muxc:TwoPaneView.Pane1>
+                                <Grid x:Name="ListPanel"
+                                      Background="{TemplateBinding ListPaneBackground}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Grid Background="{TemplateBinding Background}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Button x:Name="ListDetailsBackButton"
-                                                Background="Transparent"
-                                                Height="44"
-                                                Width="48"
-                                                Visibility="Collapsed">
-                                            <SymbolIcon Symbol="Back"/>
-                                        </Button>
-                                        <ContentPresenter x:Name="DetailsHeaderPresenter"
-                                                          Content="{TemplateBinding DetailsHeader}"
-                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"
-                                                          Grid.Column="1"/>
-                                    </Grid>
-                                    <ContentPresenter x:Name="DetailsPresenter"
-                                                      Background="{TemplateBinding Background}"
-                                                      ContentTemplate="{TemplateBinding DetailsTemplate}"
-                                                      Grid.Row="1">
-                                    </ContentPresenter>
-                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="2"></Grid>
+                                    <ContentPresenter x:Name="HeaderContentPresenter"
+                                                      Margin="12,0"
+                                                      x:DeferLoadStrategy="Lazy"
+                                                      Content="{TemplateBinding ListHeader}"
+                                                      ContentTemplate="{TemplateBinding ListHeaderTemplate}"
+                                                      Visibility="Collapsed" />
+                                    <ContentPresenter x:Name="MasterNoItemsPresenter"
+                                                      Grid.Row="1"
+                                                      Content="{TemplateBinding ListPaneNoItemsContent}"
+                                                      ContentTemplate="{TemplateBinding ListPaneNoItemsContentTemplate}" />
+                                    <ListView x:Name="MasterList"
+                                              Grid.Row="1"
+                                              IsTabStop="False"
+                                              ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                              ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemTemplateSelector="{TemplateBinding ListPaneItemTemplateSelector}"
+                                              ItemsSource="{TemplateBinding ItemsSource}"
+                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Visibility="Collapsed" />
+                                    <Grid x:Name="ListPaneCommandBarPanel"
+                                          Grid.Row="2" />
                                     <Grid.RenderTransform>
-                                        <TranslateTransform x:Name="DetailsPresenterTransform" />
+                                        <TranslateTransform x:Name="MasterPresenterTransform" />
                                     </Grid.RenderTransform>
                                 </Grid>
-                            </Grid>
-                        </Grid>
+                            </muxc:TwoPaneView.Pane1>
+                            <muxc:TwoPaneView.Pane2>
+                                <Grid x:Name="DetailsPanel"
+                                      Background="{TemplateBinding DetailsPaneBackground}">
+                                    <ContentPresenter x:Name="NoSelectionPresenter"
+                                                      Content="{TemplateBinding NoSelectionContent}"
+                                                      ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
+                                    <Grid x:Name="SelectionDetailsPanel">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ListDetailsBackButton"
+                                                    Width="48"
+                                                    Height="44"
+                                                    Background="Transparent"
+                                                    Visibility="Collapsed">
+                                                <SymbolIcon Symbol="Back" />
+                                            </Button>
+                                            <ContentPresenter x:Name="DetailsHeaderPresenter"
+                                                              Grid.Column="1"
+                                                              Content="{TemplateBinding DetailsHeader}"
+                                                              ContentTemplate="{TemplateBinding DetailsHeaderTemplate}" />
+                                        </Grid>
+                                        <ContentPresenter x:Name="DetailsPresenter"
+                                                          Grid.Row="1"
+                                                          ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                                          ContentTemplateSelector="{TemplateBinding DetailsContentTemplateSelector}" />
+                                        <Grid x:Name="DetailsPaneCommandBarPanel"
+                                              Grid.Row="2" />
+                                        <Grid.RenderTransform>
+                                            <TranslateTransform x:Name="DetailsPresenterTransform" />
+                                        </Grid.RenderTransform>
+                                    </Grid>
+                                </Grid>
+                            </muxc:TwoPaneView.Pane2>
+                        </muxc:TwoPaneView>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="NoSelectionWide">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionWide">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NoSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="NoSelectionWide"
-                                                      To="HasSelection">
+                                                      To="HasSelectionWide">
                                         <Storyboard>
                                             <DrillInThemeAnimation EntranceTargetName="SelectionDetailsPanel"
                                                                    ExitTargetName="NoSelectionPresenter" />
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="NoSelectionNarrow"
-                                                      To="HasSelection">
+                                                      To="HasSelectionNarrow">
                                         <Storyboard>
                                             <DoubleAnimation BeginTime="0:0:0"
                                                              Storyboard.TargetName="DetailsPresenterTransform"
@@ -120,85 +151,65 @@
                                                     <QuarticEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="NoSelectionPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="1"
+                                                             To="0"
+                                                             Duration="0:0:0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition From="HasSelection"
+                                    <VisualTransition From="HasSelectionWide"
                                                       To="NoSelectionWide">
                                         <Storyboard>
                                             <DrillOutThemeAnimation EntranceTargetName="NoSelectionPresenter"
                                                                     ExitTargetName="SelectionDetailsPanel" />
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition From="HasSelection"
+                                    <VisualTransition From="HasSelectionNarrow"
                                                       To="NoSelectionNarrow">
                                         <Storyboard>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="DetailsPresenterTransform"
+                                                             Storyboard.TargetName="MasterPresenterTransform"
                                                              Storyboard.TargetProperty="X"
-                                                             From="0"
-                                                             To="200"
-                                                             Duration="0:0:0.25" />
-                                            <DoubleAnimation BeginTime="0:0:0.08"
-                                                             Storyboard.TargetName="SelectionDetailsPanel"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             From="1"
+                                                             From="-200"
                                                              To="0"
-                                                             Duration="0:0:0.17">
+                                                             Duration="0:0:0.25">
                                                 <DoubleAnimation.EasingFunction>
                                                     <QuarticEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
-                                            <DoubleAnimation BeginTime="0:0:0.0"
+                                            <DoubleAnimation BeginTime="0:0:0"
                                                              Storyboard.TargetName="ListPanel"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"
                                                              Duration="0:0:0.25">
                                                 <DoubleAnimation.EasingFunction>
-                                                    <QuarticEase EasingMode="EaseIn" />
+                                                    <QuarticEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
-                                <VisualState x:Name="NoSelectionWide">
-                                    <VisualState.Setters>
-                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
-                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="HasSelectionWide">
-                                    <VisualState.Setters>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="HasSelectionNarrow">
-                                    <VisualState.Setters>
-                                        <Setter Target="ListPanel.Visibility" Value="Collapsed" />
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="NoSelectionNarrow">
-                                    <VisualState.Setters>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
-                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
-                                    </VisualState.Setters>
-                                </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="WidthStates">
-                                <VisualState x:Name="NarrowState">
+
+                            <VisualStateGroup x:Name="HasItemsStates">
+                                <VisualState x:Name="HasItemsState">
                                     <VisualState.Setters>
-                                        <Setter Target="ListColumn.Width" Value="*" />
-                                        <Setter Target="DetailsColumn.Width" Value="0" />
-                                        <Setter Target="DetailsPanel.(Grid.Column)" Value="0" />
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="ListPanel.BorderThickness" Value="0" />
-                                        <Setter Target="ListPanel.Width" Value="NaN" />
+                                        <Setter Target="MasterList.Visibility" Value="Visible" />
+                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="WideState">
+                                <VisualState x:Name="HasNoItemsState">
+                                    <VisualState.Setters>
+                                        <Setter Target="MasterList.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

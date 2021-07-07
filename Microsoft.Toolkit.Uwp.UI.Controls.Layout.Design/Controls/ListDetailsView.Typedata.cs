@@ -1,8 +1,6 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
-using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -13,9 +11,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 
     internal static class ListDetailsView
     {
-        internal const string DetailsCommandBar = nameof(DetailsCommandBar);
+        internal const string DetailsPaneCommandBar = nameof(DetailsPaneCommandBar);
         internal const string DetailsTemplate = nameof(DetailsTemplate);
-        internal const string ListCommandBar = nameof(ListCommandBar);
+        internal const string ListPaneCommandBar = nameof(ListPaneCommandBar);
         internal const string ListHeader = nameof(ListHeader);
         internal const string ListHeaderTemplate = nameof(ListHeaderTemplate);
         internal const string ListPaneBackground = nameof(ListPaneBackground);

@@ -4,7 +4,6 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
       mc:Ignorable="d">
 
     <controls:ListDetailsView Visibility="Collapsed" />

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -16,16 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class ListDetailsView
     {
         /// <summary>
-        /// Identifies the SelectedIndex dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register(
-                nameof(SelectedIndex),
-                typeof(int),
-                typeof(ListDetailsView),
-                new PropertyMetadata(-1, OnSelectedIndexChanged));
-
-        /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="SelectedItem"/> dependency property.</returns>
@@ -34,6 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(object),
             typeof(ListDetailsView),
             new PropertyMetadata(null, OnSelectedItemChanged));
+
+        /// <summary>
+        /// Identifies the SelectedIndex dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
+                nameof(SelectedIndex),
+                typeof(int),
+                typeof(ListDetailsView),
+                new PropertyMetadata(-1, OnSelectedIndexChanged));
 
         /// <summary>
         /// Identifies the <see cref="DetailsTemplate"/> dependency property.
@@ -96,14 +95,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="DetailsPaneBackground"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DetailsPaneBackground"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsPaneBackgroundProperty = DependencyProperty.Register(
+            nameof(DetailsPaneBackground),
+            typeof(Brush),
+            typeof(ListDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="ListPaneNoItemsContent"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="ListPaneNoItemsContent"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneNoItemsContentProperty = DependencyProperty.Register(
+            nameof(ListPaneNoItemsContent),
+            typeof(object),
+            typeof(ListDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="ListPaneNoItemsContentTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="ListPaneNoItemsContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneNoItemsContentTemplateProperty = DependencyProperty.Register(
+            nameof(ListPaneNoItemsContentTemplate),
+            typeof(DataTemplate),
+            typeof(ListDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="ListPaneWidth"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="ListPaneWidth"/> dependency property.</returns>
         public static readonly DependencyProperty ListPaneWidthProperty = DependencyProperty.Register(
             nameof(ListPaneWidth),
-            typeof(double),
+            typeof(GridLength),
             typeof(ListDetailsView),
-            new PropertyMetadata(320d));
+            new PropertyMetadata(new GridLength(320)));
 
         /// <summary>
         /// Identifies the <see cref="NoSelectionContent"/> dependency property.
@@ -126,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="ViewState"/> dependency property
+        /// Identifies the <see cref="ViewState"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="ViewState"/> dependency property.</returns>
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
@@ -136,52 +165,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(default(ListDetailsViewState)));
 
         /// <summary>
-        /// Identifies the <see cref="ListCommandBar"/> dependency property
+        /// Identifies the <see cref="ListPaneCommandBar"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="ListCommandBar"/> dependency property.</returns>
-        public static readonly DependencyProperty ListCommandBarProperty = DependencyProperty.Register(
-            nameof(ListCommandBar),
+        /// <returns>The identifier for the <see cref="ListPaneCommandBar"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneCommandBarProperty = DependencyProperty.Register(
+            nameof(ListPaneCommandBar),
             typeof(CommandBar),
             typeof(ListDetailsView),
-            new PropertyMetadata(null, OnListCommandBarChanged));
+            new PropertyMetadata(null, OnListPaneCommandBarChanged));
 
         /// <summary>
-        /// Identifies the <see cref="DetailsCommandBar"/> dependency property
+        /// Identifies the <see cref="DetailsPaneCommandBar"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="DetailsCommandBar"/> dependency property.</returns>
-        public static readonly DependencyProperty DetailsCommandBarProperty = DependencyProperty.Register(
-            nameof(DetailsCommandBar),
+        /// <returns>The identifier for the <see cref="DetailsPaneCommandBar"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsPaneCommandBarProperty = DependencyProperty.Register(
+            nameof(DetailsPaneCommandBar),
             typeof(CommandBar),
             typeof(ListDetailsView),
-            new PropertyMetadata(null, OnDetailsCommandBarChanged));
+            new PropertyMetadata(null, OnDetailsPaneCommandBarChanged));
 
         /// <summary>
-        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property.
         /// </summary>
+        /// <returns>The identifier for the <see cref="CompactModeThresholdWidth"/> dependency property.</returns>
         public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
             nameof(CompactModeThresholdWidth),
             typeof(double),
             typeof(ListDetailsView),
-            new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
+            new PropertyMetadata(640d));
 
         /// <summary>
-        /// Identifies the <see cref="BackButtonBehavior"/> dependency property
+        /// Identifies the <see cref="BackButtonBehavior"/> dependency property.
         /// </summary>
+        /// <returns>The identifier for the <see cref="BackButtonBehavior"/> dependency property.</returns>
         public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
             nameof(BackButtonBehavior),
             typeof(BackButtonBehavior),
             typeof(ListDetailsView),
-            new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
+            new PropertyMetadata(null, OnBackButtonBehaviorChanged));
 
         /// <summary>
-        /// Gets or sets the index of the current selection.
+        /// Identifies the <see cref="DetailsContentTemplateSelector"/> dependency property.
         /// </summary>
-        /// <returns>The index of the current selection, or -1 if the selection is empty.</returns>
-        public int SelectedIndex
-        {
-            get { return (int)GetValue(SelectedIndexProperty); }
-            set { SetValue(SelectedIndexProperty, value); }
-        }
+        /// <returns>The identifier for the <see cref="DetailsContentTemplateSelector"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsContentTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(DetailsContentTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(ListDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="ListPaneItemTemplateSelector"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="ListPaneItemTemplateSelector"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneItemTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(ListPaneItemTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(ListDetailsView),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the selected item.
@@ -191,6 +232,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the current selection.
+        /// </summary>
+        /// <returns>The index of the current selection, or -1 if the selection is empty.</returns>
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
         }
 
         /// <summary>
@@ -213,7 +264,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the content for the list pane's header
+        /// Gets or sets the Brush to apply to the background of the details area of the control.
+        /// </summary>
+        /// <returns>The Brush to apply to the background of the details area of the control.</returns>
+        public Brush DetailsPaneBackground
+        {
+            get { return (Brush)GetValue(DetailsPaneBackgroundProperty); }
+            set { SetValue(DetailsPaneBackgroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the list pane's no items presenter.
+        /// </summary>
+        /// <returns>
+        /// The content of the list pane's header. The default is null.
+        /// </returns>
+        public object ListPaneNoItemsContent
+        {
+            get { return GetValue(ListPaneNoItemsContentProperty); }
+            set { SetValue(ListPaneNoItemsContentProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the list pane's no items presenter.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the list pane no items object. The default is null.
+        /// </returns>
+        public DataTemplate ListPaneNoItemsContentTemplate
+        {
+            get { return (DataTemplate)GetValue(ListPaneNoItemsContentTemplateProperty); }
+            set { SetValue(ListPaneNoItemsContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the list pane's header.
         /// </summary>
         /// <returns>
         /// The content of the list pane's header. The default is null.
@@ -267,14 +352,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The width of the SplitView pane when it's fully expanded. The default is 320
         /// device-independent pixel (DIP).
         /// </returns>
-        public double ListPaneWidth
+        public GridLength ListPaneWidth
         {
-            get { return (double)GetValue(ListPaneWidthProperty); }
+            get { return (GridLength)GetValue(ListPaneWidthProperty); }
             set { SetValue(ListPaneWidthProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the content to dsiplay when there is no item selected in the list list.
+        /// Gets or sets the content to display when there is no item selected in the list pane.
         /// </summary>
         public object NoSelectionContent
         {
@@ -296,7 +381,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the current visual state of the control
+        /// Gets the current visual state of the control.
         /// </summary>
         public ListDetailsViewState ViewState
         {
@@ -305,25 +390,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="CommandBar"/> for the list section.
+        /// Gets or sets the <see cref="CommandBar"/> for the list pane.
         /// </summary>
-        public CommandBar ListCommandBar
+        public CommandBar ListPaneCommandBar
         {
-            get { return (CommandBar)GetValue(ListCommandBarProperty); }
-            set { SetValue(ListCommandBarProperty, value); }
+            get { return (CommandBar)GetValue(ListPaneCommandBarProperty); }
+            set { SetValue(ListPaneCommandBarProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="CommandBar"/> for the details section.
+        /// Gets or sets the <see cref="CommandBar"/> for the details pane.
         /// </summary>
-        public CommandBar DetailsCommandBar
+        public CommandBar DetailsPaneCommandBar
         {
-            get { return (CommandBar)GetValue(DetailsCommandBarProperty); }
-            set { SetValue(DetailsCommandBarProperty, value); }
+            get { return (CommandBar)GetValue(DetailsPaneCommandBarProperty); }
+            set { SetValue(DetailsPaneCommandBarProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the Threshold width that will trigger the control to go into compact mode
+        /// Gets or sets the Threshold width that will trigger the control to go into compact mode.
         /// </summary>
         public double CompactModeThresholdWidth
         {
@@ -332,7 +417,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the behavior to use for the back button
+        /// Gets or sets the behavior to use for the back button.
         /// </summary>
         /// <returns>The current BackButtonBehavior. The default is System.</returns>
         public BackButtonBehavior BackButtonBehavior
@@ -342,9 +427,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="DataTemplateSelector"/> for the details presenter.
+        /// </summary>
+        public DataTemplateSelector DetailsContentTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty); }
+            set { SetValue(DetailsContentTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplateSelector"/> for the list pane items.
+        /// </summary>
+        public DataTemplateSelector ListPaneItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(ListPaneItemTemplateSelectorProperty); }
+            set { SetValue(ListPaneItemTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets a function for mapping the selected item to a different model.
         /// This new model will be the DataContext of the Details area.
         /// </summary>
         public Func<object, object> MapDetails { get; set; }
+
+        private static void OnDetailsPaneCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).OnDetailsPaneCommandBarChanged();
+        }
+
+        private static void OnListPaneCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).OnListPaneCommandBarChanged();
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).OnSelectedItemChanged(e);
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).OnSelectedIndexChanged(e);
+        }
+
+        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).SetBackButtonVisibility();
+        }
+
+        private static void OnListHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ListDetailsView)d).SetListHeaderVisibility();
+        }
     }
 }
