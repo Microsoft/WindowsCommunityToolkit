@@ -28,7 +28,7 @@ namespace UITests.App.Pages
             LogMessage("Error", "[Error] " + format, args);
         }
 
-        private static void LogMessage(string level, string format, object[] args)
+        private static async void LogMessage(string level, string format, object[] args)
         {
             // string.Format() complains if we pass it something with braces, even if we have no arguments.
             // To account for that, we'll escape braces if we have no arguments.
@@ -39,7 +39,7 @@ namespace UITests.App.Pages
 
             // Send back to Test Harness via AppService
             // TODO: Make this a cleaner connection/pattern
-            ((App)Application.Current).SendLogMessage(level, string.Format(format, args));
+            await ((App)Application.Current).SendLogMessage(level, string.Format(format, args));
         }
     }
 }

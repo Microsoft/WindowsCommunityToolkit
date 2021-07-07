@@ -1,7 +1,26 @@
 <FileList>
   <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Toolkit | DataGrid"
+        BlendCategory="Windows Toolkit | DataGrid">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridCell" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridCellsPresenter" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridFillerColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridCheckBoxColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridComboBoxColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumnHeader" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumnHeadersPresenter" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridDetailsPresenter" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridFrozenGrid" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridRow" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridRowHeader" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridRowGroupHeader" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridRowsPresenter" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridTemplateColumn" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGridTextColumn" />
     </ToolboxItems>
   </File>
 </FileList>

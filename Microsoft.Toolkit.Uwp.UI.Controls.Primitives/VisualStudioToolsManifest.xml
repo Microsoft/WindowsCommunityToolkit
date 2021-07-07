@@ -1,11 +1,15 @@
 <FileList>
   <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Primitives.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Toolkit | Basics"
+        BlendCategory="Windows Toolkit | Basics">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.AdaptiveGridView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DockPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredLayout" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SwitchPresenter" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.UniformGrid" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapLayout" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel" />
     </ToolboxItems>
   </File>

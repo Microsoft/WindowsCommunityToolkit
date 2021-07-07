@@ -1,6 +1,8 @@
 <FileList>
   <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Core.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Toolkit | Common"
+        BlendCategory="Windows Toolkit | Common">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CameraPreview" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageEx" />
@@ -13,6 +15,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabbedCommandBar" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabbedCommandBarItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
     </ToolboxItems>
