@@ -1,23 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
-    <LangVersion>9.0</LangVersion>
-
-    <TaefRootDirectory>$(PkgTAEF_Redist_Wlk)\build\Binaries\x86\CoreClr\</TaefRootDirectory>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>$(DefineConstants);USING_TAEF</DefineConstants>
     <OutputType>Exe</OutputType>
+    <PlatformTarget>x86</PlatformTarget>
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
-    <IsPackable>false</IsPackable>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-
-    <IsTestHarness>true</IsTestHarness>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <IsTestHarness>true</IsTestHarness>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DefineConstants>$(DefineConstants);USING_TAEF</DefineConstants>
+    <TaefRootDirectory>$(PkgTAEF_Redist_Wlk)\build\Binaries\$(PlatformTarget)\CoreClr\</TaefRootDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="MainClass.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(PkgMUXCustomBuildTasks)\tools\$(PlatformTarget)\WttLog.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="UITests.App.dependencies.$(Configuration).txt">
+      <Link>UITests.App.dependencies.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="TE.Managed">
@@ -39,36 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'"
-                      Include="Microsoft.Windows.SDK.Contracts"
-                      Version="10.0.19041.0" />
-
     <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
-    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(PkgMUXCustomBuildTasks)\tools\x86\WttLog.dll"  CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="MainClass.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="UITests.App.dependencies.Debug.txt" Condition="'$(Configuration)' == 'Debug'">
-      <Link>UITests.App.dependencies.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="UITests.App.dependencies.Release.txt" Condition="'$(Configuration)' == 'Release'">
-      <Link>UITests.App.dependencies.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
+
 </Project>

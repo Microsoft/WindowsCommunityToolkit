@@ -8,7 +8,6 @@
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
@@ -26,7 +25,6 @@
     <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>

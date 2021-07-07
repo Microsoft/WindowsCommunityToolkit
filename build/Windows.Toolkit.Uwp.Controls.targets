@@ -1,0 +1,19 @@
+<Project>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="True" PackagePath="tools" />
+    <None Include="$(OutDir)Design\$(MSBuildProjectName).DesignTools.dll" Pack="True" PackagePath="lib\$(TargetFramework)\Design" />
+    <None Include="$(OutDir)Design\$(MSBuildProjectName).DesignTools.pdb" Pack="True" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
+  </ItemGroup>
+
+  <Target Name="_EnsureDesignToolsArePresentBeforePack" BeforeTargets="Pack;$(PackDependsOn)">
+    <Warning Text="The file '$(MSBuildProjectName).DesignTools.dll' does not exist in '$(OutDir)Design\' directory." Condition="!Exists('$(OutDir)Design\$(MSBuildProjectName).DesignTools.dll')" />
+    <Warning Text="The file '$(MSBuildProjectName).DesignTools.pdb' does not exist in '$(OutDir)Design\' directory." Condition="!Exists('$(OutDir)Design\$(MSBuildProjectName).DesignTools.pdb')" />
+    <Error Text="Design project outputs not found in '$(OutDir)Design\' directory. Please check that you've set the output of the Design project(s) to the specified directory." Condition="!Exists('$(OutDir)Design\')" />
+  </Target>
+
+</Project>

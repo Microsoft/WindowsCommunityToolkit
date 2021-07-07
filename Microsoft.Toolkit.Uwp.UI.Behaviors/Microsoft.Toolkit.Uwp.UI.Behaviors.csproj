@@ -2,10 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-    <Title>Windows Community Toolkit UI Behaviors</Title>
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - UI Behaviors</Title>
     <Description>
-      This library provides UI behaviors built on the XAML behaviors SDK. It is part of the Windows Community Toolkit.
+      This library provides UI behaviors built on the XAML behaviors SDK. It is a part of the Windows Community Toolkit.
 
       Behaviors:
       - BehaviorBase: Helper for building Behaviors
@@ -15,8 +18,6 @@
       - FadeHeaderBehavior, QuickReturnHeaderBehavior, StickyHeaderBehavior: Helpers for ListViewBase Header Behavior
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;Behaviors;Interactivity;Interaction;XAML</PackageTags>
-
-    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
   </PropertyGroup>
 
   <ItemGroup>

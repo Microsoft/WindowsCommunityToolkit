@@ -1,0 +1,12 @@
+<Project>
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="_DisableWarningsInGeneratedSources" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedSource Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="GeneratedSource: @(GeneratedSource->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedSource->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+
+</Project>

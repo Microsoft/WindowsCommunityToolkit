@@ -30,7 +30,7 @@
     <AppxBundle>Always</AppxBundle>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <PlatformTarget>$(Platform)</PlatformTarget>
-    <NoWarn>;2008;SA0001;SA1601</NoWarn>
+    <NoWarn>$(NoWarn);2008;SA1601</NoWarn>
     <Prefer32Bit>true</Prefer32Bit>
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -123,10 +123,10 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Target Name="BeforeBuild">
     <ItemGroup Condition="$(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'">
-      <ToolkitNuGets Include="$(MSBuildThisFileDirectory)..\bin\nupkg\$(CurrentProject).*.nupkg" />
-      <ToolkitNuGet Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNuGets)" />
+      <NuGetPackage Include="$(RepositoryDirectory)bin\nupkg\$(CurrentProject).*.nupkg" />
+      <NuGetPackageFiltered Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(NuGetPackage)" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNuGet)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />
+    <Error Condition="'@(NuGetPackageFiltered)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />
     <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set 'NuGetPackageVersion' at the top of 'SmokeTest.csproj' with the version to smoke test locally." />
   </Target>
   <!-- No-op to avoid build error when packing solution from commandline -->
