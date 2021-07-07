@@ -1,6 +1,6 @@
 <RunSettings>
   <MSTest>
-	<MaxCpuCount>0</MaxCpuCount>
+    <MaxCpuCount>0</MaxCpuCount>
     <Parallelize>
       <Workers>0</Workers>
       <Scope>ClassLevel</Scope>

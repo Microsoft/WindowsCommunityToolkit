@@ -5,7 +5,7 @@
     "^refs/heads/dev$", // we release out of dev
     "^refs/heads/rel/\\d+\\.\\d+\\.\\d+" // we also release branches starting with rel/N.N.N
   ],
-  "nugetPackageVersion":{
+  "nugetPackageVersion": {
     "semVer": 2
   },
   "cloudBuild": {

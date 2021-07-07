@@ -1,6 +1,6 @@
 [CmdletBinding()]
-param([Parameter(Mandatory=$true)]
-      [string]$buildNumber)
+param([Parameter(Mandatory = $true)]
+    [string]$buildNumber)
 
 # Ensure the error action preference is set to the default for PowerShell3, 'Stop'
 $ErrorActionPreference = 'Stop'
@@ -14,11 +14,10 @@ $WindowsSDKInstalledRegPath = "$WindowsSDKRegPath\$WindowsSDKVersion\Installed O
 $StrongNameRegPath = "HKLM:\SOFTWARE\Microsoft\StrongName\Verification"
 $PublicKeyTokens = @("31bf3856ad364e35")
 
-function Download-File
-{
+function Download-File {
     param ([string] $outDir,
-           [string] $downloadUrl,
-           [string] $downloadName)
+        [string] $downloadUrl,
+        [string] $downloadName)
 
     $downloadPath = Join-Path $outDir "$downloadName.download"
     $downloadDest = Join-Path $outDir $downloadName
@@ -26,21 +25,17 @@ function Download-File
 
     Write-Host -NoNewline "Downloading $downloadName..."
 
-    try
-    {
+    try {
         $webclient = new-object System.Net.WebClient
         $webclient.DownloadFile($downloadUrl, $downloadPath)
     }
-    catch [System.Net.WebException]
-    {
+    catch [System.Net.WebException] {
         Write-Host
         Write-Warning "Failed to fetch updated file from $downloadUrl"
-        if (!(Test-Path $downloadDest))
-        {
+        if (!(Test-Path $downloadDest)) {
             throw "$downloadName was not found at $downloadDest"
         }
-        else
-        {
+        else {
             Write-Warning "$downloadName may be out of date"
         }
     }
@@ -50,8 +45,7 @@ function Download-File
     $downloadDestTemp = $downloadPath;
 
     # Delete and rename to final dest
-    if (Test-Path -PathType Container $downloadDest)
-    {
+    if (Test-Path -PathType Container $downloadDest) {
         [System.IO.Directory]::Delete($downloadDest, $true)
     }
 
@@ -61,20 +55,16 @@ function Download-File
     return $downloadDest
 }
 
-function Get-ISODriveLetter
-{
+function Get-ISODriveLetter {
     param ([string] $isoPath)
 
     $diskImage = Get-DiskImage -ImagePath $isoPath
-    if ($diskImage)
-    {
+    if ($diskImage) {
         $volume = Get-Volume -DiskImage $diskImage
 
-        if ($volume)
-        {
+        if ($volume) {
             $driveLetter = $volume.DriveLetter
-            if ($driveLetter)
-            {
+            if ($driveLetter) {
                 $driveLetter += ":"
                 return $driveLetter
             }
@@ -84,15 +74,13 @@ function Get-ISODriveLetter
     return $null
 }
 
-function Mount-ISO
-{
+function Mount-ISO {
     param ([string] $isoPath)
 
     # Check if image is already mounted
     $isoDrive = Get-ISODriveLetter $isoPath
 
-    if (!$isoDrive)
-    {
+    if (!$isoDrive) {
         Mount-DiskImage -ImagePath $isoPath -StorageType ISO | Out-Null
     }
 
@@ -100,84 +88,68 @@ function Mount-ISO
     Write-Verbose "$isoPath mounted to ${isoDrive}:"
 }
 
-function Dismount-ISO
-{
+function Dismount-ISO {
     param ([string] $isoPath)
 
     $isoDrive = (Get-DiskImage -ImagePath $isoPath | Get-Volume).DriveLetter
 
-    if ($isoDrive)
-    {
+    if ($isoDrive) {
         Write-Verbose "$isoPath dismounted"
         Dismount-DiskImage -ImagePath $isoPath | Out-Null
     }
 }
 
-function Disable-StrongName
-{
+function Disable-StrongName {
     param ([string] $publicKeyToken = "*")
 
     reg ADD "HKLM\SOFTWARE\Microsoft\StrongName\Verification\*,$publicKeyToken" /f | Out-Null
-    if ($env:PROCESSOR_ARCHITECTURE -eq "AMD64")
-    {
+    if ($env:PROCESSOR_ARCHITECTURE -eq "AMD64") {
         reg ADD "HKLM\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\*,$publicKeyToken" /f | Out-Null
     }
 }
 
-function Test-Admin
-{
+function Test-Admin {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal $identity
     $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Test-RegistryPathAndValue
-{
+function Test-RegistryPathAndValue {
     param (
-        [parameter(Mandatory=$true)]
+        [parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [string] $path,
-        [parameter(Mandatory=$true)]
+        [parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [string] $value)
 
-    try
-    {
-        if (Test-Path $path)
-        {
+    try {
+        if (Test-Path $path) {
             Get-ItemProperty -Path $path | Select-Object -ExpandProperty $value -ErrorAction Stop | Out-Null
             return $true
         }
     }
-    catch
-    {
+    catch {
     }
 
     return $false
 }
 
-function Test-InstallWindowsSDK
-{
+function Test-InstallWindowsSDK {
     $retval = $true
 
-    if (Test-RegistryPathAndValue -Path $WindowsSDKRegPath -Value $WindowsSDKRegRootKey)
-    {
+    if (Test-RegistryPathAndValue -Path $WindowsSDKRegPath -Value $WindowsSDKRegRootKey) {
         # A Windows SDK is installed
         # Is an SDK of our version installed with the options we need?
-        if (Test-RegistryPathAndValue -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions")
-        {
+        if (Test-RegistryPathAndValue -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions") {
             # It appears we have what we need. Double check the disk
             $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
-            if ($sdkRoot)
-            {
-                if (Test-Path $sdkRoot)
-                {
+            if ($sdkRoot) {
+                if (Test-Path $sdkRoot) {
                     $refPath = Join-Path $sdkRoot "References\$WindowsSDKVersion"
-                    if (Test-Path $refPath)
-                    {
+                    if (Test-Path $refPath) {
                         $umdPath = Join-Path $sdkRoot "UnionMetadata\$WindowsSDKVersion"
-                        if (Test-Path $umdPath)
-                        {
+                        if (Test-Path $umdPath) {
                             # Pretty sure we have what we need
                             $retval = $false
                         }
@@ -190,13 +162,10 @@ function Test-InstallWindowsSDK
     return $retval
 }
 
-function Test-InstallStrongNameHijack
-{
-    foreach($publicKeyToken in $PublicKeyTokens)
-    {
+function Test-InstallStrongNameHijack {
+    foreach ($publicKeyToken in $PublicKeyTokens) {
         $key = "$StrongNameRegPath\*,$publicKeyToken"
-        if (!(Test-Path $key))
-        {
+        if (!(Test-Path $key)) {
             return $true
         }
     }
@@ -206,51 +175,42 @@ function Test-InstallStrongNameHijack
 
 Write-Host -NoNewline "Checking for installed Windows SDK $WindowsSDKVersion..."
 $InstallWindowsSDK = Test-InstallWindowsSDK
-if ($InstallWindowsSDK)
-{
+if ($InstallWindowsSDK) {
     Write-Host "Installation required"
 }
-else
-{
+else {
     Write-Host "INSTALLED"
 }
 
 $StrongNameHijack = Test-InstallStrongNameHijack
 Write-Host -NoNewline "Checking if StrongName bypass required..."
 
-if ($StrongNameHijack)
-{
+if ($StrongNameHijack) {
     Write-Host "REQUIRED"
 }
-else
-{
+else {
     Write-Host "Done"
 }
 
-if ($StrongNameHijack -or $InstallWindowsSDK)
-{
-    if (!(Test-Admin))
-    {
+if ($StrongNameHijack -or $InstallWindowsSDK) {
+    if (!(Test-Admin)) {
         Write-Host
         throw "ERROR: Elevation required"
     }
 }
 
-if ($InstallWindowsSDK)
-{
+if ($InstallWindowsSDK) {
     # Static(ish) link for Windows SDK
     # Note: there is a delay from Windows SDK announcements to availability via the static link
     $uri = "https://software-download.microsoft.com/download/sg/Windows_InsiderPreview_SDK_en-us_$($buildNumber)_1.iso";
 
-    if ($env:TEMP -eq $null)
-    {
+    if ($null -eq $env:TEMP) {
         $env:TEMP = Join-Path $env:SystemDrive 'temp'
     }
 
     $winsdkTempDir = Join-Path $env:TEMP "WindowsSDK"
 
-    if (![System.IO.Directory]::Exists($winsdkTempDir))
-    {
+    if (![System.IO.Directory]::Exists($winsdkTempDir)) {
         [void][System.IO.Directory]::CreateDirectory($winsdkTempDir)
     }
 
@@ -260,41 +220,35 @@ if ($InstallWindowsSDK)
     $downloadFile = Download-File $winsdkTempDir $uri $file
 
     # TODO Check if zip, exe, iso, etc.
-    try
-    {
+    try {
         Write-Host -NoNewline "Mounting ISO $file..."
         Mount-ISO $downloadFile
         Write-Host "Done"
 
         $isoDrive = Get-ISODriveLetter $downloadFile
 
-        if (Test-Path $isoDrive)
-        {
+        if (Test-Path $isoDrive) {
             Write-Host -NoNewLine "Installing WinSDK..."
 
             $setupPath = Join-Path "$isoDrive" "WinSDKSetup.exe"
             Start-Process -Wait $setupPath "/features $WindowsSDKOptions /q"
             Write-Host "Done"
         }
-        else
-        {
+        else {
             throw "Could not find mounted ISO at ${isoDrive}"
         }
     }
-    finally
-    {
+    finally {
         Write-Host -NoNewline "Dismounting ISO $file..."
-        #Dismount-ISO $downloadFile
+        # Dismount-ISO $downloadFile
         Write-Host "Done"
     }
 }
 
-if ($StrongNameHijack)
-{
+if ($StrongNameHijack) {
     Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
 
-    foreach($key in $PublicKeyTokens)
-    {
+    foreach ($key in $PublicKeyTokens) {
         Disable-StrongName $key
     }
 

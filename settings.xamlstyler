@@ -7,7 +7,7 @@
     "SeparateByGroups": false,
     "AttributeIndentation": 0,
     "AttributeIndentationStyle": 1,
-    "RemoveDesignTimeReferences":  false,
+    "RemoveDesignTimeReferences": false,
     "EnableAttributeReordering": true,
     "AttributeOrderingRuleGroups": [
         "x:Class",

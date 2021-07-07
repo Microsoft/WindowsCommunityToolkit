@@ -1,10 +1,10 @@
-#module nuget:?package=Cake.LongPath.Module&version=0.7.0
+#module nuget:?package=Cake.LongPath.Module&version=1.0.1
 
-#addin nuget:?package=Cake.FileHelpers&version=3.2.1
-#addin nuget:?package=Cake.Powershell&version=0.4.8
-#addin nuget:?package=Cake.GitVersioning&version=3.3.37
+#addin nuget:?package=Cake.FileHelpers&version=4.0.1
+#addin nuget:?package=Cake.Powershell&version=1.0.1
+#addin nuget:?package=Cake.GitVersioning&version=3.4.216
 
-#tool nuget:?package=MSTest.TestAdapter&version=2.1.0
+#tool nuget:?package=MSTest.TestAdapter&version=2.2.4
 #tool nuget:?package=vswhere&version=2.8.4
 
 using System;
@@ -94,7 +94,7 @@ void VerifyHeaders(bool Replace)
 
     if(!Replace && hasMissing)
     {
-        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -target=UpdateHeaders' and commit the changes.");
+        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -Target UpdateHeaders' and commit the changes.");
     }
 }
 
@@ -176,13 +176,14 @@ Task("InheritDoc")
     .Does(() =>
 {
     Information("\nDownloading InheritDoc...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion = true,
         Version = inheritDocVersion,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"InheritDoc"}, installSettings);
+    NuGetInstall(new[] {"InheritDoc"}, installSettings);
 
     var args = new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("-b", baseDir)
@@ -210,7 +211,8 @@ Task("Package")
     .Does(() =>
 {
     // Invoke the pack target in the end
-    var buildSettings = new MSBuildSettings {
+    var buildSettings = new MSBuildSettings
+    {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
@@ -259,7 +261,7 @@ Task("Test")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
@@ -306,12 +308,11 @@ Task("MSTestUITest")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);
 });
-
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
@@ -335,12 +336,13 @@ Task("StyleXaml")
     .Does(() =>
 {
     Information("\nDownloading XamlStyler...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion  = true,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+    NuGetInstall(new[] {"xamlstyler.console"}, installSettings);
 
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
@@ -352,8 +354,6 @@ Task("StyleXaml")
         StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
     }
 });
-
-
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
