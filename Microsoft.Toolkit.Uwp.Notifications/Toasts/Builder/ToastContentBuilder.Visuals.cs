@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 data.Values[bindableTitle.BindingName] = title;
             }
 
-            if (progressBar.Value is BindableProgressBarValue bindableProgressValue && value != default)
+            if (progressBar.Value is AdaptiveProgressBarValue bindableProgressValue && value != default)
             {
                 data.Values[bindableProgressValue.BindingName] = value.ToString();
             }
@@ -420,7 +420,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
             else if (value == null)
             {
-                progressBar.Value = new BindableProgressBarValue($"progressValue_{index}");
+                progressBar.Value = new AdaptiveProgressBarValue($"progressValue_{index}");
             }
             else
             {

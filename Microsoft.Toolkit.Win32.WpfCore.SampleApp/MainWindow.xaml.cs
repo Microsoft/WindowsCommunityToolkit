@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
                 .AddText("Sending image to conversation...")
                 .AddVisualChild(new AdaptiveProgressBar()
                 {
-                    Value = new BindableProgressBarValue("progress"),
+                    Value = new AdaptiveProgressBarValue("progress"),
                     Status = "Sending..."
                 })
                 .Show(toast =>

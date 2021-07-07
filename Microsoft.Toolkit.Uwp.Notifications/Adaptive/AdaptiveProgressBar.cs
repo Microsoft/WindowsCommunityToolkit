@@ -9,10 +9,8 @@ using Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements;
 
 #if WINRT
 using System.Collections.Generic;
-using BindableProgressBarValue = Microsoft.Toolkit.Uwp.Notifications.AdaptiveProgressBarValue;
 using BindableString = System.String;
 #else
-using BindableProgressBarValue = Microsoft.Toolkit.Uwp.Notifications.BindableProgressBarValue;
 using BindableString = Microsoft.Toolkit.Uwp.Notifications.BindableString;
 #endif
 
@@ -38,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Gets or sets the value of the progress bar. Supports data binding. Defaults to 0.
         /// </summary>
-        public BindableProgressBarValue Value { get; set; } = AdaptiveProgressBarValue.FromValue(0);
+        public AdaptiveProgressBarValue Value { get; set; } = AdaptiveProgressBarValue.FromValue(0);
 
         /// <summary>
         /// Gets or sets an optional string to be displayed instead of the default percentage string. If this isn't provided, something like "70%" will be displayed.

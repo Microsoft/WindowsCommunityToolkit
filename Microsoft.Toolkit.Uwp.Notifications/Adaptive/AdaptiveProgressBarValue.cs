@@ -33,6 +33,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
         }
 
+#if !WINRT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdaptiveProgressBarValue"/> class.
+        /// A new binding for a double value, with the required binding value name. Do NOT include surrounding {} brackets.
+        /// </summary>
+        /// <param name="bindingName">The name that maps to your binding data value.</param>
+        public AdaptiveProgressBarValue(string bindingName)
+        {
+            BindingName = bindingName;
+        }
+#endif
+
         internal string ToXmlString()
         {
             if (IsIndeterminate)
@@ -92,5 +104,25 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 BindingName = bindingName
             };
         }
+
+#if !WINRT
+        /// <summary>
+        /// Creates an <see cref="AdaptiveProgressBarValue"/> that has the raw double value.
+        /// </summary>
+        /// <param name="value">The raw value</param>
+        public static implicit operator AdaptiveProgressBarValue(double value)
+        {
+            return FromValue(value);
+        }
+
+        /// <summary>
+        /// Creates an <see cref="AdaptiveProgressBarValue"/> that has the raw double value.
+        /// </summary>
+        /// <param name="bindingName">The raw value</param>
+        public static implicit operator AdaptiveProgressBarValue(string bindingName)
+        {
+            return FromBinding(bindingName);
+        }
+#endif
     }
 }
