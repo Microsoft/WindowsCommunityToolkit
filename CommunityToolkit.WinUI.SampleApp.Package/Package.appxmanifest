@@ -1,0 +1,73 @@
+﻿<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 rescap">
+
+  <Identity
+    Name="e89944d1-807e-4f30-a28a-3fe6952f5f71"
+    Publisher="CN=alzollin"
+    Version="7.0.0.0" />
+
+  <Properties>
+    <DisplayName>CommunityToolkit.WinUI.SampleApp.Package</DisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
+    <Logo>Images\UWPCommunityToolkitSampleAppStoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="[Debug] Windows Community Toolkit Sample App"
+        Description="This app demonstrates the controls, services and APIs available in the Windows Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
+        BackgroundColor="#3750D1"
+        Square150x150Logo="Images\UWPCommunityToolkitSampleAppMedTile.png"
+        Square44x44Logo="Images\UWPCommunityToolkitSampleAppAppList.png">
+        <uap:LockScreen Notification="badge" BadgeLogo="Images\UWPCommunityToolkitSampleAppBadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="Images\UWPCommunityToolkitSampleAppWideTile.png" Square310x310Logo="Images\UWPCommunityToolkitSampleAppLargeTile.png" Square71x71Logo="Images\UWPCommunityToolkitSampleAppSmallTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Images\UWPCommunityToolkitSampleAppSplashScreen.png" BackgroundColor="#3750D1"/>
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="uwpct">
+            <uap:DisplayName>Windows Community Toolkit</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <!--<Extension Category="windows.backgroundTasks" EntryPoint="CommunityToolkit.WinUI.Samples.BackgroundTasks.TestBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>-->
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
+    <uap3:Capability Name="remoteSystem" />
+    <rescap:Capability Name="runFullTrust" />
+    <DeviceCapability Name="location" />
+    <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="gazeInput" />
+  </Capabilities>
+</Package>

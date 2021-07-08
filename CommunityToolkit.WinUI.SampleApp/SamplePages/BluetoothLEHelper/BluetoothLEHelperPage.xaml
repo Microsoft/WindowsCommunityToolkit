@@ -1,0 +1,81 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.BluetoothLEHelperPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:connectivity="using:CommunityToolkit.WinUI.Connectivity"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <RelativePanel>
+        <Button x:Name="BtEnumeration"
+                Margin="10"
+                Click="Enumeration_Click"
+                Content="Start enumeration" />
+        <ListView x:Name="LVDevices"
+                    Height="200"
+                    Margin="10"
+                    VerticalAlignment="Top"
+                    ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="BtEnumeration"
+                    SelectionChanged="LVDevices_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableBluetoothLEDevice">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Name="SPDevice"
+                    Margin="10"
+                    RelativePanel.Below="LVDevices">
+            <TextBlock x:Name="TbDeviceName"
+                        Text="" />
+            <TextBlock x:Name="TbDeviceBtAddr"
+                        Text="" />
+        </StackPanel>
+
+        <ComboBox x:Name="CBServices"
+                    Margin="10"
+                    RelativePanel.Below="SPDevice"
+                    SelectionChanged="CBServices_SelectionChanged"
+                    Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableGattDeviceService">
+                    <TextBlock>
+                        <Run Text="Service Name: " />
+                        <Run Text="{x:Bind Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox x:Name="CBCharacteristic"
+                    Margin="10"
+                    RelativePanel.Below="CBServices"
+                    SelectionChanged="CBCharacteristic_SelectionChanged"
+                    Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableGattCharacteristics">
+                    <TextBlock>
+                        <Run Text="Characteristic Name: " />
+                        <Run Text="{x:Bind Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button x:Name="BtReadCharValue"
+                Margin="10"
+                Click="ReadCharValue_Click"
+                Content="Read Value"
+                RelativePanel.Below="CBCharacteristic"
+                Visibility="Collapsed" />
+
+        <TextBlock x:Name="TBCharValue"
+                    Margin="10"
+                    RelativePanel.Below="BtReadCharValue" />
+    </RelativePanel>
+</Page>

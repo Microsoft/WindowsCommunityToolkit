@@ -1,0 +1,7 @@
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Rotate can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using CommunityToolkit.WinUI.UI.Animations;
+
+await AnimationBuilder.Create().RotationInDegrees(to: 90, duration: TimeSpan.FromSeconds(3)).StartAsync(ToolkitLogo);

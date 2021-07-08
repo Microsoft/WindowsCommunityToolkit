@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -25,7 +25,7 @@ namespace UITests.Tests
         [TestProperty("Platform", "Any")]
         public static void ClassInitialize(TestContext testContext)
         {
-            TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
+            TestEnvironment.Initialize(testContext, UITestsAppSampleApp);
         }
 
         [TestMethod]

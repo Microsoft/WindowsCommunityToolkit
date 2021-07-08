@@ -1,0 +1,89 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
+      xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages"
+      mc:Ignorable="d">
+  <Page.Resources>
+    <local:NameToColorConverter x:Key="NameToColorConverter"/>
+
+    <DataTemplate x:Key="EmailTokenTemplate">
+      <StackPanel Orientation="Horizontal">
+        <Border CornerRadius="9999" Background="{Binding DisplayName, Converter={StaticResource NameToColorConverter}}"
+                Width="20" Height="20">
+          <TextBlock Text="{Binding Initials}" Foreground="White"
+                     FontSize="10"
+                     FontWeight="Semibold"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
+      </StackPanel>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid Margin="40,40,40,40">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <TextBlock FontSize="32" Text="Select Actions"
+                 Margin="0,0,0,4"/>
+      <controls:TokenizingTextBox
+          x:Name="TokenBox"
+          PlaceholderText="Add Actions"
+          QueryIcon="{ui:SymbolIconSource Symbol=Setting}"
+          MaxHeight="104"
+          HorizontalAlignment="Stretch"
+          TextMemberPath="Text"
+          TokenDelimiter=",">
+        <controls:TokenizingTextBox.SuggestedItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.SuggestedItemTemplate>
+        <controls:TokenizingTextBox.TokenItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.TokenItemTemplate>
+      </controls:TokenizingTextBox>
+      <TextBlock Margin="0,4,0,0">
+        <Run>Current Edit: </Run>
+        <Run Text="{Binding Text, ElementName=TokenBox}"/>
+      </TextBlock>
+      <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=TokenBox}"/>
+    </StackPanel>
+
+    <StackPanel Grid.Row="1">
+      <TextBlock FontSize="32" Text="Select Email Addresses"
+                 Margin="0,0,0,4"/>
+      <controls:TokenizingTextBox
+            x:Name="TokenBoxEmail"
+            PlaceholderText="Select Names"
+            MaxHeight="104"
+            HorizontalAlignment="Stretch"
+            QueryIcon="{ui:SymbolIconSource Symbol=Find}"
+            TextMemberPath="Text"
+            TokenDelimiter=","
+            IsItemClickEnabled="True"
+            TokenItemTemplate="{StaticResource EmailTokenTemplate}">
+      </controls:TokenizingTextBox>
+
+      <Border BorderThickness="1,0,1,1" BorderBrush="{ThemeResource TextControlBorderBrush}">
+        <ListView x:Name="EmailList" Height="200" IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource EmailTokenTemplate}">
+        </ListView>
+      </Border>
+    </StackPanel>
+  </Grid>
+</Page>

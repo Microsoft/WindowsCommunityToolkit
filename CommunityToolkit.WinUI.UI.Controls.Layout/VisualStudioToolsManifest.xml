@@ -1,0 +1,19 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Layout.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.BladeItem" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.BladeView" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Carousel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.CarouselPanel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Expander" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.GridSplitter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.HeaderedContentControl" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.HeaderedItemsControl" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.LayoutTransformControl" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ListDetailsView" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.OrbitView" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.OrbitViewItem" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.OrbitViewPanel" />
+    </ToolboxItems>
+  </File>
+</FileList>

@@ -3,12 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Devices.Input;
 using Windows.Foundation;
-using Windows.UI;
+using Color = Windows.UI.Color;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

@@ -1,0 +1,20 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Core.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.CameraPreview" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DropShadowPanel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ImageEx" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ImageExBase" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.InAppNotification" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Loading" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Menu" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.MenuItem" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.RadialProgressBar" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.RotatorTile" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ScrollHeader" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.TabbedCommandBar" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.TextToolbar" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.TileControl" />
+    </ToolboxItems>
+  </File>
+</FileList>

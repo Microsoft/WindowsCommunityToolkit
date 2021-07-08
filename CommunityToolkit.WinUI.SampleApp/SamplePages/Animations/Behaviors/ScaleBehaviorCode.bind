@@ -1,0 +1,7 @@
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Scale can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using CommunityToolkit.WinUI.UI.Animations;
+
+await AnimationBuilder.Create().Scale(to: new Vector2(1.4f), duration: TimeSpan.FromSeconds(3)).StartAsync(ToolkitLogo);

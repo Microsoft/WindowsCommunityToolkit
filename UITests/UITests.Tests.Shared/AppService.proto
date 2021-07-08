@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "UITests.App.Protos";
+
+package UITestsAppService;
+
+service AppService {
+  rpc OpenPage (OpenPageRequest) returns (OpenPageReply);
+  rpc SubscribeLog (SubscribeLogRequest) returns (stream LogUpdate);
+}
+
+message OpenPageRequest {
+	string pageName = 1;
+}
+
+message OpenPageReply {
+	string status = 1;
+}
+
+message SubscribeLogRequest {
+}
+
+message LogUpdate {
+  string level = 1;
+  string message = 2;
+}

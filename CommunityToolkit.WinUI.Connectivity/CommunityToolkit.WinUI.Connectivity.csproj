@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <Title>Windows Community Toolkit Devices</Title>
+    <Description>This library enables easier consumption of connectivity Devices/Peripherals and handle its connection to Windows devices. It contains BluetoothLE and Network connectivity helpers.</Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Devices;Bluetooth;LE;BluetoothLE;BLE;Networking</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj" />
+  </ItemGroup>
+
+</Project>

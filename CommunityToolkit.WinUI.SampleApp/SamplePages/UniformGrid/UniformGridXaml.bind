@@ -1,0 +1,29 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <controls:UniformGrid
+        FirstColumn="@[FirstColumn:Slider:1:0-3]"
+        Orientation="@[Orientation:Enum:Orientation.Horizontal]"
+        Rows="@[Rows:Slider:0:0-5]"
+        Columns="@[Columns:Slider:0:0-5]">
+    <Border Background="AliceBlue"
+            Grid.Row="1" Grid.Column="1"
+            Grid.RowSpan="@[Item 1 RowSpan:Slider:2:1-3]"
+            Grid.ColumnSpan="@[Item 1 ColumnSpan:Slider:2:1-3]"><TextBlock Text="1"/></Border>
+    <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
+    <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>
+    <Border Background="Gainsboro"><TextBlock Text="4"/></Border>
+    <Border Background="LightBlue"><TextBlock Text="5"/></Border>
+    <Border Background="MediumAquamarine"><TextBlock Text="6"/></Border>
+    <Border Background="MistyRose"><TextBlock Text="7"/></Border>
+    <Border Background="LightCyan"><TextBlock Text="8"/></Border>
+    <Border Background="Salmon"><TextBlock Text="9"/></Border>
+    <Border Background="Goldenrod"><TextBlock Text="10"/></Border>
+    <Border Background="Pink"><TextBlock Text="11"/></Border>
+  </controls:UniformGrid>
+</Page>

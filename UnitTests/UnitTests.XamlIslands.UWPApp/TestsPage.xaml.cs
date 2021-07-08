@@ -7,13 +7,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.UI.Dispatching;
+using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.System;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
+using CommunityToolkit.WinUI.Extensions;
+using Color = Windows.UI.Color;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

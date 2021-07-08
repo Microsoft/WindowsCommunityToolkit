@@ -1,8 +1,0 @@
-<FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.DeveloperTools.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Uwp.DeveloperTools.AlignmentGrid" />
-      <Item Type="Microsoft.Toolkit.Uwp.DeveloperTools.FocusTracker" />
-    </ToolboxItems>
-  </File>
-</FileList>

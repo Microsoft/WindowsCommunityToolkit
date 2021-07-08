@@ -7,11 +7,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Dispatching;
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.System;
-using Microsoft.Toolkit.Uwp;
 
 namespace UnitTests.Extensions
 {

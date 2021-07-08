@@ -1,0 +1,54 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
+  </Page.Resources>
+
+  <Grid>
+    <ScrollViewer>
+      <StackPanel Margin="20">
+        <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"
+                           Header="This is the header - expander 1"
+                           HorizontalContentAlignment="Stretch"
+                           IsExpanded="@[IsExpanded1:Bool:False]@"
+                           ExpandDirection="@[ExpandDirection1:Enum:ExpandDirection.Down]">
+          <Grid>
+            <TextBlock HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Text="This is the expanded content"
+                       VerticalAlignment="Center" />
+          </Grid>
+
+          <controls:Expander.ContentOverlay>
+            <Grid Height="120">
+              <TextBlock Text="This is the content overlay"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Grid>
+          </controls:Expander.ContentOverlay>
+        </controls:Expander>
+
+        <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0"
+                           Header="This is the header - expander 2"
+                           HorizontalContentAlignment="Stretch"
+                           IsExpanded="@[IsExpanded2:Bool:True]@"
+                           ExpandDirection="@[ExpandDirection2:Enum:ExpandDirection.Right]">
+          <Grid Height="256"
+                Background="{ThemeResource SystemControlBackgroundBaseHighBrush}">
+            <TextBlock HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Text="This is the expanded content without a content overlay"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource SystemControlForegroundChromeLowBrush}" />
+          </Grid>
+        </controls:Expander>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>

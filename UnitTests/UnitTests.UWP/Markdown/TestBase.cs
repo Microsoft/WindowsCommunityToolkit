@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace UnitTests.Markdown
 {

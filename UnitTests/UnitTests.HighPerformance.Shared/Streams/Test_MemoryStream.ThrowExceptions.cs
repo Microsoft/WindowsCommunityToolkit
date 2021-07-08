@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.Toolkit.HighPerformance;
+using CommunityToolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Streams

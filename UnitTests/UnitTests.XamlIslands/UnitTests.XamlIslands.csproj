@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -6,13 +6,16 @@
     <Platforms>x64;x86</Platforms>
     <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
+    <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
+    <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
+    <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>

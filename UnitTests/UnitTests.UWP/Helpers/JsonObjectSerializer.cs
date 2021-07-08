@@ -4,7 +4,7 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Newtonsoft.Json;
 
 namespace UnitTests.UWP.Helpers

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <Title>Windows Community Toolkit Developer Tools</Title>
+    <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
+
+      -AligmentGrid : Displays a Grid that helps align the controls.
+      -FocusTrackerControl : The FocusTracker Control is a feature that can be used to display information about the current focused XAML element.
+      -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
+    </Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Developer;Tools;Accessibility;Alignment;Grid;AlignmentGrid</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+</Project>

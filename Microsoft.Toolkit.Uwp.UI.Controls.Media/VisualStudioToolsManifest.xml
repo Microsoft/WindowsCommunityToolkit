@@ -1,9 +1,0 @@
-<FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Media.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Eyedropper" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageCropper" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InfiniteCanvas" />
-    </ToolboxItems>
-  </File>
-</FileList>

@@ -5,8 +5,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
+using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance
@@ -762,7 +762,7 @@ namespace UnitTests.HighPerformance
 
             string text = span2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<System.Int32>[2, 3]";
+            const string expected = "CommunityToolkit.HighPerformance.ReadOnlySpan2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

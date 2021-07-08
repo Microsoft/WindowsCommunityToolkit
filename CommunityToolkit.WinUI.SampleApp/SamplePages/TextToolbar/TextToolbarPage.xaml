@@ -1,0 +1,44 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.TextToolbarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+      xmlns:markDown="using:CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.MarkDown"
+      xmlns:richText="using:CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.RichText"
+      xmlns:textToolbarSamples="using:CommunityToolkit.WinUI.SampleApp.SamplePages.TextToolbarSamples"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:TypeToObjectConverter x:Key="IsMarkdownFormatter"
+                                                 Type="markDown:MarkDownFormatter">
+            <converters:TypeToObjectConverter.TrueValue>
+                <Visibility>Visible</Visibility>
+            </converters:TypeToObjectConverter.TrueValue>
+            <converters:TypeToObjectConverter.FalseValue>
+                <Visibility>Collapsed</Visibility>
+            </converters:TypeToObjectConverter.FalseValue>
+        </converters:TypeToObjectConverter>
+    </Page.Resources>
+
+    <Grid>
+        <controls:TextToolbar>
+            <controls:TextToolbar.Formatter>
+                <richText:RichTextFormatter />
+            </controls:TextToolbar.Formatter>
+        </controls:TextToolbar>
+        <controls:TextToolbar>
+            <controls:TextToolbar.Formatter>
+                <markDown:MarkDownFormatter />
+            </controls:TextToolbar.Formatter>
+        </controls:TextToolbar>
+        <controls:TextToolbar>
+            <controls:TextToolbar.Formatter>
+                <textToolbarSamples:SampleFormatter />
+            </controls:TextToolbar.Formatter>
+        </controls:TextToolbar>
+        <RichEditBox />
+        <controls:MarkdownTextBlock />
+    </Grid>
+</Page>

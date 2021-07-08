@@ -1,0 +1,82 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:common="using:CommunityToolkit.WinUI.SampleApp.Common"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+      xmlns:markDown="using:CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.MarkDown"
+      xmlns:richText="using:CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.RichText"
+      xmlns:textToolbarSamples="using:CommunityToolkit.WinUI.SampleApp.SamplePages.TextToolbarSamples"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+  <Page.Resources>
+    <converters:TypeToObjectConverter x:Key="IsMarkdownFormatter"
+                                                 Type="markDown:MarkDownFormatter">
+            <converters:TypeToObjectConverter.TrueValue>
+                <Visibility>Visible</Visibility>
+            </converters:TypeToObjectConverter.TrueValue>
+            <converters:TypeToObjectConverter.FalseValue>
+                <Visibility>Collapsed</Visibility>
+            </converters:TypeToObjectConverter.FalseValue>
+        </converters:TypeToObjectConverter>
+  </Page.Resources>
+
+  <Grid x:Name="MainGrid"
+        Margin="12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <controls:TextToolbar x:Name="Toolbar"
+                          Editor="{Binding ElementName=EditZone}"
+                          IsEnabled="@[IsEnabled:Bool:True]"
+                          UseURIChecker="@[UseURIChecker:Bool:True]"
+                          Background="#4C4F4F4F">
+      <controls:TextToolbar.Formatter>
+        <!-- Choose one -->
+        <richText:RichTextFormatter />
+        <!--<markDown:MarkDownFormatter />-->
+        <!--<textToolbarSamples:SampleFormatter />-->
+      </controls:TextToolbar.Formatter>
+    </controls:TextToolbar>
+
+    <ScrollViewer Grid.Row="1">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <RichEditBox x:Name="EditZone"
+                     PlaceholderText="Enter Text Here"
+                     TextWrapping="Wrap"
+                     TextChanged="EditZone_TextChanged"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300"
+                     Padding="10,3"
+                     BorderThickness="1"
+                     BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                     Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                     SelectionFlyout="{x:Null}"/>
+        <Grid x:Name="MD"
+              Grid.Row="1"
+              Margin="0, 16"
+              Visibility="{Binding Formatter, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsMarkdownFormatter}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <TextBlock Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                     Style="{StaticResource SubtitleTextBlockStyle}"
+                     Text="MarkDown Preview" />
+          <controls:MarkdownTextBlock x:Name="Previewer"
+                                      Grid.Row="1"
+                                      Margin="0, 4, 0, 0"
+                                      Canvas.ZIndex="99"
+                                      Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                                      ScrollViewer.IsVerticalRailEnabled="False" />
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+  </Grid>
+</Page>

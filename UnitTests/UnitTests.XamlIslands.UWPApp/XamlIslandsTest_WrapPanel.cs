@@ -4,11 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -24,7 +24,7 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 var xamlItemsPanelTemplate = @"<ItemsPanelTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
-                                                 xmlns:controls='using:Microsoft.Toolkit.Uwp.UI.Controls'>
+                                                 xmlns:controls='using:CommunityToolkit.WinUI.UI.Controls'>
                       <controls:WrapPanel Padding='0,0,0,0'
                                           VerticalSpacing='5'
                                           HorizontalSpacing='5' />

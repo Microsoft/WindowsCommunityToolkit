@@ -1,0 +1,97 @@
+<!-- Frame -->
+
+<Page ...
+  xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations">
+
+  <!-- Page 1 -->
+    <Grid>
+      <Border Height="100"
+        Width="100"
+        Background="Purple"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
+        animations:Connected.Key="item"></Border>
+    </Grid>
+  <!-- /Page -->
+
+
+  <!-- Page 2 -->
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+      </Grid.RowDefinitions>
+
+      <StackPanel Orientation="Horizontal">
+
+        <Border x:Name="HeroElement"
+          Height="300"
+          Width="300"
+          Background="Purple"
+          animations:Connected.Key="item"></Border>
+
+        <StackPanel x:Name="HeroDetailsElement"
+          Margin="20,0"
+          VerticalAlignment="Bottom"
+          MaxWidth="500"
+          animations:Connected.AnchorElement="{x:Bind HeroElement}">
+
+          <TextBlock Text="Header" FontSize="50"/>
+          <TextBlock TextWrapping="WrapWholeWords" Text="Lorem ipsum ..."/>
+        </StackPanel>
+
+      </StackPanel>
+
+      <GridView x:Name="listView"
+        Margin="0, 40, 0, 0"
+        SelectionMode="None"
+        Grid.Row="1"
+        ItemClick="ListView_ItemClick"
+        IsItemClickEnabled="True"
+        animations:Connected.ListItemElementName="ItemThumbnail"
+        animations:Connected.ListItemKey="listItem">
+        <GridView.ItemTemplate>
+          <DataTemplate x:DataType="data:PhotoDataItem">
+            <Grid Height="200" Width="200">
+              <Image x:Name="ItemThumbnail" Source="{x:Bind Thumbnail}" Stretch="UniformToFill"/>
+              <Border Background="#99FFFFFF" VerticalAlignment="Bottom" Padding="5">
+                <TextBlock Text="{x:Bind Title}" FontSize="14"/>
+              </Border>
+            </Grid>
+          </DataTemplate>
+        </GridView.ItemTemplate>
+      </GridView>
+
+    </Grid>
+  <!-- /Page -->
+
+
+  <!-- Page 3-->
+    <StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+        <StackPanel x:Name="HeroDetailsElement"
+          Margin="20,0"
+          VerticalAlignment="Bottom"
+          MaxWidth="500"
+          animations:Connected.AnchorElement="{x:Bind ItemHeroElement}">
+
+          <TextBlock Text="{x:Bind item.Title}"
+            FontSize="50"/>
+
+          <TextBlock TextWrapping="WrapWholeWords" Text="Lorem ipsum ..."/>
+
+        </StackPanel>
+
+        <Image x:Name="ItemHeroElement"
+                Height="300" Width="300"
+                Source="{x:Bind item.Thumbnail}"
+                animations:Connected.Key="listItem"/>
+      </StackPanel>
+
+      <TextBlock Margin="0,40"
+        TextWrapping="WrapWholeWords" Text="Lorem Ipsum ..."/>
+    </StackPanel>
+  <!-- /Page -->
+
+<!-- /Frame -->

@@ -1,0 +1,135 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
+  </Page.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- Example 1 -->
+    <StackPanel Grid.Row="0"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                   VerticalAlignment="Center">
+          Box-shaped spectrum <LineBreak />
+          Alpha channel disabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton1"
+                                  SelectedColor="Navy">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Box"/>
+            <Setter Property="IsAlphaEnabled" Value="False"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
+    </StackPanel>
+    <!-- Example 2 -->
+    <StackPanel Grid.Row="1"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Box-shaped spectrum <LineBreak />
+          Alpha channel enabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton2"
+                                  SelectedColor="Green">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Box"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="False"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
+    </StackPanel>
+    <!-- Example 3 -->
+    <StackPanel Grid.Row="2"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton3"
+                                  SelectedColor="Transparent">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Ring"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
+    </StackPanel>
+    <!-- Example 4 -->
+    <StackPanel Grid.Row="3"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled <LineBreak />
+          Saturation+Value spectrum channels
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton4"
+                                  SelectedColor="Maroon">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Ring"/>
+            <Setter Property="ColorSpectrumComponents" Value="SaturationValue"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
+    </StackPanel>
+  </Grid>
+</Page>

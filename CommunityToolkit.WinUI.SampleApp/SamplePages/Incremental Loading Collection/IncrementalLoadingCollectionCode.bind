@@ -1,0 +1,49 @@
+// Defines a data source whose data can be loaded incrementally.
+using CommunityToolkit.WinUI;
+
+public class Person
+{
+    public string Name { get; set; }
+}
+
+public class PeopleSource : IIncrementalSource<Person>
+{
+    private readonly List<Person> _people;
+
+    public PeopleSource()
+    {
+        // Creates an example collection.
+        _people = new List<Person>();
+
+        for (int i = 1; i <= 200; i++)
+        {
+            var p = new Person { Name = "Person " + i };
+            _people.Add(p);
+        }
+    }
+
+    public async Task<IEnumerable<Person>> GetPagedItemsAsync(int pageIndex, int pageSize)
+    {
+        // Gets items from the collection according to pageIndex and pageSize parameters.
+        var result = (from p in _people
+                      select p).Skip(pageIndex * pageSize).Take(pageSize);
+
+        // Simulates a longer request...
+        await Task.Delay(1000);
+
+        return result;
+    }
+}
+
+// IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
+
+var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
+
+PeopleListView.ItemsSource = collection;
+
+// Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
+DataContext = collection;
+
+// XAML UI Element
+<TextBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+<TextBlock Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />

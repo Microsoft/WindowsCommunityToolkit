@@ -10,7 +10,7 @@
     <AssemblyName>UnitTests.HighPerformance.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -161,9 +161,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
       <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>Microsoft.Toolkit.HighPerformance</Name>
+      <Name>CommunityToolkit.HighPerformance</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />

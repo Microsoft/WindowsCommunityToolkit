@@ -5,10 +5,17 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using System.Threading;
 using System.Threading.Tasks;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using Microsoft.Windows.Apps.Test.Foundation.Controls;
+using UITests.App.Protos;
+using Windows.Foundation.Collections;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -24,16 +31,20 @@ namespace UITests.Tests
     {
         private TestSetupHelper helper;
 
-        internal static TestApplicationInfo WinUICsUWPSampleApp
+        internal static TestApplicationInfo UITestsAppSampleApp
         {
             get
             {
                 string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
+                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App.Package");
 
                 Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
 
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+#if USING_TAEF
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string installerName = "UITests.App";
+#else
+                var exclude = new[] { "Microsoft.ProjectReunion", "Microsoft.VCLibs" };
                 var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
 
                 if (files.Count() == 0)
@@ -55,13 +66,18 @@ namespace UITests.Tests
                     }
                 }
 
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string installerName = mostRecentlyBuiltPackage.Replace(".msix", string.Empty);
+#endif
+
                 return new TestApplicationInfo(
                     testAppPackageName: "UITests.App",
-                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
+                    testAppName: testAppName,
                     testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
                     testAppMainWindowTitle: "UITests.App",
                     processName: "UITests.App.exe",
-                    installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
+                    installerName: installerName,
+                    isUwpApp: false,
                     certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
                     baseAppxDir: baseDirectory);
             }

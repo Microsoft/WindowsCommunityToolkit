@@ -1,0 +1,34 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.ObjectStoragePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBox x:Name="KeyTextBox"
+                     Margin="0,10,0,0"
+                     PlaceholderText="Key" />
+
+            <TextBox x:Name="ContentTextBox"
+                     Margin="0,10,0,0"
+                     PlaceholderText="Content to save" />
+
+            <StackPanel Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button x:Name="ReadButton"
+                        Margin="5,0"
+                        HorizontalAlignment="Center"
+                        Click="ReadButton_Click"
+                        Content="Read from key" />
+                <Button x:Name="SaveButton"
+                        Margin="5,0"
+                        HorizontalAlignment="Center"
+                        Click="SaveButton_Click"
+                        Content="Save" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

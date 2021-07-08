@@ -1,0 +1,301 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+<#@include file="TypeInfo.ttinclude" #>
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+namespace CommunityToolkit.Diagnostics
+{
+    /// <summary>
+    /// Helper methods to verify conditions when running code.
+    /// </summary>
+    public static partial class Guard
+    {
+<#
+GenerateTextForItems(EnumerableTypes, item =>
+{
+#>
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> == 0)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(<#=item.Cast#><#=item.Name#>, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> != 0)
+            {
+                return;
+            }
+
+<#
+    if (item.Type == "Span<T>")
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
+<#
+    }
+    else if (item.Type == "ReadOnlySpan<T>")
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
+<#
+    }
+    else
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<<#=item.Type#>>(name);
+<#
+    }
+#>
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size of a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is != <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> == size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size not equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is == <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeNotEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> != size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size over a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> > size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size of at least or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is &lt; <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> >= size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size of less than a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is >= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> < size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <#=item.XmlType#> instance must have a size of less than or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is > <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        {
+            if (<#=item.Name#>.<#=item.Size#> <= size)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the source <#=item.XmlType#> instance must have the same size of a destination <#=item.XmlType#> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="source">The source <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="destination">The destination <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
+        {
+            if (source.<#=item.Size#> == destination.<#=item.Size#>)
+            {
+                return;
+            }
+
+<#
+    if (item.HasCountProperty)
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
+<#
+    }
+    else
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, <#=item.Cast#>destination, name);
+<#
+    }
+#>
+        }
+
+        /// <summary>
+        /// Asserts that the source <#=item.XmlType#> instance must have a size of less than or equal to that of a destination <#=item.XmlType#> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="source">The source <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="destination">The destination <#=item.XmlType#> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
+        {
+            if (source.<#=item.Size#> <= destination.<#=item.Size#>)
+            {
+                return;
+            }
+
+<#
+    if (item.HasCountProperty)
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
+<#
+    }
+    else
+    {
+#>
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, <#=item.Cast#>destination, name);
+<#
+    }
+#>
+        }
+
+        /// <summary>
+        /// Asserts that the input index is valid for a given <#=item.XmlType#> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="<#=item.Name#>"/>.</param>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is not valid to access <paramref name="<#=item.Name#>"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+        {
+<#
+    // Here we're leveraging the fact that signed integers are represented
+    // in 2-complement to perform the bounds check with a single compare operation.
+    // This is the same trick used throughout CoreCLR as well.
+    // For more info and code sample, see the original conversation here:
+    // https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835
+#>
+            if ((uint)index < (uint)<#=item.Name#>.<#=item.Size#>)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <#=item.XmlType#> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="<#=item.Name#>"/>.</param>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="<#=item.Name#>"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+        {
+            if ((uint)index >= (uint)<#=item.Name#>.<#=item.Size#>)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
+        }
+<#
+});
+#>
+    }
+}

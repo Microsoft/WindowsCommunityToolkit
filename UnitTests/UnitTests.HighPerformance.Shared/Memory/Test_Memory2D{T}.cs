@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 #if !WINDOWS_UWP
 using System.Runtime.CompilerServices;
 #endif
-using Microsoft.Toolkit.HighPerformance;
+using CommunityToolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance
@@ -535,7 +535,7 @@ namespace UnitTests.HighPerformance
             // Here we just want to verify that the type is nicely printed as expected, along with the size
             string text = memory2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory2D<System.Int32>[2, 3]";
+            const string expected = "CommunityToolkit.HighPerformance.Memory2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

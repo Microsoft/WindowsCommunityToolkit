@@ -1,0 +1,14 @@
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Saturation can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using CommunityToolkit.WinUI.UI.Animations;
+
+// Create and attacha a sprite visual with an animatable blur effect
+var sprite = await PipelineBuilder
+    .FromBackdrop()
+    .Saturation(0, out EffectAnimation<float> saturationAnimation)
+    .AttachAsync(ToolkitLogo, ToolkitLogo);
+
+// Start the animation on the applied brush
+saturationAnimation(sprite.Brush, 1, TimeSpan.FromSeconds(3));

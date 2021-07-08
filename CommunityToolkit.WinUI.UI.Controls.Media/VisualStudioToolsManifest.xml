@@ -1,0 +1,9 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Media.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Eyedropper" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ImageCropper" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.InfiniteCanvas" />
+    </ToolboxItems>
+  </File>
+</FileList>

@@ -1,0 +1,7 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.DataGrid.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGrid" />
+    </ToolboxItems>
+  </File>
+</FileList>

@@ -1,7 +1,0 @@
-<FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" />
-    </ToolboxItems>
-  </File>
-</FileList>

@@ -1,8 +1,8 @@
-#module nuget:?package=Cake.LongPath.Module&version=0.7.0
+#module nuget:?package=Cake.LongPath.Module&version=1.0.1
 
-#addin nuget:?package=Cake.FileHelpers&version=3.2.1
-#addin nuget:?package=Cake.Powershell&version=0.4.8
-#addin nuget:?package=Cake.GitVersioning&version=3.3.37
+#addin nuget:?package=Cake.FileHelpers&version=4.0.1
+#addin nuget:?package=Cake.Powershell&version=1.0.0
+#addin nuget:?package=Cake.GitVersioning&version=3.4.190
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0
 #tool nuget:?package=vswhere&version=2.8.4
@@ -35,7 +35,7 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp3.1/win10-x86";
+var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/net5.0-windows10.0.19041/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -63,7 +63,7 @@ void VerifyHeaders(bool Replace)
     var files = GetFiles(baseDir + "/**/*.cs", new GlobberSettings { Predicate = exclude_objDir }).Where(file =>
     {
         var path = file.ToString();
-        return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
+        return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile") || System.IO.Path.GetFullPath(path).Contains("Generated Files"));
     });
 
     Information("\nChecking " + files.Count() + " file header(s)");
@@ -94,7 +94,7 @@ void VerifyHeaders(bool Replace)
 
     if(!Replace && hasMissing)
     {
-        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -target=UpdateHeaders' and commit the changes.");
+        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 --target=UpdateHeaders' and commit the changes.");
     }
 }
 
@@ -103,6 +103,19 @@ void RetrieveVersion()
     Information("\nRetrieving version...");
     Version = GitVersioningGetVersion().NuGetPackageVersion;
     Information("\nBuild Version: " + Version);
+}
+
+void UpdateToolsPath(MSBuildSettings buildSettings)
+{
+    // Workaround for https://github.com/cake-build/cake/issues/2128
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = false });
+
+	if (vsInstallation != null)
+	{
+		buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\Current\Bin\MSBuild.exe");
+		if (!FileExists(buildSettings.ToolPath))
+			buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\15.0\Bin\MSBuild.exe");
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -146,17 +159,22 @@ Task("BuildProjects")
     .IsDependentOn("Version")
     .Does(() =>
 {
-    Information("\nBuilding Solution");
+    EnsureDirectoryExists(nupkgDir);
+
+    Information("\nRestoring Solution Dependencies");
+
     var buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
     .WithTarget("Restore");
+	
+    UpdateToolsPath(buildSettings);
 
     MSBuild(Solution, buildSettings);
 
-    EnsureDirectoryExists(nupkgDir);
+    Information("\nBuilding Solution");
 
     // Build once with normal dependency ordering
     buildSettings = new MSBuildSettings
@@ -164,8 +182,10 @@ Task("BuildProjects")
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
-    .WithTarget("Build")
-    .WithProperty("GenerateLibraryLayout", "true");
+    .EnableBinaryLogger()
+    .WithTarget("Build");
+
+    UpdateToolsPath(buildSettings);
 
     MSBuild(Solution, buildSettings);
 });
@@ -183,7 +203,7 @@ Task("InheritDoc")
     };
 
     NuGetInstall(new []{"InheritDoc"}, installSettings);
-
+    
     var args = new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("-b", baseDir)
                 .AppendSwitch("-o", "")
@@ -215,8 +235,9 @@ Task("Package")
     }
     .SetConfiguration("Release")
     .WithTarget("Pack")
-    .WithProperty("GenerateLibraryLayout", "true")
     .WithProperty("PackageOutputPath", nupkgDir);
+
+    UpdateToolsPath(buildSettings);
 
     MSBuild(Solution, buildSettings);
 });
@@ -259,7 +280,7 @@ Task("Test")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
@@ -267,9 +288,11 @@ Task("Test")
 }).DeferOnError();
 
 Task("UITest")
-    .Description("Runs all UI Tests")
-    .DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+	.Description("Runs all UI Tests")
+    .Does(() =>
 {
+    var file = GetFiles(taefBinDir + "/UITests.Tests.TAEF.dll").FirstOrDefault();
+
     Information("\nRunning TAEF Interaction Tests");
 
     var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError /enableWttLogging /logFile:UITestResults.wtl");
@@ -306,7 +329,7 @@ Task("MSTestUITest")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);
@@ -319,7 +342,7 @@ Task("MSTestUITest")
 
 Task("Default")
     .IsDependentOn("Build")
-    .IsDependentOn("Test")
+    //.IsDependentOn("Test")
     .IsDependentOn("UITest")
     .IsDependentOn("Package");
 

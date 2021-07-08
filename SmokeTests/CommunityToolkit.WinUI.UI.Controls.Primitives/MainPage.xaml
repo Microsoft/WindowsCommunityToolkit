@@ -1,0 +1,23 @@
+<Page
+    x:Class="SmokeTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Padding="48">
+      <controls:DockPanel
+        Background="LightGray"
+        LastChildFill="False"
+        Margin="2"
+        Padding="0,0,0,0"
+        >
+        <StackPanel Height="100" controls:DockPanel.Dock="Top" Background="Black"></StackPanel>
+        <StackPanel Width="100" controls:DockPanel.Dock="Left" Background="Red"></StackPanel>
+        <StackPanel Height="100" controls:DockPanel.Dock="Bottom" Background="Green"></StackPanel>
+        <StackPanel Width="100" controls:DockPanel.Dock="Right" Background="Blue"></StackPanel>
+      </controls:DockPanel>
+    </Grid>
+</Page>

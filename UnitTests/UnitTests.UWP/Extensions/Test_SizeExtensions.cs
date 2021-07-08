@@ -4,7 +4,7 @@
 
 using Windows.Foundation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 
 namespace UnitTests.Extensions
 {

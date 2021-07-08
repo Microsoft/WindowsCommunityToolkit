@@ -1,0 +1,136 @@
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
+    <VisualStudioVersion>15.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|arm64">
+      <Configuration>Debug</Configuration>
+      <Platform>arm64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|arm64">
+      <Configuration>Release</Configuration>
+      <Platform>arm64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup>
+    <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
+    <PathToXAMLWinRTImplementations>CommunityToolkit.WinUI.SampleApp\</PathToXAMLWinRTImplementations>
+  </PropertyGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
+  <PropertyGroup>
+    <ProjectGuid>c1216b01-7c56-48c2-b1ad-50d9dabac37b</ProjectGuid>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <EntryPointProjectUniqueName>..\CommunityToolkit.WinUI.SampleApp\CommunityToolkit.WinUI.SampleApp.csproj</EntryPointProjectUniqueName>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.SampleApp\CommunityToolkit.WinUI.SampleApp.csproj">
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-16.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-16_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-20.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-20_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-24.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-24_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-256.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-256_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-30.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-30_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-32.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-32_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-36.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-36_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-40.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-40_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-48.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-48_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-60.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-60_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-64.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-64_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-72.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-72_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-80.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-80_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-96.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppAppList.targetsize-96_altform-unplated.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppLargeTile.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppLargeTile.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppLargeTile.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppLargeTile.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppLargeTile.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppMedTile.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppMedTile.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppMedTile.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppMedTile.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppMedTile.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSmallTile.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSmallTile.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSmallTile.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSmallTile.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSmallTile.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSplashScreen.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSplashScreen.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSplashScreen.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSplashScreen.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppWideTile.scale-100.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppWideTile.scale-125.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppWideTile.scale-150.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppWideTile.scale-200.png" />
+    <Content Include="Images\UWPCommunityToolkitSampleAppWideTile.scale-400.png" />
+    <Content Include="Images\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="[0.8.0]">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="[0.8.0]">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+</Project>

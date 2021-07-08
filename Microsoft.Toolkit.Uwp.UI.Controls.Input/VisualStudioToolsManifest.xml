@@ -1,8 +1,0 @@
-<FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Input.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
-    </ToolboxItems>
-  </File>
-</FileList>

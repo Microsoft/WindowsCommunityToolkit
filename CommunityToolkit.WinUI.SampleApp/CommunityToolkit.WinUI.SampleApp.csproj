@@ -1,0 +1,184 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+
+    <RootNamespace>CommunityToolkit.WinUI.SampleApp</RootNamespace>
+
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    
+    <UseWinUI>true</UseWinUI>
+    
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    
+    <LangVersion>8.0</LangVersion>
+    <NoWarn>$(NoWarn);CS0108</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="Microsoft.Services.Store.Engagement">
+      <Version>10.1901.28001</Version>
+    </PackageReference>-->
+    <!-- TODO Reintroduce graph controls
+    <PackageReference Include="CommunityToolkit.Common.Graph.Controls">
+      <Version>8.0.0-preview4</Version>
+    </PackageReference>
+    -->
+    <PackageReference Include="Monaco.Editor">
+      <Version>0.10.0-alpha</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
+      <Version>2.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="NotificationsVisualizerLibrary.WinUI">
+      <Version>2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="$(MicrosoftProjectReunionVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="landingPageLinks.json" />
+    <Content Include="Assets\mtns.csv" />
+    <Content Include="**\*.png" />
+    <Content Remove="bin\**\*.png" />
+    <None Include=".editorconfig" />
+    <Content Include="Assets\Photos\Photos.json" />
+    <Content Include="Assets\Photos\OnlinePhotos.json" />
+    <Content Include="SamplePages\samples.json" />
+    <None Include="readme.md" />
+    <Content Include="SamplePages\**\*.bind" />
+    <Content Include="SamplePages\**\*.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
+      <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
+      <Name>CommunityToolkit.WinUI.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj">
+      <Project>{5bf75694-798a-43a0-8150-415de195359c}</Project>
+      <Name>CommunityToolkit.WinUI.Input.GazeInteraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.DeveloperTools\CommunityToolkit.WinUI.DeveloperTools.csproj">
+      <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
+      <Name>CommunityToolkit.WinUI.DeveloperTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj">
+      <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
+      <Name>CommunityToolkit.WinUI.Notifications</Name>
+    </ProjectReference>
+    <!--<ProjectReference Include="..\CommunityToolkit.WinUI.Samples.BackgroundTasks\CommunityToolkit.WinUI.Samples.BackgroundTasks.csproj">
+      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
+      <Name>CommunityToolkit.WinUI.Samples.BackgroundTasks</Name>
+    </ProjectReference>-->
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj">
+      <Project>{d4ff799d-0df2-495a-adc9-3bbc4aef8971}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Behaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.DataGrid\CommunityToolkit.WinUI.UI.Controls.DataGrid.csproj">
+      <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.DataGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Input\CommunityToolkit.WinUI.UI.Controls.Input.csproj">
+      <Project>{af1be4e9-e2e1-4729-b076-b3725d8e21ee}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj">
+      <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Layout</Name>
+    </ProjectReference>
+    
+    
+    <!-- Replace these ProjectReferences with a PackageReference due to a MRT issue -->
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Markdown\CommunityToolkit.WinUI.UI.Controls.Markdown.csproj">
+      <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Markdown</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Media\CommunityToolkit.WinUI.UI.Controls.Media.csproj">
+      <Project>{43bd2a36-9e12-4788-80ae-2377e41e6d05}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj">
+      <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Core\CommunityToolkit.WinUI.UI.Controls.Core.csproj">
+      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Core</Name>
+    </ProjectReference>
+    <!-- Remove this PackageReference when the MRT issue is fixed -->
+    <!--<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown">
+      <Version>8.0.0-build.111.g27ef3e3bde</Version>
+    </PackageReference>-->
+    
+    
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj">
+      <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>CommunityToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Animations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>CommunityToolkit.WinUI.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj">
+      <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
+      <Name>CommunityToolkit.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <!--<SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>-->
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageDebug;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageRelease;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+    <DefineConstants>REMOTE_DOCS</DefineConstants> 
+  </PropertyGroup>
+  <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
+</Project>

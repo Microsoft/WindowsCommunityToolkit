@@ -1,0 +1,106 @@
+{
+  "new-section-title": "What's New",
+  "new-samples": [ "MVVM Toolkit", "EffectAnimations", "TabbedCommandBar", "ColorPicker", "ColorPickerButton", "SwitchPresenter" ],
+  "resources": [
+    {
+      "title": "Toolkit",
+      "links": [
+        {
+          "title": "GitHub Repository",
+          "url": "http://aka.ms/windowstoolkit"
+        },
+        {
+          "title": "Documentation",
+          "url": "http://aka.ms/windowstoolkitdocs"
+        },
+        {
+          "title": "GitHub Issues",
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/issues"
+        },
+        {
+          "title": "Roadmap",
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones"
+        },
+        {
+          "title": "Contributors",
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/graphs/contributors"
+        },
+        {
+          "title": "UWP Community Discord",
+          "url": "https://discord.gg/zBA5aCn"
+        },
+        {
+          "title": "Contribution Wiki",
+          "url": "https://aka.ms/wct/wiki"
+        }
+      ]
+    },
+    {
+      "title": "Useful links",
+      "links": [
+        {
+          "title": "Developer Center",
+          "url": "https://developer.microsoft.com/windows/"
+        },
+        {
+          "title": "Get started with Windows apps",
+          "url": "https://docs.microsoft.com/windows/uwp/get-started/"
+        },
+        {
+          "title": "Windows apps design",
+          "url": "https://docs.microsoft.com/windows/uwp/design/"
+        },
+        {
+          "title": "Code samples",
+          "url": "https://developer.microsoft.com/windows/samples/"
+        },
+        {
+          "title": "UWP app samples",
+          "url": "https://github.com/Microsoft/Windows-universal-samples"
+        },
+        {
+          "title": "XAML Controls Gallery",
+          "url": "https://www.microsoft.com/p/xaml-controls-gallery/9msvh128x2zt"
+        },
+        {
+          "title": "XAML Studio",
+          "url": "https://aka.ms/GetXAMLStudio"
+        },
+        {
+          "title": "Windows UI Library",
+          "url": "https://docs.microsoft.com/uwp/toolkits/winui/"
+        },
+        {
+          "title": "Windows Template Studio",
+          "url": "https://github.com/microsoft/WindowsTemplateStudio"
+        },
+        {
+          "title": "UI for UWP",
+          "url": "https://github.com/telerik/ui-for-uwp"
+        }
+      ]
+    },
+    {
+      "title": "About the App",
+      "id": "app",
+      "links": [
+        {
+          "title": "Version",
+          "url": "http://aka.ms/windowstoolkit"
+        },
+        {
+          "title": "ColorCode-Universal (Dependency)",
+          "url": "https://github.com/windows-toolkit/ColorCode-Universal"
+        },
+        {
+          "title": "Monaco Editor UWP (Dependency)",
+          "url": "https://github.com/hawkerm/monaco-editor-uwp"
+        },
+        {
+          "title": "Background photo: Elevator by Michel Paz on Unsplash",
+          "url": "https://unsplash.com/photos/Nsn_NDZDX7U"
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications

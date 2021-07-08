@@ -1,0 +1,34 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="PhotosTemplate">
+            <Grid
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <Image
+                    Source="{Binding Thumbnail}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
+                                   StretchContentForSingleRow="@[StretchContentForSingleRow:Bool:false]"
+                                   OneRowModeEnabled="@[OneRowModeEnabled:Bool:false]"
+                                   ItemHeight="@[ItemHeight:Slider:200:50-500]"
+                                   DesiredWidth="@[DesiredWidth:Slider:300:50-500]"
+                                   SelectionMode="@[SelectionMode:Enum:ListViewSelectionMode.Single]"
+                                   IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
+                                   ItemTemplate="{StaticResource PhotosTemplate}"/>
+    </Grid>
+</Page>

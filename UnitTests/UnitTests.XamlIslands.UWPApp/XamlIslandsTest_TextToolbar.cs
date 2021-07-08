@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -68,7 +68,7 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 var args = new ShortcutKeyRequestArgs(Windows.System.VirtualKey.K, false, null);
 
-                _textToolbar.GetDefaultButton(Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.ButtonType.Link).ShortcutRequested(ref args);
+                _textToolbar.GetDefaultButton(CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons.ButtonType.Link).ShortcutRequested(ref args);
 
                 await Task.Delay(10000);
             });

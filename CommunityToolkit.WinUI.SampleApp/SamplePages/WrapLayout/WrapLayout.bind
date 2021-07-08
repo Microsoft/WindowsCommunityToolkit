@@ -1,0 +1,35 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d">
+
+  <Page.Resources>
+    <DataTemplate x:Key="WrapTemplate">
+      <Border Width="{Binding Width}" Height="50">
+        <Border.Background>
+          <SolidColorBrush Color="{Binding Color}"/>
+        </Border.Background>
+        <TextBlock Text="{Binding Index}" FontSize="20"/>
+      </Border>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid Padding="48">
+    <winui:ItemsRepeaterScrollHost> <!-- Needed for 1803 and below -->
+      <ScrollViewer x:Name="WrapScrollParent">
+        <winui:ItemsRepeater x:Name="WrapRepeater"
+                             Background="{ThemeResource Brush-Grey-04}"
+                             ItemTemplate="{StaticResource WrapTemplate}">
+          <winui:ItemsRepeater.Layout>
+            <controls:WrapLayout x:Name="Wrap"
+                                 VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
+                                 HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
+          </winui:ItemsRepeater.Layout>
+        </winui:ItemsRepeater>
+      </ScrollViewer>
+    </winui:ItemsRepeaterScrollHost>
+  </Grid>
+</Page>

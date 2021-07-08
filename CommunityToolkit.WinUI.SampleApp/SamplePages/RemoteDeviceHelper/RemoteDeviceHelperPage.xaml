@@ -1,0 +1,59 @@
+<Page
+    x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.RemoteDeviceHelperPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CommunityToolkit.WinUI.SampleApp.RemoteDeviceHelper"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <converters:RemoteSystemKindToSymbolConverter x:Key="KindToImageConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid BorderBrush="{StaticResource SystemControlBackgroundBaseMediumBrush}" BorderThickness="0,0,3,0" >
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Filters" HorizontalAlignment="Center" HorizontalTextAlignment="Center"/>
+                <StackPanel Orientation="Vertical" Grid.Row="1" x:Name="filterStackPanel">
+                    <ComboBox Header="Discovery Type" x:Name="discoveryType" Margin="10" HorizontalAlignment="Stretch"/>
+                    <ComboBox Header="Authorization Type" x:Name="authorizationType" Margin="10" HorizontalAlignment="Stretch"/>
+                    <ComboBox Header="Device Status" x:Name="statusType" Margin="10" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+                <Button Content="Filter" Tapped="Button_Tapped" Grid.Row="2" HorizontalAlignment="Center" Width="{Binding ElementName=filterStackPanel, Path=ActualWidth}" Margin="10"/>
+            </Grid>
+        </Grid>
+        <ListView Grid.Column="1" ItemsSource="{Binding RemoteSystems}" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="DevicesList">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="{StaticResource HubHeaderThemeFontSize}"  />
+                        <Grid Grid.Column="1" Margin="10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" />
+                            <TextBlock Text="{Binding ModelDisplayName}" Tag="{Binding }" Grid.Row="1" VerticalAlignment="Center" Margin="10,0" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

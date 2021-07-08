@@ -3,15 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using UITests.App.Pages;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace UITests.App
 {
@@ -23,14 +21,34 @@ namespace UITests.App
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+
+            // this.Suspending += OnSuspending;
             this.UnhandledException += this.App_UnhandledException;
         }
 
-        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        [ThreadStatic]
+        private static Window currentWindow = null;
+
+        public static Window CurrentWindow
+        {
+            get
+            {
+                if (currentWindow == null)
+                {
+                    currentWindow = new Window
+                    {
+                        Title = "UITests.App"
+                    };
+                }
+
+                return currentWindow;
+            }
+        }
+
+        private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             // TODO: Also Log to a file?
-            Log.Error("Unhandled Exception: " + e.Message);
+            Log.Error($"Unhandled Exception: {e.Message}");
         }
 
         /// <summary>
@@ -40,39 +58,47 @@ namespace UITests.App
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            InitAppService();
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
+            Action createRoot = () =>
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                var rootFrame = App.CurrentWindow.Content as Frame;
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                // Do not repeat app initialization when the Window already has content,
+                // just ensure that the window is active
+                if (rootFrame == null)
                 {
-                    // TODO: Load state from previously suspended application
-                }
+                    // Create a Frame to act as the navigation context and navigate to the first page
+                    rootFrame = new Frame();
 
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
+                    rootFrame.NavigationFailed += OnNavigationFailed;
 
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
+                    App.CurrentWindow.Content = rootFrame;
                     rootFrame.Navigate(typeof(MainTestHost), e.Arguments);
                 }
+            };
 
-                // Ensure the current window is active
-                Window.Current.Activate();
+            if (Environment.GetCommandLineArgs().Length <= 1)
+            {
+                createRoot();
             }
+            else
+            {
+                var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                if (dispatcherQueue == null)
+                {
+                    throw new Exception("DispatcherQueue not available");
+                }
+
+                System.Threading.Tasks.Task.Delay(2000).ContinueWith(
+                    (t) =>
+                    {
+                        var ignored = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Normal, () => { createRoot(); });
+                    });
+            }
+
+            // Ensure the current window is active
+            App.CurrentWindow.Activate();
         }
 
         /// <summary>

@@ -1,257 +1,115 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UITests.App</RootNamespace>
-    <AssemblyName>UITests.App</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Never</AppxBundle>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateKeyFile>UITests.App.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>24D62F3B13B8B9514EAD9C4DE48CC30F7CC6151D</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+
+    <RootNamespace>UITests.App</RootNamespace>
+
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <CsWinRTIncludes>AppTestAutomationHelpers</CsWinRTIncludes>
+    <CsWinRTWindowsMetadata>10.0.19041.0</CsWinRTWindowsMetadata>
+
+    <NoWarn>$(NoWarn);CS0108</NoWarn>
     <IsTestHost>true</IsTestHost>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
-    <OutputPath>bin\ARM64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="App.AppService.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainTestHost.xaml.cs">
-      <DependentUpon>MainTestHost.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RequestPageMessage.cs" />
-    <Compile Include="TestInterop.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
+
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
+    <Protobuf Include="..\UITests.Tests.Shared\AppService.proto" GrpcServices="Server">
+      <Link>AppService.proto</Link>
+    </Protobuf>
   </ItemGroup>
+  
+  <Target Name="ForceProtoCodegenAndCompile" BeforeTargets="XamlPreCompile" DependsOnTargets="Protobuf_Compile" />
+
   <ItemGroup>
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="HomePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainTestHost.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.12</Version>
+    <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
+      <Version>3.0.0-zmain.210615.2-CI</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="MUXAppTestHelpers">
-      <Version>0.0.4</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Grpc" Version="2.38.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.17.3" />
+    <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="UITests.App.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
       <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>Microsoft.Toolkit.HighPerformance</Name>
+      <Name>CommunityToolkit.HighPerformance</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>Microsoft.Toolkit.Mvvm</Name>
+      <Name>CommunityToolkit.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+      <Name>CommunityToolkit.WinUI.Connectivity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.DeveloperTools\CommunityToolkit.WinUI.DeveloperTools.csproj">
       <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
-      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+      <Name>CommunityToolkit.WinUI.DeveloperTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj">
       <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
+      <Name>CommunityToolkit.WinUI.Input.GazeInteraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj">
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+      <Name>CommunityToolkit.WinUI.Notifications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
+      <Name>CommunityToolkit.WinUI.UI.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.DataGrid\CommunityToolkit.WinUI.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.DataGrid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Input\CommunityToolkit.WinUI.UI.Controls.Input.csproj">
       <Project>{af1be4e9-e2e1-4729-b076-b3725d8e21ee}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Input</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj">
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Layout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Markdown\CommunityToolkit.WinUI.UI.Controls.Markdown.csproj">
       <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Markdown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Core\CommunityToolkit.WinUI.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
+      <Name>CommunityToolkit.WinUI.UI.Media</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI</Name>
+      <Name>CommunityToolkit.WinUI.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
-      <Name>Microsoft.Toolkit.Uwp</Name>
+      <Name>CommunityToolkit.WinUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>Microsoft.Toolkit</Name>
+      <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
   <!-- No-op to avoid build error when packing solution from commandline -->
   <Target Name="Pack" />

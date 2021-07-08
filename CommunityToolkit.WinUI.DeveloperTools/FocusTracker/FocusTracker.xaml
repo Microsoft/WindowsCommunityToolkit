@@ -1,0 +1,74 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:developerTools="using:CommunityToolkit.WinUI.DeveloperTools">
+
+    <Style TargetType="developerTools:FocusTracker">
+        <Setter Property="IsTabStop" Value="False"></Setter>
+        <Setter Property="MinWidth" Value="300"></Setter>
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"></Setter>
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding Foreground}"
+                            BorderThickness="1"
+                        />
+                        <Grid Padding="10,10,10,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Name:"
+                                       FontSize="14"
+                                       Grid.Row="0"
+                                       Grid.Column="0"/>
+                            <TextBlock x:Name="ControlName"
+                                       Grid.Row="0"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="Type:"
+                                       FontSize="14"
+                                       Grid.Row="1"
+                                       Grid.Column="0"/>
+                            <TextBlock x:Name="ControlType"
+                                       Grid.Row="1"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="Automation.Name:"
+                                       FontSize="14"
+                                       Grid.Row="2"
+                                       Grid.Column="0"/>
+                            <TextBlock x:Name="ControlAutomationName"
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="Parent with Name:"
+                                       FontSize="14"
+                                       Grid.Row="3"
+                                       Grid.Column="0"/>
+                            <TextBlock x:Name="ControlFirstParentWithName"
+                                       Grid.Row="3"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="FocusTracker"
+                                       Opacity="0.5"
+                                       FontSize="14"
+                                       HorizontalAlignment="Center"
+                                       Grid.Row="4"
+                                       Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

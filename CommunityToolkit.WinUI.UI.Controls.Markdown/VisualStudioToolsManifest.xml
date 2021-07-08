@@ -1,0 +1,7 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.MarkdownTextBlock.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.MarkdownTextBlock" />
+    </ToolboxItems>
+  </File>
+</FileList>

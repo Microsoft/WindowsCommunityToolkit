@@ -3,10 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using UITests.App.Protos;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -23,110 +26,116 @@ namespace UITests.Tests
     [TestClass]
     public class TestAssembly
     {
-        private static AppServiceConnection CommunicationService { get; set; }
+        private static GrpcChannel _channel;
+
+        private static AppService.AppServiceClient _communicationService;
+
+        private static CancellationTokenSource _subscribeLogTokenSource;
+        private static Task _subscribeLogTask;
+        private static AsyncServerStreamingCall<LogUpdate> _logStream;
 
         [AssemblyInitialize]
         [TestProperty("CoreClrProfile", ".")]
         [TestProperty("RunFixtureAs:Assembly", "ElevatedUserOrSystem")]
+        [TestProperty("Hosting:Mode", "UAP")]
         public static void AssemblyInitialize(TestContext testContext)
         {
             TestEnvironment.AssemblyInitialize(testContext, "UITests.App.pfx");
         }
 
         [AssemblyCleanup]
-        public static void AssemblyCleanup()
+        public static async Task AssemblyCleanup()
         {
-            TestEnvironment.AssemblyCleanupWorker(UITestBase.WinUICsUWPSampleApp);
-        }
+            _subscribeLogTokenSource?.Cancel();
+            _subscribeLogTokenSource = null;
 
-        private static async Task InitalizeComService()
-        {
-            CommunicationService = new AppServiceConnection();
-
-            CommunicationService.RequestReceived += CommunicationService_RequestReceived;
-
-            // Here, we use the app service name defined in the app service
-            // provider's Package.appxmanifest file in the <Extension> section.
-            CommunicationService.AppServiceName = "TestHarnessCommunicationService";
-
-            // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
-            // within the app service provider to get this value.
-            CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
-
-            var status = await CommunicationService.OpenAsync();
-
-            if (status != AppServiceConnectionStatus.Success)
+            if (_subscribeLogTask != null)
             {
-                Log.Error("Failed to connect to App Service host.");
-                CommunicationService = null;
-                throw new Exception("Failed to connect to App Service host.");
+                await _subscribeLogTask;
+                _subscribeLogTask = null;
             }
+
+            _logStream?.Dispose();
+            _logStream = null;
+
+            TestEnvironment.AssemblyCleanupWorker(UITestBase.UITestsAppSampleApp);
         }
 
-        internal static Task<bool> OpenPage(string pageName)
+        private static Task InitalizeComService()
+        {
+            Log.Comment("[Harness] Trying to connect...");
+
+            _channel = GrpcChannel.ForAddress(
+                "https://localhost:5001",
+                new GrpcChannelOptions
+                {
+                    HttpHandler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                    }
+                });
+
+            Log.Comment("[Harness] Trying to connect 2...");
+
+            _communicationService = new AppService.AppServiceClient(_channel);
+
+            Log.Comment("[Harness] Connected!");
+
+            _logStream = _communicationService.SubscribeLog(new SubscribeLogRequest());
+
+            _subscribeLogTokenSource = new CancellationTokenSource();
+
+            static async Task SubscribeLog(IAsyncStreamReader<LogUpdate> stream, CancellationToken token)
+            {
+                try
+                {
+                    await foreach (var update in stream.ReadAllAsync(token))
+                    {
+                        switch (update.Level)
+                        {
+                            case "Comment":
+                                Log.Comment("[Host] {0}", update.Message);
+                                break;
+                            case "Warning":
+                                Log.Warning("[Host] {0}", update.Message);
+                                break;
+                            case "Error":
+                                Log.Error("[Host] {0}", update.Message);
+                                break;
+                        }
+                    }
+                }
+                catch (RpcException e) when (e.StatusCode == StatusCode.Cancelled)
+                {
+                    return;
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("Finished.");
+                }
+            }
+
+            _subscribeLogTask = SubscribeLog(_logStream.ResponseStream, _subscribeLogTokenSource.Token);
+            return Task.CompletedTask;
+        }
+
+        internal static async Task<bool> OpenPage(string pageName)
         {
             Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
 
-            return SendMessageToApp(new()
-            {
-                { "Command", "OpenPage" },
-                { "Page", pageName }
-            });
-        }
-
-        private static async Task<bool> SendMessageToApp(ValueSet message)
-        {
-            if (CommunicationService is null)
+            if (_channel is null)
             {
                 await InitalizeComService();
             }
 
-            var response = await CommunicationService.SendMessageAsync(message);
-
-            return response.Status == AppServiceResponseStatus.Success
-                && response.Message.TryGetValue("Status", out var s)
-                && s is string status
-                && status == "OK";
-        }
-
-        private static void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            var messageDeferral = args.GetDeferral();
-            var message = args.Request.Message;
-            string cmd = message["Command"] as string;
-
-            try
+            var response = await _communicationService.OpenPageAsync(new OpenPageRequest
             {
-                // Return the data to the caller.
-                if (cmd == "Log")
-                {
-                    string level = message["Level"] as string;
-                    string msg = message["Message"] as string;
+                PageName = pageName
+            });
+            string result = string.Empty;
 
-                    switch (level)
-                    {
-                        case "Comment":
-                            Log.Comment("[Host] {0}", msg);
-                            break;
-                        case "Warning":
-                            Log.Warning("[Host] {0}", msg);
-                            break;
-                        case "Error":
-                            Log.Error("[Host] {0}", msg);
-                            break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error("Exception receiving message: {0}", e.Message);
-            }
-            finally
-            {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
-            }
+            // Get the data  that the service sent to us.
+            return response.Status == "OK";
         }
     }
 }

@@ -1,0 +1,23 @@
+<Page
+    x:Name="CurrentPage"
+    x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.InAppNotificationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <local:DismissCommand x:Key="DismissCommand" />
+    </Page.Resources>
+
+    <Grid>
+
+        <Border Margin="20" BorderBrush="LightGray" BorderThickness="2">
+            <Grid x:Name="XamlRoot"/>
+        </Border>
+
+    </Grid>
+</Page>

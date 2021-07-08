@@ -1,0 +1,29 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    xmlns:g="using:CommunityToolkit.WinUI.Input.GazeInteraction"
+    g:GazeInput.Interaction="@[Interaction:Enum:Interaction.Enabled]"
+    g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
+    g:GazeInput.IsSwitchEnabled="@[IsSwitchEnabled:Bool:False]"
+    g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
+    >
+
+  <Grid>
+    <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
+
+                g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:0-1500]@"
+                g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:350:0-1500]@"
+                g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.RepeatDelayDuration="@[RepeatDelayDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.MaxDwellRepeatCount="@[MaxDwellRepeatCount:Slider:0:0-20]@"
+
+                Width="@[ButtonSize:Slider:100:10-300]"
+                Height="@[ButtonSize]"
+                    >Focus</Button>
+  </Grid>
+</Page>

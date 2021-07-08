@@ -10,8 +10,8 @@
     <AssemblyName>UnitTests.Notifications.WinRT</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -33,7 +33,7 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;WINRT</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -57,7 +57,7 @@
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -81,7 +81,7 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -108,7 +108,7 @@
     <OutputPath>bin\ARM64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -124,10 +124,10 @@
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.1.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.1.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="System.Xml.ReaderWriter">
       <Version>4.3.1</Version>
@@ -171,8 +171,8 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <HintPath>..\..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\Microsoft.Toolkit.Uwp.Notifications.winmd</HintPath>
+    <Reference Include="CommunityToolkit.WinUI.Notifications">
+      <HintPath>..\..\CommunityToolkit.WinUI.Notifications\bin\Win32\$(Configuration)\native\CommunityToolkit.WinUI.Notifications.winmd</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />

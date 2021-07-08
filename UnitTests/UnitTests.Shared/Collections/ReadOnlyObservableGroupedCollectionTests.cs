@@ -9,8 +9,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using CommunityToolkit.Common.Collections;
 using FluentAssertions;
-using Microsoft.Toolkit.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Collections

@@ -1,5 +1,5 @@
 <Project>
-
+  
   <PropertyGroup>
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -10,19 +10,33 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
+    <Company>.NET Foundation</Company>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
+    <IsDesignProject>$(MSBuildProjectName.Contains('.DesignTools'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsWinUIProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('WinUI'))</IsWinUIProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
-    <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
-    <TargetPlatformRevision>19041</TargetPlatformRevision>
+    <ShouldAddWinUI>False</ShouldAddWinUI>
+    <UseWinUI Condition="'$(IsWinUIProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</UseWinUI>
+    <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
+    <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
+    <MicrosoftProjectReunionVersion>0.8.0</MicrosoftProjectReunionVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+    <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
+    <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
+    <!-- TODO: WinUI3 - Need to fix -->
+    <NoWarn>$(NoWarn);CA1033;CA1065;CA1001;CS0252;CS8073;CA1063;CA2213;CA2214;CS8600;CS8604</NoWarn>
+    <!-- TODO: WinUI3 - Remove when XAMLBehaviors is strong signed -->
+    <NoWarn>$(NoWarn);CS8002</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' and '$(IsSampleProject)' != 'true' and '$(IsTestProject)' != 'true'">
+    <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
   </PropertyGroup>
 
   <Choose>
@@ -39,7 +53,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="('$(IsUwpProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="('$(IsWinUIProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>
@@ -72,7 +86,7 @@
       </ItemGroup>
     </When>
   </Choose>
-
+  
   <Choose>
     <When Condition="'$(IsDesignProject)' != 'true'">
       <ItemGroup>
@@ -80,30 +94,11 @@
       </ItemGroup>
     </When>
   </Choose>
-
-  <Choose>
-    <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
-      <ItemGroup>
-        <EmbeddedResource Include="**\*.rd.xml" />
-        <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
-        <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
-      </ItemGroup>
-      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-      </PropertyGroup>
-    </When>
-  </Choose>
-
-  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
-    <!-- 8002 is a strong named -> non-strong-named reference -->
-    <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
-    <NoWarn>$(NoWarn);8002</NoWarn>
-  </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.190" PrivateAssets="all" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>

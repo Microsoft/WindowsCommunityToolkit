@@ -1,7 +1,7 @@
 {
   "DrawableList": [
     {
-      "$type": "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls.Media",
+      "$type": "CommunityToolkit.WinUI.UI.Controls.InkDrawable, CommunityToolkit.WinUI.UI.Controls.Media",
       "SerializableStrokeList": [
         {
           "DrawingAttributes": {

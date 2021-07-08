@@ -6,10 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using Windows.UI.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Text;
 
 namespace UnitTests.Extensions
 {
@@ -23,7 +24,7 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:CommunityToolkit.WinUI.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
         <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
@@ -47,7 +48,7 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:CommunityToolkit.WinUI.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
         <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
@@ -71,7 +72,7 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:CommunityToolkit.WinUI.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
         <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;

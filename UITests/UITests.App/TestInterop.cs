@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace UITests.App.Pages
 {

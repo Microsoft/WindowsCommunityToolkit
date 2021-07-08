@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.HighPerformance.Shared.Buffers.Internals;
 

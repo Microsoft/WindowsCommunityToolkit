@@ -4,7 +4,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System.Numerics;
 using System.Globalization;
 

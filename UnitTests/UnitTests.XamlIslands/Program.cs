@@ -5,10 +5,10 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Toolkit.Forms.UI.XamlHost;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
+using CommunityToolkit.Common.Forms.UI.XamlHost;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI;
 using UnitTests.XamlIslands.UWPApp;
 
 namespace UnitTests.XamlIslands

@@ -5,7 +5,7 @@
 #if NET5_0
 
 using System.Numerics;
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using CommunityToolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

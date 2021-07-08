@@ -1,0 +1,27 @@
+<Page
+    x:Class="SmokeTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SmokeTest"
+    xmlns:developerTools="using:CommunityToolkit.WinUI.DeveloperTools"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <developerTools:AlignmentGrid
+            Opacity="0.2"
+            LineBrush="Firebrick"
+            HorizontalStep="20"
+            VerticalStep="20" />
+
+        <StackPanel Margin="40" BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}">
+            <TextBlock Margin="0,0,0,30" Text="You can use the AlignmentGrid to check if your UI elements are corrected aligned" />
+            <TextBlock Margin="0,0,0,30" Text="The container of these texts has a margin of (40, 40, 40, 40)" />
+            <TextBlock Margin="20,0,0,20" Text="This text has a margin of (20, 0, 0, 20)" />
+            <TextBlock Margin="40,0,0,20" Text="This text has a margin of (40, 0, 0, 20)" />
+            <TextBlock Margin="20,0,0,20" Text="This text has a margin of (20, 0, 0, 20)" />
+        </StackPanel>
+    </Grid>
+</Page>

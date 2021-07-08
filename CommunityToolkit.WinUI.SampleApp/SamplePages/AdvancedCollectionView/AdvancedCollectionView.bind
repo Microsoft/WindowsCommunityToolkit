@@ -1,0 +1,46 @@
+// Creates a CollectionView that can sort and filter items.
+using CommunityToolkit.WinUI.UI;
+
+// Grab a sample type
+public class Person
+{
+    public string Name { get; set; }
+}
+
+// Set up the original list with a few sample items
+
+var oc = new ObservableCollection<Person>
+{
+    new Person { Name = "Staff" },
+    new Person { Name = "42" },
+    new Person { Name = "Swan" },
+    new Person { Name = "Orchid" },
+    new Person { Name = "15" },
+    new Person { Name = "Flame" },
+    new Person { Name = "16" },
+    new Person { Name = "Arrow" },
+    new Person { Name = "Tempest" },
+    new Person { Name = "23" },
+    new Person { Name = "Pearl" },
+    new Person { Name = "Hydra" },
+    new Person { Name = "Lamp Post" },
+    new Person { Name = "4" },
+    new Person { Name = "Looking Glass" },
+    new Person { Name = "8" },
+};
+
+// Set up the AdvancedCollectionView to filter and sort the original list
+
+var acv = new AdvancedCollectionView(oc);
+
+// Let's filter out the integers
+int nul;
+acv.Filter = x => !int.TryParse(((Person)x).Name, out nul);
+
+// And sort ascending by the property "Name"
+acv.SortDescriptions.Add(new SortDescription("Name", SortDirection.Ascending));
+
+// AdvancedCollectionView can be bound to anything that uses collections. In this case there are two ListViews, one for the original and one for the filtered-sorted list.
+
+LeftList.ItemsSource = oc;
+RightList.ItemsSource = acv;

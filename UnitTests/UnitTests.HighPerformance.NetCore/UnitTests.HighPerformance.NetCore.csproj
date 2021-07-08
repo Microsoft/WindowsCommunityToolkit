@@ -14,12 +14,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4-preview-20210331-02" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210331-02" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj" />
   </ItemGroup>
 
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />

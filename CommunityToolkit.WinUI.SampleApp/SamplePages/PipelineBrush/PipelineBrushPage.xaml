@@ -1,0 +1,64 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.PipelineBrushPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
+      mc:Ignorable="d">
+
+    <!--  Shallow copy  -->
+    <Grid>
+        <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ProgressRing Grid.ColumnSpan="2"
+                          Width="200"
+                          Height="200"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Foreground="Red"
+                          IsActive="True" />
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush Source="{media:AcrylicSource}">
+                        <!--<media:BlendEffect Source="{media:BackdropSource BackgroundSource=Backdrop}" />-->
+                        <media:BlendEffect Source="{media:BackdropSource}" />
+                        <media:BlurEffect />
+                        <media:ExposureEffect />
+                        <media:GrayscaleEffect />
+                        <media:HueRotationEffect />
+                        <media:CrossFadeEffect />
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush Source="{media:AcrylicSource}">
+                        <media:HueRotationEffect />
+                        <media:BlendEffect Source="{media:ImageSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}" />
+                        <media:InvertEffect />
+                        <media:LuminanceToAlphaEffect />
+                        <media:OpacityEffect />
+                        <media:SaturationEffect />
+                        <media:SepiaEffect />
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush Source="{media:AcrylicSource}">
+                        <media:SepiaEffect />
+                        <media:ShadeEffect />
+                        <media:BlendEffect Source="{media:SolidColorSource}" />
+                        <media:TemperatureAndTintEffect />
+                        <media:BlendEffect Source="{media:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}" />
+                        <media:TintEffect />
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

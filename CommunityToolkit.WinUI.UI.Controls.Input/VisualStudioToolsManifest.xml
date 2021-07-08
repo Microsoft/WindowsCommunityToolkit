@@ -1,0 +1,8 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Input.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.RadialGauge" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.RangeSelector" />
+    </ToolboxItems>
+  </File>
+</FileList>

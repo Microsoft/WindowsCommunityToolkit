@@ -1,0 +1,50 @@
+<Page
+    x:Class="SmokeTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+            Margin="12,12,12,0"
+            FontSize="18"
+            Text="Regular Text" />
+        <TextBox x:Name="UnformattedText"
+            Grid.Row="1"
+            Margin="12"
+            AcceptsReturn="True"
+            Text="**Try it live!** Type in the *unformatted text box* above!"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="2"
+            Margin="12,12,12,0"
+            FontSize="18"
+            Text="Markdown Text" />
+        <ScrollViewer Grid.Row="3"
+            Margin="12"
+            BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
+            BorderThickness="2"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Visible">
+            <controls:MarkdownTextBlock x:Name="MarkdownText"
+                Margin="6"
+                Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                Text="{Binding ElementName=UnformattedText, Path=Text}"
+                SchemeList="companyportal,randomscheme"
+                UriPrefix="ms-appx://" />
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,78 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.4;uap10.0.19041;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.18362.0;native</TargetFrameworks>
+    <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
+    <NuspecFile>CommunityToolkit.WinUI.Notifications.nuspec</NuspecFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.18362.0'">
+    <!-- Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available -->
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
+    <OutputType>winmdobj</OutputType>
+    <DebugType>Full</DebugType>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <!-- Workaround for issue NuGet/Home#8388; change behavior during NuGet restore time vs. final build to avoid NuGet conflict in VS 2019 -->
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NuGetTargetMoniker>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
+    <PackageTargetFallback>uap10.0</PackageTargetFallback>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
+    <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
+    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+    <ExtrasImplicitPlatformPackageIsPrivate>true</ExtrasImplicitPlatformPackageIsPrivate>
+
+    <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0. This makes it UAP10_0_10240_0 to match the rest -->
+    <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
+    <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="CommunityToolkit.WinUI.Notifications.targets" Pack="true" PackagePath="build\native" />
+  </ItemGroup>
+
+  <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
+
+  <!-- Desktop Win32 apps -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1'">
+    <!-- Reference Windows SDK NuGet of correct target platform version -->
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+  </ItemGroup>
+
+  <!-- The .NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.18362.0'">
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'native'">
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(ExtrasUwpMetaPackageVersion)" PrivateAssets="All" IsImplicitlyDefined="true" />
+  </ItemGroup>
+
+  <!-- Native (C++) doesn't need 'System.ValueTuple' (plus it's incompatible with this package) -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'native'">
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <!-- Set the nuspec properties. Dependent on version which isn't updated till after 'GetBuildVersion'. Condition ensures we only set once since this runs multiple times for each target. -->
+  <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">
+    <PropertyGroup Condition="'$(NuspecProperties)' == ''">
+      <NuspecProperties>buildOutput=bin\$(Configuration);version=$(Version)</NuspecProperties>
+    </PropertyGroup>
+  </Target>
+
+</Project>

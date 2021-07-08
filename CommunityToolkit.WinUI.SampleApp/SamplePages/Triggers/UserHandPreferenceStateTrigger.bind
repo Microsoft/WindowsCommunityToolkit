@@ -1,0 +1,40 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+    mc:Ignorable="d">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup >
+				<VisualState x:Name="leftHanded">
+					<VisualState.StateTriggers>
+						<triggers:UserHandPreferenceStateTrigger HandPreference="LeftHanded" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="handPreferenceStatus.Text" Value="You are left-handed" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="rightHanded">
+					<VisualState.StateTriggers>
+						<triggers:UserHandPreferenceStateTrigger/>
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="handPreferenceStatus.Text" Value="You are right-handed" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<StackPanel VerticalAlignment="Center">
+			<TextBlock x:Name="handPreferenceStatus"
+				HorizontalAlignment="Center" FontWeight="Bold" />
+			<TextBlock TextWrapping="WrapWholeWords"
+				Margin="0,10" HorizontalAlignment="Center"
+				Text="Set your hand preference in Windows settings (Devices -> Pen) then restart the app." />
+		</StackPanel>
+
+  </Grid>
+</Page>

@@ -1,0 +1,20 @@
+// Defines a brush like the one shown in the XAML code, but via C# code.
+using CommunityToolkit.WinUI.UI.Media;
+using CommunityToolkit.WinUI.UI.Media.Effects;
+using Microsoft.UI.Xaml.Media;
+
+Brush brush =
+  PipelineBuilder
+    .FromBackdrop()
+    .LuminanceToAlpha()
+    .Opacity(0.4f)
+    .Blend(
+      PipelineBuilder.FromBackdrop(),
+      BlendEffectMode.Multiply)
+    .Blur(16)
+    .Shade("#FF222222".ToColor(), 0.4f)
+    .Blend(
+      PipelineBuilder.FromTiles("/Assets/BrushAssets/NoiseTexture.png"),
+      BlendEffectMode.Overlay,
+      Placement.Background)
+    .AsBrush();

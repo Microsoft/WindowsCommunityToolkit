@@ -1,0 +1,32 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <DataTemplate x:Name="NormalTemplate">
+      <TextBlock Text="{Binding Title}" Foreground="Green"/>
+    </DataTemplate>
+
+    <DataTemplate x:Name="AlternateTemplate">
+      <TextBlock Text="{Binding Title}" Foreground="Red"/>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid>
+
+    <ListView
+        x:Name="SampleListView"
+        Margin="12"
+        ItemTemplate="{StaticResource NormalTemplate}"
+        IsItemClickEnabled="True"
+        ui:ListViewExtensions.Command="{Binding SampleCommand}"
+        ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+        ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        ui:ListViewExtensions.ItemContainerStretchDirection="Both">
+    </ListView>
+  </Grid>
+</Page>

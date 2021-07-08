@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

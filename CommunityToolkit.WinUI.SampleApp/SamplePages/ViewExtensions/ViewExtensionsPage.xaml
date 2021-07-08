@@ -1,0 +1,13 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.ViewExtensionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      ui:ApplicationViewExtensions.Title="View Extensions"
+      ui:TitleBarExtensions.BackgroundColor="Blue"
+      ui:TitleBarExtensions.ForegroundColor="White"
+      mc:Ignorable="d">
+
+    <Grid />
+</Page>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <Title>Windows Community Toolkit</Title>
+    <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP</PackageTags>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
+  </ItemGroup>
+
+</Project>

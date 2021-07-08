@@ -1,0 +1,14 @@
+// XAML UIElement
+<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+
+// C# - Blur can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using CommunityToolkit.WinUI.UI.Animations;
+
+// Create and attacha a sprite visual with an animatable blur effect
+var sprite = await PipelineBuilder
+    .FromBackdrop()
+    .Blur(0, out EffectAnimation<float> blurAnimation)
+    .AttachAsync(ToolkitLogo, ToolkitLogo);
+
+// Start the animation on the applied brush
+blurAnimation(sprite.Brush, 32, TimeSpan.FromSeconds(3));

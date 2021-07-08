@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Collections.Generic;
@@ -77,7 +77,7 @@ namespace UnitTests.Helpers
             // Check if subscribed to all items:
             foreach (var item in refList)
             {
-                Assert.IsTrue(item.GetPropertyChangedEventHandlerSubscriberLength() == 1);
+                Assert.AreEqual(1, item.GetPropertyChangedEventHandlerSubscriberLength());
             }
         }
 

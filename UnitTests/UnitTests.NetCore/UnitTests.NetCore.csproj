@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
@@ -9,8 +9,8 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4-preview-20210331-02" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210331-02" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
   </ItemGroup>
 
@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj" />
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj" />
-    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
   </ItemGroup>
 
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />

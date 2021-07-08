@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Title>Windows Community Toolkit UI Media</Title>
+    <Description>
+      This library provides UI brushes. It is part of the Windows Community Toolkit.
+
+      Media:
+      - AcrylicBrush: A custom Brush that that implements an acrylic effect with full control over all parameters.
+      - BackdropBlurBrush: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
+      - BackdropGammaTransferBrush: A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
+      - BackdropInvertBrush: The BackdropInvertBrush is a Brush which inverts whatever is behind it in the application.
+      - BackdropSaturationBrush: Brush which applies a SaturationEffect to the Backdrop.
+      - BackdropSepiaBrush: Brush which applies a SepiaEffect to the Backdrop.
+      - CanvasBrushBase: Helper Brush class to interop with Win2D Canvas calls.
+      - ImageBlendBrush: A Brush which blends a BitmapImage to the Backdrop in a given mode.
+      - PipelineBrush: A Brush that renders a customizable Composition/Win2D effects pipeline
+      - RadialGradientBrush: This GradientBrush defines its Gradient as an interpolation within an Ellipse.
+      - TilesBrush: A Brush that displays a tiled image, wrapping at the edges and endlessly repeating.
+
+      Effects:
+      - AcrylicEffect: A custom acrylic effect that can be inserted into a pipeline.
+      - BackdropEffect: A backdrop effect that can sample from a specified source.
+      - BlendEffect: A blend effect that merges the current pipeline with an input one.
+      - BlurEffect: A gaussian blur effect.
+      - ImageEffect: An effect which displays an image loaded as a Win2D surface.
+      - ShadeEffect: An effect that overlays a color layer over the current pipeline, with a specified intensity.
+      - SolidColorEffect: An effect that renders a standard 8bit SDR color on the available surface.
+      - TileEffect: An effect that loads an image and replicates it to cover all the available surface area.
+      - ExposureEffect, GrayscaleEffect, HueRotationEffect and more, mapping to Win2D effects.
+
+      Helpers:
+      - SurfaceLoader: A class that can load and draw images and other objects to Win2D surfaces and brushes.
+
+      PipelineBuilder: A class that allows to build custom effects pipelines and create CompositionBrush instances from them.
+
+      Geometry:
+      - CanvasPathGeometry: A class that parses Win2d Path Mini Language and converts it to CanvasGeometry, CanvasBrush, CanvasStroke, CanvasStrokeStyle or Color.
+    </Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;XAML;brushes;blur;effects;animations</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
+  </ItemGroup>
+
+</Project>

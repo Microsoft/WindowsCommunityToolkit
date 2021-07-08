@@ -1,0 +1,83 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.XamlOnlyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ani="using:CommunityToolkit.WinUI.UI.Animations"
+      xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
+      xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
+      xmlns:primitives="using:CommunityToolkit.WinUI.UI.Controls.Primitives"
+      xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <!--  Dummy Page for .NET Native Optimization Protection  -->
+    <!--  Put a copy of any controls/resources required for XAML Parsing within XAML Only Samples  -->
+    <!--  This page is never loaded by the app, but used to trick the compiler...  -->
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
+        <converters:VisibilityToBoolConverter x:Key="VisibilityBoolConverter" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <triggers:CompareStateTrigger x:Key="CompareStateTrigger" />
+        <triggers:IsEqualStateTrigger x:Key="IsEqualStateTrigger" />
+        <triggers:IsNotEqualStateTrigger x:Key="IsNotEqualStateTrigger" />
+        <triggers:NetworkConnectionStateTrigger x:Key="NetworkConnectionStateTrigger" />
+        <triggers:RegexStateTrigger x:Key="RegexStateTrigger" />
+        <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
+        <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
+        <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
+        <controls:ColorPicker x:Key="ColorPicker" />
+        <controls:ColorPickerButton x:Key="ColorPickerButton" />
+        <primitives:ColorPickerSlider x:Key="ColorPickerSlider" />
+        <controls:RangeSelector x:Key="RangeSelector" />
+        <TextBox x:Key="TextBoxExtensions">
+            <ui:TextBoxExtensions.SurfaceDialOptions>
+                <ui:SurfaceDialOptions />
+            </ui:TextBoxExtensions.SurfaceDialOptions>
+        </TextBox>
+        <controls:SwitchPresenter x:Key="SwitchPresenterControl">
+            <controls:CaseCollection>
+                <controls:Case IsDefault="True" />
+            </controls:CaseCollection>
+        </controls:SwitchPresenter>
+    </Page.Resources>
+
+    <Grid>
+        <ani:Explicit.Animations>
+            <ani:AnimationSet x:Name="AnimationSet">
+                <ani:BlurEffectAnimation />
+                <ani:OpacityAnimation />
+                <ani:StartAnimationActivity />
+                <ani:InvokeActionsActivity />
+                <ani:ClipAnimation />
+                <ani:BlurEffectAnimation />
+                <ani:SaturationEffectAnimation />
+                <ani:AnimationScope />
+                <ani:ExposureEffectAnimation />
+            </ani:AnimationSet>
+        </ani:Explicit.Animations>
+        <media:UIElementExtensions.VisualFactory>
+            <media:PipelineVisualFactory>
+                <media:OpacityEffect />
+                <media:ExposureEffect />
+            </media:PipelineVisualFactory>
+        </media:UIElementExtensions.VisualFactory>
+
+        <!--  External  -->
+        <interactivity:Interaction.Behaviors>
+            <interactions:EventTriggerBehavior EventName="Loaded">
+                <interactions:ChangePropertyAction />
+                <interactions:InvokeCommandAction />
+                <!-- TODO: WinUI3 removed -->
+                <!--<mediaactions:PlaySoundAction />-->
+            </interactions:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+    </Grid>
+</Page>

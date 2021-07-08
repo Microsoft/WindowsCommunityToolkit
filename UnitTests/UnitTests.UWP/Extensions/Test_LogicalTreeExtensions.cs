@@ -4,9 +4,9 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -126,17 +126,17 @@ namespace UnitTests.Extensions
             await App.DispatcherQueue.EnqueueAsync(() =>
             {
                 var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
+xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
+<Grid>
     <Grid>
-        <Grid>
-            <Border/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock/> <!-- Target -->
-            </StackPanel>
-        </Grid>
+        <Border/>
+        <StackPanel>
+            <TextBox/>
+            <TextBlock/> <!-- Target -->
+        </StackPanel>
     </Grid>
+</Grid>
 </Page>") as Page;
 
                 // Test Setup

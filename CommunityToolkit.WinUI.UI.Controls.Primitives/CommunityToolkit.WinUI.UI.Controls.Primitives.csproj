@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <Title>Windows Community Toolkit Primitive Controls</Title>
+    <Description>
+      This library provides controls for use in XAML which don't provide their own style. It is part of the Windows Community Toolkit.
+
+      Controls:
+      - AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
+      - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
+      - StaggeredLayout: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
+      - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
+      - SwitchPresenter: A presenter which can act as a switch statement for layout providing alternate layouts based on a value.
+      - UniformGrid: Presents items in an evenly-spaced set of rows or columns to fill the total available display space.
+      - WrapLayout: Positions child elements in sequential position from left to right and breaks content to the next line.
+      - WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
+    </Description>
+    <PackageTags>
+      Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+      Adaptive;Grid;View;AdaptiveGridView;GridView ;AdaptiveGrid    ;
+      Dock;Panel        ;DockPanel       ;
+      Staggered;Layout  ;StaggeredLayout ;
+      Staggered;Panel   ;StaggeredPanel  ;
+      Switch;Presenter  ;SwitchPresenter ;
+      Uniform;Grid      ;UniformGrid     ;
+      Wrap;Layout       ;WrapLayout      ;
+      Wrap;Panel        ;WrapPanel       ;
+    </PackageTags>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+
+</Project>

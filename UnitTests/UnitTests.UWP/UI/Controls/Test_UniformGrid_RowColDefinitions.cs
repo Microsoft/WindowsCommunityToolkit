@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace UnitTests.UI.Controls
 {
@@ -21,7 +21,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"">
         <Border/>
         <Border/>
@@ -92,7 +92,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"">
         <controls:UniformGrid.RowDefinitions>
             <RowDefinition Height=""48""/>
@@ -187,7 +187,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Rows=""5"">
         <controls:UniformGrid.RowDefinitions>
             <RowDefinition Height=""48""/>
@@ -287,7 +287,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Rows=""5"">
         <controls:UniformGrid.RowDefinitions>
             <RowDefinition/>
@@ -422,7 +422,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"">
         <Border/>
         <Border/>
@@ -493,7 +493,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"">
         <controls:UniformGrid.ColumnDefinitions>
             <ColumnDefinition Width=""48""/>
@@ -588,7 +588,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Columns=""5"">
         <controls:UniformGrid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -690,7 +690,7 @@ namespace UnitTests.UI.Controls
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Columns=""5"">
         <controls:UniformGrid.ColumnDefinitions>
             <ColumnDefinition Width=""48""/>

@@ -1,0 +1,128 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+<#@include file="TypeInfo.ttinclude" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+namespace CommunityToolkit.Diagnostics
+{
+    /// <summary>
+    /// Helper methods to verify conditions when running code.
+    /// </summary>
+    public static partial class Guard
+    {
+        /// <summary>
+        /// Helper methods to efficiently throw exceptions.
+        /// </summary>
+        private static partial class ThrowHelper
+        {
+<#
+GenerateTextForItems(EnumerableTypes, item =>
+{
+#>
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForIsEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must be empty, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeNotEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeNotEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size not equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size over {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size of at least {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThan{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeLessThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+            {
+                throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
+            {
+                throw new ArgumentException($"The source {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {AssertString(destination.<#=item.Size#>)} (the destination), had a size of {AssertString(source.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
+            {
+                throw new ArgumentException($"The source {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {AssertString(destination.<#=item.Size#>)} (the destination), had a size of {AssertString(source.<#=item.Size#>)}", name);
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+            {
+                throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must be in the range given by <0> and {AssertString(<#=item.Name#>.<#=item.Size#>)} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {AssertString(index)}");
+            }
+
+            /// <summary>
+            /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+            /// </summary>
+            [DoesNotReturn]
+            public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+            {
+                throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(<#=item.Name#>.<#=item.Size#>)} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {AssertString(index)}");
+            }
+<#
+});
+#>
+        }
+    }
+}

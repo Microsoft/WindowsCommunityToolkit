@@ -4,8 +4,8 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Input.GazeInteraction;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -25,7 +25,7 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
-                                                 xmlns:g='using:Microsoft.Toolkit.Uwp.Input.GazeInteraction'>
+                                                 xmlns:g='using:CommunityToolkit.WinUI.Input.GazeInteraction'>
                         <Button HorizontalAlignment='Center' BorderBrush='#7FFFFFFF'
                                     g:GazeInput.ThresholdDuration='50'
                                     g:GazeInput.FixationDuration='350'

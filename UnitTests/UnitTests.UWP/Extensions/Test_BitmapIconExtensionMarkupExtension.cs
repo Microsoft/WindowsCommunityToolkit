@@ -4,12 +4,12 @@
 
 using System;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 
 namespace UnitTests.Extensions
 {
@@ -23,7 +23,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+    xmlns:ui=""using:CommunityToolkit.WinUI.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>
@@ -56,7 +56,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+    xmlns:ui=""using:CommunityToolkit.WinUI.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>

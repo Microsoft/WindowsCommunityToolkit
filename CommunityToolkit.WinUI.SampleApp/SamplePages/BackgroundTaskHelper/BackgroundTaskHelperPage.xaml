@@ -1,0 +1,75 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.BackgroundTaskHelperPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+            <StackPanel Margin="5"
+                        Orientation="Horizontal">
+                <TextBlock Text="Status:" />
+                <TextBlock x:Name="StatusMessage" />
+            </StackPanel>
+
+            <controls:Expander Header="Background Task (Multi-Process Model)"
+                               Margin="10" IsExpanded="True"
+                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <StackPanel Margin="0 5 0 0">
+                    <Button x:Name="RegisterMpmButton"
+                            Margin="5"
+                            Click="RegisterMpmButton_Click"
+                            Content="Register Background Task" />
+
+                    <Button x:Name="UnregisterMpmButton"
+                            Margin="5"
+                            Click="UnregisterMpmButton_Click"
+                            Content="Unregister Background Task" />
+                </StackPanel>
+            </controls:Expander>
+
+            <controls:Expander Header="Background Task (Single-Process Model)"
+                               Margin="10" IsExpanded="True"
+                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <StackPanel Margin="0 5 0 0">
+                    <TextBlock Margin="5"
+                               Foreground="Red"
+                               Text="WARNING: Register Button only works on Anniversary Update (&gt;= 14393)"
+                               TextWrapping="Wrap" />
+
+                    <Button x:Name="RegisterSpmButton"
+                            Margin="5"
+                            Click="RegisterSpmButton_Click"
+                            Content="Register Background Task" />
+
+                    <Button x:Name="UnregisterSpmButton"
+                            Margin="5"
+                            Click="UnregisterSpmButton_Click"
+                            Content="Unregister Background Task" />
+                </StackPanel>
+            </controls:Expander>
+        </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

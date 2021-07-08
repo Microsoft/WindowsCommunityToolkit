@@ -4,9 +4,9 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
@@ -28,7 +28,7 @@ namespace UnitTests.UI.Controls
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:WrapPanel x:Name=""WrapPanel"">
         <Border Width=""150"" Height=""50"" Visibility=""Collapsed""/>
         <Border Width=""100"" Height=""50""/>
@@ -87,7 +87,7 @@ namespace UnitTests.UI.Controls
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:WrapPanel x:Name=""WrapPanel"">
         <Border Width=""150"" Height=""50""/>
         <Border Width=""100"" Height=""50"" Visibility=""Collapsed""/>
@@ -144,7 +144,7 @@ namespace UnitTests.UI.Controls
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
     <controls:WrapPanel x:Name=""WrapPanel"">
         <Border Width=""150"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>

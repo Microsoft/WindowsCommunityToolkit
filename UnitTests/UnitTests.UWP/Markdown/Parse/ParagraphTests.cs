@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
 
 namespace UnitTests.Markdown.Parse
 {

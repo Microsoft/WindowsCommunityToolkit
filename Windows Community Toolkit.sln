@@ -1,27 +1,26 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9AD30620-667D-433C-9961-8D885EE7B762}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.SampleApp", "Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.csproj", "{719C43C6-8753-4395-ADAA-2FCC70F76BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.SampleApp", "CommunityToolkit.WinUI.SampleApp\CommunityToolkit.WinUI.SampleApp.csproj", "{719C43C6-8753-4395-ADAA-2FCC70F76BF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI", "CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.UWP", "UnitTests\UnitTests.UWP\UnitTests.UWP.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.UWP", "UnitTests\UnitTests.UWP\UnitTests.UWP.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI", "Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI", "CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Animations", "Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj", "{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Animations", "CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj", "{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B30036C4-D514-4E5B-A323-587A061772CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Core", "Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Core", "CommunityToolkit.WinUI.UI.Controls.Core\CommunityToolkit.WinUI.UI.Controls.Core.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid", "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj", "{DAEB9CEC-C817-33B2-74B2-BC379380DB72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.DataGrid", "CommunityToolkit.WinUI.UI.Controls.DataGrid\CommunityToolkit.WinUI.UI.Controls.DataGrid.csproj", "{DAEB9CEC-C817-33B2-74B2-BC379380DB72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{9333C63A-F64F-4797-82B3-017422668A5D}"
 EndProject
@@ -29,55 +28,59 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Notifications.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Notifications.UWP", "UnitTests\UnitTests.Notifications.UWP\UnitTests.Notifications.UWP.csproj", "{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks", "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj", "{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.Samples.BackgroundTasks", "CommunityToolkit.WinUI.Samples.BackgroundTasks\CommunityToolkit.WinUI.Samples.BackgroundTasks.csproj", "{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.DeveloperTools", "Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.DeveloperTools", "CommunityToolkit.WinUI.DeveloperTools\CommunityToolkit.WinUI.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Connectivity", "Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Connectivity", "CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit", "Microsoft.Toolkit\Microsoft.Toolkit.csproj", "{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Common", "CommunityToolkit.Common\CommunityToolkit.Common.csproj", "{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Notifications", "Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj", "{97EE849B-403C-490E-80ED-D19D7CC153FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Notifications", "CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj", "{97EE849B-403C-490E-80ED-D19D7CC153FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.Notifications.NetCore", "UnitTests\UnitTests.Notifications.NetCore\UnitTests.Notifications.NetCore.csproj", "{94994424-5F60-4CD8-ABA2-101779066208}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CFA75BE0-5A44-45DE-8114-426A605B062B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.runsettings = .runsettings
 		azure-pipelines.yml = azure-pipelines.yml
 		build\build.cake = build\build.cake
 		build\build.ps1 = build\build.ps1
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
+		nuget.config = nuget.config
 		settings.xamlstyler = settings.xamlstyler
+		build\Windows.Toolkit.Uwp.Build.targets = build\Windows.Toolkit.Uwp.Build.targets
+		build\Windows.Toolkit.VisualStudio.Design.props = build\Windows.Toolkit.VisualStudio.Design.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Core.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Microsoft.Toolkit.Uwp.UI.Controls.Core.DesignTools.csproj", "{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.Core.DesignTools", "CommunityToolkit.WinUI.UI.Controls.Core.Design\CommunityToolkit.WinUI.UI.Controls.Core.DesignTools.csproj", "{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.DesignTools.csproj", "{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.DataGrid.DesignTools", "CommunityToolkit.WinUI.UI.Controls.DataGrid.Design\CommunityToolkit.WinUI.UI.Controls.DataGrid.DesignTools.csproj", "{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DAEB9CEC-C817-33B2-74B2-BC379380DB72} = {DAEB9CEC-C817-33B2-74B2-BC379380DB72}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Input.GazeInteraction", "Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj", "{5BF75694-798A-43A0-8150-415DE195359C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Input.GazeInteraction", "CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj", "{5BF75694-798A-43A0-8150-415DE195359C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Media", "Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Media", "CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Mvvm", "Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Mvvm", "CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "UnitTests\UnitTests.Shared\UnitTests.Shared.shproj", "{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.NetCore", "UnitTests\UnitTests.NetCore\UnitTests.NetCore.csproj", "{7878CD00-85E8-4D02-9757-8A43DB4C6510}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Layout", "Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj", "{CB444381-18BA-4A51-BB32-3A498BCC1E99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Layout", "CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj", "{CB444381-18BA-4A51-BB32-3A498BCC1E99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.HighPerformance", "Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.HighPerformance", "CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance.NetCore", "UnitTests\UnitTests.HighPerformance.NetCore\UnitTests.HighPerformance.NetCore.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
 EndProject
@@ -95,6 +98,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamlIslands", "XamlIslands"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.XamlIslands.UWPApp", "UnitTests\UnitTests.XamlIslands.UWPApp\UnitTests.XamlIslands.UWPApp.csproj", "{804D0681-52F6-4E61-864A-699F0AB44B20}"
 EndProject
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CommunityToolkit.WinUI.SampleApp.Package", "CommunityToolkit.WinUI.SampleApp.Package\CommunityToolkit.WinUI.SampleApp.Package.wapproj", "{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-322D-4CEA-842B-B2CB281D357D}"
 	ProjectSection(SolutionItems) = preProject
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
@@ -104,18 +109,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-3
 		ThirdPartyNotices.txt = ThirdPartyNotices.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj", "{6FEDF199-B052-49DD-8F3E-2A9224998E0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Markdown", "CommunityToolkit.WinUI.UI.Controls.Markdown\CommunityToolkit.WinUI.UI.Controls.Markdown.csproj", "{6FEDF199-B052-49DD-8F3E-2A9224998E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.DesignTools.csproj", "{67FE47A0-CA93-4680-B770-A0A48C1DBC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.Markdown.DesignTools", "CommunityToolkit.WinUI.UI.Controls.Markdown.Design\CommunityToolkit.WinUI.UI.Controls.Markdown.DesignTools.csproj", "{67FE47A0-CA93-4680-B770-A0A48C1DBC40}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F} = {6FEDF199-B052-49DD-8F3E-2A9224998E0F}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.WpfCore.SampleApp", "Microsoft.Toolkit.Win32.WpfCore.SampleApp\Microsoft.Toolkit.Win32.WpfCore.SampleApp.csproj", "{0037E4C9-7AF3-4ADD-8156-5AEFA6C36405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Win32.WpfCore.SampleApp", "CommunityToolkit.Win32.WpfCore.SampleApp\CommunityToolkit.Win32.WpfCore.SampleApp.csproj", "{0037E4C9-7AF3-4ADD-8156-5AEFA6C36405}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Microsoft.Toolkit.Win32.WpfCore.SampleApp.PackagingProject", "Microsoft.Toolkit.Win32.WpfCore.SampleApp.PackagingProject\Microsoft.Toolkit.Win32.WpfCore.SampleApp.PackagingProject.wapproj", "{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject", "CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject\CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject.wapproj", "{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.App", "UITests\UITests.App\UITests.App.csproj", "{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITests.App", "UITests\UITests.App\UITests.App.csproj", "{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UITests", "UITests", "{6FAA1CFE-3368-4FD2-9DBD-F4700F69174C}"
 EndProject
@@ -131,36 +136,40 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITests.Tests.TAEF", "UITes
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UITests.Tests.Shared", "UITests\UITests.Tests.Shared\UITests.Tests.Shared.shproj", "{1D8B0260-5C17-41DA-9C38-1E37441B3925}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Behaviors", "Microsoft.Toolkit.Uwp.UI.Behaviors\Microsoft.Toolkit.Uwp.UI.Behaviors.csproj", "{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Behaviors", "CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj", "{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Diagnostics", "Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj", "{76F89522-CA28-458D-801D-947AB033A758}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Diagnostics", "CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj", "{76F89522-CA28-458D-801D-947AB033A758}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Media", "Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj", "{43BD2A36-9E12-4788-80AE-2377E41E6D05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Media", "CommunityToolkit.WinUI.UI.Controls.Media\CommunityToolkit.WinUI.UI.Controls.Media.csproj", "{43BD2A36-9E12-4788-80AE-2377E41E6D05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Primitives", "Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj", "{84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Primitives", "CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj", "{84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Primitives.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Primitives.Design\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.DesignTools.csproj", "{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.Primitives.DesignTools", "CommunityToolkit.WinUI.UI.Controls.Primitives.Design\CommunityToolkit.WinUI.UI.Controls.Primitives.DesignTools.csproj", "{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A} = {84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Layout.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Layout.Design\Microsoft.Toolkit.Uwp.UI.Controls.Layout.DesignTools.csproj", "{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.Layout.DesignTools", "CommunityToolkit.WinUI.UI.Controls.Layout.Design\CommunityToolkit.WinUI.UI.Controls.Layout.DesignTools.csproj", "{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CB444381-18BA-4A51-BB32-3A498BCC1E99} = {CB444381-18BA-4A51-BB32-3A498BCC1E99}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Input", "Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj", "{AF1BE4E9-E2E1-4729-B076-B3725D8E21EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Input", "CommunityToolkit.WinUI.UI.Controls.Input\CommunityToolkit.WinUI.UI.Controls.Input.csproj", "{AF1BE4E9-E2E1-4729-B076-B3725D8E21EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Input.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Input.Design\Microsoft.Toolkit.Uwp.UI.Controls.Input.DesignTools.csproj", "{3307BC1D-5D71-41C6-A1B3-B113B8242D08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.Controls.Input.DesignTools", "CommunityToolkit.WinUI.UI.Controls.Input.Design\CommunityToolkit.WinUI.UI.Controls.Input.DesignTools.csproj", "{3307BC1D-5D71-41C6-A1B3-B113B8242D08}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AF1BE4E9-E2E1-4729-B076-B3725D8E21EE} = {AF1BE4E9-E2E1-4729-B076-B3725D8E21EE}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls", "CommunityToolkit.WinUI.UI.Controls\CommunityToolkit.WinUI.UI.Controls.csproj", "{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557}"
+EndProject
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "UITests.App.Package", "UITests\UITests.App.Package\UITests.App.Package.wapproj", "{02215818-3D33-439E-843E-F1EC53D5A1BD}"
+EndProject
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "GazeInputTest (Package)", "GazeInputTest (Package)\GazeInputTest (Package).wapproj", "{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{05c83067-fa46-45e2-bec4-edee84ad18d0}*SharedItemsImports = 4
+		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{05c83067-fa46-45e2-bec4-edee84ad18d0}*SharedItemsImports = 5
 		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{1d8b0260-5c17-41da-9c38-1e37441b3925}*SharedItemsImports = 13
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
@@ -168,7 +177,7 @@ Global
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{7878cd00-85e8-4d02-9757-8a43db4c6510}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{9b3a94a6-0d29-4523-880b-6938e2efeef7}*SharedItemsImports = 13
-		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{c8182ef0-77fb-4b43-a588-c71748a309c7}*SharedItemsImports = 5
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{d9bdbc68-3d0a-47fc-9c88-0bf769101644}*SharedItemsImports = 5
@@ -189,12 +198,8 @@ Global
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|Any CPU.Build.0 = Debug|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|Any CPU.Deploy.0 = Debug|x86
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM.ActiveCfg = Debug|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM.Build.0 = Debug|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM.Deploy.0 = Debug|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM64.Build.0 = Debug|ARM64
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM.ActiveCfg = Debug|x86
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|ARM64.ActiveCfg = Debug|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|x64.ActiveCfg = Debug|x64
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|x64.Build.0 = Debug|x64
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|x64.Deploy.0 = Debug|x64
@@ -202,12 +207,8 @@ Global
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|x86.Build.0 = Debug|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Debug|x86.Deploy.0 = Debug|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|Any CPU.ActiveCfg = Release|x86
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM.ActiveCfg = Release|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM.Build.0 = Release|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM.Deploy.0 = Release|ARM
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM64.ActiveCfg = Release|ARM64
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM64.Build.0 = Release|ARM64
-		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM64.Deploy.0 = Release|ARM64
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM.ActiveCfg = Release|x86
+		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|ARM64.ActiveCfg = Release|x86
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|x64.ActiveCfg = Release|x64
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|x64.Build.0 = Release|x64
 		{719C43C6-8753-4395-ADAA-2FCC70F76BF3}.Release|x64.Deploy.0 = Release|x64
@@ -235,27 +236,16 @@ Global
 		{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}.Release|x86.Build.0 = Release|Any CPU
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|Any CPU.Build.0 = Debug|x86
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM.ActiveCfg = Debug|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM.Build.0 = Debug|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM.Deploy.0 = Debug|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM64.Build.0 = Debug|ARM64
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM.ActiveCfg = Debug|x86
+		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|ARM64.ActiveCfg = Debug|x86
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x64.ActiveCfg = Debug|x64
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x64.Build.0 = Debug|x64
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x64.Deploy.0 = Debug|x64
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x86.ActiveCfg = Debug|x86
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x86.Build.0 = Debug|x86
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Debug|x86.Deploy.0 = Debug|x86
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|Any CPU.ActiveCfg = Release|x86
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|Any CPU.Build.0 = Release|x86
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM.ActiveCfg = Release|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM.Build.0 = Release|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM.Deploy.0 = Release|ARM
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM64.ActiveCfg = Release|ARM64
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM64.Build.0 = Release|ARM64
-		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM64.Deploy.0 = Release|ARM64
+		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM.ActiveCfg = Release|x86
+		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|ARM64.ActiveCfg = Release|x86
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|x64.ActiveCfg = Release|x64
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|x64.Build.0 = Release|x64
 		{A139968E-AD78-4E8C-93B8-9A5523BCAC89}.Release|x64.Deploy.0 = Release|x64
@@ -351,13 +341,10 @@ Global
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|ARM64.Build.0 = Debug|ARM64
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x64.ActiveCfg = Debug|x64
-		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x64.Build.0 = Debug|x64
-		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x64.Deploy.0 = Debug|x64
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x86.ActiveCfg = Debug|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x86.Build.0 = Debug|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Debug|x86.Deploy.0 = Debug|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|Any CPU.ActiveCfg = Release|x86
-		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|Any CPU.Build.0 = Release|x86
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|ARM.ActiveCfg = Release|ARM
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|ARM.Build.0 = Release|ARM
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD}.Release|ARM.Deploy.0 = Release|ARM
@@ -377,7 +364,6 @@ Global
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|ARM64.Build.0 = Debug|ARM64
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|x64.ActiveCfg = Debug|x64
-		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|x64.Build.0 = Debug|x64
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|x86.ActiveCfg = Debug|x86
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Debug|x86.Build.0 = Debug|x86
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -476,11 +462,9 @@ Global
 		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|x64.Build.0 = Debug|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Debug|x86.Build.0 = Debug|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94994424-5F60-4CD8-ABA2-101779066208}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Release|ARM.ActiveCfg = Release|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Release|ARM.Build.0 = Release|Any CPU
 		{94994424-5F60-4CD8-ABA2-101779066208}.Release|ARM64.ActiveCfg = Release|Any CPU
@@ -558,7 +542,6 @@ Global
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x64.ActiveCfg = Debug|x64
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x64.Build.0 = Debug|x64
-		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x64.Deploy.0 = Debug|x64
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x86.ActiveCfg = Debug|x86
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x86.Build.0 = Debug|x86
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Debug|x86.Deploy.0 = Debug|x86
@@ -622,11 +605,9 @@ Global
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x64.Build.0 = Debug|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x86.Build.0 = Debug|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM.ActiveCfg = Release|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM.Build.0 = Release|Any CPU
 		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM64.ActiveCfg = Release|Any CPU
@@ -682,11 +663,9 @@ Global
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|x64.Build.0 = Debug|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Debug|x86.Build.0 = Debug|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Release|ARM.ActiveCfg = Release|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Release|ARM.Build.0 = Release|Any CPU
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644}.Release|ARM64.ActiveCfg = Release|Any CPU
@@ -704,13 +683,10 @@ Global
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|ARM64.Build.0 = Debug|ARM64
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x64.ActiveCfg = Debug|x64
-		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x64.Build.0 = Debug|x64
-		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x64.Deploy.0 = Debug|x64
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x86.ActiveCfg = Debug|x86
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x86.Build.0 = Debug|x86
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Debug|x86.Deploy.0 = Debug|x86
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Release|Any CPU.ActiveCfg = Release|x86
-		{5524523E-DB0F-41F7-A0D4-43128422A342}.Release|Any CPU.Build.0 = Release|x86
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Release|ARM.ActiveCfg = Release|ARM
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Release|ARM.Build.0 = Release|ARM
 		{5524523E-DB0F-41F7-A0D4-43128422A342}.Release|ARM.Deploy.0 = Release|ARM
@@ -727,7 +703,6 @@ Global
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|ARM.ActiveCfg = Debug|x86
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|ARM64.ActiveCfg = Debug|x86
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|x64.ActiveCfg = Debug|x64
-		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|x64.Build.0 = Debug|x64
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|x86.ActiveCfg = Debug|x86
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Debug|x86.Build.0 = Debug|x86
 		{F5929F8E-7BC5-4A7B-A92A-AC751F7906E4}.Release|Any CPU.ActiveCfg = Release|x86
@@ -747,8 +722,6 @@ Global
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|ARM64.Build.0 = Debug|ARM64
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x64.ActiveCfg = Debug|x64
-		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x64.Build.0 = Debug|x64
-		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x64.Deploy.0 = Debug|x64
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x86.ActiveCfg = Debug|x86
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x86.Build.0 = Debug|x86
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC}.Debug|x86.Deploy.0 = Debug|x86
@@ -769,8 +742,6 @@ Global
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|ARM64.Build.0 = Debug|ARM64
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x64.ActiveCfg = Debug|x64
-		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x64.Build.0 = Debug|x64
-		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x64.Deploy.0 = Debug|x64
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x86.ActiveCfg = Debug|x86
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x86.Build.0 = Debug|x86
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Debug|x86.Deploy.0 = Debug|x86
@@ -783,6 +754,28 @@ Global
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Release|x86.ActiveCfg = Release|x86
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Release|x86.Build.0 = Release|x86
 		{804D0681-52F6-4E61-864A-699F0AB44B20}.Release|x86.Deploy.0 = Release|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|ARM.ActiveCfg = Debug|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|ARM64.Build.0 = Debug|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x64.ActiveCfg = Debug|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x64.Build.0 = Debug|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x64.Deploy.0 = Debug|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x86.ActiveCfg = Debug|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x86.Build.0 = Debug|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Debug|x86.Deploy.0 = Debug|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|Any CPU.ActiveCfg = Release|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|ARM.ActiveCfg = Release|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|ARM64.ActiveCfg = Release|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|ARM64.Build.0 = Release|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|ARM64.Deploy.0 = Release|ARM64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x64.ActiveCfg = Release|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x64.Build.0 = Release|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x64.Deploy.0 = Release|x64
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x86.ActiveCfg = Release|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x86.Build.0 = Release|x86
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B}.Release|x86.Deploy.0 = Release|x86
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -876,12 +869,10 @@ Global
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.ActiveCfg = Debug|ARM
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.Build.0 = Debug|ARM
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.Deploy.0 = Debug|ARM
-		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.Build.0 = Debug|ARM64
-		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.ActiveCfg = Debug|x86
+		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.Build.0 = Debug|x86
+		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM64.Deploy.0 = Debug|x86
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x64.ActiveCfg = Debug|x64
-		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x64.Build.0 = Debug|x64
-		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x64.Deploy.0 = Debug|x64
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x86.ActiveCfg = Debug|x86
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x86.Build.0 = Debug|x86
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|x86.Deploy.0 = Debug|x86
@@ -906,11 +897,9 @@ Global
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|x64.Build.0 = Debug|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Debug|x86.Build.0 = Debug|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Release|ARM.ActiveCfg = Release|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Release|ARM.Build.0 = Release|Any CPU
 		{5F720475-E263-4A5A-8C88-2B805B45B5BC}.Release|ARM64.ActiveCfg = Release|Any CPU
@@ -926,7 +915,6 @@ Global
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|x64.Build.0 = Debug|Any CPU
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Debug|x86.Build.0 = Debug|Any CPU
 		{C8182EF0-77FB-4B43-A588-C71748A309C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1095,6 +1083,51 @@ Global
 		{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557}.Release|x64.Build.0 = Release|Any CPU
 		{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557}.Release|x86.ActiveCfg = Release|Any CPU
 		{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557}.Release|x86.Build.0 = Release|Any CPU
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|ARM.ActiveCfg = Debug|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|ARM64.Build.0 = Debug|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x64.ActiveCfg = Debug|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x64.Build.0 = Debug|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x64.Deploy.0 = Debug|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x86.ActiveCfg = Debug|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x86.Build.0 = Debug|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Debug|x86.Deploy.0 = Debug|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|Any CPU.ActiveCfg = Release|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|Any CPU.Build.0 = Release|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|ARM.ActiveCfg = Release|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|ARM64.ActiveCfg = Release|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|ARM64.Build.0 = Release|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|ARM64.Deploy.0 = Release|ARM64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x64.ActiveCfg = Release|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x64.Build.0 = Release|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x64.Deploy.0 = Release|x64
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x86.ActiveCfg = Release|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x86.Build.0 = Release|x86
+		{02215818-3D33-439E-843E-F1EC53D5A1BD}.Release|x86.Deploy.0 = Release|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|ARM.ActiveCfg = Debug|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|ARM64.ActiveCfg = Debug|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|ARM64.Build.0 = Debug|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|ARM64.Deploy.0 = Debug|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x64.ActiveCfg = Debug|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x64.Build.0 = Debug|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x64.Deploy.0 = Debug|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x86.ActiveCfg = Debug|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x86.Build.0 = Debug|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Debug|x86.Deploy.0 = Debug|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|Any CPU.ActiveCfg = Release|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|ARM.ActiveCfg = Release|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|ARM64.ActiveCfg = Release|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|ARM64.Build.0 = Release|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|ARM64.Deploy.0 = Release|arm64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x64.ActiveCfg = Release|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x64.Build.0 = Release|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x64.Deploy.0 = Release|x64
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x86.ActiveCfg = Release|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x86.Build.0 = Release|x86
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1126,6 +1159,7 @@ Global
 		{DCFBF9F1-2BBE-498D-B6C9-8ADE50C06CDC} = {C79029AF-2E9B-4466-BAC4-1A41B281EAE6}
 		{C79029AF-2E9B-4466-BAC4-1A41B281EAE6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{804D0681-52F6-4E61-864A-699F0AB44B20} = {C79029AF-2E9B-4466-BAC4-1A41B281EAE6}
+		{C1216B01-7C56-48C2-B1AD-50D9DABAC37B} = {9AD30620-667D-433C-9961-8D885EE7B762}
 		{88C6FFBE-322D-4CEA-842B-B2CB281D357D} = {CFA75BE0-5A44-45DE-8114-426A605B062B}
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{67FE47A0-CA93-4680-B770-A0A48C1DBC40} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
@@ -1144,6 +1178,8 @@ Global
 		{AF1BE4E9-E2E1-4729-B076-B3725D8E21EE} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{3307BC1D-5D71-41C6-A1B3-B113B8242D08} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{099B60FD-DAD6-4648-9DE2-8DBF9DCD9557} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{02215818-3D33-439E-843E-F1EC53D5A1BD} = {6FAA1CFE-3368-4FD2-9DBD-F4700F69174C}
+		{13FA48DC-56B2-4F71-AF2F-5D4BD7771AA5} = {B30036C4-D514-4E5B-A323-587A061772CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}

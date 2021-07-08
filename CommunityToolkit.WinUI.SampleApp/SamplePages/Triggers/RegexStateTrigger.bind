@@ -1,0 +1,35 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+    mc:Ignorable="d">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup >
+				<VisualState x:Name="validEmail">
+					<VisualState.StateTriggers>
+						<!-- Note: Simple example RegEx, see our IsEmail string extension using emailregex.com for official RFC 5322 support -->
+						<triggers:RegexStateTrigger Value="{Binding Text, ElementName=emailTextBox, Mode=OneWay}"
+													Expression="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$"
+													Options="IgnoreCase" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="emailStatus.Text" Value="This is a valid email" />
+						<Setter Target="emailStatus.Foreground" Value="Green" />
+						<Setter Target="submitButton.IsEnabled" Value="true" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<StackPanel VerticalAlignment="Center" MaxWidth="400">
+			<TextBox x:Name="emailTextBox" Header="Enter an email" />
+			<TextBlock x:Name="emailStatus" Foreground="Red" Text="Not a valid email" />
+			<Button x:Name="submitButton" Content="Submit" IsEnabled="False" />
+		</StackPanel>
+
+  </Grid>
+</Page>

@@ -27,12 +27,17 @@ jobs:
       modifyEnvironment: true
     displayName: Setup Environment Variables
 
-  - task: NuGetToolInstaller@0
-    displayName: Use NuGet 5.6.0
+  - task: NuGetToolInstaller@1
+    displayName: Use NuGet 5.8.1
     inputs:
-      versionSpec: 5.6.0
+      versionSpec: 5.8.1
 
-  - task: DotNetCoreCLI@2  
+  - task: NuGetAuthenticate@0
+    displayName: 'NuGet Authenticate'
+    inputs:
+      forceReinstallCredentialProvider: true
+  
+  - task: DotNetCoreCLI@2
     inputs:
       command: custom
       custom: tool
@@ -45,13 +50,19 @@ jobs:
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
-  - powershell: .\build\build.ps1 -target=Build
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      version: 5.0.301
+      performMultiLevelLookup: true
+  
+  - powershell: .\build\build.ps1 --target=Build
     displayName: Build
 
   ### Unit Tests ###
   
-  - powershell: .\build\build.ps1 -target=Test
-    displayName: Test
+#  - powershell: .\build\build.ps1 --target=Test
+#    displayName: Test
 
   - task: PublishTestResults@2
     inputs:
@@ -62,7 +73,7 @@ jobs:
 
   ### UI Integration Tests ###
 
-  - powershell: .\build\build.ps1 -target=UITest
+  - powershell: .\build\build.ps1 --target=UITest
     displayName: UI Integration Tests
 
   - task: PublishPipelineArtifact@1
@@ -81,7 +92,7 @@ jobs:
 
   ### Package ###
 
-  - powershell: .\build\build.ps1 -target=Package
+  - powershell: .\build\build.ps1 --target=Package
     displayName: Package
 
   - task: PowerShell@2
@@ -102,42 +113,49 @@ jobs:
 
 ### Smoke Tests ###
 
-- job: SmokeTests
-  dependsOn: BuildBits
-  timeoutInMinutes: 60
-  
-  steps:
-  - task: DownloadPipelineArtifact@2
-    displayName: Download NuGet Packages Artifact
-    inputs:
-      artifact: Packages
-      path: .\bin\nupkg
+#- job: SmokeTests
+#  dependsOn: BuildBits
+#  timeoutInMinutes: 60
+#  
+#  steps:
+#  - task: DownloadPipelineArtifact@2
+#    displayName: Download NuGet Packages Artifact
+#    inputs:
+#      artifact: Packages
+#      path: .\bin\nupkg
+#
+#  - task: DotNetCoreCLI@2  
+#    inputs:
+#      command: custom
+#      custom: tool
+#      arguments: install --tool-path . nbgv
+#    displayName: Install NBGV tool
+#
+#  - script: nbgv cloud
+#    displayName: Set Version
+#
+#  - powershell: .\build\build.ps1 --target=SmokeTest
+#    displayName: SmokeTest
+#
+#  - task: CopyFiles@2
+#    inputs:
+#      sourceFolder: .\SmokeTests\AppPackages
+#      contents: '**\*.msixbundle'
+#      targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
+#
+#  - task: PublishBuildArtifacts@1
+#    displayName: Publish Smoke Test Artifacts
+#    inputs:
+#      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
+#      artifactType: container
+#      artifactName: SmokeTestBundles
 
-  - task: DotNetCoreCLI@2  
-    inputs:
-      command: custom
-      custom: tool
-      arguments: install --tool-path . nbgv
-    displayName: Install NBGV tool
-
-  - script: nbgv cloud
-    displayName: Set Version
-
-  - powershell: .\build\build.ps1 -target=SmokeTest
-    displayName: SmokeTest
-
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: .\SmokeTests\AppPackages
-      contents: '**\*.msixbundle'
-      targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
-
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Smoke Test Artifacts
-    inputs:
-      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
-      artifactType: container
-      artifactName: SmokeTestBundles
-
-  - powershell: .\SmokeTests\SmokeTestAnalysis.ps1
-    displayName: Analyze Package Sizes
+#  - task: PublishBuildArtifacts@1
+#    displayName: Publish Smoke Test Artifacts
+#    inputs:
+#      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
+#      artifactType: container
+#      artifactName: SmokeTestBundles
+#
+#  - powershell: .\SmokeTests\SmokeTestAnalysis.ps1
+#    displayName: Analyze Package Sizes

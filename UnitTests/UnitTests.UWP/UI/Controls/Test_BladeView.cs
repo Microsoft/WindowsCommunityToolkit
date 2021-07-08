@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml.Automation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml.Automation.Peers;
-using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
+using CommunityToolkit.WinUI.UI.Automation.Peers;
 
 namespace UnitTests.UWP.UI.Controls
 {

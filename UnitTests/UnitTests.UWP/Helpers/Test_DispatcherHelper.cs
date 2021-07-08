@@ -8,8 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace UnitTests.Helpers
 {

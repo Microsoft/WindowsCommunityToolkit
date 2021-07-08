@@ -1,19 +1,25 @@
 <Project>
 
-  <!-- 'TargetPlatform*Version' for uap10.0 where TPMV isn't implied -->
-  <PropertyGroup>
-    <TargetPlatformVersion>$(TargetPlatformBaseVersion).$(TargetPlatformRevision).0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
-    <DebugType Condition="'$(DebugType)' == ''">Portable</DebugType>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)" Condition="'$(UseWindowsDesktopSdk)' == 'true'">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=$(TargetPlatformVersion)" Condition="'$(UseWindowsMobileSdk)' == 'true'">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
+  <Choose>
+    <When Condition="$(TargetFramework.StartsWith('net5.0-windows10.0.'))">
+      <!-- 'TargetPlatform*Version' for uap10.0 where TPMV isn't implied -->
+      <PropertyGroup>
+        <TargetPlatformVersion>10.0.$(TargetPlatformRevision).0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion>$(TargetPlatformMinVersion)</SupportedOSPlatformVersion>
+        <DebugType Condition="'$(DebugType)' == ''">Portable</DebugType>
+      </PropertyGroup>
+      <ItemGroup Condition="'$(IsWinUIProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
+        <PackageReference Include="Microsoft.ProjectReunion" Version="$(MicrosoftProjectReunionVersion)" />
+        <!--
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.$(TargetPlatformRevision).18" />
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.$(TargetPlatformRevision).18" />
+        -->
+      </ItemGroup>
+      <ItemGroup>
+        <Content Remove="@(None->WithMetadataValue('Pack','true'))" />
+      </ItemGroup>
+    </When>
+  </Choose>
 
 </Project>

@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <Title>Windows Community Toolkit Media Controls</Title>
+    <Description>
+      This library provides controls backed by win2d for use in XAML. It is part of the Windows Community Toolkit.
+
+      Controls:
+        - Eyedropper: Eyedropper allows user to pick up a color from anywhere in there application.
+        - ImageCropper: ImageCropper control allows user to crop image freely.
+        - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
+    </Description>
+    <PackageTags>
+      Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+      Eye;Dropper    ;EyeDropper    ;
+      Image;Cropper  ;ImageCropper  ;Crop;
+      Infinite;Canvas;InfiniteCanvas;
+    </PackageTags>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+
+</Project>

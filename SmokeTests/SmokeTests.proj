@@ -6,27 +6,27 @@
     <ToolkitPackages>
       UWPBaseline;
       UWPBaselineWinUI;
-      Microsoft.Toolkit;
-      Microsoft.Toolkit.Diagnostics;
-      Microsoft.Toolkit.HighPerformance;
-      Microsoft.Toolkit.Mvvm;
-      Microsoft.Toolkit.Uwp;
-      Microsoft.Toolkit.Uwp.Connectivity;
-      Microsoft.Toolkit.Uwp.DeveloperTools;
-      Microsoft.Toolkit.Uwp.Input.GazeInteraction;
-      Microsoft.Toolkit.Uwp.Notifications;
-      Microsoft.Toolkit.Uwp.UI;
-      Microsoft.Toolkit.Uwp.UI.Animations;
-      Microsoft.Toolkit.Uwp.UI.Behaviors;
-      Microsoft.Toolkit.Uwp.UI.Controls;
-      Microsoft.Toolkit.Uwp.UI.Controls.Core;
-      Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;
-      Microsoft.Toolkit.Uwp.UI.Controls.Layout;
-      Microsoft.Toolkit.Uwp.UI.Controls.Input;
-      Microsoft.Toolkit.Uwp.UI.Controls.Markdown;
-      Microsoft.Toolkit.Uwp.UI.Controls.Media;
-      Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
-      Microsoft.Toolkit.Uwp.UI.Media;
+      CommunityToolkit.Common;
+      CommunityToolkit.Diagnostics;
+      CommunityToolkit.HighPerformance;
+      CommunityToolkit.Mvvm;
+      CommunityToolkit.WinUI;
+      CommunityToolkit.WinUI.Connectivity;
+      CommunityToolkit.WinUI.DeveloperTools;
+      CommunityToolkit.WinUI.Input.GazeInteraction;
+      CommunityToolkit.WinUI.Notifications;
+      CommunityToolkit.WinUI.UI;
+      CommunityToolkit.WinUI.UI.Animations;
+      CommunityToolkit.WinUI.UI.Behaviors;
+      CommunityToolkit.WinUI.UI.Controls;
+      CommunityToolkit.WinUI.UI.Controls.Core;
+      CommunityToolkit.WinUI.UI.Controls.DataGrid;
+      CommunityToolkit.WinUI.UI.Controls.Layout;
+      CommunityToolkit.WinUI.UI.Controls.Input;
+      CommunityToolkit.WinUI.UI.Controls.Markdown;
+      CommunityToolkit.WinUI.UI.Controls.Media;
+      CommunityToolkit.WinUI.UI.Controls.Primitives;
+      CommunityToolkit.WinUI.UI.Media;
     </ToolkitPackages>
   </PropertyGroup>
 

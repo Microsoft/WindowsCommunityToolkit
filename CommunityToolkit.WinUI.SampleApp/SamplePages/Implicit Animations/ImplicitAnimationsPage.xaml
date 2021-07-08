@@ -1,0 +1,42 @@
+<Page
+    x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.ImplicitAnimationsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <animations:ImplicitAnimationSet x:Name="TestAnimations">
+            <animations:OpacityAnimation/>
+            <animations:RotationAnimation/>
+            <animations:RotationInDegreesAnimation/>
+            <animations:OffsetAnimation/>
+            <animations:ScaleAnimation/>
+            <animations:ScalarAnimation>
+                <animations:ScalarKeyFrame/>
+            </animations:ScalarAnimation>
+            <animations:Vector2Animation>
+                <animations:Vector2KeyFrame/>
+            </animations:Vector2Animation>
+            <animations:Vector3Animation>
+                <animations:Vector3KeyFrame/>
+            </animations:Vector3Animation>
+            <animations:Vector4Animation>
+                <animations:Vector4KeyFrame/>
+            </animations:Vector4Animation>
+            <animations:QuaternionAnimation>
+                <animations:QuaternionKeyFrame/>
+            </animations:QuaternionAnimation>
+        </animations:ImplicitAnimationSet>
+    </Page.Resources>
+
+
+    <!-- Need to have an placeholder of each element so they can be used in the XAML editor -->
+    <Grid ui:VisualExtensions.CenterPoint="50,50,0">
+        <animations:Implicit.ShowAnimations>
+            <animations:OpacityAnimation From="0" To="1"/>
+        </animations:Implicit.ShowAnimations>
+    </Grid>
+</Page>

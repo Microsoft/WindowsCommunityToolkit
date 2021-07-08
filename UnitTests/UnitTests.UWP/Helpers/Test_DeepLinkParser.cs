@@ -8,7 +8,7 @@ namespace Tests
     using System.Diagnostics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using UnitTests;
-    using Microsoft.Toolkit.Uwp.Helpers;
+    using CommunityToolkit.WinUI.Helpers;
 
     [TestClass]
     public class Test_DeepLinkParser

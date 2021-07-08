@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.UI;
-using Windows.UI.Xaml.Controls;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -28,8 +28,8 @@ namespace UnitTests.XamlIslands.UWPApp
                     OffsetX = 2,
                     OffsetY = 2,
                     Color = Colors.Black,
-                    VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center,
-                    HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center,
+                    VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center,
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
                     IsMasked = true
                 };
                 TestsPage.Instance.SetMainTestContent(_dropShadowPanel);
@@ -43,7 +43,7 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 var textBlock = new TextBlock
                 {
-                    TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
+                    TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                     Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum." +
 "Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla," +
 "at interdum dolor sapien ut odio. Sed ullamcorper sapien velit, id finibus risus gravida vitae. Morbi ac ultrices lectus. Aenean felis" +

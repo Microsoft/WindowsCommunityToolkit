@@ -1,0 +1,34 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+  <Grid>
+    <Border Margin="0">
+      <controls:Carousel x:Name="CarouselControl"
+                  InvertPositive="@[InvertPositive:Bool:True]"
+                  ItemDepth="@[ItemDepth:Slider:300:0-400]"
+                  ItemMargin="@[ItemMargin:Slider:0:-500-500]"
+                  ItemRotationX="@[ItemRotationX:Slider:0:-180-180]"
+                  ItemRotationY="@[ItemRotationY:Slider:45:-180-180]"
+                  ItemRotationZ ="@[ItemRotationZ:Slider:0:-180-180]"
+                  Orientation="@[Orientation:Enum:Orientation.Horizontal]"
+                  SelectedIndex="@[SelectedIndex:String:4]@">
+        <controls:Carousel.EasingFunction>
+          <CubicEase EasingMode="EaseOut" />
+        </controls:Carousel.EasingFunction>
+        <controls:Carousel.ItemTemplate>
+          <DataTemplate>
+            <Image Width="200"
+                  Height="200"
+                  VerticalAlignment="Bottom"
+                  Source="{Binding Thumbnail}"
+                  Stretch="Uniform" />
+          </DataTemplate>
+        </controls:Carousel.ItemTemplate>
+      </controls:Carousel>
+    </Border>
+  </Grid>
+</Page>

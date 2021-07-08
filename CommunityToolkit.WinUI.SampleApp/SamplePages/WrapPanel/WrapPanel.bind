@@ -1,0 +1,59 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      mc:Ignorable="d">
+
+  <Page.Resources>
+    <DataTemplate x:Key="PhotoTemplate">
+      <Grid Width="{Binding Width}"
+            Height="{Binding Height}"
+            Margin="0">
+        <Image HorizontalAlignment="Center"
+               Stretch="UniformToFill">
+          <Image.Source>
+            <BitmapImage DecodePixelHeight="200"
+                         UriSource="{Binding Thumbnail}" />
+          </Image.Source>
+        </Image>
+        <Border VerticalAlignment="Bottom">
+          <Border.Background>
+            <LinearGradientBrush EndPoint="0,1">
+              <GradientStop Offset="0" Color="Transparent" />
+              <GradientStop Offset="1" Color="#33000000" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <TextBlock Margin="5,20,5,5"
+                     VerticalAlignment="Bottom"
+                     Text="{Binding Category}"
+                     Foreground="White" />
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <Style TargetType="ListViewItem">
+      <!-- Change those values to change the WrapPanel's children alignment -->
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+  </Page.Resources>
+
+  <Grid Padding="48">
+    <ListView Name="WrapPanelContainer"
+              IsItemClickEnabled="True"
+              ItemTemplate="{StaticResource PhotoTemplate}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <controls:WrapPanel Background="{ThemeResource Brush-Grey-04}"
+                              Padding="@[Padding:Thickness:0,0,0,0]@"
+                              VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
+                              HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ListView>
+  </Grid>
+</Page>

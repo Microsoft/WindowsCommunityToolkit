@@ -1,0 +1,35 @@
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.EnumValuesExtensionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
+      xmlns:enums="using:CommunityToolkit.WinUI.SampleApp.Enums"
+      xmlns:converters="using:CommunityToolkit.WinUI.SampleApp.Converters"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <enums:Animal x:Key="MyAnimal">Cat</enums:Animal>
+        <converters:AnimalToColorConverter x:Key="AnimalToColorConverter"/>
+    </Page.Resources>
+    <Grid>
+        <StackPanel Spacing="8">
+            <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"/>
+            <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
+                      SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}"/>
+                            <Rectangle Height="16"
+                                       Width="16">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding Converter={StaticResource AnimalToColorConverter}}"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</Page>

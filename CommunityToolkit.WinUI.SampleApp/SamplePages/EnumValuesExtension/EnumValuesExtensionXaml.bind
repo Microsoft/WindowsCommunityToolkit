@@ -1,0 +1,47 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages.EnumValuesExtensionPage"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:enums="using:CommunityToolkit.WinUI.SampleApp.Enums"
+    xmlns:converters="using:CommunityToolkit.WinUI.SampleApp.Converters"
+    mc:Ignorable="d">
+  <Page.Resources>
+    <converters:AnimalToColorConverter x:Key="AnimalToColorConverter"/>
+  </Page.Resources>
+  <Grid>
+    <StackPanel Spacing="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+      <!--Simple selector using the default template. Each item will
+          simply be displayed as the corresponding enum value name.-->
+      <TextBlock Text="Select an animal:"/>
+      <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
+                SelectedIndex="0"/>
+
+      <!--We can also use a custom template and some converters.-->
+      <TextBlock Margin="0,12,0,0"
+                 Text="Pick another animal:"/>
+      <ComboBox ItemsSource="{ui:EnumValues Type=enums:Animal}"
+                SelectedIndex="0">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <Grid Width="80">
+              <TextBlock Text="{Binding}"/>
+              <Rectangle Height="16"
+                         Width="16"
+                         HorizontalAlignment="Right">
+                <Rectangle.Fill>
+                  <SolidColorBrush Color="{Binding Converter={StaticResource AnimalToColorConverter}}"/>
+                </Rectangle.Fill>
+              </Rectangle>
+            </Grid>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+    </StackPanel>
+  </Grid>
+</Page>

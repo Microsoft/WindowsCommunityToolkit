@@ -1,0 +1,17 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:wgt="using:CommunityToolkit.Common.Graph.Controls"
+      xmlns:providers="using:CommunityToolkit.Common.Graph.Providers"
+      mc:Ignorable="d">
+
+  <Interactivity:Interaction.Behaviors>
+    <providers:MockProviderBehavior SignedIn="False"/>
+  </Interactivity:Interaction.Behaviors>
+
+  <Grid>
+    <wgt:LoginButton/>
+  </Grid>
+</Page>
