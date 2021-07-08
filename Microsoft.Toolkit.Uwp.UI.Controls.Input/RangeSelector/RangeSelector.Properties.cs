@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -132,27 +133,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
 
-            if (rangeSelector.Maximum < newValue)
+            if (newValue > rangeSelector.Maximum)
             {
-                rangeSelector.Maximum = newValue + Epsilon;
-            }
-
-            if (rangeSelector.RangeStart < newValue)
-            {
+                rangeSelector.Maximum = newValue;
                 rangeSelector.RangeStart = newValue;
-            }
-
-            if (rangeSelector.RangeEnd < newValue)
-            {
                 rangeSelector.RangeEnd = newValue;
             }
-
-            if (newValue != oldValue)
+            else if (newValue > rangeSelector.RangeStart)
             {
-                rangeSelector.SyncThumbs();
+                rangeSelector.RangeStart = newValue;
+
+                if (newValue > rangeSelector.RangeEnd)
+                {
+                    rangeSelector.RangeEnd = newValue;
+                }
             }
+            else
+            {
+                rangeSelector.RangeStart = newValue + SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.RangeStart - newValue);
+            }
+
+            rangeSelector.Minimum = newValue;
+
+            rangeSelector.SyncThumbs();
         }
 
         private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -165,67 +169,73 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
 
-            if (rangeSelector.Minimum > newValue)
+            if (newValue < rangeSelector.Minimum)
             {
-                rangeSelector.Minimum = newValue - Epsilon;
-            }
-
-            if (rangeSelector.RangeEnd > newValue)
-            {
+                rangeSelector.Minimum = newValue;
+                rangeSelector.RangeStart = newValue;
                 rangeSelector.RangeEnd = newValue;
             }
-
-            if (rangeSelector.RangeStart > newValue)
+            else if (newValue < rangeSelector.RangeEnd)
             {
-                rangeSelector.RangeStart = newValue;
+                rangeSelector.RangeEnd = newValue;
+
+                if (newValue < rangeSelector.RangeStart)
+                {
+                    rangeSelector.RangeStart = newValue;
+                }
+            }
+            else
+            {
+                rangeSelector.RangeEnd = newValue - SteppedDistanceFromBound(rangeSelector.StepFrequency, newValue - rangeSelector.RangeEnd);
             }
 
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.Maximum = newValue;
+
+            rangeSelector.SyncThumbs();
+        }
+
+        private static double SteppedDistanceFromBound(double stepSize, double distanceFromBound)
+        {
+            var smallerStep = Math.Floor(distanceFromBound / stepSize) * stepSize;
+            var biggerStep = Math.Ceiling(distanceFromBound / stepSize) * stepSize;
+            var distanceToSmallerStep = distanceFromBound - smallerStep;
+            var distanceToBiggerStep = biggerStep - distanceFromBound;
+
+            return distanceToSmallerStep <= distanceToBiggerStep ? smallerStep : biggerStep;
         }
 
         private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._minSet = true;
-
-            if (!rangeSelector._valuesAssigned)
+            if (rangeSelector == null || !rangeSelector._valuesAssigned)
             {
                 return;
             }
 
             var newValue = (double)e.NewValue;
-            rangeSelector.RangeMinToStepFrequency();
 
-            if (rangeSelector._valuesAssigned)
+            if (newValue < rangeSelector.Minimum)
             {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeStart = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeStart = rangeSelector.Maximum;
-                }
+                rangeSelector.RangeStart = rangeSelector.Minimum;
+            }
+            else
+            {
+                var steppedNewValue = rangeSelector.Minimum + SteppedDistanceFromBound(rangeSelector.StepFrequency, newValue - rangeSelector.Minimum);
 
-                rangeSelector.SyncActiveRectangle();
-
-                // If the new value is greater than the old max, move the max also
-                if (newValue > rangeSelector.RangeEnd)
+                if (steppedNewValue > rangeSelector.RangeEnd)
                 {
-                    rangeSelector.RangeEnd = newValue;
+                    var steppedMax = rangeSelector.Minimum + SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.RangeEnd - rangeSelector.Minimum);
+                    rangeSelector.RangeStart = steppedMax > rangeSelector.RangeEnd ? steppedMax - rangeSelector.StepFrequency : steppedMax;
+                }
+                else
+                {
+                    rangeSelector.RangeStart = steppedNewValue;
                 }
             }
+
+            rangeSelector.SyncActiveRectangle();
 
             rangeSelector.SyncThumbs();
         }
@@ -234,40 +244,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._maxSet = true;
-
-            if (!rangeSelector._valuesAssigned)
+            if (rangeSelector == null || !rangeSelector._valuesAssigned)
             {
                 return;
             }
 
             var newValue = (double)e.NewValue;
-            rangeSelector.RangeMaxToStepFrequency();
 
-            if (rangeSelector._valuesAssigned)
+            if (newValue > rangeSelector.Maximum)
             {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeEnd = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeEnd = rangeSelector.Maximum;
-                }
+                rangeSelector.RangeEnd = rangeSelector.Maximum;
+            }
+            else
+            {
+                var steppedNewValue = rangeSelector.Maximum - SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.Maximum - newValue);
 
-                rangeSelector.SyncActiveRectangle();
-
-                // If the new max is less than the old minimum then move the minimum
-                if (newValue < rangeSelector.RangeStart)
+                if (steppedNewValue < rangeSelector.RangeStart)
                 {
-                    rangeSelector.RangeStart = newValue;
+                    var steppedMin = rangeSelector.Maximum - SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.Maximum - rangeSelector.RangeStart);
+                    rangeSelector.RangeEnd = steppedMin < rangeSelector.RangeStart ? steppedMin + rangeSelector.StepFrequency : steppedMin;
+                }
+                else
+                {
+                    rangeSelector.RangeEnd = steppedNewValue;
                 }
             }
+
+            rangeSelector.SyncActiveRectangle();
 
             rangeSelector.SyncThumbs();
         }
