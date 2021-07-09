@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -277,6 +277,7 @@
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\Primitives\ConstrainedPresenter.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
@@ -626,6 +627,9 @@
     <Content Include="SamplePages\Graph\LoginButtonXaml.bind" />
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
+    <Content Include="SamplePages\Primitives\ConstrainedPresenter.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

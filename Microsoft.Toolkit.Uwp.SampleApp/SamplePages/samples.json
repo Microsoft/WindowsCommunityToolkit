@@ -168,7 +168,7 @@
         "Type": "ScrollHeaderPage",
         "Subcategory": "Layout",
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
-        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Headers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Headers",
         "XamlCodeFile": "ScrollHeaderCode.bind",
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/HeaderBehaviors.md"
@@ -475,6 +475,15 @@
         "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
         "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
+      },
+      {
+        "Name": "ConstrainedPresenter",
+        "Subcategory": "Layout",
+        "About": "The ConstrainedPresenter is a ContentPresenter which can allow a developer to constrain the scale or aspect ratio of its content.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/ConstrainedPresenter",
+        "XamlCodeFile": "/SamplePages/Primitives/ConstrainedPresenter.bind",
+        "Icon": "/SamplePages/Primitives/ConstrainedPresenter.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ConstrainedPresenter.md"
       }
     ]
   },

@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="CurrentCase"/> property.
+        /// Identifies the <see cref="CurrentCase"/> property.
         /// </summary>
         public static readonly DependencyProperty CurrentCaseProperty =
             DependencyProperty.Register(nameof(CurrentCase), typeof(Case), typeof(SwitchPresenter), new PropertyMetadata(null));
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="SwitchCases"/> property.
+        /// Identifies the <see cref="SwitchCases"/> property.
         /// </summary>
         public static readonly DependencyProperty SwitchCasesProperty =
             DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null, OnSwitchCasesPropertyChanged));
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="Value"/> property.
+        /// Identifies the <see cref="Value"/> property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, OnValuePropertyChanged));
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="TargetType"/> property.
+        /// Identifies the <see cref="TargetType"/> property.
         /// </summary>
         public static readonly DependencyProperty TargetTypeProperty =
             DependencyProperty.Register(nameof(TargetType), typeof(Type), typeof(SwitchPresenter), new PropertyMetadata(null));
