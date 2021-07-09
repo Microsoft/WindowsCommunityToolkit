@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using UITests.App.Pages;
@@ -49,6 +50,8 @@ namespace UITests.App
                 return;
             }
 
+            Log.Comment("Received Command: {0}", cmd);
+
             switch (cmd)
             {
                 case "OpenPage":
@@ -66,6 +69,44 @@ namespace UITests.App
                     await args.Request.SendResponseAsync(pageResponse ? OkResult : BadResult);
 
                     break;
+                case "Custom":
+                    if (!TryGetValueAndLog(message, "Id", out var id) || !_customCommands.ContainsKey(id))
+                    {
+                        await args.Request.SendResponseAsync(BadResult);
+                        break;
+                    }
+
+                    Log.Comment("Received request for custom command: {0}", id);
+
+                    try
+                    {
+                        ValueSet response = await _customCommands[id].Invoke(message);
+
+                        if (response != null)
+                        {
+                            response.Add("Status", "OK");
+                        }
+                        else
+                        {
+                            await args.Request.SendResponseAsync(BadResult);
+                            break;
+                        }
+
+                        await args.Request.SendResponseAsync(response);
+                    }
+                    catch (Exception e)
+                    {
+                        ValueSet errmsg = new() { { "Status", "BAD" }, { "Exception", e.Message }, { "StackTrace", e.StackTrace } };
+                        if (e.InnerException != null)
+                        {
+                            errmsg.Add("InnerException", e.InnerException.Message);
+                            errmsg.Add("InnerExceptionStackTrace", e.InnerException.StackTrace);
+                        }
+
+                        await args.Request.SendResponseAsync(errmsg);
+                    }
+
+                    break;
                 default:
                     break;
             }
@@ -77,11 +118,15 @@ namespace UITests.App
 
         private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
+            Log.Error("Background Task Instance Canceled. Reason: {0}", reason.ToString());
+
             _appServiceDeferral.Complete();
         }
 
         private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
+            Log.Error("AppServiceConnection Service Closed. AppServicesClosedStatus: {0}", args.Status.ToString());
+
             _appServiceDeferral.Complete();
         }
 
@@ -117,6 +162,13 @@ namespace UITests.App
             value = s;
 
             return true;
+        }
+
+        private Dictionary<string, Func<ValueSet, Task<ValueSet>>> _customCommands = new();
+
+        internal void RegisterCustomCommand(string id, Func<ValueSet, Task<ValueSet>> customCommandFunction)
+        {
+            _customCommands.Add(id, customCommandFunction);
         }
     }
 }

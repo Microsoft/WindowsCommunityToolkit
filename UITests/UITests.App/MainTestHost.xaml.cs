@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp;
+using UITests.App.Commands;
 using UITests.App.Pages;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -33,6 +34,9 @@ namespace UITests.App
             WeakReferenceMessenger.Default.Register<RequestPageMessage>(this);
 
             _queue = DispatcherQueue.GetForCurrentThread();
+
+            // Initialize Custom Commands for AppService
+            VisualTreeHelperCommands.Initialize(_queue);
         }
 
         public void Receive(RequestPageMessage message)

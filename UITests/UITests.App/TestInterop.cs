@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 
 namespace UITests.App.Pages
@@ -37,9 +37,13 @@ namespace UITests.App.Pages
                 format = format.Replace("{", "{{").Replace("}", "}}");
             }
 
+            var message = string.Format(format, args);
+
+            Debug.WriteLine(message);
+
             // Send back to Test Harness via AppService
             // TODO: Make this a cleaner connection/pattern
-            ((App)Application.Current).SendLogMessage(level, string.Format(format, args));
+            _ = ((App)Application.Current).SendLogMessage(level, message);
         }
     }
 }

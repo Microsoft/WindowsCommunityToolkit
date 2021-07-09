@@ -1,0 +1,101 @@
+﻿<Page x:Class="UITests.App.Pages.GridSplitterTestPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sys="using:System"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BorderThickness" Value="1,1,0,0" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Page.Resources>
+
+    <!--  Grid isn't normally an element that's findable so we need to use AutomationProperties.Name  -->
+    <Grid x:Name="GridSplitterRoot"
+          Height="500"
+          Margin="48"
+          VerticalAlignment="Top"
+          AutomationProperties.Name="GridSplitterRoot"
+          BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
+          BorderThickness="0,0,1,1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"
+                           MinHeight="100"
+                           MaxHeight="300" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"
+                              MinWidth="100"
+                              MaxWidth="300" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0"
+                Grid.Column="0"
+                AutomationProperties.Name="TopLeftBox">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect RowDefinition MinHeight='100'" />
+        </Border>
+        <Border Grid.Row="0"
+                Grid.Column="1">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect" />
+        </Border>
+        <Border Grid.Row="0"
+                Grid.Column="2">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect" />
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="0">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect" />
+        </Border>
+        <Border Grid.Row="1"
+                Grid.Column="1">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect" />
+        </Border>
+        <Border Grid.Row="1"
+                Grid.Column="2">
+            <TextBlock Text="This text to simulate the resizing feature of the Grid Splitter Control, try to move the splitter to see the effect" />
+        </Border>
+
+        <!--  Column Grid Splitter  -->
+        <controls:GridSplitter x:Name="GridSplitterHorizontal"
+                               Grid.Column="1"
+                               Width="16"
+                               HorizontalAlignment="Left">
+            <!--<controls:GridSplitter.RenderTransform>
+                <TranslateTransform X="-8" />
+            </controls:GridSplitter.RenderTransform>-->
+        </controls:GridSplitter>
+
+        <!--  Row Grid Splitter  -->
+        <controls:GridSplitter x:Name="GridSplitterVertical"
+                               Grid.Row="1"
+                               Grid.ColumnSpan="3"
+                               Height="16"
+                               VerticalAlignment="Top">
+            <!--<controls:GridSplitter.RenderTransform>
+                <TranslateTransform Y="-8" />
+            </controls:GridSplitter.RenderTransform>-->
+            <controls:GridSplitter.Element>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe MDL2 Assets"
+                           Foreground="White"
+                           IsHitTestVisible="False"
+                           Text="&#xE76F;" />
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
+    </Grid>
+</Page>

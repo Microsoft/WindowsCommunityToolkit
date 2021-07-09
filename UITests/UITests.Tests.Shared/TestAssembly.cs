@@ -44,6 +44,7 @@ namespace UITests.Tests
             CommunicationService = new AppServiceConnection();
 
             CommunicationService.RequestReceived += CommunicationService_RequestReceived;
+            CommunicationService.ServiceClosed += CommunicationService_ServiceClosed;
 
             // Here, we use the app service name defined in the app service
             // provider's Package.appxmanifest file in the <Extension> section.
@@ -63,6 +64,11 @@ namespace UITests.Tests
             }
         }
 
+        private static void CommunicationService_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Log.Warning("[Harness] Communication Service Closed! AppServiceClosedStatus: {0}", args.Status.ToString());
+        }
+
         internal static Task<bool> OpenPage(string pageName)
         {
             Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
@@ -74,6 +80,16 @@ namespace UITests.Tests
             });
         }
 
+        internal static async Task<AppServiceResponse> SendCustomMessageToApp(ValueSet message)
+        {
+            if (CommunicationService is null)
+            {
+                await InitalizeComService();
+            }
+
+            return await CommunicationService.SendMessageAsync(message);
+        }
+
         private static async Task<bool> SendMessageToApp(ValueSet message)
         {
             if (CommunicationService is null)
@@ -83,10 +99,20 @@ namespace UITests.Tests
 
             var response = await CommunicationService.SendMessageAsync(message);
 
+            return CheckResponseStatusOK(response);
+        }
+
+        internal static bool CheckResponseStatusOK(AppServiceResponse response)
+        {
+            object message = null;
+            var hasMessage = response?.Message?.TryGetValue("Status", out message) is true;
+
+            Log.Comment("[Harness] Checking Response AppServiceResponseStatus({0}), Message Status: {1}", response.Status.ToString(), message?.ToString());
+
             return response.Status == AppServiceResponseStatus.Success
-                && response.Message.TryGetValue("Status", out var s)
-                && s is string status
-                && status == "OK";
+                    && hasMessage
+                    && message is string status
+                    && status == "OK";
         }
 
         private static void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
