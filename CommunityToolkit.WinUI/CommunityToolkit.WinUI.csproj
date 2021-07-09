@@ -6,6 +6,7 @@
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP</PackageTags>
     <LangVersion>9.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
