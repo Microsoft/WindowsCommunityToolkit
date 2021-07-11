@@ -1,0 +1,400 @@
+﻿<Grid
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:k="using:Microsoft.Toolkit.Uwp.Input.GazeControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:Name="FullKeyboard">
+
+    <k:GazeKeyboard.PageList>
+        <x:String>MainPage</x:String>
+        <x:String>UppercasePage</x:String>
+        <x:String>NumbersPage</x:String>
+        <x:String>EmojiPage</x:String>    
+    </k:GazeKeyboard.PageList>
+    
+    <Grid.Resources>
+        <Style x:Key="Alpha" TargetType="ButtonBase">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="AllowFocusOnInteraction" Value="False" />
+            <Setter Property="g:GazeInput.RepeatDelayDuration" Value="0:0:0.8"/>
+            <Setter Property="g:GazeInput.MaxDwellRepeatCount" Value="1" />
+        </Style>
+
+        <Style x:Key="Symbol" TargetType="ButtonBase">
+            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="AllowFocusOnInteraction" Value="False" />
+        </Style>
+    </Grid.Resources>
+
+    <Grid x:Name="MainPage">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button     Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="q" />
+        <Button     Grid.Row="0" Grid.Column="1" Style="{StaticResource Alpha}" Content="w" />
+        <Button     Grid.Row="0" Grid.Column="2" Style="{StaticResource Alpha}" Content="e" />
+        <Button     Grid.Row="0" Grid.Column="3" Style="{StaticResource Alpha}" Content="r" />
+        <Button     Grid.Row="0" Grid.Column="4" Style="{StaticResource Alpha}" Content="t" />
+        <Button     Grid.Row="0" Grid.Column="5" Style="{StaticResource Alpha}" Content="y" />
+        <Button     Grid.Row="0" Grid.Column="6" Style="{StaticResource Alpha}" Content="u" />
+        <Button     Grid.Row="0" Grid.Column="7" Style="{StaticResource Alpha}" Content="i" />
+        <Button     Grid.Row="0" Grid.Column="8" Style="{StaticResource Alpha}" Content="o" />
+        <Button     Grid.Row="0" Grid.Column="9" Style="{StaticResource Alpha}" Content="p" />
+        <Button     Grid.Row="0" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE750;" k:GazeKeyboard.VK="8"/>
+
+        <Button     Grid.Row="1" Grid.Column="0" Style="{StaticResource Alpha}" Content="a" />
+        <Button     Grid.Row="1" Grid.Column="1" Style="{StaticResource Alpha}" Content="s" />
+        <Button     Grid.Row="1" Grid.Column="2" Style="{StaticResource Alpha}" Content="d" />
+        <Button     Grid.Row="1" Grid.Column="3" Style="{StaticResource Alpha}" Content="f" />
+        <Button     Grid.Row="1" Grid.Column="4" Style="{StaticResource Alpha}" Content="g" />
+        <Button     Grid.Row="1" Grid.Column="5" Style="{StaticResource Alpha}" Content="h" />
+        <Button     Grid.Row="1" Grid.Column="6" Style="{StaticResource Alpha}" Content="j" />
+        <Button     Grid.Row="1" Grid.Column="7" Style="{StaticResource Alpha}" Content="k" />
+        <Button     Grid.Row="1" Grid.Column="8" Style="{StaticResource Alpha}" Content="l" />
+        <Button     Grid.Row="1" Grid.Column="9" Style="{StaticResource Alpha}" Content="'" />
+        <Button     Grid.Row="1" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE751;" k:GazeKeyboard.VK="13"/>
+
+        <Button     Grid.Row="2" Grid.Column="0" Style="{StaticResource Symbol}" Content="&#xE752;" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.TemporaryPage="UppercasePage" />
+        <Button     Grid.Row="2" Grid.Column="1" Style="{StaticResource Alpha}" Content="z" />
+        <Button     Grid.Row="2" Grid.Column="2" Style="{StaticResource Alpha}" Content="x" />
+        <Button     Grid.Row="2" Grid.Column="3" Style="{StaticResource Alpha}" Content="c" />
+        <Button     Grid.Row="2" Grid.Column="4" Style="{StaticResource Alpha}" Content="v" />
+        <Button     Grid.Row="2" Grid.Column="5" Style="{StaticResource Alpha}" Content="b" />
+        <Button     Grid.Row="2" Grid.Column="6" Style="{StaticResource Alpha}" Content="n" />
+        <Button     Grid.Row="2" Grid.Column="7" Style="{StaticResource Alpha}" Content="m" />
+        <Button     Grid.Row="2" Grid.Column="8" Style="{StaticResource Alpha}" Content="," />
+        <Button     Grid.Row="2" Grid.Column="9" Style="{StaticResource Alpha}" Content="." />
+        <Button     Grid.Row="2" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE892;">
+            <k:GazeKeyboard.VKList>
+                <x:Int32>17</x:Int32>
+                <!-- VK_CONTROL -->
+                <x:Int32>65</x:Int32>
+                <!-- VK_A -->
+                <x:Int32>8</x:Int32>
+                <!-- VK_BACK -->
+                <x:Int32>8</x:Int32>
+                <!-- VK_BACK -->
+                <x:Int32>65</x:Int32>
+                <!-- VK_A -->
+                <x:Int32>17</x:Int32>
+                <!-- VK_CONTROL -->
+            </k:GazeKeyboard.VKList>
+        </Button>
+        <Button     Grid.Row="3" Grid.Column="0" Style="{StaticResource Alpha}" Content="123" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="NumbersPage"/>
+        <Button     Grid.Row="3" Grid.Column="1" Style="{StaticResource Alpha}" Content="Ctrl" />
+        <Button     Grid.Row="3" Grid.Column="2" Style="{StaticResource Symbol}" Content="&#xE76E;" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="EmojiPage"/>
+        <Button     Grid.Row="3" Grid.Column="3" Style="{StaticResource Symbol}" Content="&#xE75D;" Grid.ColumnSpan="4" k:GazeKeyboard.VK="32"/>
+        <Button     Grid.Row="3" Grid.Column="7" Style="{StaticResource Symbol}" Content="&#xEC52;" k:GazeKeyboard.VK="37" />
+        <Button     Grid.Row="3" Grid.Column="8" Style="{StaticResource Symbol}" Content="&#xEBE7;" k:GazeKeyboard.VK="39" />
+        <Button     Grid.Row="3" Grid.Column="9" Style="{StaticResource Symbol}" Content="&#xE74A;" k:GazeKeyboard.VK="38" />
+        <Button     Grid.Row="3" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE74B;" k:GazeKeyboard.VK="40" />
+    </Grid>
+
+    <Grid x:Name="UppercasePage" Visibility="Collapsed">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button     Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="Q" />
+        <Button     Grid.Row="0" Grid.Column="1" Style="{StaticResource Alpha}" Content="W" />
+        <Button     Grid.Row="0" Grid.Column="2" Style="{StaticResource Alpha}" Content="E" />
+        <Button     Grid.Row="0" Grid.Column="3" Style="{StaticResource Alpha}" Content="R" />
+        <Button     Grid.Row="0" Grid.Column="4" Style="{StaticResource Alpha}" Content="T" />
+        <Button     Grid.Row="0" Grid.Column="5" Style="{StaticResource Alpha}" Content="Y" />
+        <Button     Grid.Row="0" Grid.Column="6" Style="{StaticResource Alpha}" Content="U" />
+        <Button     Grid.Row="0" Grid.Column="7" Style="{StaticResource Alpha}" Content="I" />
+        <Button     Grid.Row="0" Grid.Column="8" Style="{StaticResource Alpha}" Content="O" />
+        <Button     Grid.Row="0" Grid.Column="9" Style="{StaticResource Alpha}" Content="P" />
+        <Button     Grid.Row="0" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE750;" k:GazeKeyboard.VK="8"/>
+
+        <Button     Grid.Row="1" Grid.Column="0" Style="{StaticResource Alpha}" Content="A" />
+        <Button     Grid.Row="1" Grid.Column="1" Style="{StaticResource Alpha}" Content="S" />
+        <Button     Grid.Row="1" Grid.Column="2" Style="{StaticResource Alpha}" Content="D" />
+        <Button     Grid.Row="1" Grid.Column="3" Style="{StaticResource Alpha}" Content="F" />
+        <Button     Grid.Row="1" Grid.Column="4" Style="{StaticResource Alpha}" Content="G" />
+        <Button     Grid.Row="1" Grid.Column="5" Style="{StaticResource Alpha}" Content="H" />
+        <Button     Grid.Row="1" Grid.Column="6" Style="{StaticResource Alpha}" Content="J" />
+        <Button     Grid.Row="1" Grid.Column="7" Style="{StaticResource Alpha}" Content="K" />
+        <Button     Grid.Row="1" Grid.Column="8" Style="{StaticResource Alpha}" Content="L" />
+        <Button     Grid.Row="1" Grid.Column="9" Style="{StaticResource Alpha}" Content="'" />
+        <Button     Grid.Row="1" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE751;" k:GazeKeyboard.VK="13"/>
+
+        <Button     Grid.Row="2" Grid.Column="0" Style="{StaticResource Symbol}" Content="&#xE752;" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="MainPage" />
+        <Button     Grid.Row="2" Grid.Column="1" Style="{StaticResource Alpha}" Content="Z" />
+        <Button     Grid.Row="2" Grid.Column="2" Style="{StaticResource Alpha}" Content="X" />
+        <Button     Grid.Row="2" Grid.Column="3" Style="{StaticResource Alpha}" Content="C" />
+        <Button     Grid.Row="2" Grid.Column="4" Style="{StaticResource Alpha}" Content="V" />
+        <Button     Grid.Row="2" Grid.Column="5" Style="{StaticResource Alpha}" Content="B" />
+        <Button     Grid.Row="2" Grid.Column="6" Style="{StaticResource Alpha}" Content="N" />
+        <Button     Grid.Row="2" Grid.Column="7" Style="{StaticResource Alpha}" Content="M" />
+        <Button     Grid.Row="2" Grid.Column="8" Style="{StaticResource Alpha}" Content="," />
+        <Button     Grid.Row="2" Grid.Column="9" Style="{StaticResource Alpha}" Content="." />
+        <Button     Grid.Row="2" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE892;">
+            <k:GazeKeyboard.VKList>
+                <x:Int32>17</x:Int32>
+                <!-- VK_CONTROL -->
+                <x:Int32>65</x:Int32>
+                <!-- VK_A -->
+                <x:Int32>8</x:Int32>
+                <!-- VK_BACK -->
+                <x:Int32>8</x:Int32>
+                <!-- VK_BACK -->
+                <x:Int32>65</x:Int32>
+                <!-- VK_A -->
+                <x:Int32>17</x:Int32>
+                <!-- VK_CONTROL -->
+            </k:GazeKeyboard.VKList>
+        </Button>
+        <Button     Grid.Row="3" Grid.Column="0" Style="{StaticResource Alpha}" Content="123" />
+        <Button     Grid.Row="3" Grid.Column="1" Style="{StaticResource Alpha}" Content="Ctrl" />
+        <Button     Grid.Row="3" Grid.Column="2" Style="{StaticResource Symbol}" Content="&#xE76E;" />
+        <Button     Grid.Row="3" Grid.Column="3" Style="{StaticResource Symbol}" Content="&#xE75D;" Grid.ColumnSpan="4" k:GazeKeyboard.VK="32"/>
+        <Button     Grid.Row="3" Grid.Column="7" Style="{StaticResource Symbol}" Content="&#xEC52;" k:GazeKeyboard.VK="37" />
+        <Button     Grid.Row="3" Grid.Column="8" Style="{StaticResource Symbol}" Content="&#xEBE7;" k:GazeKeyboard.VK="39" />
+        <Button     Grid.Row="3" Grid.Column="9" Style="{StaticResource Symbol}" Content="&#xE74A;" k:GazeKeyboard.VK="38" />
+        <Button     Grid.Row="3" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE74B;" k:GazeKeyboard.VK="40" />
+    </Grid>
+
+    <Grid x:Name="NumbersPage" Visibility="Collapsed">
+        <k:GazeKeyboard.PageList>
+            <x:String>SymbolsPage</x:String>
+        </k:GazeKeyboard.PageList>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="Tab" k:GazeKeyboard.VK="9"/>
+        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="6" x:Name="SymbolsPage">
+            <k:GazeKeyboard.PageList>
+                <x:String>SymbolsPage1</x:String>
+                <x:String>SymbolsPage2</x:String>
+            </k:GazeKeyboard.PageList>
+            <Grid x:Name="SymbolsPage1" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="!" />
+                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource Alpha}" Content="@" />
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource Alpha}" Content="#" />
+                <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource Alpha}" Content="$" />
+                <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource Alpha}" Content="%" />
+                <Button Grid.Row="0" Grid.Column="5" Style="{StaticResource Alpha}" Content="&amp;" />
+
+                <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource Alpha}" Content="(" />
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource Alpha}" Content=")" />
+                <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource Alpha}" Content="-" />
+                <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Alpha}" Content="_" />
+                <Button Grid.Row="1" Grid.Column="4" Style="{StaticResource Alpha}" Content="=" />
+                <Button Grid.Row="1" Grid.Column="5" Style="{StaticResource Alpha}" Content="+" />
+
+                <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource Alpha}" Content="\" />
+                <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource Alpha}" Content=";" />
+                <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource Alpha}" Content=":" />
+                <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource Alpha}" Content="&quot;" />
+                <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource Alpha}" Content="*" />
+                <Button Grid.Row="2" Grid.Column="5" Style="{StaticResource Alpha}" Content="/" />
+            </Grid>
+            <Grid x:Name="SymbolsPage2" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="•" />
+                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource Alpha}" Content="©" />
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource Alpha}" Content="€" />
+                <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource Alpha}" Content="£" />
+                <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource Alpha}" Content="µ" />
+                <Button Grid.Row="0" Grid.Column="5" Style="{StaticResource Alpha}" Content="½" />
+
+                <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource Alpha}" Content="&lt;" />
+                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource Alpha}" Content="&gt;" />
+                <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource Alpha}" Content="[" />
+                <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Alpha}" Content="]" />
+                <Button Grid.Row="1" Grid.Column="4" Style="{StaticResource Alpha}" Content="{}{" />
+                <Button Grid.Row="1" Grid.Column="5" Style="{StaticResource Alpha}" Content="}" />
+
+                <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource Alpha}" Content="|" />
+                <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource Alpha}" Content="¦" />
+                <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource Alpha}" Content="¶" />
+                <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource Alpha}" Content="°" />
+                <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource Alpha}" Content="~" />
+                <Button Grid.Row="2" Grid.Column="5" Style="{StaticResource Alpha}" Content="^" />
+            </Grid>
+
+        
+        </Grid>
+        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource Symbol}" Content="&#xE760;" k:GazeKeyboard.PageContainer="SymbolsPage" k:GazeKeyboard.NewPage="SymbolsPage1"/>
+        <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource Symbol}" Content="&#xE761;" k:GazeKeyboard.PageContainer="SymbolsPage" k:GazeKeyboard.NewPage="SymbolsPage2"/>
+        <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource Alpha}" Content="abc" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="MainPage"/>
+        <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource Alpha}" Content="Ctrl" />
+        <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource Symbol}" Content="&#xE76E;" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="EmojiPage"/>
+
+        <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource Alpha}" Content="1" />
+        <Button Grid.Row="0" Grid.Column="8" Style="{StaticResource Alpha}" Content="2" />
+        <Button Grid.Row="0" Grid.Column="9" Style="{StaticResource Alpha}" Content="3" />
+        <Button Grid.Row="1" Grid.Column="7" Style="{StaticResource Alpha}" Content="4" />
+        <Button Grid.Row="1" Grid.Column="8" Style="{StaticResource Alpha}" Content="5" />
+        <Button Grid.Row="1" Grid.Column="9" Style="{StaticResource Alpha}" Content="6" />
+        <Button Grid.Row="2" Grid.Column="7" Style="{StaticResource Alpha}" Content="7" />
+        <Button Grid.Row="2" Grid.Column="8" Style="{StaticResource Alpha}" Content="8" />
+        <Button Grid.Row="2" Grid.Column="9" Style="{StaticResource Alpha}" Content="9" />
+        <Button Grid.Row="3" Grid.Column="7" Style="{StaticResource Alpha}" Content="0" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="3" Grid.Column="9" Style="{StaticResource Alpha}" Content="." />
+
+        <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource Symbol}" Content="&#xEC52;" k:GazeKeyboard.VK="37" />
+        <Button Grid.Row="3" Grid.Column="4" Style="{StaticResource Symbol}" Content="&#xEBE7;" k:GazeKeyboard.VK="39" />
+        <Button Grid.Row="3" Grid.Column="5" Style="{StaticResource Symbol}" Content="&#xE75D;" Grid.ColumnSpan="2" k:GazeKeyboard.VK="32"/>
+
+        <Button Grid.Row="0" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE750;" k:GazeKeyboard.VK="8"/>
+        <Button Grid.Row="1" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE751;" k:GazeKeyboard.VK="13" Grid.RowSpan="3"/>
+
+    </Grid>
+
+    <Grid x:Name="EmojiPage" Visibility="Collapsed">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource Alpha}" Content="&#x1f600;" k:GazeKeyboard.Unicode="&#x1f600;"/>
+        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource Alpha}" Content="&#x1f601;" k:GazeKeyboard.Unicode="&#x1f601;"/>
+        <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource Alpha}" Content="&#x1f602;" k:GazeKeyboard.Unicode="&#x1f602;"/>
+        <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource Alpha}" Content="&#x1f603;" k:GazeKeyboard.Unicode="&#x1f603;"/>
+        <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource Alpha}" Content="&#x1f604;" k:GazeKeyboard.Unicode="&#x1f604;"/>
+        <Button Grid.Row="0" Grid.Column="5" Style="{StaticResource Alpha}" Content="&#x1f605;" k:GazeKeyboard.Unicode="&#x1f605;"/>
+        <Button Grid.Row="0" Grid.Column="6" Style="{StaticResource Alpha}" Content="&#x1f606;" k:GazeKeyboard.Unicode="&#x1f606;"/>
+        <Button Grid.Row="0" Grid.Column="7" Style="{StaticResource Alpha}" Content="&#x1f607;" k:GazeKeyboard.Unicode="&#x1f607;"/>
+        <Button Grid.Row="0" Grid.Column="8" Style="{StaticResource Alpha}" Content="&#x1f608;" k:GazeKeyboard.Unicode="&#x1f608;"/>
+        <Button Grid.Row="0" Grid.Column="9" Style="{StaticResource Alpha}" Content="&#x1f609;" k:GazeKeyboard.Unicode="&#x1f609;"/>
+        <Button Grid.Row="0" Grid.Column="10" Style="{StaticResource Alpha}" Content="&#x1f60A;" k:GazeKeyboard.Unicode="&#x1f60A;"/>
+
+        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource Alpha}" Content="&#x1f60B;" k:GazeKeyboard.Unicode="&#x1f60B;"/>
+        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource Alpha}" Content="&#x1f60C;" k:GazeKeyboard.Unicode="&#x1f60C;"/>
+        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource Alpha}" Content="&#x1f60D;" k:GazeKeyboard.Unicode="&#x1f60D;"/>
+        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Alpha}" Content="&#x1f60E;" k:GazeKeyboard.Unicode="&#x1f60E;"/>
+        <Button Grid.Row="1" Grid.Column="4" Style="{StaticResource Alpha}" Content="&#x1f60F;" k:GazeKeyboard.Unicode="&#x1f60F;"/>
+        <Button Grid.Row="1" Grid.Column="5" Style="{StaticResource Alpha}" Content="&#x1f610;" k:GazeKeyboard.Unicode="&#x1f610;"/>
+        <Button Grid.Row="1" Grid.Column="6" Style="{StaticResource Alpha}" Content="&#x1f611;" k:GazeKeyboard.Unicode="&#x1f611;"/>
+        <Button Grid.Row="1" Grid.Column="7" Style="{StaticResource Alpha}" Content="&#x1f612;" k:GazeKeyboard.Unicode="&#x1f612;"/>
+        <Button Grid.Row="1" Grid.Column="8" Style="{StaticResource Alpha}" Content="&#x1f613;" k:GazeKeyboard.Unicode="&#x1f613;"/>
+        <Button Grid.Row="1" Grid.Column="9" Style="{StaticResource Alpha}" Content="&#x1f614;" k:GazeKeyboard.Unicode="&#x1f614;"/>
+        <Button Grid.Row="1" Grid.Column="10" Style="{StaticResource Alpha}" Content="&#x1f615;" k:GazeKeyboard.Unicode="&#x1f615;"/>
+
+        <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource Alpha}" Content="&#x1f616;" k:GazeKeyboard.Unicode="&#x1f616;"/>
+        <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource Alpha}" Content="&#x1f617;" k:GazeKeyboard.Unicode="&#x1f617;"/>
+        <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource Alpha}" Content="&#x1f618;" k:GazeKeyboard.Unicode="&#x1f618;"/>
+        <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource Alpha}" Content="&#x1f619;" k:GazeKeyboard.Unicode="&#x1f619;"/>
+        <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource Alpha}" Content="&#x1f61A;" k:GazeKeyboard.Unicode="&#x1f61A;"/>
+        <Button Grid.Row="2" Grid.Column="5" Style="{StaticResource Alpha}" Content="&#x1f61B;" k:GazeKeyboard.Unicode="&#x1f61B;"/>
+        <Button Grid.Row="2" Grid.Column="6" Style="{StaticResource Alpha}" Content="&#x1f61C;" k:GazeKeyboard.Unicode="&#x1f61C;"/>
+        <Button Grid.Row="2" Grid.Column="7" Style="{StaticResource Alpha}" Content="&#x1f61D;" k:GazeKeyboard.Unicode="&#x1f61D;"/>
+        <Button Grid.Row="2" Grid.Column="8" Style="{StaticResource Alpha}" Content="&#x1f61E;" k:GazeKeyboard.Unicode="&#x1f61E;"/>
+        <Button Grid.Row="2" Grid.Column="9" Style="{StaticResource Alpha}" Content="&#x1f61F;" k:GazeKeyboard.Unicode="&#x1f61F;"/>
+        <Button Grid.Row="2" Grid.Column="10" Style="{StaticResource Alpha}" Content="&#x1f620;" k:GazeKeyboard.Unicode="&#x1f620;"/>
+
+        <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource Alpha}" Content="abc" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="MainPage"/>
+        <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource Alpha}" Content="Ctrl" />
+        <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource Symbol}" Content="&#xE76E;" k:GazeKeyboard.PageContainer="FullKeyboard" k:GazeKeyboard.NewPage="EmojiPage"/>
+        <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource Symbol}" Content="&#xE75D;" Grid.ColumnSpan="4" k:GazeKeyboard.VK="32"/>
+        <Button Grid.Row="3" Grid.Column="7" Style="{StaticResource Symbol}" Content="&#xEC52;" k:GazeKeyboard.VK="37" />
+        <Button Grid.Row="3" Grid.Column="8" Style="{StaticResource Symbol}" Content="&#xEBE7;" k:GazeKeyboard.VK="39" />
+        <Button Grid.Row="3" Grid.Column="9" Style="{StaticResource Symbol}" Content="&#xE74A;" k:GazeKeyboard.VK="38" />
+        <Button Grid.Row="3" Grid.Column="10" Style="{StaticResource Symbol}" Content="&#xE74B;" k:GazeKeyboard.VK="40" />
+    </Grid>
+</Grid>

@@ -1,0 +1,17 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GazeControlsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
+    xmlns:gc="using:Microsoft.Toolkit.Uwp.Input.GazeControls"
+    g:GazeInput.Interaction="Enabled"
+    g:GazeInput.IsCursorVisible="True"
+    g:GazeInput.CursorRadius="20"
+    g:GazeInput.IsSwitchEnabled="False"
+    mc:Ignorable="d">
+
+  <Grid x:Name="XamlRoot" />
+</Page>

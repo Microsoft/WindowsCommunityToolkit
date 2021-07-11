@@ -1255,6 +1255,17 @@
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
         "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md"
+      },
+      {
+        "Name": "GazeControls",
+        "Type": "GazeControlsPage",
+        "About": "Shows how to use the file picker dialogs and soft keyboards optimized for gaze interaction",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeControls/",
+        "XamlCodeFile": "GazeControlsXaml.bind",
+        "CodeFile": "GazeControlsCode.bind",
+        "Icon": "/SamplePages/GazeControls/GazeControls.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
+        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeControls.md"
       }
     ]
   }

@@ -1,0 +1,68 @@
+using Windows.UI.Xaml.Controls;
+using Windows.Media.SpeechSynthesis;
+using Microsoft.Toolkit.Uwp.Input.GazeControls;
+
+public sealed partial class GazeControlsPage : IXamlRenderListener
+{
+    const int NUM_PREDICTIONS = 3;
+    MediaElement        _mediaElement;
+    SpeechSynthesizer   _speechSynthesizer;
+    Button[]            _predictions;
+
+    public GazeControlsPage()
+    {
+        this.InitializeComponent();
+        this.Loaded += GazeControlsPage_Loaded;
+
+        _predictions = new Button[NUM_PREDICTIONS];
+        _predictions[0] = Prediction0;
+        _predictions[1] = Prediction1;
+        _predictions[2] = Prediction2;
+
+        _mediaElement = new MediaElement();
+        _speechSynthesizer = new SpeechSynthesizer();
+    }
+
+    private void GazeControlsPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        GazeKeyboard.Target = TextControl;
+        var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml");
+        GazeKeyboard.LayoutUri = uri;
+        GazeKeyboard.PredictionTargets = _predictions;
+    }
+
+    private async void OnSpeak(object sender, RoutedEventArgs e)
+    {
+        var text = TextControl.Text.ToString();
+        var stream = await _speechSynthesizer.SynthesizeTextToStreamAsync(text);
+        _mediaElement.SetSource(stream, stream.ContentType);
+        _mediaElement.AutoPlay = true;
+        _mediaElement.Play();
+    }
+
+    private async void OnFileOpen(object sender, RoutedEventArgs e)
+    {
+        var file = await ShowFilePicker(false);
+        _textControl.Text = await FileIO.ReadTextAsync(file);
+    }
+
+    private async void OnFileSave(object sender, RoutedEventArgs e)
+    {
+        var file = await ShowFilePicker(true);
+        await FileIO.WriteTextAsync(file, _textControl.Text);
+    }
+
+    private async Task<StorageFile> ShowFilePicker(bool saveMode)
+    {
+        var picker = new GazeFilePicker();
+        var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+        picker.CurrentFolder = library.SaveFolder;
+        picker.FileTypeFilter.Add(".txt");
+        picker.FileTypeFilter.Add(".html");
+        picker.FileTypeFilter.Add(".log");
+        picker.SaveMode = saveMode;
+        await picker.ShowAsync();
+        return picker.SelectedItem;
+    }
+
+}

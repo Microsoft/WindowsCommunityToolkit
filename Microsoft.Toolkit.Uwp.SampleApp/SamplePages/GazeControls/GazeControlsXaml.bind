@@ -1,0 +1,80 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="Page"
+
+    xmlns:gc="using:Microsoft.Toolkit.Uwp.Input.GazeControls"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
+    g:GazeInput.Interaction="@[Interaction:Enum:Interaction.Enabled]"
+    g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
+    g:GazeInput.IsSwitchEnabled="@[IsSwitchEnabled:Bool:False]"
+    g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
+    >
+
+  <Grid>
+    <Grid.Resources>
+      <Style x:Key="Alpha" TargetType="ButtonBase">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="AllowFocusOnInteraction" Value="False" />
+        <Setter Property="g:GazeInput.RepeatDelayDuration" Value="0:0:0.8"/>
+        <Setter Property="g:GazeInput.MaxDwellRepeatCount" Value="1" />
+      </Style>
+
+      <Style x:Key="Symbol" TargetType="ButtonBase">
+        <Setter Property="FontSize" Value="50"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="AllowFocusOnInteraction" Value="False" />
+      </Style>
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="200"/>
+      <RowDefinition Height="100"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="100"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Row="0" Grid.Column="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBox    x:Name="TextControl" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="7" TextWrapping="Wrap" FontSize="45" Margin="3,3,0,3" AcceptsReturn="True" />
+      <Button     x:Name="SpeakButton" Grid.Row="0" Grid.Column="8" Content="&#xE768;" Style="{StaticResource Symbol}" Click="OnSpeak"/>
+    </Grid>
+    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+      <Button x:Name="Prediction0" Height="100" MinWidth="300" Style="{StaticResource Alpha}" />
+      <Button x:Name="Prediction1" Height="100" MinWidth="300" Style="{StaticResource Alpha}" />
+      <Button x:Name="Prediction2" Height="100" MinWidth="300" Style="{StaticResource Alpha}" />
+    </StackPanel>
+    <gc:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="2"  Grid.Column="0" 
+                     LayoutUri="ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml"/>
+    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center">
+      <Button x:Name="FileOpenButton" Content="Open File..." Style="{StaticResource Alpha}" Click="OnFileOpen"/>
+      <Button x:Name="FileSaveButton" Content="Save File..." Style="{StaticResource Alpha}" Click="OnFileSave"/>
+    </StackPanel>
+  </Grid>
+</Page>
