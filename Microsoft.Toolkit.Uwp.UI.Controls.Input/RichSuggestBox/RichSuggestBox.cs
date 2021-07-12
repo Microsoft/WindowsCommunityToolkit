@@ -13,6 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.System;
+using Windows.UI.Input;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,7 +42,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private readonly Dictionary<string, RichSuggestToken> _tokens;
         private readonly ObservableCollection<RichSuggestToken> _visibleTokens;
-        private readonly PointerEventHandler _pointerEventHandler;
 
         private Popup _suggestionPopup;
         private RichEditBox _richEditBox;
@@ -56,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _tokenAtStart;
         private bool _textCompositionActive;
         private ITextRange _currentRange;
-        private CancellationTokenSource _suggestionRequestedTokenSource;
+        private RichSuggestToken _hoveringToken;
+        private CancellationTokenSource _suggestionRequestedCancellationSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RichSuggestBox"/> class.
@@ -65,7 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _tokens = new Dictionary<string, RichSuggestToken>();
             _visibleTokens = new ObservableCollection<RichSuggestToken>();
-            _pointerEventHandler = RichEditBoxPointerEventHandler;
             Tokens = new ReadOnlyObservableCollection<RichSuggestToken>(_visibleTokens);
             LockObj = new object();
 
@@ -78,28 +78,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RichSuggestBox"/> class for unit tests.
+        /// </summary>
+        /// <param name="richEditBox"><see cref="RichEditBox"/> instance to be used for <see cref="TextDocument"/>.</param>
+        internal RichSuggestBox(RichEditBox richEditBox)
+            : this()
+        {
+            _richEditBox = richEditBox;
+        }
+
+        /// <summary>
         /// Clear unused tokens and undo/redo history. <see cref="RichSuggestBox"/> saves all of previously committed tokens
         /// even when they are removed from the text. They have to be manually removed using this method.
         /// </summary>
         public void ClearUndoRedoSuggestionHistory()
         {
             TextDocument.ClearUndoRedoHistory();
-            if (_tokens.Count == 0)
+            lock (LockObj)
             {
-                return;
-            }
+                if (_tokens.Count == 0)
+                {
+                    return;
+                }
 
-            var keysToDelete = _tokens.Where(pair => !pair.Value.Active).Select(pair => pair.Key).ToArray();
-            foreach (var key in keysToDelete)
-            {
-                _tokens.Remove(key);
+                var keysToDelete = _tokens.Where(pair => !pair.Value.Active).Select(pair => pair.Key).ToArray();
+                foreach (var key in keysToDelete)
+                {
+                    _tokens.Remove(key);
+                }
             }
+        }
+
+        /// <summary>
+        /// Try getting the token associated with a text range.
+        /// </summary>
+        /// <param name="range">The range of the token to get.</param>
+        /// <param name="token">When this method returns, contains the token associated with the specified range; otherwise, it is null.</param>
+        /// <returns>true if there is a token associated with the text range; otherwise false.</returns>
+        public bool TryGetTokenFromRange(ITextRange range, out RichSuggestToken token)
+        {
+            token = null;
+            range = range.GetClone();
+            return range != null && !string.IsNullOrEmpty(range.Link) && _tokens.TryGetValue(range.Link, out token);
         }
 
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            PointerEventHandler pointerPressedHandler = RichEditBox_OnPointerPressed;
+            PointerEventHandler pointerMovedHandler = RichEditBox_OnPointerMoved;
 
             _suggestionPopup = (Popup)GetTemplateChild(PartSuggestionsPopup);
             _richEditBox = (RichEditBox)GetTemplateChild(PartRichEditBox);
@@ -118,7 +146,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
             _richEditBox.Paste -= RichEditBox_Paste;
             _richEditBox.PreviewKeyDown -= RichEditBox_PreviewKeyDown;
-            _richEditBox.RemoveHandler(PointerPressedEvent, _pointerEventHandler);
+            _richEditBox.PointerExited -= RichEditBox_OnPointerExited;
+            _richEditBox.RemoveHandler(PointerMovedEvent, pointerMovedHandler);
+            _richEditBox.RemoveHandler(PointerPressedEvent, pointerPressedHandler);
             _richEditBox.ProcessKeyboardAccelerators -= RichEditBox_ProcessKeyboardAccelerators;
 
             _richEditBox.SizeChanged += RichEditBox_SizeChanged;
@@ -131,7 +161,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.Paste += RichEditBox_Paste;
             _richEditBox.PreviewKeyDown += RichEditBox_PreviewKeyDown;
-            _richEditBox.AddHandler(PointerPressedEvent, _pointerEventHandler, true);
+            _richEditBox.PointerExited += RichEditBox_OnPointerExited;
+            _richEditBox.AddHandler(PointerMovedEvent, pointerMovedHandler, true);
+            _richEditBox.AddHandler(PointerPressedEvent, pointerPressedHandler, true);
             _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
 
             _suggestionsList.ItemClick -= SuggestionsList_ItemClick;
@@ -200,6 +232,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void RichEditBox_OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            this._hoveringToken = null;
+        }
+
+        private void RichEditBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            var pointer = e.GetCurrentPoint((UIElement)sender);
+            InvokeTokenHovered(pointer.Position, e.GetCurrentPoint(this));
+        }
+
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
         {
             TextDocument.BeginUndoGroup();
@@ -260,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await RequestSuggestionsAsync();
         }
 
-        private void RichEditBoxPointerEventHandler(object sender, PointerRoutedEventArgs e)
+        private void RichEditBox_OnPointerPressed(object sender, PointerRoutedEventArgs e)
         {
             ShowSuggestionsPopup(false);
         }
@@ -279,21 +322,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Up when itemsList.Count == 1:
                 case VirtualKey.Down when itemsList.Count == 1:
                     args.Handled = true;
-                    _suggestionsList.SelectedItem = itemsList[0];
+                    UpdateSuggestionsListSelectedItem(1);
                     break;
 
                 case VirtualKey.Up:
                     args.Handled = true;
                     _suggestionChoice = _suggestionChoice <= 0 ? itemsList.Count : _suggestionChoice - 1;
-                    _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
-                    _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
+                    UpdateSuggestionsListSelectedItem(this._suggestionChoice);
                     break;
 
                 case VirtualKey.Down:
                     args.Handled = true;
                     _suggestionChoice = _suggestionChoice >= itemsList.Count ? 0 : _suggestionChoice + 1;
-                    _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
-                    _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
+                    UpdateSuggestionsListSelectedItem(this._suggestionChoice);
                     break;
 
                 case VirtualKey.Enter when _suggestionsList.SelectedItem != null:
@@ -393,15 +434,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InvokeTokenSelected(ITextSelection selection)
         {
-            var id = selection.GetClone().Link;
-            if (string.IsNullOrEmpty(id) || !_tokens.TryGetValue(id, out var token) ||
-                token.RangeEnd != selection.EndPosition)
+            if (!TryGetTokenFromRange(selection, out var token) || token.RangeEnd != selection.EndPosition)
             {
                 return;
             }
 
             var tokenRect = GetTokenRect(selection);
-            TokenSelected?.Invoke(this, new RichSuggestTokenSelectedEventArgs(token, tokenRect));
+            TokenSelected?.Invoke(this, new RichSuggestTokenSelectedEventArgs
+            {
+                Token = token,
+                Rect = tokenRect,
+                Range = selection.GetClone()
+            });
+        }
+
+        private void InvokeTokenHovered(Point pointerPosition, PointerPoint passingPointerPoint)
+        {
+            var padding = _richEditBox.Padding;
+            pointerPosition.X -= padding.Left;
+            pointerPosition.Y -= padding.Top;
+            var range = TextDocument.GetRangeFromPoint(pointerPosition, PointOptions.ClientCoordinates);
+            RichSuggestToken token = null;
+            if (range.Expand(TextRangeUnit.Link) > 0 && TryGetTokenFromRange(range, out token) &&
+                token != _hoveringToken)
+            {
+                TokenHovered?.Invoke(this, new RichSuggestTokenHoveredEventArgs
+                {
+                    Token = token,
+                    Rect = GetTokenRect(range),
+                    Range = range,
+                    CurrentPoint = passingPointerPoint
+                });
+            }
+
+            _hoveringToken = token;
         }
 
         private async Task RequestSuggestionsAsync(ITextRange range = null)
@@ -418,22 +484,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _suggestionRequestedTokenSource?.Cancel();
+            CancelIfNotDisposed(this._suggestionRequestedCancellationSource);
+            this._suggestionRequestedCancellationSource = null;
 
             if (queryFound && SuggestionsRequested != null)
             {
-                _suggestionRequestedTokenSource = new CancellationTokenSource();
+                using var tokenSource = new CancellationTokenSource();
+                _suggestionRequestedCancellationSource = tokenSource;
                 _currentPrefix = prefix;
                 _currentQuery = query;
                 _currentRange = range;
 
-                var cancellationToken = _suggestionRequestedTokenSource.Token;
+                var cancellationToken = tokenSource.Token;
                 var eventArgs = new SuggestionsRequestedEventArgs { Query = query, Prefix = prefix };
                 try
                 {
-                    await SuggestionsRequested.InvokeAsync(this, eventArgs, cancellationToken);
+                    await SuggestionsRequested?.InvokeAsync(this, eventArgs, cancellationToken);
                 }
-                catch (TaskCanceledException)
+                catch (OperationCanceledException)
                 {
                     eventArgs.Cancel = true;
                 }
@@ -492,7 +560,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
+        internal bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
         {
             try
             {
@@ -547,16 +615,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ValidateTokenFromRange(ITextRange range)
         {
-            var clone = range.GetClone();
-            if (clone.Length == 0 || string.IsNullOrEmpty(clone.Link) ||
-                !_tokens.TryGetValue(clone.Link, out var token))
+            if (range.Length == 0 || !TryGetTokenFromRange(range, out var token))
             {
-                // Handle case where range.Link is empty but it still recognized and rendered as a link
-                if (clone.CharacterFormat.LinkType == LinkType.FriendlyLinkName)
-                {
-                    clone.Link = string.Empty;
-                }
-
                 return;
             }
 
@@ -626,6 +686,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 presenter.Visibility = Visibility.Visible;
             }
+        }
+
+        private void UpdateSuggestionsListSelectedItem(int choice)
+        {
+            var itemsList = _suggestionsList.Items;
+            if (itemsList == null)
+            {
+                return;
+            }
+
+            _suggestionsList.SelectedItem = choice == 0 ? null : itemsList[choice - 1];
+            _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
         }
 
         private void ShowSuggestionsPopup(bool show)
@@ -840,7 +912,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Rect GetTokenRect(ITextRange tokenRange)
         {
             var padding = _richEditBox.Padding;
-            tokenRange.GetRect(PointOptions.None, out var rect, out _);
+            tokenRange.GetRect(PointOptions.ClientCoordinates, out var rect, out var hit);
             rect.X += padding.Left;
             rect.Y += padding.Top;
             var transform = _richEditBox.TransformToVisual(this);

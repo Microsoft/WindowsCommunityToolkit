@@ -4,6 +4,7 @@
 
 using System;
 using Windows.Foundation;
+using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -13,19 +14,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class RichSuggestTokenSelectedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the selected token.
+        /// Gets or sets the selected token.
         /// </summary>
-        public RichSuggestToken Token { get; }
+        public RichSuggestToken Token { get; set; }
 
         /// <summary>
-        /// Gets the position and size of the selected rectangle measured from the top left of the <see cref="RichSuggestBox"/> control.
+        /// Gets or sets the position and size of the selected rectangle measured from the top left of the <see cref="RichSuggestBox"/> control.
         /// </summary>
-        public Rect Rect { get; }
+        public Rect Rect { get; set; }
 
-        internal RichSuggestTokenSelectedEventArgs(RichSuggestToken token, Rect rect)
-        {
-            Token = token;
-            Rect = rect;
-        }
+        /// <summary>
+        /// Gets or sets the range associated with the token.
+        /// </summary>
+        public ITextRange Range { get; set; }
     }
 }

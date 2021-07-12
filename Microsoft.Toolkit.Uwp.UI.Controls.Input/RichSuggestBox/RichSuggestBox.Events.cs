@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event TypedEventHandler<RichSuggestBox, RichSuggestTokenSelectedEventArgs> TokenSelected;
 
         /// <summary>
+        /// Event raised when a pointer is hovering over a token.
+        /// </summary>
+        public event TypedEventHandler<RichSuggestBox, RichSuggestTokenHoveredEventArgs> TokenHovered;
+
+        /// <summary>
         /// Event raised when text is changed, either by user or by internal formatting.
         /// </summary>
         public event TypedEventHandler<RichSuggestBox, RoutedEventArgs> TextChanged;

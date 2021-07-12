@@ -63,18 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void UpdateTextRange(ITextRange range)
         {
-            if (_range == null)
+            bool invoke = _range == null || RangeStart != range.StartPosition || RangeEnd != range.EndPosition;
+            _range = range.GetClone();
+            RangeStart = _range.StartPosition;
+            RangeEnd = _range.EndPosition;
+
+            if (invoke)
             {
-                _range = range.GetClone();
-                RangeStart = _range.StartPosition;
-                RangeEnd = _range.EndPosition;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-            }
-            else if (RangeStart != range.StartPosition || RangeEnd != range.EndPosition)
-            {
-                _range.SetRange(range.StartPosition, range.EndPosition);
-                RangeStart = _range.StartPosition;
-                RangeEnd = _range.EndPosition;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
             }
         }

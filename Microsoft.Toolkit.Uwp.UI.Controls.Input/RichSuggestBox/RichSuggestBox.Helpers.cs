@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Text;
@@ -102,6 +103,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 nextIndex = range.GetIndex(TextRangeUnit.Link);
+            }
+        }
+
+        private static void CancelIfNotDisposed(CancellationTokenSource cancellationSource)
+        {
+            if (cancellationSource == null || cancellationSource.IsCancellationRequested)
+            {
+                return;
+            }
+
+            try
+            {
+                cancellationSource.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+                // pass
             }
         }
     }
