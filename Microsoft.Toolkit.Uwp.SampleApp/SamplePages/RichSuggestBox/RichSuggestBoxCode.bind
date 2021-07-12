@@ -1,28 +1,18 @@
-﻿private async void SuggestingBox_OnPointerReleased(object sender, PointerRoutedEventArgs e)
+﻿private async void SuggestingBox_OnTokenHovered(RichSuggestBox sender, RichSuggestTokenHoveredEventArgs args)
 {
-  await Task.Delay(10);
-  this._showFlyout?.Invoke();
-  this._showFlyout = null;
-}
-
-private void SuggestingBox_OnTokenSelected(RichSuggestBox sender, RichSuggestTokenSelectedEventArgs args)
-{
-  this._showFlyout = () =>
+  await Task.Delay(1);
+  var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
+  if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
+    (!flyout.IsOpen || cp.Content != args.Token.Item))
   {
-    var x = (args.Rect.Width / 2) + args.Rect.X;
-    var y = (args.Rect.Height / 2) + args.Rect.Y;
-    var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
-    if (flyout.Content is ContentPresenter cp)
+    cp.Content = args.Token.Item;
+    flyout.ShowAt(sender, new FlyoutShowOptions
     {
-      cp.Content = args.Token.Item;
-      flyout.ShowAt(sender, new FlyoutShowOptions
-      {
-        Position = new Point(x, y),
-        ExclusionRect = args.Rect,
-        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
-      });
-    }
-  };
+      Position = args.CurrentPoint.Position,
+      ExclusionRect = args.Rect,
+      ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
+    });
+  }
 }
 
 private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
