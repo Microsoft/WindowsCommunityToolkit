@@ -61,7 +61,7 @@
                           ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                           ParallaxSpeedRatio="@[Parallax Speed Ratio:DoubleSlider:1.2:1-3]"
                           ScrollViewerContainer="{Binding ElementName=FlipView, Mode=OneTime}">
-      <FlipView x:Name="FlipView">
+      <FlipView x:Name="FlipView" Background="Transparent">
 
         <Border Style="{StaticResource BorderStyle}">
           <TextBlock Style="{StaticResource TextBlockStyle}" Text="Parallax with FlipView &gt;"/>
