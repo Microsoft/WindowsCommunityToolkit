@@ -58,7 +58,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_AlsoNotifyForAttribute_Events()
+        public void Test_AlsoNotifyChangeForAttribute_Events()
         {
             var model = new DependentPropertyModel();
 
@@ -129,11 +129,11 @@ namespace UnitTests.Mvvm
         public sealed partial class DependentPropertyModel
         {
             [ObservableProperty]
-            [AlsoNotifyFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(FullName))]
             private string? name;
 
             [ObservableProperty]
-            [AlsoNotifyFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(FullName))]
             private string? surname;
 
             public string FullName => $"{Name} {Surname}";

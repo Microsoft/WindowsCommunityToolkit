@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 typeName = fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 propertyName = GetGeneratedPropertyName(fieldSymbol);
 
-            INamedTypeSymbol alsoNotifyForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyForAttribute).FullName)!;
+            INamedTypeSymbol alsoNotifyChangeForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyChangeForAttribute).FullName)!;
             INamedTypeSymbol? validationAttributeSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute");
 
             List<StatementSyntax> dependentPropertyNotificationStatements = new();
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             foreach (AttributeData attributeData in fieldSymbol.GetAttributes())
             {
                 // Add dependent property notifications, if needed
-                if (SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass, alsoNotifyForAttributeSymbol))
+                if (SymbolEqualityComparer.Default.Equals(attributeData.AttributeClass, alsoNotifyChangeForAttributeSymbol))
                 {
                     foreach (TypedConstant attributeArgument in attributeData.ConstructorArguments)
                     {

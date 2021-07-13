@@ -28,11 +28,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// partial class MyViewModel : ObservableObject
     /// {
     ///     [ObservableProperty]
-    ///     [AlsoNotifyFor(nameof(FullName))]
+    ///     [AlsoNotifyChangeFor(nameof(FullName))]
     ///     private string name;
     ///
     ///     [ObservableProperty]
-    ///     [AlsoNotifyFor(nameof(FullName))]
+    ///     [AlsoNotifyChangeFor(nameof(FullName))]
     ///     private string surname;
     ///
     ///     public string FullName => $"{Name} {Surname}";
@@ -64,26 +64,26 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// </code>
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
-    public sealed class AlsoNotifyForAttribute : Attribute
+    public sealed class AlsoNotifyChangeForAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AlsoNotifyForAttribute"/> class.
+        /// Initializes a new instance of the <see cref="AlsoNotifyChangeForAttribute"/> class.
         /// </summary>
         /// <param name="propertyName">The name of the property to also notify when the annotated property changes.</param>
-        public AlsoNotifyForAttribute(string propertyName)
+        public AlsoNotifyChangeForAttribute(string propertyName)
         {
             PropertyNames = new[] { propertyName };
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AlsoNotifyForAttribute"/> class.
+        /// Initializes a new instance of the <see cref="AlsoNotifyChangeForAttribute"/> class.
         /// </summary>
         /// <param name="propertyName">The name of the property to also notify when the annotated property changes.</param>
         /// <param name="otherPropertyNames">
         /// The other property names to also notify when the annotated property changes. This parameter can optionally
         /// be used to indicate a series of dependent properties from the same attribute, to keep the code more compact.
         /// </param>
-        public AlsoNotifyForAttribute(string propertyName, string[] otherPropertyNames)
+        public AlsoNotifyChangeForAttribute(string propertyName, string[] otherPropertyNames)
         {
             PropertyNames = new[] { propertyName }.Concat(otherPropertyNames).ToArray();
         }

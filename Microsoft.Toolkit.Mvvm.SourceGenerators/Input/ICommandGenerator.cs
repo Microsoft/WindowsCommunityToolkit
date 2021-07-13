@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         {
             string propertyName = methodSymbol.Name;
 
-            if (SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")!) &&
+            if (SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")) &&
                 methodSymbol.Name.EndsWith("Async"))
             {
                 propertyName = propertyName.Substring(0, propertyName.Length - "Async".Length);
