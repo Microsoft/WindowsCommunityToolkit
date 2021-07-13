@@ -9,6 +9,7 @@
   <interactivity:Interaction.Behaviors>
     <behaviors:FocusBehavior>
       <behaviors:FocusTarget Control="{x:Bind disabledItem}" />
+      <behaviors:FocusTarget Control="{x:Bind xLoadItem}" />
       <behaviors:FocusTarget Control="{x:Bind emptyList}" />
       <behaviors:FocusTarget Control="{x:Bind enabledItem}" />
     </behaviors:FocusBehavior>
@@ -27,5 +28,13 @@
     </ListView>
     <Button x:Name="enabledItem"
             Content="I can get the focus" />
+    <StackPanel Orientation="Horizontal">
+      <ToggleSwitch x:Name="LoadControl"
+                    OffContent="Load the item"
+                    OnContent="Unload the item" />
+      <Button x:Name="xLoadItem"
+              x:Load="{x:Bind LoadControl.IsOn, Mode=OneWay}"
+              Content="I can get the focus when loaded" />
+    </StackPanel>
   </StackPanel>
 </Page>
