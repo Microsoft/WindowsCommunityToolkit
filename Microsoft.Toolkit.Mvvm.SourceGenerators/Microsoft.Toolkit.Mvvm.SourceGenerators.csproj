@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EmbeddedResources\INotifyPropertyChanged.cs" />
+    <Compile Remove="EmbeddedResources\ObservableObject.cs" />
+    <Compile Remove="EmbeddedResources\ObservableRecipient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\AlsoNotifyChangeForAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\AlsoNotifyChangeForAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\INotifyPropertyChanged.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableObject.cs" Link="EmbeddedResources\ObservableObject.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\ObservableRecipient.cs" Link="EmbeddedResources\ObservableRecipient.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" PrivateAssets="all" Pack="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+</Project>

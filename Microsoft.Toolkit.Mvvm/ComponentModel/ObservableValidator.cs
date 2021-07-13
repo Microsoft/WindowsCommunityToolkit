@@ -471,7 +471,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected void ValidateAllProperties()
         {
+            // Fast path that tries to create a delegate from a generated type-specific method. This
+            // is used to make this method more AOT-friendly and faster, as there is no dynamic code.
             static Action<object> GetValidationAction(Type type)
+            {
+                if (type.Assembly.GetType("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__ObservableValidatorExtensions") is Type extensionsType &&
+                    extensionsType.GetMethod("CreateAllPropertiesValidator", new[] { type }) is MethodInfo methodInfo)
+                {
+                    return (Action<object>)methodInfo.Invoke(null, new object?[] { null })!;
+                }
+
+                return GetValidationActionFallback(type);
+            }
+
+            // Fallback method to create the delegate with a compiled LINQ expression
+            static Action<object> GetValidationActionFallback(Type type)
             {
                 // MyViewModel inst0 = (MyViewModel)arg0;
                 ParameterExpression arg0 = Expression.Parameter(typeof(object));
@@ -489,6 +503,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 //     inst0.ValidateProperty(inst0.Property0, nameof(MyViewModel.Property0));
                 //     inst0.ValidateProperty(inst0.Property1, nameof(MyViewModel.Property1));
                 //     ...
+                //     inst0.ValidateProperty(inst0.PropertyN, nameof(MyViewModel.PropertyN));
                 // }
                 // ===============================================================================
                 // We also add an explicit object conversion to represent boxing, if a given property
@@ -523,7 +538,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="value">The value to test for the specified property.</param>
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
-        protected void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
+        protected internal void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null)
             {

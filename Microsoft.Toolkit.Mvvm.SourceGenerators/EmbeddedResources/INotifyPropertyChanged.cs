@@ -1,19 +1,8 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#pragma warning disable SA1512
-
-// This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
-// more info in ThirdPartyNotices.txt in the root of the project.
-
-// ================================== NOTE ==================================
-// This file is mirrored in the trimmed-down INotifyPropertyChanged file in
-// the source generator project, to be used with the [INotifyPropertyChanged],
-// attribute, along with the ObservableObject annotated copy (for debugging info).
-// If any changes are made to this file, they should also be appropriately
-// ported to that file as well to keep the behavior consistent.
-// ==========================================================================
+#pragma warning disable
 
 using System;
 using System.Collections.Generic;
@@ -24,15 +13,12 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
-    /// A base class for objects of which the properties must be observable.
+    /// A base class for objects implementing <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public abstract class ObservableObject : INotifyPropertyChanged, INotifyPropertyChanging
+    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged"/>
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        /// <inheritdoc cref="INotifyPropertyChanging.PropertyChanging"/>
-        public event PropertyChangingEventHandler? PropertyChanging;
 
         /// <summary>
         /// Raises the <see cref="PropertyChanged"/> event.
@@ -41,15 +27,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChanging"/> event.
-        /// </summary>
-        /// <param name="e">The input <see cref="PropertyChangingEventArgs"/> instance.</param>
-        protected virtual void OnPropertyChanging(PropertyChangingEventArgs e)
-        {
-            PropertyChanging?.Invoke(this, e);
         }
 
         /// <summary>
@@ -62,18 +39,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Raises the <see cref="PropertyChanging"/> event.
-        /// </summary>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected void OnPropertyChanging([CallerMemberName] string? propertyName = null)
-        {
-            OnPropertyChanging(new PropertyChangingEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
-        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given property. If the value has changed, updates
+        /// the property with the new value, then raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="field">The field storing the property's value.</param>
@@ -81,25 +48,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string? propertyName = null)
         {
-            // We duplicate the code here instead of calling the overload because we can't
-            // guarantee that the invoked SetProperty<T> will be inlined, and we need the JIT
-            // to be able to see the full EqualityComparer<T>.Default.Equals call, so that
-            // it'll use the intrinsics version of it and just replace the whole invocation
-            // with a direct comparison when possible (eg. for primitive numeric types).
-            // This is the fastest SetProperty<T> overload so we particularly care about
-            // the codegen quality here, and the code is small and simple enough so that
-            // duplicating it still doesn't make the whole class harder to maintain.
             if (EqualityComparer<T>.Default.Equals(field, newValue))
             {
                 return false;
             }
-
-            OnPropertyChanging(propertyName);
 
             field = newValue;
 
@@ -109,9 +65,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
-        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given property. If the value has changed, updates
+        /// the property with the new value, then raises the <see cref="PropertyChanged"/> event.
         /// See additional notes about this overload in <see cref="SetProperty{T}(ref T,T,string)"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
@@ -127,8 +82,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            OnPropertyChanging(propertyName);
-
             field = newValue;
 
             OnPropertyChanged(propertyName);
@@ -137,9 +90,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
-        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given property. If the value has changed, updates
+        /// the property with the new value, then raises the <see cref="PropertyChanged"/> event.
         /// This overload is much less efficient than <see cref="SetProperty{T}(ref T,T,string)"/> and it
         /// should only be used when the former is not viable (eg. when the target property being
         /// updated does not directly expose a backing field that can be passed by reference).
@@ -156,18 +108,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
-            // We avoid calling the overload again to ensure the comparison is inlined
             if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
             {
                 return false;
             }
-
-            OnPropertyChanging(propertyName);
 
             callback(newValue);
 
@@ -177,9 +125,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
-        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given property. If the value has changed, updates
+        /// the property with the new value, then raises the <see cref="PropertyChanged"/> event.
         /// See additional notes about this overload in <see cref="SetProperty{T}(T,T,Action{T},string)"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
@@ -196,8 +143,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            OnPropertyChanging(propertyName);
-
             callback(newValue);
 
             OnPropertyChanged(propertyName);
@@ -207,8 +152,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <summary>
         /// Compares the current and new values for a given nested property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property and then raises the
-        /// <see cref="PropertyChanged"/> event. The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
+        /// updates the property and then raises the <see cref="PropertyChanged"/> event.
+        /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
         /// current instance. This type is useful when creating wrapping, bindable objects that operate over
         /// models that lack support for notification (eg. for CRUD operations).
@@ -222,7 +167,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// We can then use a property to wrap instances of this type into our observable model (which supports
         /// notifications), injecting the notification to the properties of that model, like so:
         /// <code>
-        /// public class BindablePerson : ObservableObject
+        /// [INotifyPropertyChanged]
+        /// public partial class BindablePerson
         /// {
         ///     public Model { get; }
         ///
@@ -254,8 +200,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not
-        /// raised if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
             where TModel : class
@@ -264,8 +209,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
                 return false;
             }
-
-            OnPropertyChanging(propertyName);
 
             callback(model, newValue);
 
@@ -276,8 +219,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <summary>
         /// Compares the current and new values for a given nested property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property and then raises the
-        /// <see cref="PropertyChanged"/> event. The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
+        /// updates the property and then raises the <see cref="PropertyChanged"/> event.
+        /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
         /// current instance. See additional notes about this overload in <see cref="SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>.
         /// </summary>
@@ -298,8 +241,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            OnPropertyChanging(propertyName);
-
             callback(model, newValue);
 
             OnPropertyChanged(propertyName);
@@ -308,9 +249,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given field (which should be the backing
-        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
-        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given field (which should be the backing field for a property).
+        /// If the value has changed, updates the field and then raises the <see cref="PropertyChanged"/> event.
         /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>, with the difference being that
         /// this method will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
         /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
@@ -335,26 +275,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
-        /// and new value for the target property are the same. The return value being <see langword="true"/> only
-        /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
-        /// and it does not mean the new <see cref="Task"/> instance passed as argument is in any particular state.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are
+        /// the same. The return value being <see langword="true"/> only indicates that the new value being assigned to
+        /// <paramref name="taskNotifier"/> is different than the previous one, and it does not mean the new
+        /// <see cref="Task"/> instance passed as argument is in any particular state.
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, [CallerMemberName] string? propertyName = null)
         {
-            // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
-            // The lambda expression here is transformed by the C# compiler into an empty closure class with a
-            // static singleton field containing a closure instance, and another caching the instantiated Action<TTask>
-            // instance. This will result in no further allocations after the first time this method is called for a given
-            // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
-            // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
 
         /// <summary>
-        /// Compares the current and new values for a given field (which should be the backing
-        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
-        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given field (which should be the backing field for a property).
+        /// If the value has changed, updates the field and then raises the <see cref="PropertyChanged"/> event.
         /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion(ref TaskNotifier,Task,string)"/>,
         /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
         /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
@@ -365,8 +298,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
         {
@@ -374,9 +306,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given field (which should be the backing
-        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
-        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given field (which should be the backing field for a property).
+        /// If the value has changed, updates the field and then raises the <see cref="PropertyChanged"/> event.
         /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>, with the difference being that
         /// this method will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
         /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
@@ -402,10 +333,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
-        /// and new value for the target property are the same. The return value being <see langword="true"/> only
-        /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
-        /// and it does not mean the new <see cref="Task{TResult}"/> instance passed as argument is in any particular state.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are
+        /// the same. The return value being <see langword="true"/> only indicates that the new value being assigned to
+        /// <paramref name="taskNotifier"/> is different than the previous one, and it does not mean the new
+        /// <see cref="Task{TResult}"/> instance passed as argument is in any particular state.
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
         {
@@ -413,9 +344,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Compares the current and new values for a given field (which should be the backing
-        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
-        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// Compares the current and new values for a given field (which should be the backing field for a property).
+        /// If the value has changed, updates the field and then raises the <see cref="PropertyChanged"/> event.
         /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion{T}(ref TaskNotifier{T},Task{T},string)"/>,
         /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
         /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
@@ -427,8 +357,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanged"/> event is not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
         {
@@ -452,24 +381,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            // Check the status of the new task before assigning it to the
-            // target field. This is so that in case the task is either
-            // null or already completed, we can avoid the overhead of
-            // scheduling the method to monitor its completion.
             bool isAlreadyCompletedOrNull = newValue?.IsCompleted ?? true;
-
-            OnPropertyChanging(propertyName);
 
             taskNotifier.Task = newValue;
 
             OnPropertyChanged(propertyName);
 
-            // If the input task is either null or already completed, we don't need to
-            // execute the additional logic to monitor its completion, so we can just bypass
-            // the rest of the method and return that the field changed here. The return value
-            // does not indicate that the task itself has completed, but just that the property
-            // value itself has changed (ie. the referenced task instance has changed).
-            // This mirrors the return value of all the other synchronous Set methods as well.
             if (isAlreadyCompletedOrNull)
             {
                 callback(newValue);
@@ -477,26 +394,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return true;
             }
 
-            // We use a local async function here so that the main method can
-            // remain synchronous and return a value that can be immediately
-            // used by the caller. This mirrors Set<T>(ref T, T, string).
-            // We use an async void function instead of a Task-returning function
-            // so that if a binding update caused by the property change notification
-            // causes a crash, it is immediately reported in the application instead of
-            // the exception being ignored (as the returned task wouldn't be awaited),
-            // which would result in a confusing behavior for users.
             async void MonitorTask()
             {
                 try
                 {
-                    // Await the task and ignore any exceptions
                     await newValue!;
                 }
                 catch
                 {
                 }
 
-                // Only notify if the property hasn't changed
                 if (ReferenceEquals(taskNotifier.Task, newValue))
                 {
                     OnPropertyChanged(propertyName);
