@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Shared implementation of ObjectStorageHelper.
     /// </summary>
+    [Obsolete("BaseObjectStorageHelper is deprecated and has been superceded by ApplicationDataStorageHelper.")]
     public abstract class BaseObjectStorageHelper : IObjectStorageHelper
     {
         private readonly IObjectSerializer serializer;

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel;
@@ -57,7 +58,7 @@ namespace UnitTests.Helpers
             // Simulate a first app startup
             _ = (SystemInformation)Activator.CreateInstance(typeof(SystemInformation), nonPublic: true);
 
-            LocalObjectStorageHelper localObjectStorageHelper = new(new SystemSerializer());
+            ISettingsStorageHelper localObjectStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
             PackageVersion previousVersion = new() { Build = 42, Major = 1111, Minor = 2222, Revision = 12345 };
 
             localObjectStorageHelper.Save("currentVersion", previousVersion.ToFormattedString());

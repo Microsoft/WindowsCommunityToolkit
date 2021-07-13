@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -9,6 +10,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Store data in the Local environment (only on the current device).
     /// </summary>
+    [Obsolete("LocalObjectStorageHelper is deprecated and has been superceded by the ApplicationDataStorageHelper.")]
     public class LocalObjectStorageHelper : BaseObjectStorageHelper
     {
         /// <summary>

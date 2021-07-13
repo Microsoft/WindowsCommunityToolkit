@@ -2,23 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Helpers
 {
     /// <summary>
     /// A basic serialization service.
     /// </summary>
-    [Obsolete("IObjectSerializer has been migrated to the Microsoft.Toolkit (CommunityToolkit.Common) package.")]
     public interface IObjectSerializer
     {
         /// <summary>
-        /// Serialize an object into a string. It is recommended to use strings as the final format for objects if you plan to use the <see cref="BaseObjectStorageHelper.SaveFileAsync{T}(string, T)"/> method.
+        /// Serialize an object into a string. It is recommended to use strings as the final format for objects.
         /// </summary>
         /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="value">The object to serialize.</param>
         /// <returns>The serialized object.</returns>
-        object Serialize<T>(T value);
+        object? Serialize<T>(T value);
 
         /// <summary>
         /// Deserialize a primitive or string into an object of the given type.

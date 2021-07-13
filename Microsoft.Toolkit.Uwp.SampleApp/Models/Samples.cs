@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
+        private static ApplicationDataStorageHelper _localObjectStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {

@@ -23,9 +23,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public sealed class SystemInformation
     {
         /// <summary>
-        /// The <see cref="LocalObjectStorageHelper"/> instance used to save and retrieve application settings.
+        /// The <see cref="ApplicationDataStorageHelper"/> instance used to save and retrieve application settings.
         /// </summary>
-        private readonly LocalObjectStorageHelper _localObjectStorageHelper = new(new SystemSerializer());
+        private readonly ApplicationDataStorageHelper _localObjectStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         /// <summary>
         /// The starting time of the current application session (since app launch or last move to foreground).

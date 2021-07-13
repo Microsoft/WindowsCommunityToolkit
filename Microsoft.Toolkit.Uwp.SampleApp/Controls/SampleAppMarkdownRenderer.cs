@@ -417,7 +417,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// <summary>
         /// The Local Storage Helper.
         /// </summary>
-        private LocalObjectStorageHelper storage = new LocalObjectStorageHelper(new SystemSerializer());
+        private ApplicationDataStorageHelper storage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         /// <summary>
         /// DocFX note types and styling info, keyed by identifier.

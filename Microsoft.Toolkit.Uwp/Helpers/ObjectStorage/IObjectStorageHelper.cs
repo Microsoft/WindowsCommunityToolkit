@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -11,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Service used to store data.
     /// </summary>
+    [Obsolete("IObjectStorageHelper is deprecated. Please use IDictionaryStorageHelper and IFileStorageHelper interfaces instead.")]
     public interface IObjectStorageHelper
     {
         /// <summary>

@@ -4,7 +4,7 @@
 
 using System;
 using System.Text.Json;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Helpers;
 
 namespace UnitTests.UWP.Helpers
 {

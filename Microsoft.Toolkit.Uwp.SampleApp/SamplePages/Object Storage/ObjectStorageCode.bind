@@ -1,25 +1,24 @@
-var localObjectStorageHelper = new LocalObjectStorageHelper();
-var roamingObjectStorageHelper = new RoamingObjectStorageHelper();
+ApplicationDataStorageHelper appDataStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
 // Read and Save with simple objects
 string keySimpleObject = "simple";
-string result = localObjectStorageHelper.Read<string>(keySimpleObject);
-localObjectStorageHelper.Save(keySimpleObject, 47);
+string result = appDataStorageHelper.Read<string>(keySimpleObject);
+appDataStorageHelper.Save(keySimpleObject, 47);
 
 // Read and Save with complex/large objects
-string keyLargeObject = "large";
-var result = localObjectStorageHelper.ReadFileAsync<MyLargeObject>(keyLargeObject);
+string complexObjectKey = "complexObject";
+var complexObject = await appDataStorageHelper.ReadFileAsync<MyLargeObject>(complexObjectKey);
 
-var o = new MyLargeObject
+var myComplexObject = new MyComplexObject()
 {
     ...
 };
-localObjectStorageHelper.SaveFileAsync(keySimpleObject, o);
+await appDataStorageHelper.SaveFileAsync(complexObjectKey, myComplexObject);
 
 // Complex object
-public class MyLargeObject
+public class MyComplexObject
 {
     public string MyContent { get; set; }
     public List<string> MyContents { get; set; }
-    public List<MyLargeObject> MyObjects { get; set; }
+    public List<MyComplexObject> MyObjects { get; set; }
 }

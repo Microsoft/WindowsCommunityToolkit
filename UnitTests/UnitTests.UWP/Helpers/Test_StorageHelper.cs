@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -14,10 +15,9 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StorageHelper
     {
-        private LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
-        private LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
-
-        private LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
+        private ISettingsStorageHelper _localStorageHelperSystem = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
+        private ISettingsStorageHelper _localStorageHelperJsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer());
+        private ISettingsStorageHelper _localStorageHelperJsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer());
 
         /// <summary>
         /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.
@@ -50,7 +50,7 @@ namespace UnitTests.Helpers
         }
 
         /// <summary>
-        /// If we try and deserialize a complex type with the <see cref="SystemSerializer"/>, we do a check ourselves and will throw our own exception.
+        /// If we try and deserialize a complex type with the <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/>, we do a check ourselves and will throw our own exception.
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
@@ -68,7 +68,7 @@ namespace UnitTests.Helpers
         }
 
         /// <summary>
-        /// The <see cref="SystemSerializer"/> doesn't support complex types, since it just passes through directly.
+        /// The <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/> doesn't support complex types, since it just passes through directly.
         /// We'll get the argument exception from the <see cref="ApplicationDataContainer"/> API.
         /// </summary>
         [TestCategory("Helpers")]

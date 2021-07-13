@@ -4,15 +4,13 @@
 
 using System;
 using System.Reflection;
-using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Helpers
 {
     /// <summary>
-    /// A bare-bones serializer which knows how to deal with primitive types and strings only. It will store them directly based on the <see cref="ApplicationDataContainer"/> API.
+    /// A bare-bones serializer which knows how to deal with primitive types and strings only.
     /// It is recommended for more complex scenarios to implement your own <see cref="IObjectSerializer"/> based on System.Text.Json, Newtonsoft.Json, or DataContractJsonSerializer see https://aka.ms/wct/storagehelper-migration
     /// </summary>
-    [Obsolete("SystemSerializer has been migrated to the Microsoft.Toolkit (CommunityToolkit.Common) package.")]
     public class SystemSerializer : IObjectSerializer
     {
         /// <summary>
@@ -37,12 +35,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns the value so that it can be serialized by the <see cref="ApplicationDataContainer"/> API directly.
+        /// Returns the value so that it can be serialized directly.
         /// </summary>
         /// <typeparam name="T">Type to serialize from.</typeparam>
         /// <param name="value">Value to serialize.</param>
         /// <returns>String representation of value.</returns>
-        public object Serialize<T>(T value)
+        public object? Serialize<T>(T value)
         {
             return value;
         }
