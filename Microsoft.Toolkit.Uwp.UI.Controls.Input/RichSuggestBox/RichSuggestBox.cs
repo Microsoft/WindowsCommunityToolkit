@@ -13,7 +13,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.System;
-using Windows.UI.Input;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -240,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RichEditBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
         {
             var pointer = e.GetCurrentPoint((UIElement)sender);
-            InvokeTokenHovered(pointer.Position, e.GetCurrentPoint(this));
+            InvokeTokenHovered(pointer.Position);
         }
 
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
@@ -440,7 +439,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var tokenRect = GetTokenRect(selection);
-            TokenSelected?.Invoke(this, new RichSuggestTokenSelectedEventArgs
+            TokenSelected?.Invoke(this, new RichSuggestTokenEventArgs
             {
                 Token = token,
                 Rect = tokenRect,
@@ -448,7 +447,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             });
         }
 
-        private void InvokeTokenHovered(Point pointerPosition, PointerPoint passingPointerPoint)
+        private void InvokeTokenHovered(Point pointerPosition)
         {
             var padding = _richEditBox.Padding;
             pointerPosition.X -= padding.Left;
@@ -458,12 +457,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (range.Expand(TextRangeUnit.Link) > 0 && TryGetTokenFromRange(range, out token) &&
                 token != _hoveringToken)
             {
-                TokenHovered?.Invoke(this, new RichSuggestTokenHoveredEventArgs
+                TokenHovered?.Invoke(this, new RichSuggestTokenEventArgs
                 {
                     Token = token,
                     Rect = GetTokenRect(range),
                     Range = range,
-                    CurrentPoint = passingPointerPoint
                 });
             }
 

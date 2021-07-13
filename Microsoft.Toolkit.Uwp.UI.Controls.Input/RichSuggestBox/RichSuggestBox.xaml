@@ -4,6 +4,11 @@
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <!--  WinUI dependency for testing  -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+    </ResourceDictionary.MergedDictionaries>
+
     <!--  Default style for RichSuggestBox  -->
     <Style BasedOn="{StaticResource DefaultRichSuggestBoxStyle}"
            TargetType="controls:RichSuggestBox" />

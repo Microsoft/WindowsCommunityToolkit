@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Provides data for <see cref="RichSuggestBox.TokenSelected"/> event.
     /// </summary>
-    public class RichSuggestTokenSelectedEventArgs : EventArgs
+    public class RichSuggestTokenEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the selected token.
