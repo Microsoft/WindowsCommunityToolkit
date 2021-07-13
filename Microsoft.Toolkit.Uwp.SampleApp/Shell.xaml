@@ -34,6 +34,9 @@
                               MenuItemTemplate="{StaticResource CategoryTemplate}"
                               PaneDisplayMode="Top"
                               SelectionFollowsFocus="Disabled">
+            <winui:NavigationView.Resources>
+                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0,0,0,0</CornerRadius>
+            </winui:NavigationView.Resources>
             <winui:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox x:Name="SearchBox"
                                 MinWidth="150"
