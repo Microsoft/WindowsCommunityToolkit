@@ -357,6 +357,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RichEditTextDocument TextDocument => _richEditBox?.TextDocument;
 
         /// <summary>
+        /// Gets the distance the content has been scrolled horizontally from the underlying <see cref="ScrollViewer"/>.
+        /// </summary>
+        public double HorizontalOffset => this._scrollViewer?.HorizontalOffset ?? 0;
+
+        /// <summary>
+        /// Gets the distance the content has been scrolled vertically from the underlying <see cref="ScrollViewer"/>.
+        /// </summary>
+        public double VerticalOffset => this._scrollViewer?.VerticalOffset ?? 0;
+
+        /// <summary>
         /// Gets a collection of suggestion tokens that are present in the document.
         /// </summary>
         public ReadOnlyObservableCollection<RichSuggestToken> Tokens { get; }

@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Popup _suggestionPopup;
         private RichEditBox _richEditBox;
+        private ScrollViewer _scrollViewer;
         private ListViewBase _suggestionsList;
         private Border _suggestionsContainer;
 
@@ -74,16 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(CornerRadiusProperty, OnCornerRadiusChanged);
             RegisterPropertyChangedCallback(PopupCornerRadiusProperty, OnCornerRadiusChanged);
             LostFocus += OnLostFocus;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RichSuggestBox"/> class for unit tests.
-        /// </summary>
-        /// <param name="richEditBox"><see cref="RichEditBox"/> instance to be used for <see cref="TextDocument"/>.</param>
-        internal RichSuggestBox(RichEditBox richEditBox)
-            : this()
-        {
-            _richEditBox = richEditBox;
+            Loaded += OnLoaded;
         }
 
         /// <summary>
@@ -208,6 +200,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
         {
             UpdateCornerRadii();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _scrollViewer = _richEditBox?.FindDescendant<ScrollViewer>();
         }
 
         private void OnLostFocus(object sender, RoutedEventArgs e)
@@ -338,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 case VirtualKey.Enter when _suggestionsList.SelectedItem != null:
                     args.Handled = true;
-                    await OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
+                    await CommitSuggestionAsync(_suggestionsList.SelectedItem);
                     break;
 
                 case VirtualKey.Escape:
@@ -353,14 +350,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == VirtualKey.Tab && _suggestionsList.SelectedItem != null)
             {
                 e.Handled = true;
-                await OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
+                await CommitSuggestionAsync(_suggestionsList.SelectedItem);
             }
         }
 
         private async void SuggestionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             var selectedItem = e.ClickedItem;
-            await OnSuggestionSelectedAsync(selectedItem);
+            await CommitSuggestionAsync(selectedItem);
         }
 
         private void RichEditBox_TextChanging(RichEditBox sender, RichEditBoxTextChangingEventArgs args)
@@ -450,8 +447,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void InvokeTokenHovered(Point pointerPosition)
         {
             var padding = _richEditBox.Padding;
-            pointerPosition.X -= padding.Left;
-            pointerPosition.Y -= padding.Top;
+            pointerPosition.X += HorizontalOffset - padding.Left;
+            pointerPosition.Y += VerticalOffset - padding.Top;
             var range = TextDocument.GetRangeFromPoint(pointerPosition, PointOptions.ClientCoordinates);
             RichSuggestToken token = null;
             if (range.Expand(TextRangeUnit.Link) > 0 && TryGetTokenFromRange(range, out token) &&
@@ -510,7 +507,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private async Task OnSuggestionSelectedAsync(object selectedItem)
+        internal async Task CommitSuggestionAsync(object selectedItem)
         {
             var range = _currentRange?.GetClone();
             var id = Guid.NewGuid();
@@ -519,22 +516,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // range has length of 0 at the end of the commit.
             // Checking length == 0 to avoid committing twice.
-            if (SuggestionChosen == null || prefix == null || query == null || range == null ||
-                range.Length == 0)
+            if (prefix == null || query == null || range == null || range.Length == 0)
             {
                 return;
             }
 
+            var textBefore = range.Text;
             var eventArgs = new SuggestionChosenEventArgs
             {
                 Id = id,
                 Prefix = prefix,
                 Query = query,
                 SelectedItem = selectedItem,
+                Text = query,
                 Format = this.CreateTokenFormat()
             };
-            var textBefore = range.Text;
-            await SuggestionChosen.InvokeAsync(this, eventArgs);
+
+            if (SuggestionChosen != null)
+            {
+                await SuggestionChosen.InvokeAsync(this, eventArgs);
+            }
+
             var text = eventArgs.Text;
 
             // Since this operation is async, the document may have changed at this point.
@@ -558,7 +560,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
+        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
         {
             try
             {
@@ -711,6 +713,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this._suggestionChoice = 0;
                 this._suggestionPopup.VerticalOffset = 0;
                 this._suggestionPopup.HorizontalOffset = 0;
+                this._suggestionsList.ScrollIntoView(this._suggestionsList.Items?.FirstOrDefault());
                 UpdateCornerRadii();
             }
         }
@@ -741,6 +744,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this._richEditBox.TextDocument.Selection.GetRect(PointOptions.None, out var selectionRect, out _);
             Thickness padding = this._richEditBox.Padding;
+            selectionRect.X -= HorizontalOffset;
+            selectionRect.Y -= VerticalOffset;
 
             // Update horizontal offset
             if (this.PopupPlacement == SuggestionPopupPlacementMode.Attached)
@@ -911,8 +916,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var padding = _richEditBox.Padding;
             tokenRange.GetRect(PointOptions.ClientCoordinates, out var rect, out var hit);
-            rect.X += padding.Left;
-            rect.Y += padding.Top;
+            rect.X += padding.Left - HorizontalOffset;
+            rect.Y += padding.Top - VerticalOffset;
             var transform = _richEditBox.TransformToVisual(this);
             return transform.TransformBounds(rect);
         }

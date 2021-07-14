@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Text;
@@ -91,11 +91,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private RichSuggestBox _rsb;
         private RichSuggestBox _tsb;
+        private DispatcherQueueTimer _hoveringTimer;
         private PointerPoint _pointerPoint;
 
         public RichSuggestBoxPage()
         {
             this.InitializeComponent();
+            this._hoveringTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
         }
 
@@ -149,21 +151,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this._pointerPoint = e.GetCurrentPoint((UIElement)sender);
         }
 
-        private async void SuggestingBox_OnTokenHovered(RichSuggestBox sender, RichSuggestTokenEventArgs args)
+        private void SuggestingBox_OnTokenHovered(RichSuggestBox sender, RichSuggestTokenEventArgs args)
         {
-            await Task.Delay(200);
-            var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
-            if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
-                (!flyout.IsOpen || cp.Content != args.Token.Item))
+            this._hoveringTimer.Debounce(
+                () =>
             {
-                cp.Content = args.Token.Item;
-                flyout.ShowAt(sender, new FlyoutShowOptions
+                var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
+                if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
+                    (!flyout.IsOpen || cp.Content != args.Token.Item))
                 {
-                    Position = this._pointerPoint.Position,
-                    ExclusionRect = args.Rect,
-                    ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
-                });
-            }
+                    cp.Content = args.Token.Item;
+                    flyout.ShowAt(sender, new FlyoutShowOptions
+                    {
+                        Position = this._pointerPoint.Position,
+                        ExclusionRect = args.Rect,
+                        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
+                    });
+                }
+            }, TimeSpan.FromMilliseconds(200));
         }
 
         private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
