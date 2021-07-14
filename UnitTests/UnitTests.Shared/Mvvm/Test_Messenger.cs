@@ -390,6 +390,8 @@ namespace UnitTests.Mvvm
             GC.Collect();
 
             Assert.AreEqual(!isWeak, weakRecipient.IsAlive);
+
+            GC.KeepAlive(messenger);
         }
 
         [TestCategory("Mvvm")]
@@ -462,6 +464,54 @@ namespace UnitTests.Mvvm
             messenger.Cleanup();
 
             Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_AutoCleanup()
+        {
+            IMessenger messenger = new WeakReferenceMessenger();
+
+            static int GetRecipientsMapCount(IMessenger messenger)
+            {
+                object recipientsMap =
+                    typeof(WeakReferenceMessenger)
+                    .GetField("recipientsMap", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .GetValue(messenger);
+
+                return (int)recipientsMap.GetType().GetProperty("Count").GetValue(recipientsMap);
+            }
+
+            WeakReference weakRecipient;
+
+            void Test()
+            {
+                var recipient = new RecipientWithSomeMessages();
+                weakRecipient = new WeakReference(recipient);
+
+                messenger.Register<MessageA>(recipient);
+
+                Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+
+                Assert.AreEqual(GetRecipientsMapCount(messenger), 1);
+
+                GC.KeepAlive(recipient);
+            }
+
+            Test();
+
+            GC.Collect();
+
+            Assert.IsFalse(weakRecipient.IsAlive);
+
+            // Now that the recipient is collected, trigger another full GC collection
+            // to let the automatic cleanup callback run and trim the messenger data
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            Assert.AreEqual(GetRecipientsMapCount(messenger), 0);
+
+            GC.KeepAlive(messenger);
         }
 
         [TestCategory("Mvvm")]

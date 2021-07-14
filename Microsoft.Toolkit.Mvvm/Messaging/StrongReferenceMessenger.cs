@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
@@ -102,7 +103,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 Recipient key = new(recipient);
 
-                return mapping!.ContainsKey(key);
+                return mapping.ContainsKey(key);
             }
         }
 
@@ -137,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 set ??= new HashSet<IMapping>();
 
-                set.Add(mapping);
+                _ = set.Add(mapping);
             }
         }
 
@@ -155,7 +156,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (IMapping mapping in set!)
+                foreach (IMapping mapping in set)
                 {
                     if (mapping.TryRemove(key) &&
                         mapping.Count == 0)
@@ -168,12 +169,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // dictionary (a hashed collection) only costs O(1) in the best case, while
                         // if we had tried to iterate the whole dictionary every time we would have
                         // paid an O(n) minimum cost for each single remove operation.
-                        this.typesMap.TryRemove(mapping.TypeArguments, out _);
+                        _ = this.typesMap.TryRemove(mapping.TypeArguments);
                     }
                 }
 
                 // Remove the associated set in the recipients map
-                this.recipientsMap.TryRemove(key, out _);
+                _ = this.recipientsMap.TryRemove(key);
             }
         }
 
@@ -212,7 +213,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // the opportunities to reuse existing buffers for both. When we need to reference an item
                 // stored in the buffer with the type we know it will have, we use Unsafe.As<T> to avoid the
                 // expensive type check in the cast, since we already know the assignment will be valid.
-                maps = ArrayPool<object>.Shared.Rent(set!.Count);
+                maps = ArrayPool<object>.Shared.Rent(set.Count);
 
                 foreach (IMapping item in set)
                 {
@@ -245,7 +246,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         holder.Count == 0)
                     {
                         // If the map is empty, remove the recipient entirely from its container
-                        map.TryRemove(key);
+                        _ = map.TryRemove(key);
 
                         // If no handlers are left at all for the recipient, across all
                         // message types and token types, remove the set of mappings
@@ -256,7 +257,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             set.Remove(Unsafe.As<IMapping>(map)) &&
                             set.Count == 0)
                         {
-                            this.recipientsMap.TryRemove(key, out _);
+                            _ = this.recipientsMap.TryRemove(key);
                         }
                     }
                 }
@@ -297,13 +298,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 Recipient key = new(recipient);
 
-                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, object>? dictionary))
+                if (!mapping.TryGetValue(key, out DictionarySlim<TToken, object>? dictionary))
                 {
                     return;
                 }
 
                 // Remove the target handler
-                if (dictionary!.TryRemove(token, out _) &&
+                if (dictionary.TryRemove(token) &&
                     dictionary.Count == 0)
                 {
                     // If the map is empty, it means that the current recipient has no remaining
@@ -311,14 +312,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
                     // to the current mapping between existing registered recipients (or entire recipients too).
-                    mapping.TryRemove(key, out _);
+                    _ = mapping.TryRemove(key);
 
                     HashSet<IMapping> set = this.recipientsMap[key];
 
                     if (set.Remove(mapping) &&
                         set.Count == 0)
                     {
-                        this.recipientsMap.TryRemove(key, out _);
+                        _ = this.recipientsMap.TryRemove(key);
                     }
                 }
             }
@@ -379,7 +380,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // which will always be greater or equal than the ones matching the previous test.
                         // We're still using a checked span accesses here though to make sure an out of
                         // bounds write can never happen even if an error was present in the logic above.
-                        pairs[2 * i] = handler!;
+                        pairs[2 * i] = handler;
                         pairs[(2 * i) + 1] = mappingEnumerator.Key.Target;
                         i++;
                     }
@@ -439,7 +440,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="mapping">The resulting <see cref="Mapping{TMessage,TToken}"/> instance, if found.</param>
         /// <returns>Whether or not the required <see cref="Mapping{TMessage,TToken}"/> instance was found.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryGetMapping<TMessage, TToken>(out Mapping<TMessage, TToken>? mapping)
+        private bool TryGetMapping<TMessage, TToken>([NotNullWhen(true)] out Mapping<TMessage, TToken>? mapping)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {

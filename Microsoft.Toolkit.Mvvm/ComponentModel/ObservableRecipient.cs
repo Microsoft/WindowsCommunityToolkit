@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         {
             PropertyChangedMessage<T> message = new(this, propertyName, oldValue, newValue);
 
-            Messenger.Send(message);
+            _ = Messenger.Send(message);
         }
 
         /// <summary>

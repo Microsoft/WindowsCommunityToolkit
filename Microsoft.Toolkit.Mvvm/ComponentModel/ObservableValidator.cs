@@ -727,7 +727,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             // This method replicates the logic of DisplayName and GetDisplayName from the
             // ValidationContext class. See the original source in the BCL for more details.
-            DisplayNamesMap.GetValue(GetType(), static t => GetDisplayNames(t)).TryGetValue(propertyName, out string? displayName);
+            _ = DisplayNamesMap.GetValue(GetType(), static t => GetDisplayNames(t)).TryGetValue(propertyName, out string? displayName);
 
             return displayName ?? propertyName;
         }

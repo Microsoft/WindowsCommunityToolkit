@@ -144,13 +144,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Execute(T? parameter)
         {
-            ExecuteAsync(parameter);
+            _ = ExecuteAsync(parameter);
         }
 
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            ExecuteAsync((T?)parameter);
+            _ = ExecuteAsync((T?)parameter);
         }
 
         /// <inheritdoc/>

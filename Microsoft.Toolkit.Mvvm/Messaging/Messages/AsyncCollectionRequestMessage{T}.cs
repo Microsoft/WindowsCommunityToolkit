@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
             List<T> results = new(this.responses.Count);
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
             foreach (var (task, func) in this.responses)
