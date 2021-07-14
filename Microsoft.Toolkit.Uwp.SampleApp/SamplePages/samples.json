@@ -475,6 +475,17 @@
         "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
         "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
+      },
+      {
+        "Name": "RichSuggestBox",
+        "Type": "RichSuggestBoxPage",
+        "Subcategory": "Input",
+        "About": "A text input control that makes suggestions and keeps track of data token items in a rich document.",
+        "CodeUrl": "https://github.com/huynhsontung/WindowsCommunityToolkit/tree/RichSuggestBox/Microsoft.Toolkit.Uwp.UI.Controls/RichSuggestBox",
+        "CodeFile": "RichSuggestBoxCode.bind",
+        "XamlCodeFile": "RichSuggestBoxXaml.bind",
+        "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
       }
     ]
   },

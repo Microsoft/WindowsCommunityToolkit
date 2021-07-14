@@ -1,0 +1,135 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+                    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
+                    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <!--  WinUI dependency for testing  -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  Default style for RichSuggestBox  -->
+    <Style BasedOn="{StaticResource DefaultRichSuggestBoxStyle}"
+           TargetType="controls:RichSuggestBox" />
+
+    <Style x:Key="DefaultRichSuggestBoxStyle"
+           TargetType="controls:RichSuggestBox">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Prefixes" Value="@" />
+        <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
+        <Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="TokenForeground" Value="{ThemeResource HyperlinkButtonForeground}" />
+        <Setter Property="TokenBackground" Value="Transparent" />
+        <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
+        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+        <Setter Property="PopupCornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+        <Setter Property="ClipboardCopyFormat" Value="AllFormats" />
+        <Setter Property="ClipboardPasteFormat" Value="AllFormats" />
+        <Setter Property="DisabledFormattingAccelerators" Value="None" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:RichSuggestBox">
+                    <Grid x:Name="LayoutRoot">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          Margin="{ThemeResource TextBoxTopHeaderMargin}"
+                                          VerticalAlignment="Top"
+                                          x:Load="False"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          FontWeight="Normal"
+                                          Foreground="{ThemeResource TextControlHeaderForeground}"
+                                          TextWrapping="Wrap"
+                                          Visibility="Collapsed" />
+
+                        <RichEditBox x:Name="RichEditBox"
+                                     Grid.Row="1"
+                                     Margin="0"
+                                     Padding="{TemplateBinding Padding}"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     Canvas.ZIndex="0"
+                                     ClipboardCopyFormat="{TemplateBinding ClipboardCopyFormat}"
+                                     DesiredCandidateWindowAlignment="BottomEdge"
+                                     DisabledFormattingAccelerators="{TemplateBinding DisabledFormattingAccelerators}"
+                                     FontFamily="{TemplateBinding FontFamily}"
+                                     FontSize="{TemplateBinding FontSize}"
+                                     FontStretch="{TemplateBinding FontStretch}"
+                                     FontWeight="{TemplateBinding FontWeight}"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                                     ScrollViewer.BringIntoViewOnFocusChange="False"
+                                     Style="{TemplateBinding RichEditBoxStyle}"
+                                     UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
+
+                        <ContentPresenter x:Name="DescriptionPresenter"
+                                          Grid.Row="2"
+                                          Grid.Column="0"
+                                          x:Load="False"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          Content="{TemplateBinding Description}"
+                                          Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" />
+
+                        <Popup x:Name="SuggestionsPopup"
+                               Grid.Row="1"
+                               contract8Present:ShouldConstrainToRootBounds="False">
+                            <Border x:Name="SuggestionsContainer"
+                                    Padding="{ThemeResource AutoSuggestListMargin}"
+                                    Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
+                                    BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
+                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}">
+                                <Border.RenderTransform>
+                                    <contract7NotPresent:TranslateTransform x:Name="UpwardTransform" />
+                                </Border.RenderTransform>
+                                <ListView x:Name="SuggestionsList"
+                                          MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                          Margin="{ThemeResource AutoSuggestListPadding}"
+                                          DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                          Footer="{TemplateBinding PopupFooter}"
+                                          FooterTemplate="{TemplateBinding PopupFooterTemplate}"
+                                          Header="{TemplateBinding PopupHeader}"
+                                          HeaderTemplate="{TemplateBinding PopupHeaderTemplate}"
+                                          IsItemClickEnabled="True"
+                                          ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          ItemsSource="{TemplateBinding ItemsSource}">
+                                    <ListView.ItemContainerTransitions>
+                                        <contract7NotPresent:TransitionCollection />
+                                    </ListView.ItemContainerTransitions>
+                                </ListView>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
